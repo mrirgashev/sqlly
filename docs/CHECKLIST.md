@@ -1,6 +1,6 @@
 # Acceptance checklist
 
-Checked items combine the archived application baseline with actual 0.3.0 checks recorded in VERIFICATION.md. The version-specific sections distinguish the two releases. Remaining public-release work stays unchecked.
+Checked items combine archived application evidence and the actual version-specific checks recorded in VERIFICATION.md. Remaining public-release work stays unchecked.
 
 - [x] Inspect workspace and installed Swift/Xcode tools.
 - [x] Inspect requested references and document access limitations.
@@ -60,3 +60,14 @@ Checked items combine the archived application baseline with actual 0.3.0 checks
 - [x] Verify copying/ejecting/launching the installed app while preserving existing user data and mounts.
 - [x] Audit final source contents and document the canonical repository; record remote CI/release outcomes separately.
 - [x] Finalize source archive and both checksum sidecars after the final report.
+
+## SQLLY 0.3.2 build correction
+
+- [x] Reproduce the CI missing-runtime failure with native SwiftPM.
+- [x] Resolve both resource layouts without generated absolute build-cache fallbacks.
+- [x] Test installed-app containment, missing runtime, both languages, and real PostgreSQL with both SwiftPM builders.
+- [x] Execute all 57 tests, all reference answers, and all fixture comparisons.
+- [x] Verify optimized app relocation with the original build cache unavailable.
+- [x] Launch the updated native UI and execute a query.
+- [x] Build and audit the mounted 0.3.2 DMG.
+- [x] Add native-build and cache-hidden verification to CI; inspect the live workflow result for remote status.

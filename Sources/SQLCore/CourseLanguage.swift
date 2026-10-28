@@ -7,7 +7,7 @@ public enum CourseLanguage: String, CaseIterable, Codable, Sendable {
 
 public enum CoreText {
     public static func text(_ key: String, language: CourseLanguage = .english) -> String {
-        guard let path = Bundle.module.path(forResource: language.rawValue, ofType: "lproj", inDirectory: "Resources"),
+        guard let path = SQLLYResources.coreBundle?.path(forResource: language.rawValue, ofType: "lproj", inDirectory: "Resources"),
               let bundle = Bundle(path: path) else { return key }
         return bundle.localizedString(forKey: key, value: key, table: "Core")
     }

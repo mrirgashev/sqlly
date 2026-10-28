@@ -8,8 +8,9 @@
 
 Environment overrides:
 
-- `APP_VERSION` (default `0.3.1`) and `BUILD_NUMBER` (default `4`).
+- `APP_VERSION` (default `0.3.2`) and `BUILD_NUMBER` (default `5`).
 - `CONFIGURATION` (default `release`).
+- `SWIFT_BUILD_SYSTEM`: an optional Swift build-system override, such as `native`. It applies consistently to both output-path discovery and app compilation; omitting it preserves the toolchain default. It does not change the separate DMG helper's build system.
 - `SWIFT_SCRATCH_PATH`: an optional separate Swift build directory, useful when a release build and debug tests run independently.
 - `CODE_SIGN_IDENTITY`: a certificate already in the contributor's keychain; never stored in the repository.
 - `NOTARY_PROFILE`: an existing `notarytool` keychain profile. When set, the DMG script signs the image, submits, waits, staples, and validates. This is an opt-in release action and requires Developer ID signing.
@@ -18,11 +19,23 @@ The source archive and build scripts reproduce the build process with pinned Pos
 
 These scripts do not create certificates or pretend to notarize an unsigned app. A successful local ad-hoc signature does not establish Gatekeeper trust for a downloaded public release. Apple documents per-app approval under System Settings → Privacy & Security in its [unknown-developer app guide](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac). Public releases should follow Apple's [notarization documentation](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution).
 
+## Resource relocation and CI
+
+SwiftPM's native and Swift Build engines can produce different resource-bundle layouts. `SQLLYResources` resolves core and interface bundles for the assembled macOS app and command-line/test builds, using the bundle's actual resource location. Curriculum, UI localization, PostgreSQL executables, and libpq must load from the packaged resources without requiring the original build directory.
+
+The app provides a non-UI diagnostic entry point:
+
+```sh
+./dist/SQLLY.app/Contents/MacOS/SQLLY --verify-bundled-resources
+```
+
+It validates both localized curricula and interface strings, runs a real bundled PostgreSQL query with temporary learning state, and shuts down the diagnostic engine. Run it while the original build cache is unavailable to expose accidental generated-accessor fallbacks. CI selects `swift test --build-system native` and `SWIFT_BUILD_SYSTEM=native ./scripts/build-app.sh`, moves `.build` to a temporary sibling, invokes this diagnostic, and restores the cache through an exit trap before packaging the unchanged Finder layout. For a custom `SWIFT_SCRATCH_PATH`, hide that original scratch directory instead. A successful local diagnostic is distinct from a completed remote CI run.
+
 ## Finder installation layout
 
 The separate `scripts/DMGLayout` package uses DSStore pinned to revision `6dc395837c3dc371f9c3e71794fab719db74c17a` to write Finder metadata. It requires Swift 6.2 or later (upstream macOS minimum 13), has no transitive package dependencies, and is never copied into the app. See [the retained license](../licenses/DSStore-MIT.txt). The build runs headlessly against a mounted writable staging image, writes a relative Carbon Alias for the original AppKit background, then converts the image to compressed UDZO format; no Finder automation or additional Python package is required.
 
-The 0.3.1 image opens a composed 660×420 Finder installation window with two 112-point icons: SQLLY on the left and Applications on the right. Original retina artwork provides a clear green drag arrow and English/Russian instructions. The background, layout metadata, volume icon, and installation notes remain hidden so only the two install targets appear. The actual Finder first-open layout and drag-to-Applications installation were verified; see VERIFICATION.md. The app remains a normal bundle copied into Applications; installation does not place progress inside the disk image.
+The installer layout introduced in 0.3.1 opens a composed 660×420 Finder window with two 112-point icons: SQLLY on the left and Applications on the right. Original retina artwork provides a clear green drag arrow and English/Russian instructions. The background, layout metadata, volume icon, and installation notes remain hidden so only the two install targets appear. The actual Finder first-open layout and drag-to-Applications installation were verified for that baseline; see VERIFICATION.md for subsequent artifact checks. The app remains a normal bundle copied into Applications; installation does not place progress inside the disk image.
 
 After packaging, inspect the actual Finder window, copy the app to Applications, eject the image, and launch the installed copy. Audit hidden image metadata as well as the app for developer paths. Preserve a user's pre-existing mounted image and installed app while performing QA unless replacement is explicitly authorized.
 
@@ -48,6 +61,6 @@ The current deliverable is built for the host Apple Silicon architecture. To sup
 - Mount the final DMG, install by dragging to Applications, and launch that copy while offline.
 - Publish source, version notes, the DMG, its checksum, exact toolchain/runtime build versions, and verification evidence.
 
-The included GitHub Actions workflow has not been run on GitHub during this development session. The corresponding local build/test/package commands have actual execution evidence; CI hosting and runner-image compatibility require their first remote run.
+The initial GitHub Actions run built PostgreSQL successfully and failed in Test before packaging. The resource-resolution fix adds native-build and cache-hidden checks. Consult the [corresponding workflow run](https://github.com/mrirgashev/sqlly/actions/workflows/ci.yml) for each commit's remote result; retained local evidence does not establish remote CI success.
 
 Consult [VERIFICATION.md](VERIFICATION.md) for checks actually run in this development session. This checklist is not a statement that all release gates have passed.

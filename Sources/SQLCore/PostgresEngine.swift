@@ -35,7 +35,7 @@ public struct ValidatedExecution: Sendable {
 public actor PostgresEngine {
     public static let version = "18.6"
     private let baseURL: URL
-    private let runtimeURL: URL
+    private let runtimeURL: URL?
     private var sessionURL: URL?
     private var socketURL: URL?
     private var server: Process?
@@ -49,17 +49,17 @@ public actor PostgresEngine {
     public init(baseURL: URL? = nil, runtimeURL: URL? = nil) {
         self.baseURL = baseURL ?? FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("QueryCraft/Engine", isDirectory: true)
-        self.runtimeURL = runtimeURL ?? Bundle.module.resourceURL!.appendingPathComponent("Resources/Postgres", isDirectory: true)
+        self.runtimeURL = runtimeURL ?? SQLLYResources.postgresRuntime(in: SQLLYResources.coreBundle)
     }
 
     public func start() throws {
         guard !isShutdown else { throw PostgresError("The practice engine is shutting down.") }
         if let server, server.isRunning { return }
         let fm = FileManager.default
-        let bin = runtimeURL.appendingPathComponent("bin")
-        guard fm.isExecutableFile(atPath: bin.appendingPathComponent("postgres").path) else {
+        guard let runtimeURL, SQLLYResources.isCompleteRuntime(runtimeURL) else {
             throw PostgresError("The bundled PostgreSQL runtime is missing. Rebuild with scripts/build-postgres.sh, then scripts/build-app.sh.")
         }
+        let bin = runtimeURL.appendingPathComponent("bin")
         guard qc_load_postgres(runtimeURL.appendingPathComponent("lib/libpq.5.dylib").path) == 1 else {
             throw PostgresError("Cannot load the bundled PostgreSQL client: \(String(cString: qc_load_error()))")
         }
@@ -245,6 +245,9 @@ public actor PostgresEngine {
     }
 
     private func runUtility(_ tool: String, arguments: [String], log: URL) throws {
+        guard let runtimeURL else {
+            throw PostgresError("The bundled PostgreSQL runtime is missing. Rebuild with scripts/build-postgres.sh, then scripts/build-app.sh.")
+        }
         FileManager.default.createFile(atPath: log.path, contents: nil, attributes: [.posixPermissions: 0o600])
         let handle = try FileHandle(forWritingTo: log); defer { try? handle.close() }
         let process = Process(); process.executableURL = runtimeURL.appendingPathComponent("bin/\(tool)")

@@ -9,7 +9,7 @@ public struct Curriculum: Codable, Sendable {
 
     public static func load(language: CourseLanguage = .english) throws -> Curriculum {
         let name = language == .russian ? "curriculum-ru" : "curriculum"
-        guard let url = Bundle.module.url(forResource: name, withExtension: "json", subdirectory: "Resources") else {
+        guard let url = SQLLYResources.coreBundle?.url(forResource: name, withExtension: "json", subdirectory: "Resources") else {
             throw CocoaError(.fileNoSuchFile)
         }
         let course = try JSONDecoder().decode(Curriculum.self, from: Data(contentsOf: url))

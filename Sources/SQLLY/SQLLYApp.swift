@@ -18,7 +18,7 @@ import AppKit
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 }
 
-@main struct SQLLYApp: App {
+struct SQLLYApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @State private var model = WorkspaceModel()
     @AppStorage("appearance") private var appearance = "Dark"

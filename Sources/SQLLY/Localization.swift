@@ -6,7 +6,7 @@ import SQLCore
 enum L {
     static var language: String { UserDefaults.standard.string(forKey: "language") == "ru" ? "ru" : "en" }
     static func text(_ key: String, language: String = L.language) -> String {
-        guard let path = Bundle.module.path(forResource: language, ofType: "lproj"),
+        guard let path = SQLLYResources.interfaceBundle?.path(forResource: language, ofType: "lproj"),
               let bundle = Bundle(path: path) else { return key }
         return bundle.localizedString(forKey: key, value: key, table: nil)
     }
@@ -103,7 +103,7 @@ extension NSColor {
                     "Correct Spelling Automatically", "Show Substitutions", "Smart Quotes", "Smart Dashes", "Smart Links",
                     "Data Detectors", "Text Replacement", "Make Upper Case", "Make Lower Case", "Capitalize",
                     "Writing Tools", "Show Writing Tools", "Complete", "Emoji & Symbols"]
-        let russian = Bundle.module.path(forResource: "ru", ofType: "lproj").flatMap(Bundle.init(path:))
+        let russian = SQLLYResources.interfaceBundle?.path(forResource: "ru", ofType: "lproj").flatMap(Bundle.init(path:))
         var aliases: [String: String] = [:]
         for key in keys {
             aliases[key] = key

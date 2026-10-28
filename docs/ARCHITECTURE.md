@@ -13,6 +13,8 @@ SQLCore separates four concerns:
 
 CPQShim is a small C adapter to libpq. The distribution bundles PostgreSQL executables, libpq, required support files, and license material. The runtime is loaded locally, not installed in a system location, and is replaced with the app on upgrades. Database data lives outside the app.
 
+`SQLLYResources` centralizes core and interface bundle discovery. It supports packaged-app resources and SwiftPM build/test products without hardcoding the internal bundle hierarchy produced by one build engine. Callers derive curriculum, localization, PostgreSQL, and libpq locations from the resolved bundle resources. The non-UI `--verify-bundled-resources` app mode validates the relocated package with a temporary engine, allowing CI to hide its original build cache before checking the assembled app.
+
 The local server runs under the current macOS account and exposes only a private Unix-domain socket. The database role used for learner queries is restricted. This reduces database privilege and accidental damage; it is not a general-purpose operating-system sandbox. See [SECURITY.md](SECURITY.md).
 
 A new course pack changes content and fixtures, not UI or execution internals. A PostgreSQL major upgrade requires deliberate migration/reinitialization of disposable engine data while preserving SQLite progress. A change to persisted progress requires a schema migration and export/import compatibility tests.

@@ -14,9 +14,33 @@ jobs:
       - name: Build bundled PostgreSQL
         run: ./scripts/build-postgres.sh
       - name: Test
-        run: swift test
+        run: swift test --build-system native
       - name: Package app
+        env:
+          SWIFT_BUILD_SYSTEM: native
         run: ./scripts/build-app.sh
+      - name: Verify app without build cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          SMOKE_CHECKOUT="$PWD"
+          HIDDEN_BUILD_CACHE="$(mktemp -d "$PWD/../sqlly-build-cache.XXXXXX")"
+          restore_build_cache() {
+            local result=$?
+            trap - EXIT
+            if [[ -d "$HIDDEN_BUILD_CACHE/original" ]]; then
+              if [[ -e "$SMOKE_CHECKOUT/.build" ]]; then
+                mv "$SMOKE_CHECKOUT/.build" "$HIDDEN_BUILD_CACHE/smoke-output"
+              fi
+              mv "$HIDDEN_BUILD_CACHE/original" "$SMOKE_CHECKOUT/.build"
+            fi
+            rm -rf "$HIDDEN_BUILD_CACHE"
+            exit "$result"
+          }
+          trap restore_build_cache EXIT
+          mv .build "$HIDDEN_BUILD_CACHE/original"
+          ./dist/SQLLY.app/Contents/MacOS/SQLLY --verify-bundled-resources
+          test ! -e .build
       - name: Package disk image
         run: ./scripts/package-dmg.sh
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

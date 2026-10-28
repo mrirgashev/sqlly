@@ -54,6 +54,6 @@ Read [architecture](docs/ARCHITECTURE.md), [content format](docs/CONTENT.md), [s
 
 ## Scope and release status
 
-Version 0.3.1 adds a composed Finder installer with the SQLLY app, an Applications target, and clear bilingual drag instructions. Larger native controls, the focused editor and topic sidebar, topic progress rails, and the Learning Center remain part of the app. The current verification report records actual build, test, interface, and distribution checks; earlier release evidence is archived alongside it.
+Version 0.3.2 fixes resource discovery across SwiftPM build systems and in the installed app. CI now verifies the packaged app with its build cache unavailable, including both languages and a real PostgreSQL query. The composed Finder installer, larger native controls, focused editor, topic progress rails, and Learning Center remain available. The current verification report records actual checks; earlier release evidence is archived alongside it.
 
 This repository is designed for public contribution. The current verification report and remaining acceptance work are recorded in [VERIFICATION.md](docs/VERIFICATION.md) and [CHECKLIST.md](docs/CHECKLIST.md). Unverified architecture support, notarization, and manual accessibility audits are release work, not completed claims.
