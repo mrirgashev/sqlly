@@ -71,3 +71,15 @@ Checked items combine archived application evidence and the actual version-speci
 - [x] Launch the updated native UI and execute a query.
 - [x] Build and audit the mounted 0.3.2 DMG.
 - [x] Add native-build and cache-hidden verification to CI; inspect the live workflow result for remote status.
+
+## SQLLY 0.3.3 focused workspace
+
+- [x] Use a green selected-topic outline with button accessibility.
+- [x] Simplify the reading action to Continue and remove bookmark/review controls.
+- [x] Show SQL tools only for coding tasks; preserve native non-coding responses.
+- [x] Add focus-sensitive arrows with topic transitions and Command-/ comments with native undo.
+- [x] Add nine text-transform tests and a real AppKit consecutive-toggle regression.
+- [x] Replace live-test settlement guesses with observable events and actual backend-response gates.
+- [x] Verify the native UI and restore all learning tables to their pre-test state.
+- [x] Build the optimized 0.3.3 app and verify it without its build cache.
+- [x] Record all 67 passing tests and the mounted distribution audit.

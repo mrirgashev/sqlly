@@ -92,6 +92,10 @@ final class WorkspaceModel {
     var currentStep: LearningStep? { steps.first { $0.id == selection } }
     var currentLesson: Lesson? { course?.lessons.first { $0.id == currentStep?.lessonID } }
     var currentExercise: Exercise? { currentStep?.exercise }
+    var requiresCodeEditor: Bool {
+        guard let exercise = currentExercise else { return false }
+        return !["choose", "explain", "predict"].contains(exercise.kind)
+    }
     var position: Int { currentLesson?.steps.firstIndex(where: { $0.id == selection }) ?? 0 }
     var completedExercises: Int { course?.exercises.filter { progress[$0.id]?.completed == true }.count ?? 0 }
     var completionFraction: Double { Double(completedExercises) / Double(max(course?.exercises.count ?? 1, 1)) }
@@ -370,8 +374,7 @@ final class WorkspaceModel {
         invalidateLiveExecution()
         let context = liveContext, revision = liveRevision
         let text = sql, fixture = activeFixture, stepID = selection
-        guard !shuttingDown, liveEnabled, engineReady, !isRunning, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              !["choose", "explain", "predict"].contains(currentExercise?.kind ?? "") else {
+        guard !shuttingDown, requiresCodeEditor, liveEnabled, engineReady, !isRunning, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             Task { await liveController.cancel(revision: revision) }
             return
         }

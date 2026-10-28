@@ -14,6 +14,7 @@ let package = Package(
         .target(name: "CPQShim", publicHeadersPath: "include"),
         .target(name: "SQLCore", dependencies: ["CSQLite", "CPQShim"], resources: [.copy("Resources")]),
         .executableTarget(name: "SQLLY", dependencies: ["SQLCore"], resources: [.process("Resources")]),
-        .testTarget(name: "SQLCoreTests", dependencies: ["SQLCore"])
+        .testTarget(name: "SQLCoreTests", dependencies: ["SQLCore"]),
+        .testTarget(name: "SQLLYTests", dependencies: ["SQLLY"])
     ]
 )

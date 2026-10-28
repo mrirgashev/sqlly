@@ -8,7 +8,7 @@
 
 Environment overrides:
 
-- `APP_VERSION` (default `0.3.2`) and `BUILD_NUMBER` (default `5`).
+- `APP_VERSION` (default `0.3.3`) and `BUILD_NUMBER` (default `6`).
 - `CONFIGURATION` (default `release`).
 - `SWIFT_BUILD_SYSTEM`: an optional Swift build-system override, such as `native`. It applies consistently to both output-path discovery and app compilation; omitting it preserves the toolchain default. It does not change the separate DMG helper's build system.
 - `SWIFT_SCRATCH_PATH`: an optional separate Swift build directory, useful when a release build and debug tests run independently.

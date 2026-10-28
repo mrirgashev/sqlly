@@ -27,7 +27,7 @@ struct WorkspaceView: View {
                 if !model.engineReady { EngineAvailabilityNotice(model: model) }
                 HSplitView {
                     LessonView(model: model).frame(minWidth: 340, idealWidth: 480)
-                    if model.inspectorVisible { SQLWorkspace(model: model).frame(minWidth: 380, idealWidth: 600) }
+                    if model.requiresCodeEditor && model.inspectorVisible { SQLWorkspace(model: model).frame(minWidth: 380, idealWidth: 600) }
                 }
             }
             .background(Color.canvas)
@@ -35,13 +35,16 @@ struct WorkspaceView: View {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button { model.showStatistics = true } label: { Label(L.text("Learning Center"), systemImage: "square.grid.2x2") }
                         .labelStyle(.titleAndIcon).controlSize(.large).help(L.text("Learning Center"))
-                    Button { model.inspectorVisible.toggle() } label: { Label(L.text("Toggle SQL Workspace"), systemImage: "sidebar.right").frame(minWidth: 30, minHeight: 32) }
-                        .labelStyle(.iconOnly).controlSize(.large).help(L.text("Show or hide SQL workspace"))
+                    if model.requiresCodeEditor {
+                        Button { model.inspectorVisible.toggle() } label: { Label(L.text("Toggle SQL Workspace"), systemImage: "sidebar.right").frame(minWidth: 30, minHeight: 32) }
+                            .labelStyle(.iconOnly).controlSize(.large).help(L.text("Show or hide SQL workspace"))
+                    }
                 }
             }
         }
         .id(model.language)
         .tint(.craft)
+        .background(WorkspaceKeyboardNavigation(model: model).frame(width: 0, height: 0))
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.18), value: model.feedbackPassed)
         .sheet(isPresented: $model.showHistory) { HistoryView(model: model).id(model.language) }
         .sheet(isPresented: $model.showStatistics) { LearningCenterView(model: model).id(model.language) }
@@ -75,47 +78,77 @@ struct CurriculumSidebar: View {
         if let recent = visited.max(by: { (model.progress[$0.id]?.updatedAt ?? .distantPast) < (model.progress[$1.id]?.updatedAt ?? .distantPast) }) { model.select(recent.id) }
         else if let first = all.first { model.select(first.id) }
     }
+    private func topicButton(for module: CourseModule) -> some View {
+        let steps = module.lessons.flatMap(\.steps)
+        let done = steps.filter { model.progress[$0.id]?.completed == true }.count
+        let needsReview = steps.contains { model.progress[$0.id]?.review == true }
+        return TopicSidebarButton(title: module.title, done: done, total: steps.count,
+                                  needsReview: needsReview, active: activeID == module.id) { choose(module) }
+    }
     var body: some View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 15) {
                 Text("SQLLY").font(.system(size: 22, weight: .semibold)).tracking(1.7)
                 Text(L.text("Topics")).font(.system(size: 14, weight: .medium)).foregroundStyle(.secondary)
             }.frame(maxWidth: .infinity, alignment: .leading).padding(20)
-            List(selection: Binding<String?>(get: { activeID }, set: { id in if let module = topics.first(where: { $0.id == id }) { choose(module) } })) {
-                ForEach(topics) { module in
-                    let steps = module.lessons.flatMap(\.steps)
-                    let done = steps.filter { model.progress[$0.id]?.completed == true }.count
-                    let states = steps.compactMap { model.progress[$0.id] }
-                    let needsReview = states.contains(where: \.review)
-                    let active = activeID == module.id
-                    HStack(alignment: .center, spacing: 10) {
-                        VStack(alignment: .leading, spacing: 7) {
-                            Text(module.title).font(.system(size: 14, weight: active ? .semibold : .medium))
-                                .foregroundStyle(active ? Color.craft : Color.primary)
-                                .lineLimit(3).fixedSize(horizontal: false, vertical: true)
-                            Text(L.format("%ld / %ld steps complete", done, steps.count)).font(.system(size: 11)).monospacedDigit().foregroundStyle(.secondary)
-                        }
-                        Spacer(minLength: 0)
-                        if needsReview {
-                            Image(systemName: "exclamationmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.orange)
-                                .frame(width: 14, height: 18).help(L.text("Review required"))
-                        }
-                    }
-                    .padding(.leading, 16).padding(.trailing, 10).padding(.vertical, 12).frame(minHeight: 66)
-                    .background(alignment: .leading) {
-                        TopicProgressRail(fraction: Double(done) / Double(max(1, steps.count)), active: active).padding(.vertical, 8)
-                    }
-                    .background(active ? Color.craft.opacity(0.07) : Color.clear, in: RoundedRectangle(cornerRadius: 6))
-                    .tag(module.id).listRowInsets(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                    .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(module.title + ". " + L.format("%ld / %ld steps complete", done, steps.count) + (needsReview ? ". " + L.text("Review required") : ""))
-                }
-            }.listStyle(.sidebar).scrollContentBackground(.hidden)
+            ScrollView {
+                LazyVStack(spacing: 6) {
+                    ForEach(topics) { module in topicButton(for: module) }
+                }.padding(.horizontal, 8).padding(.vertical, 3)
+            }
             Button { model.showStatistics = true } label: {
                 Label(L.text("Learning Center"), systemImage: "square.grid.2x2")
                     .font(.system(size: 14, weight: .medium)).frame(maxWidth: .infinity, minHeight: 42, alignment: .leading)
             }.buttonStyle(.bordered).controlSize(.large).padding(14)
         }.background(Color.surface)
+    }
+}
+
+private struct TopicSidebarButton: View {
+    let title: String
+    let done: Int
+    let total: Int
+    let needsReview: Bool
+    let active: Bool
+    let action: () -> Void
+    private var titleColor: Color { active ? .craft : .primary }
+    private var fillColor: Color { active ? Color.craft.opacity(0.04) : .clear }
+    private var outlineColor: Color { active ? Color.craft.opacity(0.8) : .clear }
+    private var progressText: String { L.format("%ld / %ld steps complete", done, total) }
+    private var accessibilityText: String { title + ". " + progressText + (needsReview ? ". " + L.text("Review required") : "") }
+    var body: some View {
+        Button(action: action) {
+            rowContent
+                .padding(.leading, 16).padding(.trailing, 10).padding(.vertical, 12).frame(minHeight: 66)
+                .background(alignment: .leading) { rail }
+                .background(fillColor, in: RoundedRectangle(cornerRadius: 6))
+                .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(outlineColor, lineWidth: 1.25))
+                .contentShape(RoundedRectangle(cornerRadius: 6))
+        }.buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(accessibilityText)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAddTraits(active ? .isSelected : [])
+    }
+    private var rowContent: some View {
+        HStack(alignment: .center, spacing: 10) {
+            labels
+            Spacer(minLength: 0)
+            if needsReview {
+                Image(systemName: "exclamationmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.orange)
+                    .frame(width: 14, height: 18).help(L.text("Review required"))
+            }
+        }
+    }
+    private var labels: some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Text(title).font(.system(size: 14, weight: active ? .semibold : .medium))
+                .foregroundStyle(titleColor).lineLimit(3).fixedSize(horizontal: false, vertical: true)
+            Text(progressText).font(.system(size: 11)).monospacedDigit().foregroundStyle(.secondary)
+        }
+    }
+    private var rail: some View {
+        TopicProgressRail(fraction: Double(done) / Double(max(1, total)), active: active).padding(.vertical, 8)
     }
 }
 
@@ -162,9 +195,6 @@ struct LessonView: View {
                     HStack(alignment: .top) {
                         Text(lesson.title).font(.system(size: 24, weight: .semibold)).tracking(-0.5)
                         Spacer()
-                        Button { model.toggle(\.bookmarked) } label: { Image(systemName: model.progress[step.id]?.bookmarked == true ? "bookmark.fill" : "bookmark") }
-                            .font(.system(size: 16)).frame(minWidth: 36, minHeight: 36).buttonStyle(.borderless)
-                            .help(L.text("Bookmark this step")).accessibilityLabel(L.text("Bookmark this step"))
                     }
                     HStack {
                         Text(L.format("Step %ld of %ld", topicPosition + 1, topicSteps.count)).font(.system(size: 10, weight: .semibold)).tracking(0.7).foregroundStyle(.secondary)
@@ -207,12 +237,10 @@ struct LessonView: View {
                 HStack {
                     Button { model.navigate(-1) } label: { Image(systemName: "chevron.left").frame(width: 24, height: 28) }
                         .buttonStyle(.bordered).help(L.text("Previous step · ⌘[")).accessibilityLabel(L.text("Previous Step"))
-                    Button { model.toggle(\.review) } label: { Label(L.text("Review"), systemImage: model.progress[step.id]?.review == true ? "flag.fill" : "flag").frame(width: 24, height: 28) }
-                        .labelStyle(.iconOnly).buttonStyle(.bordered).help(L.text("Mark for Review"))
                     Spacer()
                     if step.exercise == nil {
                         Button(action: model.completeReading) {
-                            HStack(spacing: 10) { Text(L.text("Mark read & continue")); Image(systemName: "arrow.right") }
+                            HStack(spacing: 10) { Text(L.text("Continue")); Image(systemName: "arrow.right") }
                                 .font(.system(size: 14, weight: .semibold)).frame(minHeight: 40).padding(.horizontal, 6)
                         }.buttonStyle(.borderedProminent)
                     } else {
@@ -251,8 +279,6 @@ struct LessonReadingContent: View {
             MarkdownContent(text: section.body)
             if let code = section.code, !code.isEmpty, index == 0 || step.sections[index - 1].code != code {
                 CodeBlock(code: code)
-                Button { model.sql = code; model.inspectorVisible = true } label: { Label(L.text("Try this example"), systemImage: "arrow.up.right.square").frame(minHeight: 34) }
-                    .buttonStyle(.link).font(.system(size: 14, weight: .medium))
             }
         }
     }

@@ -58,7 +58,7 @@ def lesson(m,title,meaning,why,how,mistake,tasks,prereq=None):
         dict(title='Expected results',body='Expected results are verified against PostgreSQL 18 during course validation. Use the exercise result table to inspect each column and NULL. The same rule must work on the additional dataset too.'),
         dict(title='Common mistakes',body=mistake),
         dict(title='Connections',body='Prerequisites: '+(', '.join(prereq) if prereq else ('Tables, rows, and basic expressions' if n>2 else 'No previous SQL knowledge'))+'. Compare the small example with the realistic task: the concept stays the same when more rows are added.'),
-        dict(title='Practice deliberately',body='Complete the three exercises in order. Run a draft, inspect its rows, then submit. A wrong result does not erase your progress. Use one hint at a time and mark this lesson for review if you needed the worked solution.'),
+        dict(title='Practice deliberately',body='Complete the three exercises in order. Run a draft, inspect its rows, then submit. A wrong result does not erase your progress. Use one hint at a time. If you need the worked solution, return to the exercise later and try it again. Revisit your attempts in the Learning Center to understand mistakes.'),
         dict(title='Recap',body=meaning+' '+how.split('. ')[0]+'.')]
     l=dict(id=lid,title=title,prerequisites=prereq or ([lesson_index[-1]['id']] if lesson_index else []),sections=sections,exercises=tasks)
     topic=dict(id=f'{lid}-topic',title=title,lessons=[l]);m['topics'].append(topic);lesson_index.append(l)
@@ -656,7 +656,7 @@ for mi,m in enumerate(modules):
     # Topic IDs remain stable even as the visible curriculum grouping improves.
     m['topics']=[dict(id=f"{m['id']}-topic",title=TOPIC_NAMES[mi],lessons=all_lessons)]
     for l in all_lessons:
-        l['sections'][9]['body']=f"Complete the {len(l['exercises'])} exercises in order. Run a draft, inspect its rows, then submit. A wrong result does not erase your progress. Use one hint at a time and mark this lesson for review if you needed the worked solution."
+        l['sections'][9]['body']=f"Complete the {len(l['exercises'])} exercises in order. Run a draft, inspect its rows, then submit. A wrong result does not erase your progress. Use one hint at a time. If you need the worked solution, return to the exercise later and try it again. Revisit your attempts in the Learning Center to understand mistakes."
         first_sql=l['exercises'][0]['solutionSQL']
         guide=[text for token,text in CLAUSE_GUIDE if re.search(r'\b'+re.escape(token.strip())+r'\b', first_sql, re.IGNORECASE)]
         l['sections'][3]['body']=l['sections'][2]['body']+'\n\n'+'\n'.join('• '+g for g in guide)

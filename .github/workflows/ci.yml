@@ -14,7 +14,47 @@ jobs:
       - name: Build bundled PostgreSQL
         run: ./scripts/build-postgres.sh
       - name: Test
-        run: swift test --build-system native
+        shell: bash
+        run: |
+          set -uo pipefail
+          TEST_LOG="$RUNNER_TEMP/sqlly-native-test.log"
+          set +e
+          swift test --build-system native 2>&1 | tee "$TEST_LOG"
+          PIPE_RESULTS=("${PIPESTATUS[@]}")
+          TEST_STATUS="${PIPE_RESULTS[0]}"
+          TEE_STATUS="${PIPE_RESULTS[1]}"
+          {
+            printf '%s\n' '## Native Swift tests'
+            printf 'Swift test exit code: %s\n\n' "$TEST_STATUS"
+            printf '%s\n' '<details><summary>Last 160 log lines</summary>' '' '````text'
+            tail -n 160 "$TEST_LOG"
+            printf '%s\n' '````' '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$TEST_STATUS" != 0 ]]; then
+            ANNOTATION_COUNT=0
+            while IFS= read -r LINE || [[ -n "$LINE" ]]; do
+              case "$LINE" in
+                *'✘'*|*'recorded an issue'*|*'Expectation failed'*|*'Caught error:'*|*'error:'*)
+                  LINE="${LINE:0:2000}"
+                  LINE="${LINE//'%'/'%25'}"
+                  LINE="${LINE//$'\r'/'%0D'}"
+                  LINE="${LINE//$'\n'/'%0A'}"
+                  printf '::error title=Native Swift test failure::%s\n' "$LINE"
+                  ANNOTATION_COUNT=$((ANNOTATION_COUNT + 1))
+                  if [[ "$ANNOTATION_COUNT" -ge 20 ]]; then break; fi
+                  ;;
+              esac
+            done < "$TEST_LOG"
+          fi
+          if [[ "$TEST_STATUS" != 0 ]]; then exit "$TEST_STATUS"; fi
+          exit "$TEE_STATUS"
+      - name: Preserve native test log
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: SQLLY-native-test-log
+          path: ${{ runner.temp }}/sqlly-native-test.log
+          if-no-files-found: ignore
       - name: Package app
         env:
           SWIFT_BUILD_SYSTEM: native

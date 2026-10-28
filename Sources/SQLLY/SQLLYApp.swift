@@ -45,17 +45,18 @@ struct SQLLYApp: App {
                 Button(L.text("Import Learning Progress…"), action: model.importProgress)
             }
             CommandMenu(L.text("Learn")) {
-                Button(L.text("Run Query")) { Task { await model.run() } }.keyboardShortcut(.return, modifiers: .command).disabled(!model.engineReady || model.isRunning)
+                Button(L.text("Run Query")) { Task { await model.run() } }.keyboardShortcut(.return, modifiers: .command).disabled(!model.requiresCodeEditor || !model.engineReady || model.isRunning)
                 Button(L.text("Submit Answer")) { Task { await model.run(submit: true) } }.keyboardShortcut(.return, modifiers: [.command, .shift]).disabled(model.isRunning || model.currentExercise == nil)
                 Toggle(L.text("Live execution"), isOn: $model.liveEnabled)
+                Button(L.text("Toggle SQL line comments")) {
+                    NSApp.sendAction(#selector(SQLTextView.toggleSQLLineComments(_:)), to: nil, from: nil)
+                }.keyboardShortcut("/", modifiers: .command).disabled(!model.requiresCodeEditor || !model.inspectorVisible)
                 Divider()
                 Button(L.text("Previous Step")) { model.navigate(-1) }.keyboardShortcut("[", modifiers: .command)
                 Button(L.text("Next Step")) { model.navigate(1) }.keyboardShortcut("]", modifiers: .command)
                 Button(L.text("Next Incomplete Exercise"), action: model.nextIncomplete).keyboardShortcut("n", modifiers: [.command, .shift])
                 Divider()
-                Button(L.text("Bookmark Step")) { model.toggle(\.bookmarked) }.keyboardShortcut("b", modifiers: [.command, .shift])
-                Button(L.text("Mark for Review")) { model.toggle(\.review) }
-                Button(L.text("Reset Code and Dataset"), action: model.reset)
+                Button(L.text("Reset Code and Dataset"), action: model.reset).disabled(!model.requiresCodeEditor)
                 Button(L.text("Learning Center…")) { model.learningCenterTab = .activity; model.showStatistics = true }.keyboardShortcut("l", modifiers: [.command, .shift])
                 Button(L.text("Attempt History…")) { model.learningCenterTab = .history; model.showStatistics = true }
             }

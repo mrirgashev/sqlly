@@ -36,7 +36,7 @@ Choose a topic from the flat sidebar. Its numbered strip exposes every introduct
 
 Open **Learning Center** from the sidebar or press **Shift-Command-L**. Its calendar covers the last 182 local days and counts saved answer submissions, including retries and incorrect answers. Live previews, Run, and reading do not add submission activity. Topic rails and the course map count all completed learning steps; the exercises-solved total counts practice tasks only.
 
-Select **English** or **Русский** in application settings. The language switch preserves step identifiers, SQL drafts, bookmarks, and learning history. SQL keywords, identifiers, and dataset values remain unchanged. Original PostgreSQL diagnostics remain visible alongside localized application guidance.
+Select **English** or **Русский** in application settings. The language switch preserves step identifiers, SQL drafts, completion, and learning history. SQL keywords, identifiers, and dataset values remain unchanged. Original PostgreSQL diagnostics remain visible alongside localized application guidance.
 
 The engine resets fixtures for each execution. Live execution never marks an exercise complete or records a graded attempt; explicit submission is required. This makes mistakes recoverable and submissions deterministic. SQL history and learning progress are persisted outside the application bundle. Core use needs no account or network connection.
 
@@ -54,6 +54,6 @@ Read [architecture](docs/ARCHITECTURE.md), [content format](docs/CONTENT.md), [s
 
 ## Scope and release status
 
-Version 0.3.2 fixes resource discovery across SwiftPM build systems and in the installed app. CI now verifies the packaged app with its build cache unavailable, including both languages and a real PostgreSQL query. The composed Finder installer, larger native controls, focused editor, topic progress rails, and Learning Center remain available. The current verification report records actual checks; earlier release evidence is archived alongside it.
+Version 0.3.3 uses a green topic outline and a simple Continue action, shows the SQL workspace only for coding tasks, and supports Command-/ line comments with native undo. Plain Left/Right arrows navigate steps across topics when focus is outside text editors. Resource lookup works with both SwiftPM builders, and CI checks the packaged app with its build cache unavailable. The current verification report records actual checks; earlier evidence is archived alongside it.
 
 This repository is designed for public contribution. The current verification report and remaining acceptance work are recorded in [VERIFICATION.md](docs/VERIFICATION.md) and [CHECKLIST.md](docs/CHECKLIST.md). Unverified architecture support, notarization, and manual accessibility audits are release work, not completed claims.

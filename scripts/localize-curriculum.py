@@ -189,7 +189,7 @@ def main():
                 prerequisite_names = [LESSONS[p][0] for p in lesson['prerequisites']]
                 related = ('Перед этим полезно изучить: ' + ', '.join(prerequisite_names) + '. ' if prerequisite_names else 'Предыдущие знания SQL не требуются. ') + 'Сравните небольшой пример с практической задачей: правило остаётся тем же при добавлении строк.'
                 bodies = [idea, why, how, how + '\n\n' + '\n'.join('• ' + g for g in guides), examples[0]['prompt'], examples[2]['prompt'], expected, mistake, related,
-                          f'Выполните практические шаги этого понятия по порядку. Всего заданий: {len(examples)}. Сначала изучите результат пробного запроса, затем отправьте решение на проверку. Ошибка не стирает прогресс. Открывайте подсказки постепенно и отмечайте сложные шаги для повторения.', idea + ' ' + how]
+                          f'Выполните практические шаги этого понятия по порядку. Всего заданий: {len(examples)}. Сначала изучите результат пробного запроса, затем отправьте решение на проверку. Ошибка не стирает прогресс. Открывайте подсказки по одной. Если понадобилось готовое решение, вернитесь к заданию позже и попробуйте ещё раз. Прошлые попытки в Учебном центре помогут разобраться в ошибках.', idea + ' ' + how]
                 lesson['sections'] = [dict(title=SECTION_TITLES[i], body=body, **({'code': codes[i]} if codes[i] is not None else {})) for i, body in enumerate(bodies)]
     # A content-language switch must never alter query semantics or progress IDs.
     sql_fields = ['id', 'kind', 'solutionSQL', 'fixtureIDs', 'ordered', 'columnNames', 'validationSQL', 'stateValidationSQL', 'correctChoiceIDs', 'predictionColumns', 'checkOutput', 'outputOrdered']

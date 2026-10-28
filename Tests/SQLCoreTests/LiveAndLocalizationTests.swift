@@ -2,6 +2,18 @@ import Foundation
 import Testing
 @testable import SQLCore
 
+private enum LiveProbeObservation: Sendable {
+    case execution(String), result(String), failure(String)
+}
+
+private extension LiveQueryController {
+    /// A burst is one client turn. No debounce task can interleave simply
+    /// because a busy test runner paused between separate actor hops.
+    func receiveClientBurst(_ actions: @Sendable (isolated LiveQueryController) -> Void) {
+        actions(self)
+    }
+}
+
 private actor LiveProbe {
     var executions: [String] = []
     var results: [String] = []
@@ -21,12 +33,22 @@ private actor LiveProbe {
         }
     }
     func releaseSlow() { slowGate?.resume(); slowGate = nil }
-    func waitForExecution(_ sql: String) async throws {
-        for _ in 0..<1000 {
-            if executions.contains(sql) { return }
-            try await Task.sleep(for: .milliseconds(2))
+    func waitFor(_ observation: LiveProbeObservation) async throws {
+        let clock = ContinuousClock()
+        let deadline = clock.now.advanced(by: .seconds(30))
+        while true {
+            let observed: Bool
+            switch observation {
+            case let .execution(sql): observed = executions.contains(sql)
+            case let .result(value): observed = results.contains(value)
+            case let .failure(context): observed = failures.contains(context)
+            }
+            if observed { return }
+            guard clock.now < deadline else {
+                throw ContentError.invalid("Live test did not observe \(observation).")
+            }
+            try await Task.sleep(for: .milliseconds(10))
         }
-        throw ContentError.invalid("Live test executor did not start.")
     }
 }
 
@@ -34,54 +56,65 @@ struct LiveExecutionTests {
     @Test func rapidTypingRunsOnlyFinalDraft() async throws {
         let probe = LiveProbe()
         let controller = LiveQueryController(delay: .milliseconds(40)) { try await probe.execute($0, $1) }
-        for index in 0..<30 {
-            await controller.submit(sql: "draft-\(index)", fixture: "", context: "exercise", revision: UInt64(index + 1)) { await probe.observe($0) }
+        await controller.receiveClientBurst { controller in
+            for index in 0..<30 {
+                controller.submit(sql: "draft-\(index)", fixture: "", context: "exercise", revision: UInt64(index + 1)) { await probe.observe($0) }
+            }
         }
-        try await Task.sleep(for: .milliseconds(150))
+        try await probe.waitFor(.result("draft-29"))
         #expect(await probe.executions == ["draft-29"])
         #expect(await probe.results == ["draft-29"])
+        await controller.shutdown()
     }
 
     @Test func runningDraftIsSupersededAndQueuedEditsAreCoalesced() async throws {
         let probe = LiveProbe()
         let controller = LiveQueryController(delay: .milliseconds(10)) { try await probe.execute($0, $1) }
         await controller.submit(sql: "slow", fixture: "", context: "old") { await probe.observe($0) }
-        try await probe.waitForExecution("slow")
-        await controller.submit(sql: "middle", fixture: "", context: "new") { await probe.observe($0) }
-        try await Task.sleep(for: .milliseconds(25))
-        await controller.submit(sql: "latest", fixture: "", context: "new") { await probe.observe($0) }
-        try await Task.sleep(for: .milliseconds(80))
-        await probe.releaseSlow()
-        try await probe.waitForExecution("latest")
-        try await Task.sleep(for: .milliseconds(30))
-        #expect(await probe.executions == ["slow", "latest"])
-        #expect(await probe.results == ["latest"])
+        do {
+            try await probe.waitFor(.execution("slow"))
+            await controller.receiveClientBurst { controller in
+                controller.submit(sql: "middle", fixture: "", context: "new") { await probe.observe($0) }
+                controller.submit(sql: "latest", fixture: "", context: "new") { await probe.observe($0) }
+            }
+            await probe.releaseSlow()
+            try await probe.waitFor(.result("latest"))
+            #expect(await probe.executions == ["slow", "latest"])
+            #expect(await probe.results == ["latest"])
+            await controller.shutdown()
+        } catch {
+            await controller.shutdown()
+            await probe.releaseSlow()
+            throw error
+        }
     }
 
     @Test func cancellationAndReorderedClientRequestsNeverPublishStaleResults() async throws {
         let probe = LiveProbe()
         let controller = LiveQueryController(delay: .milliseconds(40)) { try await probe.execute($0, $1) }
-        await controller.submit(sql: "cancelled", fixture: "", context: "old", revision: 1) { await probe.observe($0) }
-        await controller.cancel(revision: 2)
-        try await Task.sleep(for: .milliseconds(90))
-        #expect(await probe.executions.isEmpty)
-        await controller.submit(sql: "new", fixture: "", context: "new", revision: 4) { await probe.observe($0) }
-        await controller.submit(sql: "out-of-order", fixture: "", context: "old", revision: 3) { await probe.observe($0) }
-        await controller.cancel(revision: 2)
-        try await Task.sleep(for: .milliseconds(100))
+        await controller.receiveClientBurst { controller in
+            controller.submit(sql: "cancelled", fixture: "", context: "old", revision: 1) { await probe.observe($0) }
+            controller.cancel(revision: 2)
+            controller.submit(sql: "new", fixture: "", context: "new", revision: 4) { await probe.observe($0) }
+            controller.submit(sql: "out-of-order", fixture: "", context: "old", revision: 3) { await probe.observe($0) }
+            controller.cancel(revision: 2)
+        }
+        try await probe.waitFor(.result("new"))
         #expect(await probe.executions == ["new"])
         #expect(await probe.results == ["new"])
+        await controller.shutdown()
     }
 
     @Test func errorDoesNotBlockNextLiveQuery() async throws {
         let probe = LiveProbe()
         let controller = LiveQueryController(delay: .milliseconds(10)) { try await probe.execute($0, $1) }
         await controller.submit(sql: "invalid", fixture: "", context: "invalid") { await probe.observe($0) }
-        try await Task.sleep(for: .milliseconds(60))
+        try await probe.waitFor(.failure("invalid"))
         await controller.submit(sql: "fixed", fixture: "", context: "fixed") { await probe.observe($0) }
-        try await Task.sleep(for: .milliseconds(60))
+        try await probe.waitFor(.result("fixed"))
         #expect(await probe.failures == ["invalid"])
         #expect(await probe.results == ["fixed"])
+        await controller.shutdown()
     }
 }
 

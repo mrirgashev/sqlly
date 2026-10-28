@@ -1,5 +1,6 @@
 import SwiftUI
 import AppKit
+import SQLCore
 
 enum SQLColors {
     private static let accent = NSColor(name: nil) { appearance in
@@ -145,6 +146,38 @@ struct SQLEditor: NSViewRepresentable {
 }
 
 @MainActor final class SQLTextView: NSTextView {
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        let modifiers = event.modifierFlags.intersection([.command, .option, .control, .shift])
+        if window?.firstResponder === self, modifiers == .command,
+           event.charactersIgnoringModifiers == "/" || event.keyCode == 44 {
+            toggleSQLLineComments(nil)
+            return true
+        }
+        return super.performKeyEquivalent(with: event)
+    }
+
+    @objc func toggleSQLLineComments(_ sender: Any?) {
+        guard isEditable, !hasMarkedText() else { return }
+        // NSTextView.string can bridge to its mutable backing NSString. Keep
+        // an immutable snapshot: insertText and syntax highlighting mutate the
+        // backing storage before we compare it and restore the selection.
+        let source = NSString(string: string)
+        let selections = selectedRanges.map(\.rangeValue)
+        guard let change = SQLLineComments.change(in: source, selections: selections) else { return }
+        breakUndoCoalescing()
+        let manager = undoManager
+        manager?.beginUndoGrouping()
+        defer { manager?.endUndoGrouping(); breakUndoCoalescing() }
+        // NSTextView's editing entry point registers native undo, consults the
+        // delegate, and calls didChangeText. The normal delegate then updates
+        // syntax colors, the SwiftUI binding, and debounced live execution.
+        insertText(change.replacement, replacementRange: change.range)
+        guard string != source as String else { return }
+        selectedRanges = change.selections.map { NSValue(range: $0) }
+        manager?.setActionName(L.text("Toggle SQL line comments"))
+        scrollRangeToVisible(selectedRange())
+    }
+
     override func insertTab(_ sender: Any?) { insertText("    ", replacementRange: selectedRange()) }
     override func insertNewline(_ sender: Any?) {
         let text = string as NSString
