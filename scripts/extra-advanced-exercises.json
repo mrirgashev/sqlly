@@ -1,0 +1,3301 @@
+[
+  {
+    "lessonID": "l052",
+    "id": "l052-e4",
+    "title": "Repeated-category storage",
+    "prompt": "Return category, product_count, and repeated_name_copies (count minus one) for each product category. Order by category. This quantifies repeated category-name storage before normalization.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT category,count(*) AS product_count,count(*)-1 AS repeated_name_copies FROM products GROUP BY category ORDER BY category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the entity represented by one output row.",
+      "Separate entity attributes from counts of related rows.",
+      "A many-to-many join may repeat one product; count distinct keys when the question asks for distinct products."
+    ],
+    "explanation": "Group at category grain. A category stored on N product rows has N−1 repeated copies beyond a single category fact.",
+    "ru": {
+      "title": "Повторение названий категорий",
+      "prompt": "Выведите category, product_count и repeated_name_copies — число товаров минус один для каждой категории. Сортируйте по category. Это оценка повторяющегося хранения названия перед нормализацией.",
+      "hints": [
+        "Определите сущность, которой соответствует строка результата.",
+        "Отделяйте свойства сущности от количества связанных строк.",
+        "Связь многие-ко-многим может повторять товар; для разных товаров считайте уникальные ключи."
+      ],
+      "explanation": "Группировка задаёт уровень категории. Если название хранится в N товарах, относительно одного факта категории остаётся N−1 повторений."
+    }
+  },
+  {
+    "lessonID": "l052",
+    "id": "l052-e5",
+    "title": "Relationship participation",
+    "prompt": "Return every customer id as customer_id and the number of distinct products in their paid orders as distinct_products, including zero. Order by customer_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id AS customer_id,count(DISTINCT i.product_id) AS distinct_products FROM customers c LEFT JOIN orders o ON o.customer_id=c.id AND o.status='paid' LEFT JOIN order_items i ON i.order_id=o.id GROUP BY c.id ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the entity represented by one output row.",
+      "Separate entity attributes from counts of related rows.",
+      "A many-to-many join may repeat one product; count distinct keys when the question asks for distinct products."
+    ],
+    "explanation": "The order-items relation connects orders and products. LEFT JOIN retains customers without purchases, and DISTINCT counts each related product only once.",
+    "ru": {
+      "title": "Участие в связи многие-ко-многим",
+      "prompt": "Выведите для каждого клиента customer_id и distinct_products — число разных товаров в оплаченных заказах, включая ноль. Сортируйте по customer_id.",
+      "hints": [
+        "Определите сущность, которой соответствует строка результата.",
+        "Отделяйте свойства сущности от количества связанных строк.",
+        "Связь многие-ко-многим может повторять товар; для разных товаров считайте уникальные ключи."
+      ],
+      "explanation": "Позиции заказа связывают заказы с товарами. LEFT JOIN сохраняет клиентов без покупок, а DISTINCT считает каждый связанный товар один раз."
+    }
+  },
+  {
+    "lessonID": "l053",
+    "id": "l053-e4",
+    "title": "Inspect numeric contracts",
+    "prompt": "Return column_name, numeric_precision, and numeric_scale for numeric columns of public.products. Order by ordinal_position.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT column_name,numeric_precision,numeric_scale FROM information_schema.columns WHERE table_schema='public' AND table_name='products' AND data_type='numeric' ORDER BY ordinal_position;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use schema-qualified catalog filters.",
+      "Join constraint metadata by both schema and constraint name.",
+      "Catalog identifiers are case-sensitive text values even when unquoted SQL identifiers are folded to lowercase."
+    ],
+    "explanation": "information_schema exposes the declared precision and scale. Filtering the schema avoids matching an unrelated table with the same name.",
+    "ru": {
+      "title": "Точность числовых столбцов",
+      "prompt": "Выведите column_name, numeric_precision и numeric_scale для столбцов numeric таблицы public.products. Сортируйте по ordinal_position.",
+      "hints": [
+        "Фильтруйте каталоги с учётом схемы.",
+        "Соединяйте метаданные по схеме и имени ограничения.",
+        "Имена объектов в каталогах — текст: учитывайте регистр, даже если некавыченные SQL-имена приводятся к нижнему регистру."
+      ],
+      "explanation": "information_schema показывает объявленные точность и масштаб. Фильтр схемы исключает одноимённые таблицы из других пространств имён."
+    }
+  },
+  {
+    "lessonID": "l053",
+    "id": "l053-e5",
+    "title": "Inspect foreign-key targets",
+    "prompt": "Return child_table, child_column, parent_table, and parent_column for foreign keys in public. Order by child_table and child_column.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT tc.table_name AS child_table,k.column_name AS child_column,u.table_name AS parent_table,u.column_name AS parent_column FROM information_schema.table_constraints tc JOIN information_schema.key_column_usage k ON k.constraint_name=tc.constraint_name AND k.constraint_schema=tc.constraint_schema JOIN information_schema.constraint_column_usage u ON u.constraint_name=tc.constraint_name AND u.constraint_schema=tc.constraint_schema WHERE tc.table_schema='public' AND tc.constraint_type='FOREIGN KEY' ORDER BY child_table,child_column;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use schema-qualified catalog filters.",
+      "Join constraint metadata by both schema and constraint name.",
+      "Catalog identifiers are case-sensitive text values even when unquoted SQL identifiers are folded to lowercase."
+    ],
+    "explanation": "The constraints catalog describes the relationship, while key-column and referenced-column views identify both ends. All current foreign keys contain one column.",
+    "ru": {
+      "title": "Цели внешних ключей",
+      "prompt": "Выведите child_table, child_column, parent_table и parent_column для внешних ключей схемы public. Сортируйте по child_table и child_column.",
+      "hints": [
+        "Фильтруйте каталоги с учётом схемы.",
+        "Соединяйте метаданные по схеме и имени ограничения.",
+        "Имена объектов в каталогах — текст: учитывайте регистр, даже если некавыченные SQL-имена приводятся к нижнему регистру."
+      ],
+      "explanation": "Каталог ограничений описывает связь, а представления столбцов ключа и цели показывают оба её конца. Все внешние ключи этого набора состоят из одного столбца."
+    }
+  },
+  {
+    "lessonID": "l054",
+    "id": "l054-e4",
+    "title": "Backfill a computed reorder threshold",
+    "prompt": "Add products.reorder_point integer, fill it with 10 for Tech and 20 for other categories, then require NOT NULL and CHECK(reorder_point>0). Preserve all existing columns and data.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "ALTER TABLE products ADD COLUMN reorder_point integer; UPDATE products SET reorder_point=CASE WHEN category='Tech' THEN 10 ELSE 20 END; ALTER TABLE products ALTER COLUMN reorder_point SET NOT NULL; ALTER TABLE products ADD CHECK(reorder_point>0);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Add the column before referencing it in UPDATE.",
+      "Use CASE to express the backfill rule.",
+      "Apply NOT NULL and CHECK only after every existing row satisfies them."
+    ],
+    "explanation": "A staged migration adds a nullable column, backfills valid values, and only then enforces the stronger contract.",
+    "ru": {
+      "title": "Заполнение порога пополнения",
+      "prompt": "Добавьте products.reorder_point integer: 10 для Tech и 20 для остальных категорий. Затем задайте NOT NULL и CHECK(reorder_point>0). Сохраните прежние столбцы и данные.",
+      "hints": [
+        "Добавьте столбец до обращения к нему в UPDATE.",
+        "Выразите правило заполнения через CASE.",
+        "Задавайте NOT NULL и CHECK после приведения всех существующих строк к этим правилам."
+      ],
+      "explanation": "Поэтапная миграция добавляет допускающий NULL столбец, заполняет корректные значения и только затем усиливает правила."
+    },
+    "validationSQL": "SELECT * FROM products ORDER BY id;"
+  },
+  {
+    "lessonID": "l054",
+    "id": "l054-e5",
+    "title": "Migrate an optional shipment flag",
+    "prompt": "Add orders.dispatched boolean NOT NULL DEFAULT false. Backfill it to true exactly when shipped_on is not NULL. Keep the default false for future rows.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "ALTER TABLE orders ADD COLUMN dispatched boolean NOT NULL DEFAULT false; UPDATE orders SET dispatched=(shipped_on IS NOT NULL);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Distinguish a default for new rows from a historical backfill.",
+      "IS NOT NULL returns a Boolean value directly.",
+      "Preserve shipped_on so the original fact remains available."
+    ],
+    "explanation": "The default handles future inserts; the explicit UPDATE derives historical values from the existing shipment date.",
+    "ru": {
+      "title": "Миграция признака отправки",
+      "prompt": "Добавьте orders.dispatched boolean NOT NULL DEFAULT false. Установите true ровно для строк с известным shipped_on. Сохраните false по умолчанию для новых строк.",
+      "hints": [
+        "Отличайте значение для новых строк от заполнения старых данных.",
+        "IS NOT NULL сразу возвращает логическое значение.",
+        "Сохраните shipped_on, чтобы исходный факт не исчез."
+      ],
+      "explanation": "Значение по умолчанию действует для новых вставок, а отдельный UPDATE восстанавливает исторические значения по дате отправки."
+    },
+    "validationSQL": "SELECT id,shipped_on,dispatched FROM orders ORDER BY id;"
+  },
+  {
+    "lessonID": "l055",
+    "id": "l055-e4",
+    "title": "Salary deviation from department mean",
+    "prompt": "Return id, department, salary, and deviation: salary minus the department average, rounded to two decimals. Preserve employee rows and order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,department,salary,round(salary-avg(salary) OVER(PARTITION BY department),2) AS deviation FROM employees ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Keep the original detail row grain.",
+      "Use OVER(PARTITION BY ...) instead of GROUP BY.",
+      "Filter the eligible population before calculating its partition total."
+    ],
+    "explanation": "A partitioned AVG repeats the department mean without collapsing employees. Subtract it on each original row.",
+    "ru": {
+      "title": "Отклонение зарплаты от среднего",
+      "prompt": "Выведите id, department, salary и deviation — зарплату минус среднее по отделу, округлённое до двух знаков. Сохраните строки сотрудников и сортируйте по id.",
+      "hints": [
+        "Сохраните исходный уровень детализации строк.",
+        "Используйте OVER(PARTITION BY ...), а не GROUP BY.",
+        "Отберите нужное множество до вычисления суммы раздела."
+      ],
+      "explanation": "AVG по разделу повторяет среднее отдела, не сворачивая сотрудников. Вычтите это значение в каждой исходной строке."
+    }
+  },
+  {
+    "lessonID": "l055",
+    "id": "l055-e5",
+    "title": "Paid-order share within a customer",
+    "prompt": "For paid orders with a known customer, return id, customer_id, total, and customer_share: total divided by that customer’s paid total, rounded to four decimals. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,customer_id,total,round(total/NULLIF(sum(total) OVER(PARTITION BY customer_id),0),4) AS customer_share FROM orders WHERE status='paid' AND customer_id IS NOT NULL ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Keep the original detail row grain.",
+      "Use OVER(PARTITION BY ...) instead of GROUP BY.",
+      "Filter the eligible population before calculating its partition total."
+    ],
+    "explanation": "WHERE selects eligible rows before the window sum. NULLIF preserves an undefined share when a customer total is zero.",
+    "ru": {
+      "title": "Доля заказа в покупках клиента",
+      "prompt": "Для оплаченных заказов с известным клиентом выведите id, customer_id, total и customer_share — долю заказа в оплаченной сумме клиента, округлённую до четырёх знаков. Сортируйте по id.",
+      "hints": [
+        "Сохраните исходный уровень детализации строк.",
+        "Используйте OVER(PARTITION BY ...), а не GROUP BY.",
+        "Отберите нужное множество до вычисления суммы раздела."
+      ],
+      "explanation": "WHERE выбирает подходящие строки до оконной суммы. NULLIF сохраняет неопределённую долю при нулевой сумме клиента."
+    }
+  },
+  {
+    "lessonID": "l056",
+    "id": "l056-e5",
+    "title": "Second distinct salary level",
+    "prompt": "Return id, name, department, and salary for employees at the second distinct salary level within their department. Preserve all ties. Order by department then id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH ranked AS (SELECT *,dense_rank() OVER(PARTITION BY department ORDER BY salary DESC) AS level FROM employees) SELECT id,name,department,salary FROM ranked WHERE level=2 ORDER BY department,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose whether ties share a rank or receive unique positions.",
+      "Window results must be filtered in an outer query.",
+      "Add a unique tie-breaker only when the task requires unique row numbering."
+    ],
+    "explanation": "DENSE_RANK counts distinct salary levels without gaps. Filtering the second level keeps every tied employee.",
+    "ru": {
+      "title": "Вторая отличающаяся зарплата",
+      "prompt": "Выведите id, name, department и salary сотрудников на втором различающемся уровне зарплаты своего отдела. Сохраните все равные значения. Сортируйте по department, затем id.",
+      "hints": [
+        "Выберите, должны ли равные значения делить ранг или получать разные позиции.",
+        "Фильтруйте оконный результат во внешнем запросе.",
+        "Добавляйте уникальный ключ для разрешения равенства, когда нужна нумерация отдельных строк."
+      ],
+      "explanation": "DENSE_RANK считает разные уровни без пропусков. Фильтрация второго уровня сохраняет всех сотрудников с одинаковой зарплатой."
+    }
+  },
+  {
+    "lessonID": "l056",
+    "id": "l056-e6",
+    "title": "Number customer purchases chronologically",
+    "prompt": "Return paid orders with a known customer as customer_id, order_id, and purchase_number. Number each customer’s purchases by ordered_on then id. Order by customer_id and purchase_number.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT customer_id,id AS order_id,row_number() OVER(PARTITION BY customer_id ORDER BY ordered_on,id) AS purchase_number FROM orders WHERE status='paid' AND customer_id IS NOT NULL ORDER BY customer_id,purchase_number;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose whether ties share a rank or receive unique positions.",
+      "Window results must be filtered in an outer query.",
+      "Add a unique tie-breaker only when the task requires unique row numbering."
+    ],
+    "explanation": "ROW_NUMBER assigns unique positions. The id tie-breaker makes numbering deterministic for two purchases on the same date.",
+    "ru": {
+      "title": "Номера покупок клиента",
+      "prompt": "Выведите оплаченные заказы известных клиентов как customer_id, order_id и purchase_number. Нумеруйте покупки каждого клиента по ordered_on, затем id. Сортируйте по customer_id и purchase_number.",
+      "hints": [
+        "Выберите, должны ли равные значения делить ранг или получать разные позиции.",
+        "Фильтруйте оконный результат во внешнем запросе.",
+        "Добавляйте уникальный ключ для разрешения равенства, когда нужна нумерация отдельных строк."
+      ],
+      "explanation": "ROW_NUMBER присваивает уникальные позиции. Дополнительный id делает нумерацию определённой при нескольких покупках в одну дату."
+    }
+  },
+  {
+    "lessonID": "l057",
+    "id": "l057-e4",
+    "title": "Gaps since the previous customer event",
+    "prompt": "Return id, customer_id, and hours_since_previous for each event. Compare with the previous event of the same customer ordered by occurred_at then id, and round hours to two decimals. The first event has NULL. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,customer_id,round((extract(epoch FROM occurred_at-lag(occurred_at) OVER(PARTITION BY customer_id ORDER BY occurred_at,id))/3600)::numeric,2) AS hours_since_previous FROM events ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define both partition and chronological or business order.",
+      "LAG looks backward; LEAD looks forward.",
+      "A missing neighbor is NULL unless you explicitly provide a default."
+    ],
+    "explanation": "LAG supplies a prior timestamp in the customer partition. Epoch seconds divided by 3600 convert the interval to hours.",
+    "ru": {
+      "title": "Время после прошлого события",
+      "prompt": "Для каждого события выведите id, customer_id и hours_since_previous. Сравните с прошлым событием клиента по occurred_at, затем id; часы округлите до двух знаков. Для первого события верните NULL. Сортируйте по id.",
+      "hints": [
+        "Задайте раздел и временной либо деловой порядок.",
+        "LAG смотрит назад, LEAD — вперёд.",
+        "Отсутствующий сосед даёт NULL, если явно не задано значение по умолчанию."
+      ],
+      "explanation": "LAG даёт предыдущую метку времени в разделе клиента. Число секунд epoch, делённое на 3600, переводит интервал в часы."
+    }
+  },
+  {
+    "lessonID": "l057",
+    "id": "l057-e5",
+    "title": "Next stock entry in a warehouse",
+    "prompt": "Return product_id, warehouse, quantity, and next_quantity from inventory. The next row is within the same warehouse ordered by product_id. Order by warehouse and product_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT product_id,warehouse,quantity,lead(quantity) OVER(PARTITION BY warehouse ORDER BY product_id) AS next_quantity FROM inventory ORDER BY warehouse,product_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define both partition and chronological or business order.",
+      "LAG looks backward; LEAD looks forward.",
+      "A missing neighbor is NULL unless you explicitly provide a default."
+    ],
+    "explanation": "LEAD reads the following row in the same partition. The last row in a warehouse has no neighbor and returns NULL.",
+    "ru": {
+      "title": "Следующая складская запись",
+      "prompt": "Выведите product_id, warehouse, quantity и next_quantity из inventory. Следующая строка определяется внутри склада по product_id. Сортируйте по warehouse и product_id.",
+      "hints": [
+        "Задайте раздел и временной либо деловой порядок.",
+        "LAG смотрит назад, LEAD — вперёд.",
+        "Отсутствующий сосед даёт NULL, если явно не задано значение по умолчанию."
+      ],
+      "explanation": "LEAD читает следующую строку того же раздела. Последняя строка склада не имеет соседа и возвращает NULL."
+    }
+  },
+  {
+    "lessonID": "l058",
+    "id": "l058-e4",
+    "title": "Running count of shipped orders",
+    "prompt": "Return id, ordered_on, and shipped_so_far: the cumulative count of non-NULL shipped_on values ordered by ordered_on then id. Order the output the same way.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,ordered_on,count(shipped_on) OVER(ORDER BY ordered_on,id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS shipped_so_far FROM orders ORDER BY ordered_on,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Distinguish the window order from the final output order.",
+      "Use explicit ROWS bounds for a fixed number of preceding records.",
+      "An aggregate over an empty frame can return NULL rather than zero."
+    ],
+    "explanation": "COUNT(expression) ignores NULL dates. An explicit ROWS frame includes exactly the rows up to the current ordered position.",
+    "ru": {
+      "title": "Накопленное число отправок",
+      "prompt": "Выведите id, ordered_on и shipped_so_far — накопленное число известных shipped_on в порядке ordered_on, затем id. Так же упорядочьте результат.",
+      "hints": [
+        "Отличайте порядок окна от окончательной сортировки.",
+        "Для фиксированного числа прошлых записей задавайте явные границы ROWS.",
+        "Агрегат над пустой рамкой может дать NULL, а не ноль."
+      ],
+      "explanation": "COUNT(выражение) пропускает NULL-даты. Явная рамка ROWS включает строки до текущей упорядоченной позиции."
+    }
+  },
+  {
+    "lessonID": "l058",
+    "id": "l058-e5",
+    "title": "Exclude the current order from a comparison",
+    "prompt": "Return id and prior_two_mean: the mean total of the previous two orders by ordered_on then id, excluding the current order, rounded to two decimals. Order by ordered_on then id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,round(avg(total) OVER(ORDER BY ordered_on,id ROWS BETWEEN 2 PRECEDING AND 1 PRECEDING),2) AS prior_two_mean FROM orders ORDER BY ordered_on,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Distinguish the window order from the final output order.",
+      "Use explicit ROWS bounds for a fixed number of preceding records.",
+      "An aggregate over an empty frame can return NULL rather than zero."
+    ],
+    "explanation": "A frame ending at 1 PRECEDING excludes the current value. The first row has an empty frame, so AVG returns NULL.",
+    "ru": {
+      "title": "Среднее без текущего заказа",
+      "prompt": "Выведите id и prior_two_mean — среднее total двух предшествующих заказов по ordered_on, затем id, без текущей строки, округлённое до двух знаков. Так же упорядочьте результат.",
+      "hints": [
+        "Отличайте порядок окна от окончательной сортировки.",
+        "Для фиксированного числа прошлых записей задавайте явные границы ROWS.",
+        "Агрегат над пустой рамкой может дать NULL, а не ноль."
+      ],
+      "explanation": "Рамка до 1 PRECEDING исключает текущее значение. У первой строки рамка пуста, поэтому AVG возвращает NULL."
+    }
+  },
+  {
+    "lessonID": "l059",
+    "id": "l059-e4",
+    "title": "Price relative to the cheapest in category",
+    "prompt": "Return id, category, price, and premium: price minus the first price in its category ordered by price then id. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,category,price,price-first_value(price) OVER(PARTITION BY category ORDER BY price,id) AS premium FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Check what the first and last ordered values represent.",
+      "LAST_VALUE depends on the frame, not only the partition.",
+      "A named WINDOW clause can share an identical partition, order, and frame."
+    ],
+    "explanation": "FIRST_VALUE identifies the baseline in each ordered category. Subtracting it compares detail prices without reducing the row count.",
+    "ru": {
+      "title": "Надбавка к самой дешёвой цене",
+      "prompt": "Выведите id, category, price и premium — цену минус первую цену категории при сортировке по price, затем id. Сортируйте по id.",
+      "hints": [
+        "Проверьте смысл первого и последнего упорядоченных значений.",
+        "LAST_VALUE зависит от рамки, а не только от раздела.",
+        "Именованный WINDOW позволяет разделить одно определение раздела, порядка и рамки."
+      ],
+      "explanation": "FIRST_VALUE находит базовую цену в упорядоченной категории. Вычитание сравнивает цены, не сокращая число строк."
+    }
+  },
+  {
+    "lessonID": "l059",
+    "id": "l059-e5",
+    "title": "Oldest and newest employee in each row",
+    "prompt": "Return id, department, first_hire, and last_hire using FIRST_VALUE and LAST_VALUE over department rows ordered by hired_on then id. Both values must refer to the whole department. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,department,first_value(hired_on) OVER w AS first_hire,last_value(hired_on) OVER w AS last_hire FROM employees WINDOW w AS (PARTITION BY department ORDER BY hired_on,id ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Check what the first and last ordered values represent.",
+      "LAST_VALUE depends on the frame, not only the partition.",
+      "A named WINDOW clause can share an identical partition, order, and frame."
+    ],
+    "explanation": "A named window avoids repeating its definition. Extending the frame through UNBOUNDED FOLLOWING prevents LAST_VALUE from stopping at the current peer group.",
+    "ru": {
+      "title": "Первый и последний приём в отделе",
+      "prompt": "Выведите id, department, first_hire и last_hire через FIRST_VALUE и LAST_VALUE в разделе отдела по hired_on, затем id. Оба значения должны относиться ко всему отделу. Сортируйте по id.",
+      "hints": [
+        "Проверьте смысл первого и последнего упорядоченных значений.",
+        "LAST_VALUE зависит от рамки, а не только от раздела.",
+        "Именованный WINDOW позволяет разделить одно определение раздела, порядка и рамки."
+      ],
+      "explanation": "Именованное окно избавляет от повторения определения. UNBOUNDED FOLLOWING не позволяет LAST_VALUE остановиться на текущей группе равных значений."
+    }
+  },
+  {
+    "lessonID": "l060",
+    "id": "l060-e4",
+    "title": "Most recently hired in each department",
+    "prompt": "Use DISTINCT ON to return department, id, name, and hired_on for the most recent hire in each department; break equal dates by greatest id. Order by department.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT DISTINCT ON(department) department,id,name,hired_on FROM employees ORDER BY department,hired_on DESC,id DESC;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "The DISTINCT ON expressions must match the leading ordering keys.",
+      "Order candidate rows before selecting one representative.",
+      "Use an explicit NULL policy and unique tie-breaker."
+    ],
+    "explanation": "The DISTINCT ON key begins ORDER BY. Descending date and id select one deterministic representative from each department.",
+    "ru": {
+      "title": "Последний принятый сотрудник отдела",
+      "prompt": "Используйте DISTINCT ON и выведите department, id, name, hired_on последнего принятого сотрудника каждого отдела; при равной дате берите наибольший id. Сортируйте по department.",
+      "hints": [
+        "Выражения DISTINCT ON должны совпадать с начальными ключами сортировки.",
+        "Упорядочьте кандидатов до выбора одного представителя.",
+        "Явно задайте порядок NULL и уникальный ключ для разрешения равенства."
+      ],
+      "explanation": "Ключ DISTINCT ON стоит в начале ORDER BY. Убывающие дата и id однозначно выбирают представителя каждого отдела."
+    }
+  },
+  {
+    "lessonID": "l060",
+    "id": "l060-e5",
+    "title": "Best rated product per category",
+    "prompt": "Return category, id, name, and rating for one product per category with the highest numeric attributes rating. Put missing ratings last and break ties by lowest id. Order by category.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT DISTINCT ON(category) category,id,name,(attributes->>'rating')::numeric AS rating FROM products ORDER BY category,(attributes->>'rating')::numeric DESC NULLS LAST,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "The DISTINCT ON expressions must match the leading ordering keys.",
+      "Order candidate rows before selecting one representative.",
+      "Use an explicit NULL policy and unique tie-breaker."
+    ],
+    "explanation": "Extract JSON text, cast it to numeric, and rank missing ratings explicitly. DISTINCT ON keeps the first fully ordered candidate per category.",
+    "ru": {
+      "title": "Товар с лучшей оценкой категории",
+      "prompt": "Выведите category, id, name и rating для товара с наибольшей числовой оценкой attributes в каждой категории. Неизвестные оценки ставьте последними, равенство разрешайте наименьшим id. Сортируйте по category.",
+      "hints": [
+        "Выражения DISTINCT ON должны совпадать с начальными ключами сортировки.",
+        "Упорядочьте кандидатов до выбора одного представителя.",
+        "Явно задайте порядок NULL и уникальный ключ для разрешения равенства."
+      ],
+      "explanation": "Извлеките JSON-текст, приведите к numeric и явно задайте положение NULL. DISTINCT ON сохраняет первого полностью упорядоченного кандидата категории."
+    }
+  },
+  {
+    "lessonID": "l061",
+    "id": "l061-e4",
+    "title": "An updateable pending-order view",
+    "prompt": "Create pending_order_queue as a view of id, customer_id, and total from pending orders WITH LOCAL CHECK OPTION. Through the view set order 106 total to 22.00.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE VIEW pending_order_queue AS SELECT id,customer_id,total FROM orders WHERE status='pending' WITH LOCAL CHECK OPTION; UPDATE pending_order_queue SET total=22.00 WHERE id=106;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use a single base relation in the view.",
+      "WITH LOCAL CHECK OPTION belongs after the defining SELECT.",
+      "Update through the view, then inspect both its data and metadata."
+    ],
+    "explanation": "A simple one-table view is automatically updateable. CHECK OPTION prevents future writes through the view from escaping its predicate.",
+    "ru": {
+      "title": "Обновляемое представление очереди",
+      "prompt": "Создайте pending_order_queue: id, customer_id, total незавершённых заказов с WITH LOCAL CHECK OPTION. Через представление установите total заказа 106 в 22.00.",
+      "hints": [
+        "Используйте в представлении одну базовую таблицу.",
+        "WITH LOCAL CHECK OPTION ставится после определяющего SELECT.",
+        "Обновите данные через представление и проверьте его данные и метаданные."
+      ],
+      "explanation": "Простое представление одной таблицы автоматически обновляемо. CHECK OPTION не даёт будущим изменениям через него нарушить предикат."
+    },
+    "validationSQL": "SELECT q.id,q.customer_id,q.total,v.check_option FROM pending_order_queue q CROSS JOIN information_schema.views v WHERE v.table_schema='public' AND v.table_name='pending_order_queue' ORDER BY q.id;"
+  },
+  {
+    "lessonID": "l061",
+    "id": "l061-e5",
+    "title": "A reusable category revenue view",
+    "prompt": "Create paid_category_revenue(category, revenue) from products joined to paid order lines. Revenue is SUM(quantity*unit_price). The view must include only categories with paid lines.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE VIEW paid_category_revenue AS SELECT p.category,sum(i.quantity*i.unit_price) AS revenue FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id WHERE o.status='paid' GROUP BY p.category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Join through the foreign-key relationship.",
+      "Filter paid orders before grouping.",
+      "A view definition does not replace ORDER BY in a consuming report."
+    ],
+    "explanation": "The saved query aggregates paid line amounts at category grain. Callers can apply their own final sorting.",
+    "ru": {
+      "title": "Представление выручки категорий",
+      "prompt": "Создайте paid_category_revenue(category, revenue) по товарам и позициям оплаченных заказов. revenue — SUM(quantity*unit_price). Включите только категории с оплаченными позициями.",
+      "hints": [
+        "Соединяйте таблицы по внешним ключам.",
+        "Отберите оплаченные заказы до группировки.",
+        "Определение представления не заменяет ORDER BY в итоговом отчёте."
+      ],
+      "explanation": "Сохранённый запрос агрегирует оплаченные позиции на уровне категории. Вызывающий запрос сам задаёт итоговую сортировку."
+    },
+    "validationSQL": "SELECT category,revenue FROM paid_category_revenue ORDER BY category;"
+  },
+  {
+    "lessonID": "l062",
+    "id": "l062-e4",
+    "title": "Materialize paid monthly revenue",
+    "prompt": "Create monthly_paid_snapshot with month_start (first day of month) and revenue from paid orders. Create a UNIQUE index on month_start so concurrent refresh is eligible.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE MATERIALIZED VIEW monthly_paid_snapshot AS SELECT date_trunc('month',ordered_on)::date AS month_start,sum(total) AS revenue FROM orders WHERE status='paid' GROUP BY month_start; CREATE UNIQUE INDEX monthly_paid_snapshot_key ON monthly_paid_snapshot(month_start);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Compute the month key before grouping.",
+      "Create the materialized view before its index.",
+      "A partial or expression-only index does not meet the concurrent-refresh key requirement."
+    ],
+    "explanation": "The materialized view stores grouped results. A unique non-partial index on ordinary result columns is required for concurrent refresh.",
+    "ru": {
+      "title": "Материализация месячной выручки",
+      "prompt": "Создайте monthly_paid_snapshot с month_start — первым днём месяца — и revenue оплаченных заказов. Создайте UNIQUE-индекс по month_start для возможности конкурентного обновления.",
+      "hints": [
+        "Вычислите ключ месяца перед группировкой.",
+        "Создайте материализованное представление до индекса.",
+        "Частичный индекс или индекс только по выражениям не заменяет нужный ключ конкурентного обновления."
+      ],
+      "explanation": "Материализованное представление хранит сгруппированные результаты. Для конкурентного обновления нужен уникальный индекс без предиката по обычным столбцам результата."
+    },
+    "validationSQL": "SELECT month_start,revenue FROM monthly_paid_snapshot ORDER BY month_start;"
+  },
+  {
+    "lessonID": "l062",
+    "id": "l062-e5",
+    "title": "Refresh after a new paid order",
+    "prompt": "Create paid_order_count_snapshot with one row paid_count, insert paid order (id 150, customer_id 1, ordered_on 2024-08-01, total 10.00), then refresh the snapshot.",
+    "difficulty": "Advanced",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE MATERIALIZED VIEW paid_order_count_snapshot AS SELECT count(*) AS paid_count FROM orders WHERE status='paid'; INSERT INTO orders(id,customer_id,ordered_on,status,total) VALUES(150,1,DATE '2024-08-01','paid',10.00); REFRESH MATERIALIZED VIEW paid_order_count_snapshot;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "A snapshot initially sees only existing rows.",
+      "Insert the complete required order columns.",
+      "Refresh after the INSERT, not before it."
+    ],
+    "explanation": "INSERT does not update stored materialized rows automatically. REFRESH recomputes the count after the committed change.",
+    "ru": {
+      "title": "Обновление после нового заказа",
+      "prompt": "Создайте paid_order_count_snapshot с одной строкой paid_count. Добавьте оплаченный заказ: id 150, customer_id 1, ordered_on 2024-08-01, total 10.00. Затем обновите снимок.",
+      "hints": [
+        "Сначала снимок видит только существующие строки.",
+        "Вставьте все обязательные поля заказа.",
+        "Выполните REFRESH после INSERT, а не до него."
+      ],
+      "explanation": "INSERT не изменяет материализованные строки автоматически. REFRESH заново вычисляет число строк после изменения."
+    },
+    "validationSQL": "SELECT paid_count,(SELECT count(*) FROM orders WHERE id=150) AS inserted_rows FROM paid_order_count_snapshot;"
+  },
+  {
+    "lessonID": "l063",
+    "id": "l063-e4",
+    "title": "Category stock on a fixed scale",
+    "prompt": "Return every integer target from 0 through 100 in increments of 20 as target_stock, with product_count counting products whose stock is at least that target. Include zero counts and order by target_stock.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT s.target AS target_stock,count(p.id) AS product_count FROM generate_series(0,100,20) s(target) LEFT JOIN products p ON p.stock>=s.target GROUP BY s.target ORDER BY s.target;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Start with the complete set of desired report keys.",
+      "Use LEFT JOIN so missing matches do not remove generated keys.",
+      "Keep filters on optional rows inside the join condition."
+    ],
+    "explanation": "A generated series supplies the complete reporting scale. LEFT JOIN retains target levels with no matching product.",
+    "ru": {
+      "title": "Запас на фиксированной шкале",
+      "prompt": "Выведите значения target_stock от 0 до 100 с шагом 20 и product_count — число товаров с запасом не меньше порога. Включите нулевые количества и сортируйте по target_stock.",
+      "hints": [
+        "Начните с полного множества ключей отчёта.",
+        "Используйте LEFT JOIN, чтобы отсутствие совпадений не удаляло сгенерированные ключи.",
+        "Фильтры необязательных строк помещайте в условие соединения."
+      ],
+      "explanation": "Генерируемый ряд задаёт полную шкалу отчёта. LEFT JOIN сохраняет пороги без подходящих товаров."
+    }
+  },
+  {
+    "lessonID": "l063",
+    "id": "l063-e5",
+    "title": "Monthly report including empty months",
+    "prompt": "Return month_start and paid_revenue for May through September 2024, including months without paid orders as zero. Order by month_start.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT m.day::date AS month_start,COALESCE(sum(o.total),0) AS paid_revenue FROM generate_series(DATE '2024-05-01',DATE '2024-09-01',INTERVAL '1 month') m(day) LEFT JOIN orders o ON o.ordered_on>=m.day::date AND o.ordered_on<(m.day+INTERVAL '1 month')::date AND o.status='paid' GROUP BY m.day ORDER BY m.day;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Start with the complete set of desired report keys.",
+      "Use LEFT JOIN so missing matches do not remove generated keys.",
+      "Keep filters on optional rows inside the join condition."
+    ],
+    "explanation": "Generate the complete month calendar, then match a half-open interval. COALESCE changes the missing group sum to the requested zero.",
+    "ru": {
+      "title": "Месяцы без продаж в отчёте",
+      "prompt": "Выведите month_start и paid_revenue с мая по сентябрь 2024 года. Месяцы без оплаченных заказов должны иметь нулевую выручку. Сортируйте по month_start.",
+      "hints": [
+        "Начните с полного множества ключей отчёта.",
+        "Используйте LEFT JOIN, чтобы отсутствие совпадений не удаляло сгенерированные ключи.",
+        "Фильтры необязательных строк помещайте в условие соединения."
+      ],
+      "explanation": "Постройте полный календарь месяцев и сопоставьте полуоткрытые интервалы. COALESCE заменяет отсутствующую сумму требуемым нулём."
+    }
+  },
+  {
+    "lessonID": "l064",
+    "id": "l064-e4",
+    "title": "An exact immutable discount function",
+    "prompt": "Create discounted_price(amount numeric, percent numeric) returning numeric as a SQL IMMUTABLE STRICT function. Return amount*(1-percent/100), rounded to two decimals.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION discounted_price(amount numeric,percent numeric) RETURNS numeric LANGUAGE sql IMMUTABLE STRICT AS $$ SELECT round(amount*(1-percent/100),2) $$;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Divide the percentage by 100 using numeric arithmetic.",
+      "Use round(...,2) on the final amount.",
+      "Declare and verify both IMMUTABLE and STRICT."
+    ],
+    "explanation": "Exact numeric arithmetic avoids floating-point money errors. STRICT returns NULL without executing the body for NULL input; volatility is part of the function contract.",
+    "ru": {
+      "title": "Точная функция скидки",
+      "prompt": "Создайте discounted_price(amount numeric, percent numeric), возвращающую numeric: SQL, IMMUTABLE, STRICT. Результат — amount*(1-percent/100), округлённый до двух знаков.",
+      "hints": [
+        "Делите процент на 100 в арифметике numeric.",
+        "Применяйте round(...,2) к окончательной сумме.",
+        "Объявите и проверьте IMMUTABLE и STRICT."
+      ],
+      "explanation": "Точная арифметика numeric избегает ошибок денежных вычислений с плавающей точкой. STRICT возвращает NULL без выполнения тела при NULL-аргументе; изменяемость — часть контракта."
+    },
+    "validationSQL": "SELECT discounted_price(19.99,15) AS discounted,discounted_price(NULL,15) AS missing,p.provolatile::text AS volatility,p.proisstrict AS strict FROM pg_proc p WHERE p.oid='discounted_price(numeric,numeric)'::regprocedure;"
+  },
+  {
+    "lessonID": "l064",
+    "id": "l064-e5",
+    "title": "A stable paid-total function",
+    "prompt": "Create customer_paid_total(cid integer) returning numeric as a SQL STABLE function. Sum total for that customer’s paid orders; return zero if none exist.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION customer_paid_total(cid integer) RETURNS numeric LANGUAGE sql STABLE AS $$ SELECT COALESCE(sum(total),0) FROM orders WHERE customer_id=cid AND status='paid' $$;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Aggregate only paid rows for the argument customer.",
+      "SUM on no rows is NULL.",
+      "A table-reading function should not be labeled IMMUTABLE."
+    ],
+    "explanation": "The result depends on tables, so it is not immutable. STABLE describes consistency within a statement snapshot, while COALESCE implements the zero-result policy.",
+    "ru": {
+      "title": "Стабильная функция суммы покупок",
+      "prompt": "Создайте SQL-функцию customer_paid_total(cid integer), возвращающую numeric, с атрибутом STABLE. Суммируйте total оплаченных заказов клиента; при их отсутствии верните ноль.",
+      "hints": [
+        "Агрегируйте только оплаченные строки клиента из аргумента.",
+        "SUM без входных строк даёт NULL.",
+        "Функцию, читающую таблицу, нельзя объявлять IMMUTABLE."
+      ],
+      "explanation": "Результат зависит от таблиц и не является неизменяемым. STABLE описывает согласованность снимка в пределах команды, а COALESCE задаёт ноль при отсутствии покупок."
+    },
+    "validationSQL": "SELECT c.id,customer_paid_total(c.id) AS paid_total,(SELECT provolatile::text FROM pg_proc WHERE oid='customer_paid_total(integer)'::regprocedure) AS volatility FROM customers c ORDER BY c.id;"
+  },
+  {
+    "lessonID": "l065",
+    "id": "l065-e4",
+    "title": "Classify a balance with IF",
+    "prompt": "Create PL/pgSQL IMMUTABLE function balance_band(value numeric) returning text. NULL gives unknown, values below 500 give low, values at least 1000 give high, and all other values give standard.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION balance_band(value numeric) RETURNS text LANGUAGE plpgsql IMMUTABLE AS $$ BEGIN IF value IS NULL THEN RETURN 'unknown'; ELSIF value<500 THEN RETURN 'low'; ELSIF value>=1000 THEN RETURN 'high'; ELSE RETURN 'standard'; END IF; END $$;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Handle NULL before numeric comparisons.",
+      "Use ELSIF for mutually exclusive boundaries.",
+      "Every input path must return a text value."
+    ],
+    "explanation": "The NULL branch must be explicit because numeric comparisons with NULL are unknown. Check the boundary values before choosing a return branch.",
+    "ru": {
+      "title": "Классификация остатка через IF",
+      "prompt": "Создайте PL/pgSQL IMMUTABLE-функцию balance_band(value numeric), возвращающую text: unknown для NULL, low ниже 500, high от 1000 и standard для остальных значений.",
+      "hints": [
+        "Обработайте NULL до числовых сравнений.",
+        "Используйте ELSIF для взаимоисключающих границ.",
+        "Каждая ветвь входных данных должна возвращать текст."
+      ],
+      "explanation": "Ветка NULL должна быть явной, поскольку сравнения числа с NULL неизвестны. Проверьте граничные значения перед выбором результата."
+    },
+    "validationSQL": "SELECT balance_band(NULL) AS missing,balance_band(499) AS below,balance_band(500) AS boundary,balance_band(1000) AS high,l.lanname AS language,p.provolatile::text AS volatility FROM pg_proc p JOIN pg_language l ON l.oid=p.prolang WHERE p.oid='balance_band(numeric)'::regprocedure;"
+  },
+  {
+    "lessonID": "l065",
+    "id": "l065-e5",
+    "title": "Loop through a fixed stock adjustment",
+    "prompt": "Create PL/pgSQL IMMUTABLE function triangular_stock(n integer) returning integer. Use a loop to sum integers 1 through n; return 0 for n<1.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION triangular_stock(n integer) RETURNS integer LANGUAGE plpgsql IMMUTABLE AS $$ DECLARE total integer:=0; i integer; BEGIN IF n<1 THEN RETURN 0; END IF; FOR i IN 1..n LOOP total:=total+i; END LOOP; RETURN total; END $$;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Initialize an accumulator before entering the loop.",
+      "Use a FOR variable over 1..n.",
+      "Return the accumulated value after the loop ends."
+    ],
+    "explanation": "A declared accumulator persists across loop iterations. The explicit guard avoids applying the loop to an unsupported negative range.",
+    "ru": {
+      "title": "Цикл суммирования целых значений",
+      "prompt": "Создайте PL/pgSQL IMMUTABLE-функцию triangular_stock(n integer), возвращающую integer. Циклом сложите числа от 1 до n; при n<1 верните 0.",
+      "hints": [
+        "Инициализируйте накопитель перед циклом.",
+        "Используйте переменную FOR в диапазоне 1..n.",
+        "Верните накопленное значение после завершения цикла."
+      ],
+      "explanation": "Объявленный накопитель сохраняется между итерациями. Явная проверка исключает неподдерживаемый отрицательный диапазон."
+    },
+    "validationSQL": "SELECT triangular_stock(-1) AS negative,triangular_stock(0) AS zero,triangular_stock(1) AS one,triangular_stock(5) AS five;"
+  },
+  {
+    "lessonID": "l066",
+    "id": "l066-e4",
+    "title": "Reprice one category through CALL",
+    "prompt": "Create PL/pgSQL procedure reprice_category(cat text, percent numeric) that multiplies matching product prices by 1+percent/100 and rounds to two decimals. Call it for Office and 10.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE PROCEDURE reprice_category(cat text,percent numeric) LANGUAGE plpgsql AS $$ BEGIN UPDATE products SET price=round(price*(1+percent/100),2) WHERE category=cat; END $$; CALL reprice_category('Office',10);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Procedure arguments can be used inside UPDATE.",
+      "Round the multiplied price at the money boundary.",
+      "Verify that nonmatching categories are unchanged."
+    ],
+    "explanation": "The procedure changes table state, and CALL invokes it. The predicate limits the change to the requested category.",
+    "ru": {
+      "title": "Изменение цен категории через CALL",
+      "prompt": "Создайте PL/pgSQL-процедуру reprice_category(cat text, percent numeric): умножьте цены совпадающей категории на 1+percent/100, округлите до двух знаков. Вызовите её для Office и 10.",
+      "hints": [
+        "Аргументы процедуры доступны внутри UPDATE.",
+        "Округляйте умноженную цену на границе денежного вычисления.",
+        "Проверьте, что другие категории не изменились."
+      ],
+      "explanation": "Процедура изменяет состояние таблицы, а CALL запускает её. Предикат ограничивает изменение указанной категорией."
+    },
+    "validationSQL": "SELECT id,category,price,(SELECT count(*) FROM pg_proc WHERE proname='reprice_category' AND prokind='p') AS procedure_count FROM products ORDER BY id;"
+  },
+  {
+    "lessonID": "l066",
+    "id": "l066-e5",
+    "title": "Remove cancelled order lines safely",
+    "prompt": "Create PL/pgSQL procedure clear_cancelled_lines() that removes only order_items belonging to cancelled orders. Call it; retain all orders and every other line.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE PROCEDURE clear_cancelled_lines() LANGUAGE plpgsql AS $$ BEGIN DELETE FROM order_items i USING orders o WHERE o.id=i.order_id AND o.status='cancelled'; END $$; CALL clear_cancelled_lines();",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Match each line to its owning order.",
+      "Use the cancelled status in the DELETE condition.",
+      "Removing children does not require removing order headers."
+    ],
+    "explanation": "DELETE USING expresses the parent-row condition without deleting the parent itself. A procedure packages the operation for reuse.",
+    "ru": {
+      "title": "Удаление позиций отменённых заказов",
+      "prompt": "Создайте PL/pgSQL-процедуру clear_cancelled_lines(): удаляйте только order_items отменённых заказов. Вызовите её; сохраните все заказы и прочие позиции.",
+      "hints": [
+        "Сопоставьте позицию с её заказом.",
+        "Используйте cancelled в условии DELETE.",
+        "Удаление дочерних строк не требует удаления заголовков заказов."
+      ],
+      "explanation": "DELETE USING выражает условие родительской строки, не удаляя саму родительскую запись. Процедура делает операцию повторно используемой."
+    },
+    "validationSQL": "SELECT jsonb_build_object('orders',(SELECT COALESCE(jsonb_agg(to_jsonb(o) ORDER BY o.id),'[]'::jsonb) FROM orders o),'lines',(SELECT COALESCE(jsonb_agg(to_jsonb(i) ORDER BY i.order_id,i.product_id),'[]'::jsonb) FROM order_items i),'procedure_count',(SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname='clear_cancelled_lines' AND p.prokind='p')) AS state;"
+  },
+  {
+    "lessonID": "l067",
+    "id": "l067-e4",
+    "title": "Normalize a newly assigned customer email",
+    "prompt": "Create a BEFORE UPDATE OF email row trigger on customers, named clean_email, that sets NEW.email to lower(trim(NEW.email)). Use a PL/pgSQL trigger function named normalize_email. Then set customer 1 email to two spaces + ADA.NEW@EXAMPLE.TEST + two spaces.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION normalize_email() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN NEW.email:=lower(trim(NEW.email)); RETURN NEW; END $$; CREATE TRIGGER clean_email BEFORE UPDATE OF email ON customers FOR EACH ROW EXECUTE FUNCTION normalize_email(); UPDATE customers SET email='  ADA.NEW@EXAMPLE.TEST  ' WHERE id=1;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "The trigger must run before the row is stored.",
+      "Assign the normalized value to NEW.email.",
+      "Return NEW so PostgreSQL continues the update."
+    ],
+    "explanation": "A BEFORE trigger can replace NEW before constraints are checked. RETURN NEW keeps the updated row rather than suppressing it.",
+    "ru": {
+      "title": "Нормализация нового email",
+      "prompt": "Создайте строковый триггер clean_email BEFORE UPDATE OF email таблицы customers. Функция normalize_email на PL/pgSQL должна присвоить NEW.email значение lower(trim(NEW.email)). Затем задайте email клиента 1 как два пробела + ADA.NEW@EXAMPLE.TEST + два пробела.",
+      "hints": [
+        "Триггер должен сработать до сохранения строки.",
+        "Присвойте нормализованное значение NEW.email.",
+        "Верните NEW, чтобы PostgreSQL продолжил обновление."
+      ],
+      "explanation": "BEFORE-триггер меняет NEW до проверки ограничений. RETURN NEW сохраняет изменение, а не отменяет его."
+    },
+    "validationSQL": "SELECT id,email,(SELECT count(*) FROM pg_trigger WHERE tgrelid='customers'::regclass AND tgname='clean_email' AND NOT tgisinternal) AS trigger_count FROM customers ORDER BY id;"
+  },
+  {
+    "lessonID": "l067",
+    "id": "l067-e5",
+    "title": "Fill an omitted event device",
+    "prompt": "Create trigger fill_event_device BEFORE INSERT on events using PL/pgSQL function default_event_device(). When NEW.payload lacks the device key, add device=unknown without removing existing keys. Insert event (id 60, customer_id 1, occurred_at 2024-08-01 12:00, kind visit, payload {\"pages\":2}).",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE FUNCTION default_event_device() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF NOT (NEW.payload ? 'device') THEN NEW.payload:=NEW.payload||'{\"device\":\"unknown\"}'::jsonb; END IF; RETURN NEW; END $$; CREATE TRIGGER fill_event_device BEFORE INSERT ON events FOR EACH ROW EXECUTE FUNCTION default_event_device(); INSERT INTO events VALUES(60,1,TIMESTAMP '2024-08-01 12:00','visit','{\"pages\":2}');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use the JSONB key-existence operator ?.",
+      "Only add the default when the key is absent.",
+      "Return the modified NEW row."
+    ],
+    "explanation": "The existence operator distinguishes a missing key from an existing key. JSONB concatenation adds the default while retaining unrelated data.",
+    "ru": {
+      "title": "Заполнение отсутствующего устройства",
+      "prompt": "Создайте триггер fill_event_device BEFORE INSERT таблицы events с PL/pgSQL-функцией default_event_device(). Если в NEW.payload нет ключа device, добавьте device=unknown, сохранив другие ключи. Вставьте событие: id 60, customer_id 1, occurred_at 2024-08-01 12:00, kind visit, payload {\"pages\":2}.",
+      "hints": [
+        "Используйте оператор проверки ключа JSONB ?.",
+        "Добавляйте значение только при отсутствии ключа.",
+        "Верните изменённую строку NEW."
+      ],
+      "explanation": "Оператор существования отличает отсутствующий ключ от уже имеющегося. Конкатенация JSONB добавляет значение, сохраняя остальные данные."
+    },
+    "validationSQL": "SELECT id,payload,(SELECT count(*) FROM pg_trigger WHERE tgrelid='events'::regclass AND tgname='fill_event_device' AND NOT tgisinternal) AS trigger_count FROM events ORDER BY id;"
+  },
+  {
+    "lessonID": "l068",
+    "id": "l068-e4",
+    "title": "Audit actual stock changes only",
+    "prompt": "Create stock_changes(product_id integer, old_stock integer, new_stock integer). Add AFTER UPDATE OF stock trigger stock_change_log with PL/pgSQL function log_stock_change(), inserting a row only when OLD.stock IS DISTINCT FROM NEW.stock. Increase product 1 stock by 2, then assign its stock to itself.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE stock_changes(product_id integer,old_stock integer,new_stock integer); CREATE FUNCTION log_stock_change() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN IF OLD.stock IS DISTINCT FROM NEW.stock THEN INSERT INTO stock_changes VALUES(NEW.id,OLD.stock,NEW.stock); END IF; RETURN NULL; END $$; CREATE TRIGGER stock_change_log AFTER UPDATE OF stock ON products FOR EACH ROW EXECUTE FUNCTION log_stock_change(); UPDATE products SET stock=stock+2 WHERE id=1; UPDATE products SET stock=stock WHERE id=1;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "An UPDATE event does not guarantee a changed value.",
+      "Compare OLD and NEW with IS DISTINCT FROM.",
+      "The no-op update must not create a second audit row."
+    ],
+    "explanation": "UPDATE OF fires when the column is mentioned, even if its value stays the same. The explicit distinctness test prevents a false audit event.",
+    "ru": {
+      "title": "Аудит только реального изменения запаса",
+      "prompt": "Создайте stock_changes(product_id integer, old_stock integer, new_stock integer). Добавьте AFTER UPDATE OF stock триггер stock_change_log с PL/pgSQL-функцией log_stock_change(): вставляйте запись только при OLD.stock IS DISTINCT FROM NEW.stock. Увеличьте stock товара 1 на 2, затем присвойте ему его же значение.",
+      "hints": [
+        "Событие UPDATE не гарантирует изменения значения.",
+        "Сравните OLD и NEW через IS DISTINCT FROM.",
+        "Повторное присвоение того же значения не должно создавать вторую запись."
+      ],
+      "explanation": "UPDATE OF срабатывает при упоминании столбца, даже без изменения значения. Явная проверка различия не допускает ложной записи аудита."
+    },
+    "validationSQL": "SELECT product_id,old_stock,new_stock FROM stock_changes ORDER BY product_id,old_stock,new_stock;"
+  },
+  {
+    "lessonID": "l068",
+    "id": "l068-e5",
+    "title": "Audit removed order lines",
+    "prompt": "Create removed_lines(order_id integer, product_id integer, quantity integer). Add AFTER DELETE row trigger keep_removed_lines on order_items using PL/pgSQL function log_removed_line(), storing OLD fields. Delete all lines of order 101.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE removed_lines(order_id integer,product_id integer,quantity integer); CREATE FUNCTION log_removed_line() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN INSERT INTO removed_lines VALUES(OLD.order_id,OLD.product_id,OLD.quantity); RETURN NULL; END $$; CREATE TRIGGER keep_removed_lines AFTER DELETE ON order_items FOR EACH ROW EXECUTE FUNCTION log_removed_line(); DELETE FROM order_items WHERE order_id=101;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "DELETE triggers read OLD rather than NEW.",
+      "Copy the row’s key columns into the audit relation.",
+      "Use deterministic ordering when checking several removed lines."
+    ],
+    "explanation": "A deleted row is available as OLD. The audit relation keeps its identifying keys and quantity after the source row disappears.",
+    "ru": {
+      "title": "Аудит удалённых позиций",
+      "prompt": "Создайте removed_lines(order_id integer, product_id integer, quantity integer). Добавьте строковый AFTER DELETE триггер keep_removed_lines таблицы order_items с PL/pgSQL-функцией log_removed_line(), сохраняющей поля OLD. Удалите все позиции заказа 101.",
+      "hints": [
+        "Триггер DELETE читает OLD, а не NEW.",
+        "Скопируйте ключевые столбцы строки в таблицу аудита.",
+        "Проверяя несколько удалённых позиций, задайте определённую сортировку."
+      ],
+      "explanation": "Удаляемая строка доступна как OLD. Таблица аудита сохраняет её ключи и количество после исчезновения исходной записи."
+    },
+    "validationSQL": "SELECT order_id,product_id,quantity FROM removed_lines ORDER BY order_id,product_id;"
+  },
+  {
+    "lessonID": "l069",
+    "id": "l069-e4",
+    "title": "Exclude a search term",
+    "prompt": "Return id and title of documents matching the English web-search query SQL -tuning against body. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,title FROM documents WHERE to_tsvector('english',body) @@ websearch_to_tsquery('english','SQL -tuning') ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Build the document vector and query with the same language configuration.",
+      "Text-search syntax differs from LIKE patterns.",
+      "Normalize both sides with PostgreSQL text-search functions rather than comparing raw strings."
+    ],
+    "explanation": "websearch_to_tsquery interprets the minus sign as exclusion while retaining ordinary text-search normalization.",
+    "ru": {
+      "title": "Исключение слова из поиска",
+      "prompt": "Выведите id и title документов, соответствующих английскому web-search запросу SQL -tuning по body. Сортируйте по id.",
+      "hints": [
+        "Создавайте вектор документа и запрос с одной языковой конфигурацией.",
+        "Синтаксис полнотекстового поиска отличается от шаблонов LIKE.",
+        "Нормализуйте обе стороны функциями PostgreSQL, а не сравнивайте исходные строки."
+      ],
+      "explanation": "websearch_to_tsquery понимает минус как исключение и сохраняет обычную нормализацию полнотекстового поиска."
+    }
+  },
+  {
+    "lessonID": "l069",
+    "id": "l069-e5",
+    "title": "A weighted title-and-body search",
+    "prompt": "Return id and title for documents whose weighted English vector matches database. Give title weight A and body weight B, concatenate the vectors, and order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,title FROM documents WHERE (setweight(to_tsvector('english',title),'A')||setweight(to_tsvector('english',body),'B')) @@ plainto_tsquery('english','database') ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Build the document vector and query with the same language configuration.",
+      "Text-search syntax differs from LIKE patterns.",
+      "Normalize both sides with PostgreSQL text-search functions rather than comparing raw strings."
+    ],
+    "explanation": "Separate vectors let a search configuration retain field importance. The match operator tests lexemes after the vectors are concatenated.",
+    "ru": {
+      "title": "Взвешенный поиск по заголовку и тексту",
+      "prompt": "Выведите id и title документов, чей английский вектор совпадает с database. Задайте заголовку вес A, body — вес B, объедините векторы. Сортируйте по id.",
+      "hints": [
+        "Создавайте вектор документа и запрос с одной языковой конфигурацией.",
+        "Синтаксис полнотекстового поиска отличается от шаблонов LIKE.",
+        "Нормализуйте обе стороны функциями PostgreSQL, а не сравнивайте исходные строки."
+      ],
+      "explanation": "Раздельные векторы сохраняют важность полей. Оператор совпадения проверяет лексемы после объединения векторов."
+    }
+  },
+  {
+    "lessonID": "l070",
+    "id": "l070-e4",
+    "title": "Index ordered paid-order retrieval",
+    "prompt": "Create a B-tree index named orders_status_date on orders(status, ordered_on DESC, id DESC). It should support filtering one status and reading newest orders first.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX orders_status_date ON orders USING btree(status,ordered_on DESC,id DESC);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Put the equality-filtered key first.",
+      "DESC applies to each named ordering key separately.",
+      "Inspect the index definition rather than assuming it was created as intended."
+    ],
+    "explanation": "An equality filter on the leading key can narrow the scan, while later descending keys describe the requested order.",
+    "ru": {
+      "title": "Индекс упорядоченной выборки заказов",
+      "prompt": "Создайте B-tree-индекс orders_status_date по orders(status, ordered_on DESC, id DESC). Он должен поддерживать фильтр одного статуса и чтение новых заказов первыми.",
+      "hints": [
+        "Первым поставьте ключ фильтра равенства.",
+        "DESC применяется отдельно к каждому ключу сортировки.",
+        "Проверьте определение индекса, а не только успешное выполнение команды."
+      ],
+      "explanation": "Равенство по первому ключу сужает сканирование, а следующие убывающие ключи задают нужный порядок."
+    },
+    "validationSQL": "SELECT indexname,indexdef FROM pg_indexes WHERE schemaname='public' AND indexname='orders_status_date';"
+  },
+  {
+    "lessonID": "l070",
+    "id": "l070-e5",
+    "title": "Hash an exact product-name lookup",
+    "prompt": "Create a Hash index named products_name_hash on products(name). Do not remove the primary key or add a unique constraint.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX products_name_hash ON products USING hash(name);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Specify USING hash explicitly.",
+      "The index key is the name column, not a lower(name) expression.",
+      "A Hash index is not a replacement for a unique B-tree constraint."
+    ],
+    "explanation": "Hash is an equality-oriented access method. It does not provide ordered scans or enforce uniqueness.",
+    "ru": {
+      "title": "Hash-индекс точного имени товара",
+      "prompt": "Создайте Hash-индекс products_name_hash по products(name). Не удаляйте первичный ключ и не добавляйте уникальное ограничение.",
+      "hints": [
+        "Явно укажите USING hash.",
+        "Ключ — столбец name, а не выражение lower(name).",
+        "Hash-индекс не заменяет уникальное B-tree-ограничение."
+      ],
+      "explanation": "Hash предназначен для поиска равенства. Он не обеспечивает упорядоченное сканирование и не задаёт уникальность."
+    },
+    "validationSQL": "SELECT indexname,indexdef FROM pg_indexes WHERE schemaname='public' AND indexname='products_name_hash';"
+  },
+  {
+    "lessonID": "l071",
+    "id": "l071-e4",
+    "title": "Index array membership",
+    "prompt": "Create a GIN index named products_tags_gin on products(tags) for array containment queries.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX products_tags_gin ON products USING gin(tags);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use GIN rather than a scalar equality index.",
+      "Index the array column directly.",
+      "The operator used in a query must be supported by the selected index class."
+    ],
+    "explanation": "GIN stores entries for indexed components, making array containment a natural use case. The appropriate operator class is selected from the array type.",
+    "ru": {
+      "title": "Индекс принадлежности массиву",
+      "prompt": "Создайте GIN-индекс products_tags_gin по products(tags) для запросов включения элементов массива.",
+      "hints": [
+        "Используйте GIN, а не скалярный индекс равенства.",
+        "Индексируйте непосредственно столбец-массив.",
+        "Оператор запроса должен поддерживаться выбранным классом операторов индекса."
+      ],
+      "explanation": "GIN хранит записи индексируемых компонентов, поэтому подходит для проверки включения массива. Класс операторов выбирается по типу массива."
+    },
+    "validationSQL": "SELECT indexname,indexdef FROM pg_indexes WHERE schemaname='public' AND indexname='products_tags_gin';"
+  },
+  {
+    "lessonID": "l071",
+    "id": "l071-e5",
+    "title": "Choose a smaller BRIN range",
+    "prompt": "Create a BRIN index named orders_day_brin on orders(ordered_on) with pages_per_range=4.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX orders_day_brin ON orders USING brin(ordered_on) WITH(pages_per_range=4);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use the BRIN access method.",
+      "Storage parameters follow the key list in WITH(...).",
+      "The small fixture demonstrates syntax, not a production speed claim."
+    ],
+    "explanation": "BRIN summarizes physical page ranges. Reducing pages_per_range makes summaries finer but increases index storage and maintenance.",
+    "ru": {
+      "title": "Размер диапазона BRIN",
+      "prompt": "Создайте BRIN-индекс orders_day_brin по orders(ordered_on) с pages_per_range=4.",
+      "hints": [
+        "Используйте метод доступа BRIN.",
+        "Параметры хранения ставятся после списка ключей в WITH(...).",
+        "Малый набор показывает синтаксис, а не доказывает ускорение в рабочей системе."
+      ],
+      "explanation": "BRIN обобщает физические диапазоны страниц. Уменьшение pages_per_range уточняет сводки, но увеличивает индекс и его обслуживание."
+    },
+    "validationSQL": "SELECT i.relname AS index_name,i.reloptions FROM pg_class i WHERE i.oid='orders_day_brin'::regclass;"
+  },
+  {
+    "lessonID": "l072",
+    "id": "l072-e4",
+    "title": "Index active stock values by category",
+    "prompt": "Create partial B-tree index products_available_price on products(category, price) INCLUDE(name), covering only rows with stock>0.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX products_available_price ON products(category,price) INCLUDE(name) WHERE stock>0;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Keep search keys distinct from included columns.",
+      "Place INCLUDE after the key list.",
+      "Put the stock predicate after WHERE."
+    ],
+    "explanation": "Key columns support searching and order; INCLUDE stores an additional return column without making it a search key. The predicate limits indexed rows.",
+    "ru": {
+      "title": "Частичный покрывающий индекс наличия",
+      "prompt": "Создайте частичный B-tree-индекс products_available_price по products(category, price) INCLUDE(name), только для строк stock>0.",
+      "hints": [
+        "Отделяйте ключи поиска от включённых столбцов.",
+        "Поместите INCLUDE после списка ключей.",
+        "Укажите предикат запаса после WHERE."
+      ],
+      "explanation": "Ключевые столбцы поддерживают поиск и порядок; INCLUDE сохраняет дополнительное поле результата, не делая его ключом. Предикат ограничивает строки индекса."
+    },
+    "validationSQL": "SELECT indexname,indexdef FROM pg_indexes WHERE schemaname='public' AND indexname='products_available_price';"
+  },
+  {
+    "lessonID": "l072",
+    "id": "l072-e5",
+    "title": "Index an exact JSONB color expression",
+    "prompt": "Create B-tree expression index products_color_lookup on the text expression attributes->>'color'.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE INDEX products_color_lookup ON products((attributes->>'color'));",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "The ->> operator returns text.",
+      "Wrap the indexed expression in parentheses.",
+      "Do not replace this task with a whole-document GIN index."
+    ],
+    "explanation": "A scalar extraction can use an expression B-tree instead of indexing every JSONB key. The query must use a compatible expression.",
+    "ru": {
+      "title": "Индекс выражения цвета JSONB",
+      "prompt": "Создайте B-tree-индекс выражения products_color_lookup по текстовому выражению attributes->>'color'.",
+      "hints": [
+        "Оператор ->> возвращает text.",
+        "Заключите индексируемое выражение в скобки.",
+        "GIN по целому документу не заменяет требуемый индекс выражения."
+      ],
+      "explanation": "Скалярное извлечение можно индексировать B-tree по выражению, не индексируя все ключи JSONB. В запросе нужно совместимое выражение."
+    },
+    "validationSQL": "SELECT indexname,indexdef FROM pg_indexes WHERE schemaname='public' AND indexname='products_color_lookup';"
+  },
+  {
+    "lessonID": "l073",
+    "id": "l073-e4",
+    "title": "Explain a semi-join condition",
+    "prompt": "Return EXPLAIN (COSTS OFF) output for selecting c.id from customers c when a paid order exists for the customer. Use a correlated EXISTS subquery, with no final ORDER BY.",
+    "difficulty": "Advanced",
+    "kind": "plan",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "EXPLAIN (COSTS OFF) SELECT c.id FROM customers c WHERE EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=c.id AND o.status='paid');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "EXPLAIN describes the requested SQL rather than returning its data rows.",
+      "Use COSTS OFF exactly as the prompt specifies.",
+      "Read child nodes as sources of rows for their parents."
+    ],
+    "explanation": "EXISTS expresses membership rather than returning one row per match. PostgreSQL may implement it using a semi-join-style plan.",
+    "ru": {
+      "title": "План условия полусоединения",
+      "prompt": "Выведите EXPLAIN (COSTS OFF) для выбора c.id из customers c, если существует оплаченный заказ клиента. Используйте коррелированный EXISTS без итогового ORDER BY.",
+      "hints": [
+        "EXPLAIN описывает SQL, а не возвращает строки его результата.",
+        "Используйте COSTS OFF, как указано в условии.",
+        "Дочерние узлы поставляют строки родительским."
+      ],
+      "explanation": "EXISTS выражает принадлежность, а не выводит строку на каждое совпадение. PostgreSQL может реализовать это планом полусоединения."
+    }
+  },
+  {
+    "lessonID": "l073",
+    "id": "l073-e5",
+    "title": "Explain a window stage",
+    "prompt": "Return EXPLAIN (COSTS OFF) output for SELECT id,row_number() OVER(ORDER BY ordered_on,id) AS position FROM orders, without a final ORDER BY.",
+    "difficulty": "Advanced",
+    "kind": "plan",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "EXPLAIN (COSTS OFF) SELECT id,row_number() OVER(ORDER BY ordered_on,id) AS position FROM orders;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "EXPLAIN describes the requested SQL rather than returning its data rows.",
+      "Use COSTS OFF exactly as the prompt specifies.",
+      "Read child nodes as sources of rows for their parents."
+    ],
+    "explanation": "The plan reveals ordering work and the WindowAgg stage required to assign positions. Costs are suppressed so the exercise focuses on structure.",
+    "ru": {
+      "title": "План оконной стадии",
+      "prompt": "Выведите EXPLAIN (COSTS OFF) для SELECT id,row_number() OVER(ORDER BY ordered_on,id) AS position FROM orders без итогового ORDER BY.",
+      "hints": [
+        "EXPLAIN описывает SQL, а не возвращает строки его результата.",
+        "Используйте COSTS OFF, как указано в условии.",
+        "Дочерние узлы поставляют строки родительским."
+      ],
+      "explanation": "План показывает сортировку и стадию WindowAgg, нужную для нумерации. Стоимости скрыты, чтобы упражнение проверяло структуру."
+    }
+  },
+  {
+    "lessonID": "l074",
+    "id": "l074-e4",
+    "title": "Observe filtering and counting",
+    "prompt": "Return EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) for counting paid orders: SELECT count(*) FROM orders WHERE status='paid'.",
+    "difficulty": "Advanced",
+    "kind": "plan",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) SELECT count(*) FROM orders WHERE status='paid';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "ANALYZE in EXPLAIN actually executes the query.",
+      "Suppress timing, summary, and costs to compare the controlled plan structure.",
+      "Do not infer production performance from a tiny fixture."
+    ],
+    "explanation": "ANALYZE executes the statement, revealing actual rows and removed-row counts. Disabling timings avoids unstable machine-speed values.",
+    "ru": {
+      "title": "Фактическая работа фильтра и счётчика",
+      "prompt": "Выведите EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) для SELECT count(*) FROM orders WHERE status='paid'.",
+      "hints": [
+        "ANALYZE внутри EXPLAIN действительно выполняет запрос.",
+        "Отключите время, сводку и стоимости для сравнения контролируемой структуры плана.",
+        "Не делайте выводы о рабочей производительности по малому набору данных."
+      ],
+      "explanation": "ANALYZE выполняет команду и показывает фактические строки и число отброшенных строк. Отключение времени исключает нестабильную скорость машины."
+    }
+  },
+  {
+    "lessonID": "l074",
+    "id": "l074-e5",
+    "title": "Observe unique category work",
+    "prompt": "Return EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) for SELECT DISTINCT category FROM products ORDER BY category.",
+    "difficulty": "Advanced",
+    "kind": "plan",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) SELECT DISTINCT category FROM products ORDER BY category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "ANALYZE in EXPLAIN actually executes the query.",
+      "Suppress timing, summary, and costs to compare the controlled plan structure.",
+      "Do not infer production performance from a tiny fixture."
+    ],
+    "explanation": "The plan shows how PostgreSQL removes duplicates and supplies ordering. Actual row counts can be compared with the original input count.",
+    "ru": {
+      "title": "Работа получения уникальных категорий",
+      "prompt": "Выведите EXPLAIN (ANALYZE, TIMING OFF, SUMMARY OFF, COSTS OFF) для SELECT DISTINCT category FROM products ORDER BY category.",
+      "hints": [
+        "ANALYZE внутри EXPLAIN действительно выполняет запрос.",
+        "Отключите время, сводку и стоимости для сравнения контролируемой структуры плана.",
+        "Не делайте выводы о рабочей производительности по малому набору данных."
+      ],
+      "explanation": "План показывает устранение повторений и обеспечение порядка. Фактическое число строк можно сопоставить с размером входа."
+    }
+  },
+  {
+    "lessonID": "l075",
+    "id": "l075-e4",
+    "title": "Rewrite a NULL-sensitive anti-join",
+    "prompt": "Return id and name of customers who have no pending orders. Use NOT EXISTS so a guest order with customer_id NULL cannot poison the condition. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id,c.name FROM customers c WHERE NOT EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=c.id AND o.status='pending') ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Preserve the requested result before thinking about speed.",
+      "NULL behavior and boundary dates are part of query meaning.",
+      "Prefer an explicit half-open range when filtering a timestamp day."
+    ],
+    "explanation": "A correlated anti-existence test handles unrelated NULL foreign keys safely. NOT IN can become unknown if its subquery contains NULL.",
+    "ru": {
+      "title": "Антисоединение с учётом NULL",
+      "prompt": "Выведите id и name клиентов без pending-заказов. Используйте NOT EXISTS, чтобы гостевой заказ с customer_id NULL не нарушал условие. Сортируйте по id.",
+      "hints": [
+        "Сначала сохраните требуемый результат, затем думайте о скорости.",
+        "Поведение NULL и границы дат входят в смысл запроса.",
+        "Для фильтрации дня timestamp предпочитайте явный полуоткрытый диапазон."
+      ],
+      "explanation": "Коррелированная проверка отсутствия безопасно обрабатывает посторонние NULL во внешнем ключе. NOT IN может стать неизвестным из-за NULL в подзапросе."
+    }
+  },
+  {
+    "lessonID": "l075",
+    "id": "l075-e5",
+    "title": "Rewrite a timestamp-day filter as a range",
+    "prompt": "Return id and customer_id from events occurring on July 1, 2024. Use occurred_at >= midnight July 1 and < midnight July 2, without casting the column. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,customer_id FROM events WHERE occurred_at>=TIMESTAMP '2024-07-01 00:00' AND occurred_at<TIMESTAMP '2024-07-02 00:00' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Preserve the requested result before thinking about speed.",
+      "NULL behavior and boundary dates are part of query meaning.",
+      "Prefer an explicit half-open range when filtering a timestamp day."
+    ],
+    "explanation": "A half-open timestamp range includes the whole day without guessing its final fractional second. Keeping the column unchanged can support an ordinary B-tree.",
+    "ru": {
+      "title": "Замена фильтра дня диапазоном",
+      "prompt": "Выведите id и customer_id событий 1 июля 2024 года. Используйте occurred_at >= полуночи 1 июля и < полуночи 2 июля, не приводя тип столбца. Сортируйте по id.",
+      "hints": [
+        "Сначала сохраните требуемый результат, затем думайте о скорости.",
+        "Поведение NULL и границы дат входят в смысл запроса.",
+        "Для фильтрации дня timestamp предпочитайте явный полуоткрытый диапазон."
+      ],
+      "explanation": "Полуоткрытый диапазон включает весь день без угадывания последней доли секунды. Неизменённый столбец может использовать обычный B-tree."
+    }
+  },
+  {
+    "lessonID": "l076",
+    "id": "l076-e4",
+    "title": "Collect multivariate category-stock statistics",
+    "prompt": "Create extended statistics named products_category_stock with dependencies and mcv on products(category, stock), then ANALYZE products.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE STATISTICS products_category_stock(dependencies,mcv) ON category,stock FROM products; ANALYZE products;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use CREATE STATISTICS, not CREATE INDEX.",
+      "List both requested statistic kinds.",
+      "Run ANALYZE after defining the statistics object."
+    ],
+    "explanation": "Extended statistics describe relationships that single-column estimates may miss. The object definition alone is not populated until ANALYZE runs.",
+    "ru": {
+      "title": "Многомерная статистика категории и запаса",
+      "prompt": "Создайте статистику products_category_stock с dependencies и mcv по products(category, stock), затем выполните ANALYZE products.",
+      "hints": [
+        "Используйте CREATE STATISTICS, а не CREATE INDEX.",
+        "Перечислите оба требуемых вида статистики.",
+        "Выполните ANALYZE после определения объекта."
+      ],
+      "explanation": "Расширенная статистика описывает связи, которые может пропустить оценка одного столбца. Само определение объекта не заполняет данные до ANALYZE."
+    },
+    "validationSQL": "SELECT s.stxname,s.stxkind::text AS kinds,pg_get_statisticsobjdef(s.oid) AS definition FROM pg_statistic_ext s JOIN pg_namespace n ON n.oid=s.stxnamespace WHERE n.nspname='public' AND s.stxname='products_category_stock';"
+  },
+  {
+    "lessonID": "l076",
+    "id": "l076-e5",
+    "title": "Measure category concentration",
+    "prompt": "Return category, product_count, and row_share (the category count divided by total products, rounded to four decimals). Order by product_count descending then category.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT category,count(*) AS product_count,round(count(*)::numeric/(SELECT count(*) FROM products),4) AS row_share FROM products GROUP BY category ORDER BY product_count DESC,category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define the relevant population before counting.",
+      "Cast a count to numeric for the fraction.",
+      "Distribution skew explains why a uniform-selectivity assumption can be wrong."
+    ],
+    "explanation": "Explicit counts expose skew without relying on a particular statistical sample. Numeric division avoids integer truncation.",
+    "ru": {
+      "title": "Концентрация товаров по категориям",
+      "prompt": "Выведите category, product_count и row_share — долю количества категории в общем числе товаров, округлённую до четырёх знаков. Сортируйте по product_count убывающе, затем category.",
+      "hints": [
+        "Определите исследуемое множество до подсчёта.",
+        "Приведите счётчик к numeric для вычисления доли.",
+        "Неравномерность объясняет возможную ошибку предположения об одинаковой избирательности."
+      ],
+      "explanation": "Явные количества показывают перекос без зависимости от случайной выборки статистики. Деление numeric избегает усечения целой части."
+    }
+  },
+  {
+    "lessonID": "l077",
+    "id": "l077-e4",
+    "title": "Inspect the temporary-file safety limit",
+    "prompt": "Return temp_file_limit and autovacuum_setting as text using current_setting. This reports the controlled practice server settings, not recommended production defaults.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT current_setting('temp_file_limit') AS temp_file_limit,current_setting('autovacuum') AS autovacuum_setting;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Inspect configuration and metadata without requiring administrator privileges.",
+      "Do not confuse a practice setting with a global PostgreSQL recommendation.",
+      "Filter the public schema to avoid internal system relations."
+    ],
+    "explanation": "Configuration inspection distinguishes a temporary-file budget from a universal disk quota. Autovacuum is intentionally disabled in disposable practice clusters.",
+    "ru": {
+      "title": "Предел временных файлов учебного сервера",
+      "prompt": "Выведите temp_file_limit и autovacuum_setting как text через current_setting. Это настройки ограниченного учебного сервера, а не рекомендуемые значения рабочей системы.",
+      "hints": [
+        "Изучайте настройки и метаданные без прав администратора.",
+        "Не принимайте учебную настройку за общую рекомендацию PostgreSQL.",
+        "Фильтруйте схему public, исключая внутренние системные отношения."
+      ],
+      "explanation": "Просмотр настроек отличает бюджет временных файлов от общего дискового лимита. В одноразовом учебном кластере autovacuum намеренно отключён."
+    }
+  },
+  {
+    "lessonID": "l077",
+    "id": "l077-e5",
+    "title": "Find tables that own primary keys",
+    "prompt": "Return table_name and primary_key_columns for each public base table, counting its primary-key attributes. Order by table_name.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT t.relname AS table_name,cardinality(c.conkey) AS primary_key_columns FROM pg_constraint c JOIN pg_class t ON t.oid=c.conrelid JOIN pg_namespace n ON n.oid=t.relnamespace WHERE n.nspname='public' AND c.contype='p' AND t.relkind='r' ORDER BY t.relname;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Inspect configuration and metadata without requiring administrator privileges.",
+      "Do not confuse a practice setting with a global PostgreSQL recommendation.",
+      "Filter the public schema to avoid internal system relations."
+    ],
+    "explanation": "Catalog arrays describe the key attributes without scanning application rows. This is structural evidence, independent of current row counts.",
+    "ru": {
+      "title": "Таблицы с первичными ключами",
+      "prompt": "Для базовых таблиц public выведите table_name и primary_key_columns — число столбцов первичного ключа. Сортируйте по table_name.",
+      "hints": [
+        "Изучайте настройки и метаданные без прав администратора.",
+        "Не принимайте учебную настройку за общую рекомендацию PostgreSQL.",
+        "Фильтруйте схему public, исключая внутренние системные отношения."
+      ],
+      "explanation": "Массивы каталога описывают атрибуты ключа без сканирования данных приложения. Это структурное доказательство, независимое от числа строк."
+    }
+  },
+  {
+    "lessonID": "l078",
+    "id": "l078-e4",
+    "title": "Measure potential Cartesian growth",
+    "prompt": "Return customer_rows, product_rows, and cartesian_rows: the two table counts and their product. Do not actually materialize the Cartesian result.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.n AS customer_rows,p.n AS product_rows,c.n*p.n AS cartesian_rows FROM (SELECT count(*) AS n FROM customers) c CROSS JOIN (SELECT count(*) AS n FROM products) p;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Estimate row counts before choosing an optimization.",
+      "Distinguish distinct keys, detail rows, and quantity totals.",
+      "Use aggregate evidence instead of machine-dependent execution timings."
+    ],
+    "explanation": "Multiplying input cardinalities predicts the size of an unconstrained cross join. Aggregating first avoids producing unnecessary detail rows.",
+    "ru": {
+      "title": "Оценка роста декартова результата",
+      "prompt": "Выведите customer_rows, product_rows и cartesian_rows: количества строк двух таблиц и их произведение. Не материализуйте само декартово произведение.",
+      "hints": [
+        "Оцените количество строк до выбора оптимизации.",
+        "Отличайте разные ключи, детальные строки и сумму количества.",
+        "Используйте агрегированные показатели, а не зависящее от машины время."
+      ],
+      "explanation": "Произведение входных мощностей оценивает размер неограниченного CROSS JOIN. Предварительная агрегация не создаёт лишние детальные строки."
+    }
+  },
+  {
+    "lessonID": "l078",
+    "id": "l078-e5",
+    "title": "Find a skewed line distribution",
+    "prompt": "Return product_id, line_count, and ordered_units for products appearing in at least two order_items rows. Order by line_count descending then product_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT product_id,count(*) AS line_count,sum(quantity) AS ordered_units FROM order_items GROUP BY product_id HAVING count(*)>=2 ORDER BY line_count DESC,product_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Estimate row counts before choosing an optimization.",
+      "Distinguish distinct keys, detail rows, and quantity totals.",
+      "Use aggregate evidence instead of machine-dependent execution timings."
+    ],
+    "explanation": "Line counts and unit sums are different evidence. A frequently joined key can amplify work even when the number of distinct products is small.",
+    "ru": {
+      "title": "Неравномерность распределения позиций",
+      "prompt": "Выведите product_id, line_count и ordered_units для товаров, встречающихся минимум в двух строках order_items. Сортируйте по line_count убывающе, затем product_id.",
+      "hints": [
+        "Оцените количество строк до выбора оптимизации.",
+        "Отличайте разные ключи, детальные строки и сумму количества.",
+        "Используйте агрегированные показатели, а не зависящее от машины время."
+      ],
+      "explanation": "Количество строк и сумма единиц — разные показатели. Частый ключ соединения увеличивает работу даже при малом числе разных товаров."
+    }
+  },
+  {
+    "lessonID": "l079",
+    "id": "l079-e5",
+    "title": "Rollback one stage but commit another",
+    "prompt": "In a transaction add 10 to account 1, create SAVEPOINT draft, add 50 to account 2, ROLLBACK TO draft, then COMMIT. Preserve all other balances.",
+    "difficulty": "Advanced",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "BEGIN; UPDATE accounts SET balance=balance+10 WHERE id=1; SAVEPOINT draft; UPDATE accounts SET balance=balance+50 WHERE id=2; ROLLBACK TO draft; COMMIT;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Create the savepoint between the two updates.",
+      "ROLLBACK TO is not a full ROLLBACK.",
+      "Commit the surviving transaction state."
+    ],
+    "explanation": "A savepoint rolls back only work after its creation. The earlier account change remains eligible for commit.",
+    "ru": {
+      "title": "Откат одного этапа с фиксацией другого",
+      "prompt": "В транзакции добавьте 10 счёту 1, создайте SAVEPOINT draft, добавьте 50 счёту 2, выполните ROLLBACK TO draft и COMMIT. Сохраните прочие остатки.",
+      "hints": [
+        "Создайте точку сохранения между двумя обновлениями.",
+        "ROLLBACK TO — не полный ROLLBACK.",
+        "Зафиксируйте оставшееся состояние транзакции."
+      ],
+      "explanation": "Точка сохранения откатывает только работу после её создания. Предыдущее изменение счёта остаётся для фиксации."
+    },
+    "validationSQL": "SELECT id,balance FROM accounts ORDER BY id;"
+  },
+  {
+    "lessonID": "l079",
+    "id": "l079-e6",
+    "title": "Commit two consistent ledger changes",
+    "prompt": "Use REPEATABLE READ to move 12.50 from account 2 to account 3 in one transaction. Commit both updates and preserve the sum of balances.",
+    "difficulty": "Advanced",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "BEGIN ISOLATION LEVEL REPEATABLE READ; UPDATE accounts SET balance=balance-12.50 WHERE id=2; UPDATE accounts SET balance=balance+12.50 WHERE id=3; COMMIT;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Open the requested isolation level explicitly.",
+      "Debit and credit the same exact numeric amount.",
+      "COMMIT only after both changes."
+    ],
+    "explanation": "Atomic changes preserve the account-total invariant. This single-session exercise demonstrates syntax; a competing-session anomaly requires a separate concurrency lab.",
+    "ru": {
+      "title": "Согласованные изменения двух остатков",
+      "prompt": "В одной транзакции REPEATABLE READ переведите 12.50 со счёта 2 на счёт 3. Зафиксируйте оба изменения и сохраните сумму остатков.",
+      "hints": [
+        "Явно откройте транзакцию нужного уровня изоляции.",
+        "Спишите и зачислите одинаковую точную сумму.",
+        "Выполните COMMIT только после обоих изменений."
+      ],
+      "explanation": "Атомарные изменения сохраняют общую сумму. Односессионное упражнение показывает синтаксис; аномалия конкурирующих сеансов требует отдельной лаборатории."
+    },
+    "validationSQL": "SELECT id,balance FROM accounts ORDER BY id;"
+  },
+  {
+    "lessonID": "l080",
+    "id": "l080-e4",
+    "title": "Read stable keys with KEY SHARE",
+    "prompt": "Return id and owner of accounts whose balance is at least 500, ordered by id, while taking FOR KEY SHARE locks. No competing transaction is running in this exercise.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,owner FROM accounts WHERE balance>=500 ORDER BY id FOR KEY SHARE;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Row-lock clauses follow ordinary filtering, ordering, and limits.",
+      "Choose the weakest mode that fits the intended operation.",
+      "This isolated fixture does not simulate lock contention or fairness."
+    ],
+    "explanation": "KEY SHARE protects keys against conflicting deletion or key-changing updates, with weaker conflicts than FOR UPDATE.",
+    "ru": {
+      "title": "Чтение ключей с KEY SHARE",
+      "prompt": "Выведите id и owner счетов с балансом от 500, по id, установив блокировки FOR KEY SHARE. Конкурирующая транзакция в упражнении не запускается.",
+      "hints": [
+        "Условия блокировки следуют за фильтрацией, сортировкой и ограничением.",
+        "Выбирайте самый слабый режим, подходящий операции.",
+        "Изолированный набор не имитирует конфликты блокировок и справедливость очереди."
+      ],
+      "explanation": "KEY SHARE защищает ключи от конфликтующего удаления или изменения, создавая меньше конфликтов, чем FOR UPDATE."
+    }
+  },
+  {
+    "lessonID": "l080",
+    "id": "l080-e5",
+    "title": "Lock two pending orders in queue order",
+    "prompt": "Return id, ordered_on, and total for up to two pending orders ordered by ordered_on then id. Lock with FOR NO KEY UPDATE SKIP LOCKED.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,ordered_on,total FROM orders WHERE status='pending' ORDER BY ordered_on,id LIMIT 2 FOR NO KEY UPDATE SKIP LOCKED;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Row-lock clauses follow ordinary filtering, ordering, and limits.",
+      "Choose the weakest mode that fits the intended operation.",
+      "This isolated fixture does not simulate lock contention or fairness."
+    ],
+    "explanation": "The queue order is deterministic, and the lock mode expresses a non-key update intent. SKIP LOCKED is syntax practice here, without a competing claimant.",
+    "ru": {
+      "title": "Блокировка двух заказов очереди",
+      "prompt": "Выведите до двух pending-заказов: id, ordered_on, total, в порядке ordered_on, затем id. Используйте FOR NO KEY UPDATE SKIP LOCKED.",
+      "hints": [
+        "Условия блокировки следуют за фильтрацией, сортировкой и ограничением.",
+        "Выбирайте самый слабый режим, подходящий операции.",
+        "Изолированный набор не имитирует конфликты блокировок и справедливость очереди."
+      ],
+      "explanation": "Порядок очереди определён, а режим блокировки выражает изменение неключевых данных. SKIP LOCKED здесь отрабатывает синтаксис без конкурирующего обработчика."
+    }
+  },
+  {
+    "lessonID": "l081",
+    "id": "l081-e4",
+    "title": "Make a retried debit idempotent",
+    "prompt": "Create debit_requests(id integer PRIMARY KEY, account_id integer NOT NULL REFERENCES accounts(id), amount numeric NOT NULL CHECK(amount>0)). Apply request (1,1,30) twice; debit account 1 exactly once by using INSERT ... ON CONFLICT DO NOTHING RETURNING to gate each UPDATE.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE debit_requests(id integer PRIMARY KEY,account_id integer NOT NULL REFERENCES accounts(id),amount numeric NOT NULL CHECK(amount>0)); WITH accepted AS (INSERT INTO debit_requests VALUES(1,1,30) ON CONFLICT(id) DO NOTHING RETURNING account_id,amount) UPDATE accounts a SET balance=a.balance-x.amount FROM accepted x WHERE a.id=x.account_id; WITH accepted AS (INSERT INTO debit_requests VALUES(1,1,30) ON CONFLICT(id) DO NOTHING RETURNING account_id,amount) UPDATE accounts a SET balance=a.balance-x.amount FROM accepted x WHERE a.id=x.account_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use a persistent unique request key.",
+      "A conflicting DO NOTHING insert returns no row.",
+      "Update only accounts matched to the accepted rows."
+    ],
+    "explanation": "A unique request identifier detects repetition. The data-changing CTE returns a row only for the first accepted request, preventing the second debit.",
+    "ru": {
+      "title": "Идемпотентное списание при повторе",
+      "prompt": "Создайте debit_requests(id integer PRIMARY KEY, account_id integer NOT NULL REFERENCES accounts(id), amount numeric NOT NULL CHECK(amount>0)). Дважды примените запрос (1,1,30), списав со счёта 1 только один раз. Управляйте каждым UPDATE через INSERT ... ON CONFLICT DO NOTHING RETURNING.",
+      "hints": [
+        "Используйте сохраняемый уникальный ключ запроса.",
+        "Конфликтующая вставка DO NOTHING не возвращает строку.",
+        "Обновляйте только счета, связанные с принятыми строками."
+      ],
+      "explanation": "Уникальный идентификатор обнаруживает повтор. Изменяющий CTE возвращает строку только при первом принятии, не допуская второго списания."
+    },
+    "validationSQL": "SELECT 'account' AS record_type,a.id,a.owner,NULL::integer AS account_id,a.balance AS amount FROM accounts a UNION ALL SELECT 'request',r.id,NULL::text,r.account_id,trim_scale(r.amount) FROM debit_requests r ORDER BY record_type,id;"
+  },
+  {
+    "lessonID": "l081",
+    "id": "l081-e5",
+    "title": "Verify transaction-local cleanup",
+    "prompt": "Set LOCAL application_name to temporary_task inside a transaction, commit, then return one Boolean column restored indicating that the session application_name is no longer temporary_task.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "BEGIN; SET LOCAL application_name='temporary_task'; COMMIT; SELECT current_setting('application_name')<>'temporary_task' AS restored;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use SET LOCAL rather than a session-wide SET.",
+      "COMMIT before the inspection SELECT.",
+      "Return a comparison result, not a hardcoded application name."
+    ],
+    "explanation": "SET LOCAL lasts only until the transaction ends. This avoids leaking request-specific state when a connection is reused.",
+    "ru": {
+      "title": "Сброс локальной настройки транзакции",
+      "prompt": "Установите LOCAL application_name=temporary_task внутри транзакции, зафиксируйте её и верните логический столбец restored: имя сеанса больше не равно temporary_task.",
+      "hints": [
+        "Используйте SET LOCAL, а не сеансовый SET.",
+        "Выполните COMMIT до проверочного SELECT.",
+        "Верните результат сравнения, а не заранее известное имя приложения."
+      ],
+      "explanation": "SET LOCAL действует только до конца транзакции. Это не даёт настройке запроса утечь при повторном использовании соединения."
+    }
+  },
+  {
+    "lessonID": "l082",
+    "id": "l082-e4",
+    "title": "Inspect schema privileges",
+    "prompt": "Return schema_usage and schema_create indicating whether current_user has USAGE and CREATE on the public schema.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT has_schema_privilege(current_user,'public','USAGE') AS schema_usage,has_schema_privilege(current_user,'public','CREATE') AS schema_create;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Inspect the current role rather than guessing its name.",
+      "Schema privileges and role attributes are different security layers.",
+      "Read-only catalog inspection does not require role-escalation privileges."
+    ],
+    "explanation": "USAGE allows resolving objects in a schema, while CREATE permits creating new objects there. Neither grants server administration.",
+    "ru": {
+      "title": "Права использования схемы",
+      "prompt": "Выведите schema_usage и schema_create: имеет ли current_user права USAGE и CREATE на схему public.",
+      "hints": [
+        "Проверяйте текущую роль, а не угадывайте её имя.",
+        "Права схемы и атрибуты роли — разные уровни безопасности.",
+        "Чтение каталогов не требует повышения привилегий."
+      ],
+      "explanation": "USAGE позволяет находить объекты схемы, CREATE — создавать новые. Ни одно право не даёт администрирования сервера."
+    }
+  },
+  {
+    "lessonID": "l082",
+    "id": "l082-e5",
+    "title": "Inspect non-administrative role attributes",
+    "prompt": "Return can_login, bypasses_rls, and can_replicate for current_user from pg_roles.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT rolcanlogin AS can_login,rolbypassrls AS bypasses_rls,rolreplication AS can_replicate FROM pg_roles WHERE rolname=current_user;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Inspect the current role rather than guessing its name.",
+      "Schema privileges and role attributes are different security layers.",
+      "Read-only catalog inspection does not require role-escalation privileges."
+    ],
+    "explanation": "Login capability is independent of replication and RLS bypass privileges. A learner account may connect without receiving either powerful attribute.",
+    "ru": {
+      "title": "Атрибуты ограниченной роли",
+      "prompt": "Выведите can_login, bypasses_rls и can_replicate для current_user из pg_roles.",
+      "hints": [
+        "Проверяйте текущую роль, а не угадывайте её имя.",
+        "Права схемы и атрибуты роли — разные уровни безопасности.",
+        "Чтение каталогов не требует повышения привилегий."
+      ],
+      "explanation": "Возможность входа независима от репликации и обхода RLS. Учебная роль подключается, не получая этих сильных атрибутов."
+    }
+  },
+  {
+    "lessonID": "l083",
+    "id": "l083-e5",
+    "title": "Bind an exact name and city together",
+    "prompt": "Prepare customer_in_city(text,text) selecting id and name from customers where name=$1 and city=$2, ordered by id. Execute with Ada and London.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "PREPARE customer_in_city(text,text) AS SELECT id,name FROM customers WHERE name=$1 AND city=$2 ORDER BY id; EXECUTE customer_in_city('Ada','London');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Declare parameter types in PREPARE.",
+      "Use $1 and $2 only for values, not object names.",
+      "Keep the SQL command structure fixed while changing arguments."
+    ],
+    "explanation": "Two typed placeholders keep both values separate from SQL structure. Parameter positions must match the supplied argument order.",
+    "ru": {
+      "title": "Связывание имени и города",
+      "prompt": "Подготовьте customer_in_city(text,text): id и name из customers при name=$1 и city=$2, по id. Выполните с Ada и London.",
+      "hints": [
+        "Объявите типы параметров в PREPARE.",
+        "Используйте $1 и $2 для значений, а не имён объектов.",
+        "Сохраняйте структуру SQL-команды, меняя только аргументы."
+      ],
+      "explanation": "Два типизированных параметра отделяют значения от структуры SQL. Позиции параметров должны совпадать с порядком аргументов."
+    }
+  },
+  {
+    "lessonID": "l083",
+    "id": "l083-e6",
+    "title": "Bind a bounded numeric interval",
+    "prompt": "Prepare price_band(numeric,numeric) returning id, name, and price from products with price >= $1 and price < $2, ordered by id. Execute with 10 and 50.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "PREPARE price_band(numeric,numeric) AS SELECT id,name,price FROM products WHERE price >= $1 AND price < $2 ORDER BY id; EXECUTE price_band(10,50);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Declare parameter types in PREPARE.",
+      "Use $1 and $2 only for values, not object names.",
+      "Keep the SQL command structure fixed while changing arguments."
+    ],
+    "explanation": "Bound values preserve a half-open range without interpolating SQL text. The driver would bind the same numeric types in application code.",
+    "ru": {
+      "title": "Связывание числового интервала",
+      "prompt": "Подготовьте price_band(numeric,numeric): id, name, price товаров при price >= $1 и price < $2, по id. Выполните с 10 и 50.",
+      "hints": [
+        "Объявите типы параметров в PREPARE.",
+        "Используйте $1 и $2 для значений, а не имён объектов.",
+        "Сохраняйте структуру SQL-команды, меняя только аргументы."
+      ],
+      "explanation": "Связанные значения сохраняют полуоткрытый диапазон без вставки текста в SQL. В приложении драйвер связывал бы те же числовые типы."
+    }
+  },
+  {
+    "lessonID": "l084",
+    "id": "l084-e4",
+    "title": "Combine permissive RLS alternatives",
+    "prompt": "Enable and FORCE row-level security on customers. Create SELECT policies london_access USING(city='London') and vip_access USING(vip), both permissive. Do not change customer data.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "ALTER TABLE customers ENABLE ROW LEVEL SECURITY; ALTER TABLE customers FORCE ROW LEVEL SECURITY; CREATE POLICY london_access ON customers FOR SELECT USING(city='London'); CREATE POLICY vip_access ON customers FOR SELECT USING(vip);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "The table owner needs FORCE to observe its own policies.",
+      "CREATE POLICY is permissive unless specified otherwise.",
+      "Do not combine the two predicates with AND."
+    ],
+    "explanation": "Permissive policies combine with OR. A row visible through either London or VIP access survives the SELECT policy check.",
+    "ru": {
+      "title": "Объединение разрешающих политик RLS",
+      "prompt": "Включите и принудительно примените RLS к customers. Создайте две разрешающие SELECT-политики: london_access USING(city='London') и vip_access USING(vip). Не меняйте данные клиентов.",
+      "hints": [
+        "Владельцу таблицы нужен FORCE для применения собственных политик.",
+        "CREATE POLICY по умолчанию создаёт разрешающую политику.",
+        "Не объединяйте эти два предиката через AND."
+      ],
+      "explanation": "Разрешающие политики объединяются через OR. Для видимости строки достаточно доступа по London либо VIP."
+    },
+    "validationSQL": "SELECT id,name,city,vip FROM customers ORDER BY id;"
+  },
+  {
+    "lessonID": "l084",
+    "id": "l084-e5",
+    "title": "Add a restrictive known-contact policy",
+    "prompt": "Enable and FORCE RLS on customers. Create permissive SELECT policy all_customers USING(true), plus AS RESTRICTIVE SELECT policy known_contact USING(email IS NOT NULL). Leave customer data unchanged.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "ALTER TABLE customers ENABLE ROW LEVEL SECURITY; ALTER TABLE customers FORCE ROW LEVEL SECURITY; CREATE POLICY all_customers ON customers FOR SELECT USING(true); CREATE POLICY known_contact ON customers AS RESTRICTIVE FOR SELECT USING(email IS NOT NULL);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "A restrictive policy cannot grant access by itself.",
+      "Declare AS RESTRICTIVE before FOR SELECT.",
+      "Inspect both visible rows and stored policy metadata."
+    ],
+    "explanation": "A permissive policy first grants candidate access. Restrictive policies then combine with AND, so only known-email rows remain visible.",
+    "ru": {
+      "title": "Ограничивающая политика известного контакта",
+      "prompt": "Включите и принудительно примените RLS к customers. Создайте разрешающую SELECT-политику all_customers USING(true) и AS RESTRICTIVE SELECT-политику known_contact USING(email IS NOT NULL). Не меняйте данные.",
+      "hints": [
+        "Ограничивающая политика сама по себе не предоставляет доступ.",
+        "Укажите AS RESTRICTIVE перед FOR SELECT.",
+        "Проверьте видимые строки и сохранённые метаданные политики."
+      ],
+      "explanation": "Разрешающая политика сначала предоставляет возможный доступ. Ограничивающие политики добавляются через AND, оставляя видимыми строки с известным email."
+    },
+    "validationSQL": "SELECT id,name,email FROM customers ORDER BY id;"
+  },
+  {
+    "lessonID": "l085",
+    "id": "l085-e4",
+    "title": "Copy paid orders for reconciliation",
+    "prompt": "Create paid_order_snapshot as a table containing exactly id, customer_id, and total from paid orders. Keep the source orders table unchanged.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE paid_order_snapshot AS SELECT id,customer_id,total FROM orders WHERE status='paid';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose the source rows and columns explicitly.",
+      "A snapshot table does not automatically copy all constraints or privileges.",
+      "The source relation must retain all of its rows."
+    ],
+    "explanation": "CREATE TABLE AS copies the selected values into an independent relation. This is a learning snapshot, not a complete database backup.",
+    "ru": {
+      "title": "Копия оплаченных заказов для сверки",
+      "prompt": "Создайте таблицу paid_order_snapshot ровно со столбцами id, customer_id и total оплаченных заказов. Исходную orders не изменяйте.",
+      "hints": [
+        "Явно выберите исходные строки и столбцы.",
+        "Таблица-снимок не копирует автоматически все ограничения и права.",
+        "Исходное отношение должно сохранить все строки."
+      ],
+      "explanation": "CREATE TABLE AS копирует выбранные значения в независимое отношение. Это учебный снимок, а не полноценная резервная копия базы."
+    },
+    "validationSQL": "SELECT 'copy' AS source,to_jsonb(s) AS row_data FROM paid_order_snapshot s UNION ALL SELECT 'original',to_jsonb(o) FROM orders o ORDER BY source,row_data;"
+  },
+  {
+    "lessonID": "l085",
+    "id": "l085-e5",
+    "title": "Reconcile counts and amounts by category",
+    "prompt": "Return category, product_count, stock_units, and stock_value (SUM(stock*price)) from products. Order by category. These independent totals can be compared after a restore.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT category,count(*) AS product_count,sum(stock) AS stock_units,sum(stock*price) AS stock_value FROM products GROUP BY category ORDER BY category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose measures that reflect distinct business facts.",
+      "Group both source and restored data at the same grain.",
+      "A learning SELECT does not perform pg_dump or pg_restore."
+    ],
+    "explanation": "Multiple independent measures catch different classes of restoration mistakes. A matching row count alone does not establish matching data.",
+    "ru": {
+      "title": "Сверка количества и стоимости категорий",
+      "prompt": "Выведите category, product_count, stock_units и stock_value — SUM(stock*price) из products. Сортируйте по category. Эти независимые итоги можно сравнить после восстановления.",
+      "hints": [
+        "Выбирайте меры, отражающие разные деловые факты.",
+        "Группируйте источник и восстановленные данные на одном уровне.",
+        "Учебный SELECT не запускает pg_dump или pg_restore."
+      ],
+      "explanation": "Несколько независимых мер выявляют разные ошибки восстановления. Совпадение одного числа строк не доказывает совпадение данных."
+    }
+  },
+  {
+    "lessonID": "l086",
+    "id": "l086-e4",
+    "title": "Choose full-row replica identity",
+    "prompt": "Set products to REPLICA IDENTITY FULL without changing its data or primary key.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "ALTER TABLE products REPLICA IDENTITY FULL;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Replica identity is a table-level property.",
+      "Use ALTER TABLE rather than creating a replication role.",
+      "Keep the existing primary key even when selecting FULL identity."
+    ],
+    "explanation": "FULL makes the old row available as replica identity for appropriate logical-replication operations. This local task sets table metadata; it does not start a replica.",
+    "ru": {
+      "title": "Полная строка как replica identity",
+      "prompt": "Установите products REPLICA IDENTITY FULL, не меняя данные и первичный ключ.",
+      "hints": [
+        "Replica identity — свойство таблицы.",
+        "Используйте ALTER TABLE, а не создание роли репликации.",
+        "Сохраните первичный ключ даже при выборе FULL."
+      ],
+      "explanation": "FULL использует старую строку как replica identity для соответствующих операций логической репликации. Упражнение меняет метаданные таблицы, но не запускает реплику."
+    },
+    "validationSQL": "SELECT p.*,(SELECT relreplident::text FROM pg_class WHERE oid='products'::regclass) AS replica_identity FROM products p ORDER BY p.id;"
+  },
+  {
+    "lessonID": "l086",
+    "id": "l086-e5",
+    "title": "Inspect WAL and recovery mode",
+    "prompt": "Return wal_level and in_recovery using current_setting and pg_is_in_recovery(). These describe the bundled local practice server, not a configured replication topology.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT current_setting('wal_level') AS wal_level,pg_is_in_recovery() AS in_recovery;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Read stable settings instead of a changing WAL location.",
+      "A primary normally reports false for recovery.",
+      "This task neither creates replication slots nor changes server configuration."
+    ],
+    "explanation": "Configuration and recovery state are observable without provisioning another server. A replication lesson must distinguish such inspection from a real multi-server lab.",
+    "ru": {
+      "title": "Режим WAL и восстановления",
+      "prompt": "Выведите wal_level и in_recovery через current_setting и pg_is_in_recovery(). Это свойства локального учебного сервера, а не настроенной схемы репликации.",
+      "hints": [
+        "Читайте стабильные настройки, а не меняющуюся позицию WAL.",
+        "Основной сервер обычно возвращает false для восстановления.",
+        "Упражнение не создаёт слоты репликации и не меняет конфигурацию сервера."
+      ],
+      "explanation": "Настройки и состояние восстановления наблюдаемы без второго сервера. Просмотр этих свойств не равен реальной лаборатории нескольких серверов."
+    }
+  },
+  {
+    "lessonID": "l087",
+    "id": "l087-e4",
+    "title": "Paid demand for unavailable products",
+    "prompt": "Return id, name, and paid_units for products whose stock=0 but which have paid order lines. Aggregate quantities and order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.id,p.name,sum(i.quantity) AS paid_units FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id WHERE p.stock=0 AND o.status='paid' GROUP BY p.id,p.name ORDER BY p.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define an observable exception and its business scope.",
+      "Use a fixed as-of date in a deterministic learning task.",
+      "Do not mix cancelled demand with paid demand or missing values with zero facts."
+    ],
+    "explanation": "Combining current availability with eligible historical demand identifies a concrete operational exception. Cancelled lines must not inflate paid demand.",
+    "ru": {
+      "title": "Оплаченный спрос на отсутствующие товары",
+      "prompt": "Выведите id, name и paid_units товаров со stock=0, у которых есть оплаченные позиции. Суммируйте количества и сортируйте по id.",
+      "hints": [
+        "Определите наблюдаемое исключение и его деловые границы.",
+        "Для воспроизводимого упражнения используйте фиксированную отчётную дату.",
+        "Не смешивайте отменённый спрос с оплаченным, а неизвестные значения — с нулевыми фактами."
+      ],
+      "explanation": "Сочетание текущего наличия и оплаченного исторического спроса выявляет операционное исключение. Отменённые позиции не должны увеличивать оплаченный спрос."
+    }
+  },
+  {
+    "lessonID": "l087",
+    "id": "l087-e5",
+    "title": "Inventory freshness report",
+    "prompt": "Return product_id, warehouse, updated_on, and age_days relative to DATE 2024-07-10 for inventory rows older than five days. Order by age_days descending then product_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT product_id,warehouse,updated_on,DATE '2024-07-10'-updated_on AS age_days FROM inventory WHERE DATE '2024-07-10'-updated_on>5 ORDER BY age_days DESC,product_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define an observable exception and its business scope.",
+      "Use a fixed as-of date in a deterministic learning task.",
+      "Do not mix cancelled demand with paid demand or missing values with zero facts."
+    ],
+    "explanation": "A fixed as-of date makes the troubleshooting report reproducible. Date subtraction gives an integer age in days.",
+    "ru": {
+      "title": "Свежесть складских данных",
+      "prompt": "Выведите product_id, warehouse, updated_on и age_days относительно DATE 2024-07-10 для складских строк старше пяти дней. Сортируйте по age_days убывающе, затем product_id.",
+      "hints": [
+        "Определите наблюдаемое исключение и его деловые границы.",
+        "Для воспроизводимого упражнения используйте фиксированную отчётную дату.",
+        "Не смешивайте отменённый спрос с оплаченным, а неизвестные значения — с нулевыми фактами."
+      ],
+      "explanation": "Фиксированная отчётная дата делает диагностику воспроизводимой. Вычитание дат возвращает целое число дней."
+    }
+  },
+  {
+    "lessonID": "l088",
+    "id": "l088-e4",
+    "title": "Follow a manager chain upward",
+    "prompt": "Starting with employee 6, recursively follow manager_id to the root. Return id, name, and distance, with the starting employee at distance 0. Order by distance.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE chain AS (SELECT id,name,manager_id,0 AS distance FROM employees WHERE id=6 UNION ALL SELECT e.id,e.name,e.manager_id,c.distance+1 FROM employees e JOIN chain c ON e.id=c.manager_id) SELECT id,name,distance FROM chain ORDER BY distance;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Write the anchor independently before adding recursion.",
+      "Check which end of the relationship is the next node.",
+      "Place traversal limits in the recursive term when you want to limit work."
+    ],
+    "explanation": "The recursive edge reverses the usual downward traversal: the current manager key matches the next employee id. A NULL manager ends the chain.",
+    "ru": {
+      "title": "Цепочка руководителей вверх",
+      "prompt": "Начните с сотрудника 6 и рекурсивно следуйте manager_id до корня. Выведите id, name и distance, где исходный сотрудник имеет distance 0. Сортируйте по distance.",
+      "hints": [
+        "Напишите начальную часть отдельно от рекурсивной.",
+        "Проверьте, какой конец связи становится следующим узлом.",
+        "Ограничивайте работу условием в рекурсивной части, а не только в результате."
+      ],
+      "explanation": "Рекурсивное ребро направлено вверх: ключ текущего руководителя совпадает со следующим id сотрудника. NULL в manager_id завершает цепочку."
+    }
+  },
+  {
+    "lessonID": "l088",
+    "id": "l088-e5",
+    "title": "Limit a reporting traversal to two edges",
+    "prompt": "Start at employee 1 and traverse reports downward, including the root, but do not descend beyond depth 2. Return id, name, and depth ordered by depth then id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE team AS (SELECT id,name,0 AS depth FROM employees WHERE id=1 UNION ALL SELECT e.id,e.name,t.depth+1 FROM employees e JOIN team t ON e.manager_id=t.id WHERE t.depth<2) SELECT id,name,depth FROM team ORDER BY depth,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Write the anchor independently before adding recursion.",
+      "Check which end of the relationship is the next node.",
+      "Place traversal limits in the recursive term when you want to limit work."
+    ],
+    "explanation": "The recursive predicate limits expansion from the prior working rows. Filtering only the final result would still perform unnecessary deeper recursion.",
+    "ru": {
+      "title": "Обход подчинения до двух рёбер",
+      "prompt": "Начните с сотрудника 1 и обходите подчинённых вниз, включая корень, но не глубже depth 2. Выведите id, name и depth, по depth, затем id.",
+      "hints": [
+        "Напишите начальную часть отдельно от рекурсивной.",
+        "Проверьте, какой конец связи становится следующим узлом.",
+        "Ограничивайте работу условием в рекурсивной части, а не только в результате."
+      ],
+      "explanation": "Условие рекурсивной части ограничивает расширение предыдущих рабочих строк. Фильтр только итогового результата всё равно выполнял бы лишний глубокий обход."
+    }
+  },
+  {
+    "lessonID": "l089",
+    "id": "l089-e4",
+    "title": "Use the built-in CYCLE clause",
+    "prompt": "Traverse directed edges (1,2),(2,3),(3,1),(3,4) from node 1 with UNION ALL and PostgreSQL CYCLE node SET is_cycle USING path. Return node and is_cycle, including the cycle-closing row. Order by node then is_cycle.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE edges(a,b) AS (VALUES(1,2),(2,3),(3,1),(3,4)),walk(node) AS (SELECT 1 UNION ALL SELECT e.b FROM walk w JOIN edges e ON e.a=w.node) CYCLE node SET is_cycle USING path SELECT node,is_cycle FROM walk ORDER BY node,is_cycle;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Track identifiers rather than non-unique display names.",
+      "Distinguish a cycle-closing row from a normal revisit through a different path.",
+      "Path membership can express subtree filtering after safe traversal."
+    ],
+    "explanation": "CYCLE tracks the path and marks a repeated key. It exposes the closing row but prevents that path from expanding forever.",
+    "ru": {
+      "title": "Встроенное предложение CYCLE",
+      "prompt": "Обойдите рёбра (1,2),(2,3),(3,1),(3,4) от узла 1 через UNION ALL и PostgreSQL CYCLE node SET is_cycle USING path. Выведите node и is_cycle, включая замыкающую цикл строку. Сортируйте по node, затем is_cycle.",
+      "hints": [
+        "Отслеживайте идентификаторы, а не неуникальные отображаемые имена.",
+        "Отличайте замыкание цикла от нормального прихода к узлу другим путём.",
+        "Наличие предка в пути позволяет фильтровать поддерево после безопасного обхода."
+      ],
+      "explanation": "CYCLE отслеживает путь и отмечает повтор ключа. Замыкающая строка видна, но дальнейшее бесконечное расширение этого пути прекращается."
+    }
+  },
+  {
+    "lessonID": "l089",
+    "id": "l089-e5",
+    "title": "Keep a particular ancestor in an ID path",
+    "prompt": "Build root-to-employee integer-array paths for the whole employee hierarchy, then return id and path only for paths containing employee 2. Include employee 2 itself. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE tree AS (SELECT id,manager_id,ARRAY[id] AS path FROM employees WHERE manager_id IS NULL UNION ALL SELECT e.id,e.manager_id,t.path||e.id FROM employees e JOIN tree t ON e.manager_id=t.id) SELECT id,path FROM tree WHERE 2=ANY(path) ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Track identifiers rather than non-unique display names.",
+      "Distinguish a cycle-closing row from a normal revisit through a different path.",
+      "Path membership can express subtree filtering after safe traversal."
+    ],
+    "explanation": "A path records ancestry as data rather than requiring another traversal for each question. ANY tests membership in the recorded key array.",
+    "ru": {
+      "title": "Фильтрация по предку в массиве пути",
+      "prompt": "Постройте целочисленные пути-массивы от корня ко всем сотрудникам. Выведите id и path только для путей, содержащих сотрудника 2, включая его самого. Сортируйте по id.",
+      "hints": [
+        "Отслеживайте идентификаторы, а не неуникальные отображаемые имена.",
+        "Отличайте замыкание цикла от нормального прихода к узлу другим путём.",
+        "Наличие предка в пути позволяет фильтровать поддерево после безопасного обхода."
+      ],
+      "explanation": "Путь сохраняет предков как данные, избавляя от отдельного обхода для каждого вопроса. ANY проверяет наличие ключа в этом массиве."
+    }
+  },
+  {
+    "lessonID": "l090",
+    "id": "l090-e4",
+    "title": "Maximum depth below each leader",
+    "prompt": "For every employee treated as a possible leader, return leader_id and maximum_depth of that employee’s reporting subtree. Include the leader at depth 0. Order by leader_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE links AS (SELECT id AS leader_id,id AS employee_id,0 AS depth FROM employees UNION ALL SELECT l.leader_id,e.id,l.depth+1 FROM links l JOIN employees e ON e.manager_id=l.employee_id) SELECT leader_id,max(depth) AS maximum_depth FROM links GROUP BY leader_id ORDER BY leader_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Separate recursive membership from the final aggregate.",
+      "Decide explicitly whether the leader contributes to the measure.",
+      "Leaf detection uses the absence of a child relationship."
+    ],
+    "explanation": "Anchoring every employee generates one traversal per possible leader. MAX(depth) summarizes the deepest reporting chain without counting paths as employees.",
+    "ru": {
+      "title": "Максимальная глубина под каждым руководителем",
+      "prompt": "Для каждого сотрудника как возможного руководителя выведите leader_id и maximum_depth его поддерева. Сам руководитель находится на depth 0. Сортируйте по leader_id.",
+      "hints": [
+        "Отделите рекурсивную принадлежность от итогового агрегата.",
+        "Явно решите, входит ли сам руководитель в показатель.",
+        "Лист определяется отсутствием дочерней связи."
+      ],
+      "explanation": "Начало из каждого сотрудника строит обход для каждого возможного руководителя. MAX(depth) находит самую глубокую цепочку, не подменяя сотрудников путями."
+    }
+  },
+  {
+    "lessonID": "l090",
+    "id": "l090-e5",
+    "title": "Salary budget for leaf reports",
+    "prompt": "For each employee treated as a leader, return leader_id and leaf_salary: the sum of salary for leaf employees in that subtree, including the leader if they are a leaf. Order by leader_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH RECURSIVE links AS (SELECT id AS leader_id,id AS employee_id FROM employees UNION ALL SELECT l.leader_id,e.id FROM links l JOIN employees e ON e.manager_id=l.employee_id) SELECT l.leader_id,sum(e.salary) AS leaf_salary FROM links l JOIN employees e ON e.id=l.employee_id WHERE NOT EXISTS(SELECT 1 FROM employees child WHERE child.manager_id=e.id) GROUP BY l.leader_id ORDER BY l.leader_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Separate recursive membership from the final aggregate.",
+      "Decide explicitly whether the leader contributes to the measure.",
+      "Leaf detection uses the absence of a child relationship."
+    ],
+    "explanation": "A leaf has no children. Generate ancestor-descendant membership first, then restrict the contributing employees before summing their salaries.",
+    "ru": {
+      "title": "Бюджет зарплат конечных подчинённых",
+      "prompt": "Для каждого сотрудника как руководителя выведите leader_id и leaf_salary — сумму зарплат листьев его поддерева. Включайте самого руководителя, если он лист. Сортируйте по leader_id.",
+      "hints": [
+        "Отделите рекурсивную принадлежность от итогового агрегата.",
+        "Явно решите, входит ли сам руководитель в показатель.",
+        "Лист определяется отсутствием дочерней связи."
+      ],
+      "explanation": "У листа нет дочерних узлов. Сначала постройте принадлежность предок–потомок, затем отберите сотрудников, участвующих в сумме зарплат."
+    }
+  },
+  {
+    "lessonID": "l091",
+    "id": "l091-e4",
+    "title": "Find adjacent stays in one room",
+    "prompt": "Return first_booking and second_booking for booking pairs in the same room with first id < second id whose half-open stay ranges are adjacent. Use the -|- range operator. Order by both ids.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT a.id AS first_booking,b.id AS second_booking FROM bookings a JOIN bookings b ON a.room=b.room AND a.id<b.id WHERE daterange(a.check_in,a.check_out,'[)') -|- daterange(b.check_in,b.check_out,'[)') ORDER BY first_booking,second_booking;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use half-open boundaries consistently.",
+      "Adjacency, overlap, and intersection answer different questions.",
+      "Compute the duration from the clipped endpoints, not the original stay."
+    ],
+    "explanation": "Adjacent half-open stays meet at a boundary without overlapping. The id inequality reports each unordered pair only once.",
+    "ru": {
+      "title": "Смежные проживания в одной комнате",
+      "prompt": "Выведите first_booking и second_booking для пар одной комнаты с первым id меньше второго, чьи полуоткрытые диапазоны смежны. Используйте оператор -|-. Сортируйте по обоим id.",
+      "hints": [
+        "Последовательно используйте полуоткрытые границы.",
+        "Смежность, перекрытие и пересечение отвечают на разные вопросы.",
+        "Вычисляйте длительность по обрезанным границам, а не по исходному проживанию."
+      ],
+      "explanation": "Смежные полуоткрытые проживания соприкасаются на границе без пересечения. Неравенство id выводит каждую неупорядоченную пару один раз."
+    }
+  },
+  {
+    "lessonID": "l091",
+    "id": "l091-e5",
+    "title": "Clip stays to a reporting interval",
+    "prompt": "For bookings overlapping [2024-07-02,2024-07-05), return id, stay_start, stay_end, and nights for the intersection. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH clipped AS (SELECT id,daterange(check_in,check_out,'[)') * daterange(DATE '2024-07-02',DATE '2024-07-05','[)') AS stay FROM bookings WHERE daterange(check_in,check_out,'[)') && daterange(DATE '2024-07-02',DATE '2024-07-05','[)')) SELECT id,lower(stay) AS stay_start,upper(stay) AS stay_end,upper(stay)-lower(stay) AS nights FROM clipped ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use half-open boundaries consistently.",
+      "Adjacency, overlap, and intersection answer different questions.",
+      "Compute the duration from the clipped endpoints, not the original stay."
+    ],
+    "explanation": "The range intersection operator clips both boundaries. Filtering overlaps first avoids reporting empty intersections.",
+    "ru": {
+      "title": "Обрезка проживания отчётным интервалом",
+      "prompt": "Для бронирований, пересекающих [2024-07-02,2024-07-05), выведите id, stay_start, stay_end и nights пересечения. Сортируйте по id.",
+      "hints": [
+        "Последовательно используйте полуоткрытые границы.",
+        "Смежность, перекрытие и пересечение отвечают на разные вопросы.",
+        "Вычисляйте длительность по обрезанным границам, а не по исходному проживанию."
+      ],
+      "explanation": "Оператор пересечения обрезает обе границы. Предварительный отбор пересекающихся диапазонов исключает пустые пересечения."
+    }
+  },
+  {
+    "lessonID": "l092",
+    "id": "l092-e4",
+    "title": "Route copied accounts into Hash partitions",
+    "prompt": "Create routed_accounts(id integer, balance numeric) PARTITION BY HASH(id), with account_hash0 modulus 2 remainder 0 and account_hash1 modulus 2 remainder 1. Copy id and balance from accounts.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE routed_accounts(id integer,balance numeric) PARTITION BY HASH(id); CREATE TABLE account_hash0 PARTITION OF routed_accounts FOR VALUES WITH(MODULUS 2,REMAINDER 0); CREATE TABLE account_hash1 PARTITION OF routed_accounts FOR VALUES WITH(MODULUS 2,REMAINDER 1); INSERT INTO routed_accounts SELECT id,balance FROM accounts;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Create the partitioned parent first.",
+      "Cover both remainders for modulus 2.",
+      "Inspect tableoid::regclass to observe physical routing."
+    ],
+    "explanation": "Hash partitioning uses the partition-key hash rather than the integer remainder itself. The parent routes inserted rows to the appropriate child.",
+    "ru": {
+      "title": "Маршрутизация счетов в Hash-секции",
+      "prompt": "Создайте routed_accounts(id integer, balance numeric) PARTITION BY HASH(id), секции account_hash0 с modulus 2 remainder 0 и account_hash1 с modulus 2 remainder 1. Скопируйте id и balance из accounts.",
+      "hints": [
+        "Сначала создайте секционированного родителя.",
+        "Покройте оба остатка при modulus 2.",
+        "Просмотрите tableoid::regclass, чтобы увидеть физическую маршрутизацию."
+      ],
+      "explanation": "Hash-секционирование использует хеш ключа, а не остаток деления самого числа. Родитель направляет вставленные строки в нужную дочернюю таблицу."
+    },
+    "validationSQL": "SELECT id,balance,tableoid::regclass::text AS partition_name FROM routed_accounts ORDER BY id;"
+  },
+  {
+    "lessonID": "l092",
+    "id": "l092-e5",
+    "title": "Catch out-of-range dates with a default partition",
+    "prompt": "Create incoming_dates(id integer, day date NOT NULL) PARTITION BY RANGE(day), with dates_2024 covering [2024-01-01,2025-01-01) and dates_other DEFAULT. Insert (1,2023-12-31),(2,2024-06-01),(3,2025-01-01).",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE incoming_dates(id integer,day date NOT NULL) PARTITION BY RANGE(day); CREATE TABLE dates_2024 PARTITION OF incoming_dates FOR VALUES FROM('2024-01-01') TO('2025-01-01'); CREATE TABLE dates_other PARTITION OF incoming_dates DEFAULT; INSERT INTO incoming_dates VALUES(1,DATE '2023-12-31'),(2,DATE '2024-06-01'),(3,DATE '2025-01-01');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use FROM inclusive and TO exclusive boundaries.",
+      "Add DEFAULT as a separate partition.",
+      "Insert through the parent to test routing."
+    ],
+    "explanation": "The upper range boundary is exclusive. DEFAULT receives rows outside every explicit partition range, including the exact next-year boundary.",
+    "ru": {
+      "title": "Секция по умолчанию для дат вне диапазона",
+      "prompt": "Создайте incoming_dates(id integer, day date NOT NULL) PARTITION BY RANGE(day): dates_2024 для [2024-01-01,2025-01-01), dates_other DEFAULT. Вставьте (1,2023-12-31),(2,2024-06-01),(3,2025-01-01).",
+      "hints": [
+        "Используйте включённую FROM и исключённую TO.",
+        "Добавьте DEFAULT отдельной секцией.",
+        "Вставляйте через родителя для проверки маршрутизации."
+      ],
+      "explanation": "Верхняя граница диапазона исключена. DEFAULT получает строки вне всех явных диапазонов, включая точную границу следующего года."
+    },
+    "validationSQL": "SELECT id,day,tableoid::regclass::text AS partition_name FROM incoming_dates ORDER BY id;"
+  },
+  {
+    "lessonID": "l093",
+    "id": "l093-e4",
+    "title": "Produce ordered JSON price catalogs",
+    "prompt": "Return category and price_catalog: a JSONB array of objects with keys id and price for each product, ordered by price descending then id inside the array. Order output categories alphabetically.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT category,jsonb_agg(jsonb_build_object('id',id,'price',price) ORDER BY price DESC,id) AS price_catalog FROM products GROUP BY category ORDER BY category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Put the element order inside the aggregate call.",
+      "Use jsonb_build_object for each detail row.",
+      "A final ORDER BY does not order elements inside an aggregate array."
+    ],
+    "explanation": "ORDER BY inside jsonb_agg defines array element order independently of the final category ordering. JSONB objects and arrays have different ordering semantics.",
+    "ru": {
+      "title": "Упорядоченный JSON-каталог цен",
+      "prompt": "Выведите category и price_catalog: JSONB-массив объектов с ключами id и price товаров, внутри массива по цене убывающе, затем id. Категории сортируйте по алфавиту.",
+      "hints": [
+        "Задайте порядок элементов внутри агрегата.",
+        "Используйте jsonb_build_object для каждой детальной строки.",
+        "Итоговый ORDER BY не сортирует элементы внутри агрегированного массива."
+      ],
+      "explanation": "ORDER BY внутри jsonb_agg задаёт порядок элементов массива независимо от сортировки категорий. Порядок объектов и массивов JSONB имеет разный смысл."
+    }
+  },
+  {
+    "lessonID": "l093",
+    "id": "l093-e5",
+    "title": "Use a PostgreSQL 18 virtual generated column",
+    "prompt": "Create line_estimates(id integer PRIMARY KEY, quantity integer NOT NULL, unit_price numeric(10,2) NOT NULL, subtotal numeric GENERATED ALWAYS AS(quantity*unit_price) VIRTUAL). Insert (1,3,2.50),(2,2,12.50) using only base columns, then set quantity=4 for id 1.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE line_estimates(id integer PRIMARY KEY,quantity integer NOT NULL,unit_price numeric(10,2) NOT NULL,subtotal numeric GENERATED ALWAYS AS(quantity*unit_price) VIRTUAL); INSERT INTO line_estimates(id,quantity,unit_price) VALUES(1,3,2.50),(2,2,12.50); UPDATE line_estimates SET quantity=4 WHERE id=1;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Declare VIRTUAL explicitly for this PostgreSQL 18 task.",
+      "Do not supply a subtotal value in INSERT.",
+      "Changing quantity must change the generated subtotal."
+    ],
+    "explanation": "PostgreSQL 18 virtual generated columns compute values on reading rather than storing each result. Writes specify the source columns, and the generated expression follows their current values.",
+    "ru": {
+      "title": "Виртуальный вычисляемый столбец PostgreSQL 18",
+      "prompt": "Создайте line_estimates(id integer PRIMARY KEY, quantity integer NOT NULL, unit_price numeric(10,2) NOT NULL, subtotal numeric GENERATED ALWAYS AS(quantity*unit_price) VIRTUAL). Вставьте (1,3,2.50),(2,2,12.50) только в базовые столбцы, затем задайте quantity=4 для id 1.",
+      "hints": [
+        "Явно укажите VIRTUAL для этого упражнения PostgreSQL 18.",
+        "Не задавайте subtotal в INSERT.",
+        "Изменение quantity должно изменить вычисленный subtotal."
+      ],
+      "explanation": "Виртуальные вычисляемые столбцы PostgreSQL 18 вычисляются при чтении, не сохраняя каждый результат. Запись задаёт базовые поля, а выражение следует их текущим значениям."
+    },
+    "validationSQL": "SELECT id,quantity,unit_price,subtotal,(SELECT attgenerated::text FROM pg_attribute WHERE attrelid='line_estimates'::regclass AND attname='subtotal') AS generation_kind FROM line_estimates ORDER BY id;"
+  },
+  {
+    "lessonID": "l094",
+    "id": "l094-e4",
+    "title": "Longest customer activity streak",
+    "prompt": "Return every customer id as customer_id and longest_streak: the maximum count of consecutive distinct event dates, or zero for no events. Order by customer_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH days AS (SELECT DISTINCT customer_id,occurred_at::date AS day FROM events),numbered AS (SELECT customer_id,day,day-row_number() OVER(PARTITION BY customer_id ORDER BY day)::integer AS grp FROM days),streaks AS (SELECT customer_id,count(*) AS n FROM numbered GROUP BY customer_id,grp),longest AS (SELECT customer_id,max(n) AS n FROM streaks GROUP BY customer_id) SELECT c.id AS customer_id,COALESCE(l.n,0) AS longest_streak FROM customers c LEFT JOIN longest l ON l.customer_id=c.id ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Deduplicate activity dates before numbering them.",
+      "Choose inclusive and exclusive date boundaries explicitly.",
+      "Customers or dates with no matching activity still need the policy requested in the prompt."
+    ],
+    "explanation": "Deduplicating dates prevents two same-day events from extending a streak. Date minus row number identifies consecutive-day islands before their maximum is selected.",
+    "ru": {
+      "title": "Самая длинная серия активности клиента",
+      "prompt": "Выведите customer_id каждого клиента и longest_streak — наибольшее число последовательных разных дат событий либо ноль при отсутствии событий. Сортируйте по customer_id.",
+      "hints": [
+        "Устраните повторяющиеся даты активности до нумерации.",
+        "Явно выберите включённые и исключённые границы дат.",
+        "Для клиентов и дат без активности применяйте правило, указанное в условии."
+      ],
+      "explanation": "Устранение повторов дат не даёт двум событиям дня удлинить серию. Дата минус номер строки выделяет острова последовательных дней перед выбором максимума."
+    }
+  },
+  {
+    "lessonID": "l094",
+    "id": "l094-e5",
+    "title": "Available nights for room 101",
+    "prompt": "Return day for dates July 1 through July 10, 2024 when room 101 has no active booking. A stay includes check_in and excludes check_out. Order by day.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT d.day::date AS day FROM generate_series(DATE '2024-07-01',DATE '2024-07-10',INTERVAL '1 day') d(day) WHERE NOT EXISTS(SELECT 1 FROM bookings b WHERE b.room=101 AND b.check_in<=d.day::date AND b.check_out>d.day::date) ORDER BY day;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Deduplicate activity dates before numbering them.",
+      "Choose inclusive and exclusive date boundaries explicitly.",
+      "Customers or dates with no matching activity still need the policy requested in the prompt."
+    ],
+    "explanation": "Generate the complete night calendar and remove dates covered by any stay. Checkout is available for a new check-in on that same date.",
+    "ru": {
+      "title": "Свободные ночи комнаты 101",
+      "prompt": "Выведите day для дат с 1 по 10 июля 2024 года, когда комната 101 не занята. Проживание включает check_in и исключает check_out. Сортируйте по day.",
+      "hints": [
+        "Устраните повторяющиеся даты активности до нумерации.",
+        "Явно выберите включённые и исключённые границы дат.",
+        "Для клиентов и дат без активности применяйте правило, указанное в условии."
+      ],
+      "explanation": "Создайте полный календарь ночей и исключите даты любого проживания. В день выезда возможно новое заселение."
+    }
+  },
+  {
+    "lessonID": "l095",
+    "id": "l095-e4",
+    "title": "Buy every Home-category product",
+    "prompt": "Return id and name for customers who have bought every product in category Home in paid orders. Use the catalog as the required set. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id,c.name FROM customers c WHERE NOT EXISTS(SELECT 1 FROM products p WHERE p.category='Home' AND NOT EXISTS(SELECT 1 FROM orders o JOIN order_items i ON i.order_id=o.id WHERE o.customer_id=c.id AND o.status='paid' AND i.product_id=p.id)) ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Translate every into the absence of a counterexample.",
+      "Decide whether an empty required or observed set should qualify.",
+      "Keep paid-order predicates inside each existence test."
+    ],
+    "explanation": "For every required product, no missing paid purchase may remain. Double NOT EXISTS expresses this universal condition directly.",
+    "ru": {
+      "title": "Покупка каждого товара категории Home",
+      "prompt": "Выведите id и name клиентов, купивших каждый товар категории Home в оплаченных заказах. Требуемое множество берите из каталога. Сортируйте по id.",
+      "hints": [
+        "Переводите «каждый» в отсутствие контрпримера.",
+        "Решите, подходит ли пустое требуемое или наблюдаемое множество.",
+        "Сохраняйте предикат оплаченного заказа внутри проверок существования."
+      ],
+      "explanation": "Для каждого требуемого товара не должно оставаться отсутствующей оплаченной покупки. Двойной NOT EXISTS прямо выражает это универсальное условие."
+    }
+  },
+  {
+    "lessonID": "l095",
+    "id": "l095-e5",
+    "title": "Only paid orders, but not an empty history",
+    "prompt": "Return id and name of customers with at least one order and with every order having status paid. Order by id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id,c.name FROM customers c WHERE EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=c.id) AND NOT EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=c.id AND o.status<>'paid') ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Translate every into the absence of a counterexample.",
+      "Decide whether an empty required or observed set should qualify.",
+      "Keep paid-order predicates inside each existence test."
+    ],
+    "explanation": "A universal no-counterexample condition is true for an empty history. The additional EXISTS enforces the explicitly required nonempty population.",
+    "ru": {
+      "title": "Только оплаченные заказы, но не пустая история",
+      "prompt": "Выведите id и name клиентов хотя бы с одним заказом, у которых каждый заказ имеет status paid. Сортируйте по id.",
+      "hints": [
+        "Переводите «каждый» в отсутствие контрпримера.",
+        "Решите, подходит ли пустое требуемое или наблюдаемое множество.",
+        "Сохраняйте предикат оплаченного заказа внутри проверок существования."
+      ],
+      "explanation": "Универсальное условие без контрпримеров истинно для пустой истории. Дополнительный EXISTS требует явно указанное непустое множество."
+    }
+  },
+  {
+    "lessonID": "l096",
+    "id": "l096-e4",
+    "title": "Product-price interquartile summary",
+    "prompt": "Return q1_price, median_price, and q3_price using continuous percentiles 0.25, 0.5, and 0.75 of product prices, each rounded to two decimals.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT round((percentile_cont(0.25) WITHIN GROUP(ORDER BY price))::numeric,2) AS q1_price,round((percentile_cont(0.5) WITHIN GROUP(ORDER BY price))::numeric,2) AS median_price,round((percentile_cont(0.75) WITHIN GROUP(ORDER BY price))::numeric,2) AS q3_price FROM products;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use WITHIN GROUP to provide the percentile ordering.",
+      "Choose continuous interpolation or a discrete observed value deliberately.",
+      "Define the population before computing the percentile."
+    ],
+    "explanation": "Continuous percentiles can interpolate between observed prices. Cast the floating result to numeric before using the two-argument round function.",
+    "ru": {
+      "title": "Квартили цен товаров",
+      "prompt": "Выведите q1_price, median_price и q3_price — непрерывные процентили 0.25, 0.5 и 0.75 цен товаров, каждый округлённый до двух знаков.",
+      "hints": [
+        "Задавайте порядок процентиля через WITHIN GROUP.",
+        "Осознанно выбирайте непрерывную интерполяцию либо наблюдаемое дискретное значение.",
+        "Определите множество до вычисления процентиля."
+      ],
+      "explanation": "Непрерывные процентили могут интерполировать между наблюдаемыми ценами. Приведите результат с плавающей точкой к numeric перед round с двумя аргументами."
+    }
+  },
+  {
+    "lessonID": "l096",
+    "id": "l096-e5",
+    "title": "Seventy-fifth percentile of ordered quantities",
+    "prompt": "For each product category, return category, line_count, and p75_quantity: percentile_disc(0.75) of order_items.quantity across all statuses. Order by category.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.category,count(*) AS line_count,percentile_disc(0.75) WITHIN GROUP(ORDER BY i.quantity) AS p75_quantity FROM products p JOIN order_items i ON i.product_id=p.id GROUP BY p.category ORDER BY p.category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use WITHIN GROUP to provide the percentile ordering.",
+      "Choose continuous interpolation or a discrete observed value deliberately.",
+      "Define the population before computing the percentile."
+    ],
+    "explanation": "The discrete percentile selects an observed quantity instead of inventing a fractional unit count. The prompt intentionally includes every order status.",
+    "ru": {
+      "title": "75-й процентиль заказанных количеств",
+      "prompt": "Для каждой категории товара выведите category, line_count и p75_quantity — percentile_disc(0.75) по order_items.quantity для всех статусов. Сортируйте по category.",
+      "hints": [
+        "Задавайте порядок процентиля через WITHIN GROUP.",
+        "Осознанно выбирайте непрерывную интерполяцию либо наблюдаемое дискретное значение.",
+        "Определите множество до вычисления процентиля."
+      ],
+      "explanation": "Дискретный процентиль выбирает наблюдаемое количество, не создавая дробное число единиц. Условие намеренно включает все статусы заказов."
+    }
+  },
+  {
+    "lessonID": "l097",
+    "id": "l097-e4",
+    "title": "Above-average customer lifetime value",
+    "prompt": "Compute each customer’s total paid revenue, including zero for no paid purchases. Return customer_id, name, and paid_revenue only when that value exceeds the average across all customers. Order by paid_revenue descending then customer_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH totals AS (SELECT c.id AS customer_id,c.name,COALESCE(sum(o.total),0) AS paid_revenue FROM customers c LEFT JOIN orders o ON o.customer_id=c.id AND o.status='paid' GROUP BY c.id) SELECT customer_id,name,paid_revenue FROM totals WHERE paid_revenue>(SELECT avg(paid_revenue) FROM totals) ORDER BY paid_revenue DESC,customer_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose the report grain before joining detail rows.",
+      "Apply paid and known-customer filters consistently.",
+      "Use a deterministic tie-breaker for the first purchase."
+    ],
+    "explanation": "Compute customer-grain values before averaging them. Excluding zero-revenue customers would answer a different business question.",
+    "ru": {
+      "title": "Ценность клиента выше среднего",
+      "prompt": "Вычислите оплаченный доход каждого клиента, включая ноль без покупок. Выведите customer_id, name и paid_revenue только выше среднего по всем клиентам. Сортируйте по paid_revenue убывающе, затем customer_id.",
+      "hints": [
+        "Выберите уровень отчёта до соединения детальных строк.",
+        "Последовательно применяйте фильтры оплаты и известного клиента.",
+        "Однозначно разрешайте равные даты первой покупки."
+      ],
+      "explanation": "Сначала вычислите значения на уровне клиента, затем их среднее. Исключение клиентов с нулём ответило бы на другой деловой вопрос."
+    }
+  },
+  {
+    "lessonID": "l097",
+    "id": "l097-e5",
+    "title": "First-purchase acquisition months",
+    "prompt": "For each month in which known customers made their first paid order, return acquisition_month, new_customers, and first_order_revenue. Resolve same-day first purchases by lowest order id. Order by acquisition_month.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH ranked AS (SELECT customer_id,ordered_on,total,row_number() OVER(PARTITION BY customer_id ORDER BY ordered_on,id) AS rn FROM orders WHERE status='paid' AND customer_id IS NOT NULL) SELECT date_trunc('month',ordered_on)::date AS acquisition_month,count(*) AS new_customers,sum(total) AS first_order_revenue FROM ranked WHERE rn=1 GROUP BY acquisition_month ORDER BY acquisition_month;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Choose the report grain before joining detail rows.",
+      "Apply paid and known-customer filters consistently.",
+      "Use a deterministic tie-breaker for the first purchase."
+    ],
+    "explanation": "ROW_NUMBER selects exactly one first paid purchase per customer. Grouping those selected rows measures acquisition, not all repeat revenue.",
+    "ru": {
+      "title": "Месяцы привлечения по первой покупке",
+      "prompt": "Для месяцев первой оплаченной покупки известных клиентов выведите acquisition_month, new_customers и first_order_revenue. Первую покупку в один день выбирайте по наименьшему id заказа. Сортируйте по acquisition_month.",
+      "hints": [
+        "Выберите уровень отчёта до соединения детальных строк.",
+        "Последовательно применяйте фильтры оплаты и известного клиента.",
+        "Однозначно разрешайте равные даты первой покупки."
+      ],
+      "explanation": "ROW_NUMBER выбирает ровно одну первую оплаченную покупку клиента. Их группировка измеряет привлечение, а не весь повторный доход."
+    }
+  },
+  {
+    "lessonID": "l098",
+    "id": "l098-e4",
+    "title": "Stock coverage against paid demand",
+    "prompt": "Return product_id, name, paid_units, stock, and coverage: stock divided by paid units, rounded to two decimals. Include unsold products with paid_units=0 and coverage=NULL. Order by product_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH demand AS (SELECT i.product_id,sum(i.quantity) AS units FROM order_items i JOIN orders o ON o.id=i.order_id WHERE o.status='paid' GROUP BY i.product_id) SELECT p.id AS product_id,p.name,COALESCE(d.units,0) AS paid_units,p.stock,round(p.stock::numeric/NULLIF(d.units,0),2) AS coverage FROM products p LEFT JOIN demand d ON d.product_id=p.id ORDER BY p.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Aggregate demand before joining a one-row-per-product catalog.",
+      "Separate zero demand from an undefined ratio.",
+      "Define the replenishment threshold independently of current item price."
+    ],
+    "explanation": "Aggregate eligible line demand before joining the catalog. A missing or zero denominator leaves coverage undefined instead of pretending it is zero.",
+    "ru": {
+      "title": "Покрытие оплаченного спроса запасом",
+      "prompt": "Выведите product_id, name, paid_units, stock и coverage — stock, делённый на оплаченные единицы, с двумя знаками. Для непроданных товаров paid_units=0, coverage=NULL. Сортируйте по product_id.",
+      "hints": [
+        "Агрегируйте спрос до соединения с каталогом из одной строки на товар.",
+        "Отличайте нулевой спрос от неопределённого отношения.",
+        "Задавайте порог пополнения независимо от текущей цены."
+      ],
+      "explanation": "Сначала агрегируйте подходящий спрос позиций, затем соединяйте с каталогом. При отсутствующем или нулевом знаменателе покрытие не определено, а не равно нулю."
+    }
+  },
+  {
+    "lessonID": "l098",
+    "id": "l098-e5",
+    "title": "Critical warehouse replenishment",
+    "prompt": "For inventory rows with quantity<5, return warehouse, critical_products, and units_to_ten: the sum of 10-quantity. Order by warehouse.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT warehouse,count(*) AS critical_products,sum(10-quantity) AS units_to_ten FROM inventory WHERE quantity<5 GROUP BY warehouse ORDER BY warehouse;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Aggregate demand before joining a one-row-per-product catalog.",
+      "Separate zero demand from an undefined ratio.",
+      "Define the replenishment threshold independently of current item price."
+    ],
+    "explanation": "The low-stock filter defines the operational queue before grouping. Each qualifying item contributes only the units needed to reach ten.",
+    "ru": {
+      "title": "Критическое пополнение склада",
+      "prompt": "Для строк inventory с quantity<5 выведите warehouse, critical_products и units_to_ten — сумму 10-quantity. Сортируйте по warehouse.",
+      "hints": [
+        "Агрегируйте спрос до соединения с каталогом из одной строки на товар.",
+        "Отличайте нулевой спрос от неопределённого отношения.",
+        "Задавайте порог пополнения независимо от текущей цены."
+      ],
+      "explanation": "Фильтр малого запаса задаёт рабочую очередь до группировки. Каждый подходящий товар вносит только число единиц до десяти."
+    }
+  },
+  {
+    "lessonID": "l099",
+    "id": "l099-e4",
+    "title": "Occupancy against the known room roster",
+    "prompt": "For July 1–7, 2024 return day, occupied_rooms, known_rooms, and occupancy_share rounded to four decimals. The known roster is every distinct room anywhere in bookings; occupied rooms cover the night using check_in<=day<check_out. Order by day.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT d.day::date AS day,count(DISTINCT b.room) AS occupied_rooms,r.n AS known_rooms,round(count(DISTINCT b.room)::numeric/NULLIF(r.n,0),4) AS occupancy_share FROM generate_series(DATE '2024-07-01',DATE '2024-07-07',INTERVAL '1 day') d(day) CROSS JOIN (SELECT count(DISTINCT room) AS n FROM bookings) r LEFT JOIN bookings b ON b.check_in<=d.day::date AND b.check_out>d.day::date GROUP BY d.day,r.n ORDER BY d.day;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use checkout as an exclusive endpoint.",
+      "A room count is not the same as a booking count.",
+      "Clip durations before multiplying by a nightly rate."
+    ],
+    "explanation": "Count distinct rooms rather than bookings to avoid double-counting a room. The stated roster assumption is essential; a production hotel needs an independent room inventory.",
+    "ru": {
+      "title": "Загрузка относительно известных комнат",
+      "prompt": "Для 1–7 июля 2024 года выведите day, occupied_rooms, known_rooms и occupancy_share с четырьмя знаками. Известный фонд — разные room во всей bookings; ночь занята при check_in<=day<check_out. Сортируйте по day.",
+      "hints": [
+        "Считайте день выезда исключённой границей.",
+        "Число комнат не равно числу бронирований.",
+        "Обрезайте длительность до умножения на ставку ночи."
+      ],
+      "explanation": "Считайте разные комнаты, а не бронирования, чтобы избежать двойного учёта. Условие о фонде принципиально; рабочему отелю нужен независимый справочник комнат."
+    }
+  },
+  {
+    "lessonID": "l099",
+    "id": "l099-e5",
+    "title": "Recognize revenue only within a window",
+    "prompt": "For each room, return room, recognized_nights, and recognized_revenue inside [2024-07-02,2024-07-05). Clip each booking to this interval; include rooms with zero recognized nights. Order by room.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT room,sum(greatest(least(check_out,DATE '2024-07-05')-greatest(check_in,DATE '2024-07-02'),0)) AS recognized_nights,sum(greatest(least(check_out,DATE '2024-07-05')-greatest(check_in,DATE '2024-07-02'),0)*nightly_rate) AS recognized_revenue FROM bookings GROUP BY room ORDER BY room;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Use checkout as an exclusive endpoint.",
+      "A room count is not the same as a booking count.",
+      "Clip durations before multiplying by a nightly rate."
+    ],
+    "explanation": "Intersect stay boundaries with the reporting window, clamp a negative duration to zero, then apply the nightly rate before grouping rooms.",
+    "ru": {
+      "title": "Признание выручки внутри периода",
+      "prompt": "Для каждой комнаты выведите room, recognized_nights и recognized_revenue внутри [2024-07-02,2024-07-05). Обрежьте каждое бронирование этим интервалом, включая комнаты с нулём ночей. Сортируйте по room.",
+      "hints": [
+        "Считайте день выезда исключённой границей.",
+        "Число комнат не равно числу бронирований.",
+        "Обрезайте длительность до умножения на ставку ночи."
+      ],
+      "explanation": "Пересеките границы проживания с периодом, замените отрицательную длительность нулём, затем примените ставку ночи перед группировкой комнат."
+    }
+  },
+  {
+    "lessonID": "l100",
+    "id": "l100-e4",
+    "title": "Design balanced posting keys",
+    "prompt": "Create postings(transfer_id integer, account_id integer REFERENCES accounts(id), delta numeric(12,2) NOT NULL CHECK(delta<>0), PRIMARY KEY(transfer_id,account_id)). Insert (1,1,-25),(1,2,25),(2,2,-10),(2,3,10).",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE postings(transfer_id integer,account_id integer REFERENCES accounts(id),delta numeric(12,2) NOT NULL CHECK(delta<>0),PRIMARY KEY(transfer_id,account_id)); INSERT INTO postings VALUES(1,1,-25),(1,2,25),(2,2,-10),(2,3,10);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Separate the transfer key from the account key.",
+      "Reject zero movements with a row CHECK.",
+      "Do not claim a single-row CHECK enforces the sum of several postings."
+    ],
+    "explanation": "The composite key prevents duplicate account postings within one transfer, and the foreign key protects account identity. The inserted pairs balance, but a row CHECK alone cannot enforce a cross-row zero sum.",
+    "ru": {
+      "title": "Ключи сбалансированных проводок",
+      "prompt": "Создайте postings(transfer_id integer, account_id integer REFERENCES accounts(id), delta numeric(12,2) NOT NULL CHECK(delta<>0), PRIMARY KEY(transfer_id,account_id)). Вставьте (1,1,-25),(1,2,25),(2,2,-10),(2,3,10).",
+      "hints": [
+        "Отделите ключ перевода от ключа счёта.",
+        "Запретите нулевые движения строковым CHECK.",
+        "Не считайте, что CHECK строки контролирует сумму нескольких проводок."
+      ],
+      "explanation": "Составной ключ запрещает повтор проводки счёта в переводе, внешний ключ защищает ссылку на счёт. Вставленные пары сбалансированы, но CHECK одной строки не обеспечивает межстрочную нулевую сумму."
+    },
+    "validationSQL": "SELECT transfer_id,account_id,delta FROM postings ORDER BY transfer_id,account_id;"
+  },
+  {
+    "lessonID": "l100",
+    "id": "l100-e5",
+    "title": "Apply a posting batch atomically",
+    "prompt": "Create posting_batch(account_id integer PRIMARY KEY REFERENCES accounts(id), delta numeric(12,2) NOT NULL). In one transaction insert (1,-60),(3,60), then apply the batch to accounts with one UPDATE ... FROM. Commit and preserve unrelated accounts.",
+    "difficulty": "Advanced",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE posting_batch(account_id integer PRIMARY KEY REFERENCES accounts(id),delta numeric(12,2) NOT NULL); BEGIN; INSERT INTO posting_batch VALUES(1,-60),(3,60); UPDATE accounts a SET balance=a.balance+b.delta FROM posting_batch b WHERE b.account_id=a.id; COMMIT;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Ensure each target account matches at most one batch row.",
+      "Store and apply the batch within the transaction.",
+      "Update the current balance by adding delta, not replacing it."
+    ],
+    "explanation": "A unique batch row per account avoids ambiguous multiple matches in UPDATE FROM. The balanced deltas preserve the total account balance.",
+    "ru": {
+      "title": "Атомарное применение пакета проводок",
+      "prompt": "Создайте posting_batch(account_id integer PRIMARY KEY REFERENCES accounts(id), delta numeric(12,2) NOT NULL). В одной транзакции вставьте (1,-60),(3,60), примените пакет к accounts одной командой UPDATE ... FROM и зафиксируйте. Прочие счета сохраните.",
+      "hints": [
+        "Обеспечьте не больше одной строки пакета на целевой счёт.",
+        "Сохраните и примените пакет внутри транзакции.",
+        "Прибавляйте delta к текущему остатку, а не заменяйте его."
+      ],
+      "explanation": "Уникальная строка пакета для счёта исключает неоднозначные совпадения UPDATE FROM. Сбалансированные изменения сохраняют общую сумму остатков."
+    },
+    "validationSQL": "SELECT a.id,a.balance,b.delta FROM accounts a LEFT JOIN posting_batch b ON b.account_id=a.id ORDER BY a.id;"
+  },
+  {
+    "lessonID": "l101",
+    "id": "l101-e4",
+    "title": "First purchase after a first visit",
+    "prompt": "For customers who have a visit event, return customer_id, first_visit, and first_purchase_after_visit. The purchase is the earliest purchase timestamp at or after their first visit, or NULL if none exists. Order by customer_id.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH visits AS (SELECT customer_id,min(occurred_at) AS first_visit FROM events WHERE kind='visit' GROUP BY customer_id) SELECT v.customer_id,v.first_visit,(SELECT min(e.occurred_at) FROM events e WHERE e.customer_id=v.customer_id AND e.kind='purchase' AND e.occurred_at>=v.first_visit) AS first_purchase_after_visit FROM visits v ORDER BY v.customer_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define cohorts and denominators before computing rates.",
+      "Count distinct customers when the question asks about people rather than events.",
+      "For a funnel, enforce event order as well as event existence."
+    ],
+    "explanation": "The visit cohort is defined first, then the correlated purchase condition enforces temporal order. A customer with no later purchase remains in the result.",
+    "ru": {
+      "title": "Первая покупка после первого посещения",
+      "prompt": "Для клиентов с событием visit выведите customer_id, first_visit и first_purchase_after_visit. Покупка — самое раннее purchase не раньше первого посещения либо NULL. Сортируйте по customer_id.",
+      "hints": [
+        "Определите когорты и знаменатели до расчёта долей.",
+        "Считайте разных клиентов, если вопрос о людях, а не о событиях.",
+        "Для воронки проверяйте порядок событий, а не только их наличие."
+      ],
+      "explanation": "Сначала задаётся множество посетителей, затем коррелированное условие покупки обеспечивает временной порядок. Клиент без последующей покупки остаётся в результате."
+    }
+  },
+  {
+    "lessonID": "l101",
+    "id": "l101-e5",
+    "title": "Purchasing-customer share by device",
+    "prompt": "Return device, active_customers, purchasing_customers, and purchase_share rounded to four decimals. Active customers have any event on the device; purchasing customers have a purchase event there. Count distinct customer_id and order by device.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT payload->>'device' AS device,count(DISTINCT customer_id) AS active_customers,count(DISTINCT customer_id) FILTER(WHERE kind='purchase') AS purchasing_customers,round((count(DISTINCT customer_id) FILTER(WHERE kind='purchase'))::numeric/NULLIF(count(DISTINCT customer_id),0),4) AS purchase_share FROM events GROUP BY device ORDER BY device;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Define cohorts and denominators before computing rates.",
+      "Count distinct customers when the question asks about people rather than events.",
+      "For a funnel, enforce event order as well as event existence."
+    ],
+    "explanation": "Distinct-user metrics prevent repeat events from inflating customer counts. The numerator is a filtered subset of the same device population.",
+    "ru": {
+      "title": "Доля покупателей по устройствам",
+      "prompt": "Выведите device, active_customers, purchasing_customers и purchase_share с четырьмя знаками. Активный клиент имеет любое событие устройства, покупатель — purchase. Считайте разные customer_id, сортируйте по device.",
+      "hints": [
+        "Определите когорты и знаменатели до расчёта долей.",
+        "Считайте разных клиентов, если вопрос о людях, а не о событиях.",
+        "Для воронки проверяйте порядок событий, а не только их наличие."
+      ],
+      "explanation": "Метрики разных пользователей не дают повторным событиям увеличить число клиентов. Числитель — отфильтрованная часть того же множества устройства."
+    }
+  },
+  {
+    "lessonID": "l102",
+    "id": "l102-e5",
+    "title": "Year-to-date paid revenue",
+    "prompt": "Return month_start, revenue, and year_to_date from paid orders. Aggregate by month, then accumulate revenue within each calendar year in month order. Order by month_start.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH monthly AS (SELECT date_trunc('month',ordered_on)::date AS month_start,sum(total) AS revenue FROM orders WHERE status='paid' GROUP BY month_start) SELECT month_start,revenue,sum(revenue) OVER(PARTITION BY extract(year FROM month_start) ORDER BY month_start ROWS UNBOUNDED PRECEDING) AS year_to_date FROM monthly ORDER BY month_start;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Fix the eligible paid-order set before combining facts.",
+      "Never sum a header measure at line-item grain.",
+      "Reconcile at order grain before rolling the result up to months."
+    ],
+    "explanation": "Aggregate detail orders before running the window. Partitioning by year resets the accumulated total at a year boundary.",
+    "ru": {
+      "title": "Оплаченная выручка с начала года",
+      "prompt": "Выведите month_start, revenue и year_to_date оплаченных заказов. Сначала агрегируйте по месяцам, затем накапливайте выручку внутри календарного года по месяцам. Сортируйте по month_start.",
+      "hints": [
+        "Сначала зафиксируйте множество оплаченных заказов.",
+        "Не суммируйте показатель заголовка на уровне позиций.",
+        "Сверяйте на уровне заказа до свёртки по месяцам."
+      ],
+      "explanation": "Агрегируйте детальные заказы до оконного вычисления. Разделение по году сбрасывает накопленный итог на годовой границе."
+    }
+  },
+  {
+    "lessonID": "l102",
+    "id": "l102-e6",
+    "title": "Monthly header-to-line reconciliation",
+    "prompt": "For paid orders, return month_start, paid_orders, header_revenue, line_revenue, and difference (header minus lines). Include guest orders and orders with no lines. Aggregate line totals per order before joining; order by month_start.",
+    "difficulty": "Advanced",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH lines AS (SELECT order_id,sum(quantity*unit_price) AS amount FROM order_items GROUP BY order_id) SELECT date_trunc('month',o.ordered_on)::date AS month_start,count(*) AS paid_orders,sum(o.total) AS header_revenue,sum(COALESCE(l.amount,0)) AS line_revenue,sum(o.total)-sum(COALESCE(l.amount,0)) AS difference FROM orders o LEFT JOIN lines l ON l.order_id=o.id WHERE o.status='paid' GROUP BY month_start ORDER BY month_start;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Fix the eligible paid-order set before combining facts.",
+      "Never sum a header measure at line-item grain.",
+      "Reconcile at order grain before rolling the result up to months."
+    ],
+    "explanation": "Preaggregating lines prevents repeating a header total once per line. LEFT JOIN keeps line-less orders, and no customer join discards guest revenue.",
+    "ru": {
+      "title": "Месячная сверка заголовков и позиций",
+      "prompt": "Для оплаченных заказов выведите month_start, paid_orders, header_revenue, line_revenue и difference — заголовки минус позиции. Включите гостей и заказы без позиций. Сначала агрегируйте позиции каждого заказа, затем соединяйте. Сортируйте по month_start.",
+      "hints": [
+        "Сначала зафиксируйте множество оплаченных заказов.",
+        "Не суммируйте показатель заголовка на уровне позиций.",
+        "Сверяйте на уровне заказа до свёртки по месяцам."
+      ],
+      "explanation": "Предварительная агрегация позиций не даёт повторять сумму заголовка на каждую позицию. LEFT JOIN сохраняет заказы без позиций, а отсутствие соединения с customers — выручку гостей."
+    }
+  }
+]

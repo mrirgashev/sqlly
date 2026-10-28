@@ -1,0 +1,2795 @@
+{
+  "l001" : {
+    "columns" : [
+      "id",
+      "name",
+      "city",
+      "email",
+      "joined_on",
+      "vip"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "Ada",
+        "London",
+        "ada@example.test",
+        "2024-01-05",
+        "t"
+      ],
+      [
+        "2",
+        "Ben",
+        "Paris",
+        "ben@example.test",
+        "2024-02-10",
+        "f"
+      ],
+      [
+        "3",
+        "Cleo",
+        "London",
+        null,
+        "2024-02-20",
+        "f"
+      ],
+      [
+        "4",
+        "Davi",
+        "Berlin",
+        "davi@example.test",
+        "2024-03-01",
+        "t"
+      ],
+      [
+        "5",
+        "Eli",
+        null,
+        "eli@example.test",
+        "2024-03-15",
+        "f"
+      ],
+      [
+        "6",
+        "Fara",
+        "Paris",
+        "fara@example.test",
+        "2024-04-01",
+        "f"
+      ]
+    ]
+  },
+  "l002" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ],
+      [
+        "3",
+        "Cleo"
+      ],
+      [
+        "4",
+        "Davi"
+      ],
+      [
+        "5",
+        "Eli"
+      ],
+      [
+        "6",
+        "Fara"
+      ]
+    ]
+  },
+  "l003" : {
+    "columns" : [
+      "answer"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "14"
+      ]
+    ]
+  },
+  "l004" : {
+    "columns" : [
+      "product",
+      "unit_price"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "Notebook",
+        "12.50"
+      ],
+      [
+        "Pen",
+        "2.00"
+      ],
+      [
+        "Keyboard",
+        "75.00"
+      ],
+      [
+        "Monitor",
+        "250.00"
+      ],
+      [
+        "Mug",
+        "15.00"
+      ],
+      [
+        "Lamp",
+        "45.00"
+      ],
+      [
+        "Cable",
+        "8.00"
+      ],
+      [
+        "Folder",
+        "4.00"
+      ]
+    ]
+  },
+  "l005" : {
+    "columns" : [
+      "category"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "Home"
+      ],
+      [
+        "Office"
+      ],
+      [
+        "Tech"
+      ]
+    ]
+  },
+  "l006" : {
+    "columns" : [
+      "id",
+      "name",
+      "price"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "4",
+        "Monitor",
+        "250.00"
+      ],
+      [
+        "3",
+        "Keyboard",
+        "75.00"
+      ],
+      [
+        "6",
+        "Lamp",
+        "45.00"
+      ]
+    ]
+  },
+  "l007" : {
+    "columns" : [
+      "id",
+      "name",
+      "price"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Notebook",
+        "12.50"
+      ],
+      [
+        "2",
+        "Pen",
+        "2.00"
+      ],
+      [
+        "5",
+        "Mug",
+        "15.00"
+      ],
+      [
+        "7",
+        "Cable",
+        "8.00"
+      ],
+      [
+        "8",
+        "Folder",
+        "4.00"
+      ]
+    ]
+  },
+  "l008" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "1",
+        "Notebook"
+      ],
+      [
+        "2",
+        "Pen"
+      ],
+      [
+        "8",
+        "Folder"
+      ]
+    ]
+  },
+  "l009" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Notebook"
+      ],
+      [
+        "2",
+        "Pen"
+      ],
+      [
+        "5",
+        "Mug"
+      ],
+      [
+        "6",
+        "Lamp"
+      ],
+      [
+        "8",
+        "Folder"
+      ]
+    ]
+  },
+  "l010" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "3",
+        "Cleo"
+      ]
+    ]
+  },
+  "l011" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "Notebook"
+      ]
+    ]
+  },
+  "l012" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 4,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ],
+      [
+        "3",
+        "Cleo"
+      ],
+      [
+        "4",
+        "Davi"
+      ]
+    ]
+  },
+  "l013" : {
+    "columns" : [
+      "id",
+      "stock_status"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "ready"
+      ],
+      [
+        "2",
+        "ready"
+      ],
+      [
+        "3",
+        "ready"
+      ],
+      [
+        "4",
+        "low"
+      ],
+      [
+        "5",
+        "empty"
+      ],
+      [
+        "6",
+        "low"
+      ],
+      [
+        "7",
+        "ready"
+      ],
+      [
+        "8",
+        "ready"
+      ]
+    ]
+  },
+  "l014" : {
+    "columns" : [
+      "id",
+      "city_label"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "London"
+      ],
+      [
+        "2",
+        "Paris"
+      ],
+      [
+        "3",
+        "London"
+      ],
+      [
+        "4",
+        "Berlin"
+      ],
+      [
+        "5",
+        "Unknown"
+      ],
+      [
+        "6",
+        "Paris"
+      ]
+    ]
+  },
+  "l015" : {
+    "columns" : [
+      "ratio"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "2.5000000000000000"
+      ]
+    ]
+  },
+  "l016" : {
+    "columns" : [
+      "customer_count"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "6"
+      ]
+    ]
+  },
+  "l017" : {
+    "columns" : [
+      "minimum_price",
+      "maximum_price",
+      "average_price"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "2.00",
+        "250.00",
+        "51.44"
+      ]
+    ]
+  },
+  "l018" : {
+    "columns" : [
+      "paid_count",
+      "pending_count"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "9",
+        "2"
+      ]
+    ]
+  },
+  "l019" : {
+    "columns" : [
+      "category",
+      "product_count"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "Home",
+        "2"
+      ],
+      [
+        "Office",
+        "3"
+      ],
+      [
+        "Tech",
+        "3"
+      ]
+    ]
+  },
+  "l020" : {
+    "columns" : [
+      "category",
+      "product_count"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "Office",
+        "3"
+      ],
+      [
+        "Tech",
+        "3"
+      ]
+    ]
+  },
+  "l021" : {
+    "columns" : [
+      "category",
+      "units",
+      "is_total"
+    ],
+    "rowCount" : 4,
+    "rows" : [
+      [
+        "Home",
+        "8",
+        "0"
+      ],
+      [
+        "Office",
+        "180",
+        "0"
+      ],
+      [
+        "Tech",
+        "67",
+        "0"
+      ],
+      [
+        null,
+        "255",
+        "1"
+      ]
+    ]
+  },
+  "l022" : {
+    "columns" : [
+      "order_id",
+      "customer",
+      "total"
+    ],
+    "rowCount" : 11,
+    "rows" : [
+      [
+        "101",
+        "Ada",
+        "29.00"
+      ],
+      [
+        "102",
+        "Ben",
+        "75.00"
+      ],
+      [
+        "103",
+        "Ada",
+        "250.00"
+      ],
+      [
+        "104",
+        "Cleo",
+        "15.00"
+      ],
+      [
+        "105",
+        "Davi",
+        "90.00"
+      ],
+      [
+        "106",
+        "Ben",
+        "20.00"
+      ],
+      [
+        "107",
+        "Eli",
+        "25.00"
+      ],
+      [
+        "108",
+        "Ada",
+        "16.00"
+      ]
+    ]
+  },
+  "l023" : {
+    "columns" : [
+      "customer_id",
+      "order_id"
+    ],
+    "rowCount" : 12,
+    "rows" : [
+      [
+        "1",
+        "101"
+      ],
+      [
+        "1",
+        "103"
+      ],
+      [
+        "1",
+        "108"
+      ],
+      [
+        "2",
+        "102"
+      ],
+      [
+        "2",
+        "106"
+      ],
+      [
+        "2",
+        "111"
+      ],
+      [
+        "3",
+        "104"
+      ],
+      [
+        "3",
+        "110"
+      ]
+    ]
+  },
+  "l024" : {
+    "columns" : [
+      "customer_id",
+      "order_id"
+    ],
+    "rowCount" : 12,
+    "rows" : [
+      [
+        "1",
+        "101"
+      ],
+      [
+        "1",
+        "103"
+      ],
+      [
+        "1",
+        "108"
+      ],
+      [
+        "2",
+        "102"
+      ],
+      [
+        "2",
+        "106"
+      ],
+      [
+        "2",
+        "111"
+      ],
+      [
+        "3",
+        "104"
+      ],
+      [
+        "3",
+        "110"
+      ]
+    ]
+  },
+  "l025" : {
+    "columns" : [
+      "id",
+      "employee",
+      "manager"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "Morgan",
+        null
+      ],
+      [
+        "2",
+        "Noor",
+        "Morgan"
+      ],
+      [
+        "3",
+        "Owen",
+        "Noor"
+      ],
+      [
+        "4",
+        "Pia",
+        "Morgan"
+      ],
+      [
+        "5",
+        "Quinn",
+        "Pia"
+      ],
+      [
+        "6",
+        "Rae",
+        "Noor"
+      ]
+    ]
+  },
+  "l026" : {
+    "columns" : [
+      "order_id",
+      "customer",
+      "product",
+      "quantity",
+      "line_total"
+    ],
+    "rowCount" : 12,
+    "rows" : [
+      [
+        "101",
+        "Ada",
+        "Notebook",
+        "2",
+        "25.00"
+      ],
+      [
+        "101",
+        "Ada",
+        "Pen",
+        "2",
+        "4.00"
+      ],
+      [
+        "102",
+        "Ben",
+        "Keyboard",
+        "1",
+        "75.00"
+      ],
+      [
+        "103",
+        "Ada",
+        "Monitor",
+        "1",
+        "250.00"
+      ],
+      [
+        "104",
+        "Cleo",
+        "Mug",
+        "1",
+        "15.00"
+      ],
+      [
+        "105",
+        "Davi",
+        "Lamp",
+        "2",
+        "90.00"
+      ],
+      [
+        "106",
+        "Ben",
+        "Pen",
+        "10",
+        "20.00"
+      ],
+      [
+        "107",
+        "Eli",
+        "Notebook",
+        "2",
+        "25.00"
+      ]
+    ]
+  },
+  "l027" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ],
+      [
+        "3",
+        "Cleo"
+      ],
+      [
+        "4",
+        "Davi"
+      ],
+      [
+        "5",
+        "Eli"
+      ]
+    ]
+  },
+  "l028" : {
+    "columns" : [
+      "id",
+      "name",
+      "price"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "3",
+        "Keyboard",
+        "75.00"
+      ],
+      [
+        "4",
+        "Monitor",
+        "250.00"
+      ]
+    ]
+  },
+  "l029" : {
+    "columns" : [
+      "id",
+      "name",
+      "price"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "1",
+        "Notebook",
+        "12.50"
+      ],
+      [
+        "4",
+        "Monitor",
+        "250.00"
+      ],
+      [
+        "6",
+        "Lamp",
+        "45.00"
+      ]
+    ]
+  },
+  "l030" : {
+    "columns" : [
+      "average_orders"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "2.20"
+      ]
+    ]
+  },
+  "l031" : {
+    "columns" : [
+      "id",
+      "total"
+    ],
+    "rowCount" : 4,
+    "rows" : [
+      [
+        "102",
+        "75.00"
+      ],
+      [
+        "103",
+        "250.00"
+      ],
+      [
+        "105",
+        "90.00"
+      ],
+      [
+        "111",
+        "75.00"
+      ]
+    ]
+  },
+  "l032" : {
+    "columns" : [
+      "place"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "Berlin"
+      ],
+      [
+        "London"
+      ],
+      [
+        "North"
+      ],
+      [
+        "Paris"
+      ],
+      [
+        "South"
+      ]
+    ]
+  },
+  "l033" : {
+    "columns" : [
+      "customer_id"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "2"
+      ],
+      [
+        "4"
+      ]
+    ]
+  },
+  "l034" : {
+    "columns" : [
+      "id",
+      "name",
+      "category",
+      "price",
+      "stock"
+    ],
+    "rowCount" : 9,
+    "rows" : [
+      [
+        "1",
+        "Notebook",
+        "Office",
+        "12.50",
+        "40"
+      ],
+      [
+        "2",
+        "Pen",
+        "Office",
+        "2.00",
+        "120"
+      ],
+      [
+        "3",
+        "Keyboard",
+        "Tech",
+        "75.00",
+        "12"
+      ],
+      [
+        "4",
+        "Monitor",
+        "Tech",
+        "250.00",
+        "5"
+      ],
+      [
+        "5",
+        "Mug",
+        "Home",
+        "15.00",
+        "0"
+      ],
+      [
+        "6",
+        "Lamp",
+        "Home",
+        "45.00",
+        "8"
+      ],
+      [
+        "7",
+        "Cable",
+        "Tech",
+        "8.00",
+        "50"
+      ],
+      [
+        "8",
+        "Folder",
+        "Office",
+        "4.00",
+        "20"
+      ]
+    ]
+  },
+  "l035" : {
+    "columns" : [
+      "id",
+      "stock"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "40"
+      ],
+      [
+        "2",
+        "120"
+      ],
+      [
+        "3",
+        "12"
+      ],
+      [
+        "4",
+        "5"
+      ],
+      [
+        "5",
+        "10"
+      ],
+      [
+        "6",
+        "8"
+      ],
+      [
+        "7",
+        "50"
+      ],
+      [
+        "8",
+        "20"
+      ]
+    ]
+  },
+  "l036" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ],
+      [
+        "3",
+        "Cleo"
+      ],
+      [
+        "4",
+        "Davi"
+      ],
+      [
+        "5",
+        "Eli"
+      ]
+    ]
+  },
+  "l037" : {
+    "columns" : [
+      "product_id",
+      "warehouse",
+      "quantity",
+      "updated_on"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "Central",
+        "60",
+        "2024-08-01"
+      ],
+      [
+        "2",
+        "North",
+        "120",
+        "2024-07-01"
+      ],
+      [
+        "3",
+        "South",
+        "12",
+        "2024-07-02"
+      ],
+      [
+        "4",
+        "South",
+        "5",
+        "2024-07-02"
+      ],
+      [
+        "5",
+        "North",
+        "0",
+        "2024-07-03"
+      ],
+      [
+        "6",
+        "South",
+        "8",
+        "2024-07-03"
+      ],
+      [
+        "7",
+        "North",
+        "50",
+        "2024-07-04"
+      ],
+      [
+        "8",
+        "North",
+        "20",
+        "2024-07-04"
+      ]
+    ]
+  },
+  "l038" : {
+    "columns" : [
+      "id",
+      "balance"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "1",
+        "900.00"
+      ],
+      [
+        "2",
+        "600.00"
+      ],
+      [
+        "3",
+        "750.00"
+      ]
+    ]
+  },
+  "l039" : {
+    "columns" : [
+      "id",
+      "price"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "12.50"
+      ],
+      [
+        "2",
+        "2.00"
+      ],
+      [
+        "3",
+        "75.00"
+      ],
+      [
+        "4",
+        "250.00"
+      ],
+      [
+        "5",
+        "14.00"
+      ],
+      [
+        "6",
+        "44.00"
+      ],
+      [
+        "7",
+        "8.00"
+      ],
+      [
+        "8",
+        "4.00"
+      ]
+    ]
+  },
+  "l040" : {
+    "columns" : [
+      "integer_type",
+      "decimal_type",
+      "text_type",
+      "boolean_type"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "integer",
+        "numeric",
+        "text",
+        "boolean"
+      ]
+    ]
+  },
+  "l041" : {
+    "columns" : [
+      "identifier"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "123e4567-e89b-12d3-a456-426614174000"
+      ]
+    ]
+  },
+  "l042" : {
+    "columns" : [
+      "id",
+      "normalized_email"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "ada@example.test"
+      ],
+      [
+        "2",
+        "ben@example.test"
+      ],
+      [
+        "4",
+        "davi@example.test"
+      ],
+      [
+        "5",
+        "eli@example.test"
+      ],
+      [
+        "6",
+        "fara@example.test"
+      ]
+    ]
+  },
+  "l043" : {
+    "columns" : [
+      "id",
+      "guest",
+      "nights"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Ada",
+        "3"
+      ],
+      [
+        "2",
+        "Ben",
+        "3"
+      ],
+      [
+        "3",
+        "Cleo",
+        "2"
+      ],
+      [
+        "4",
+        "Davi",
+        "1"
+      ],
+      [
+        "5",
+        "Eli",
+        "3"
+      ]
+    ]
+  },
+  "l044" : {
+    "columns" : [
+      "id",
+      "event_hour"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "9"
+      ],
+      [
+        "2",
+        "9"
+      ],
+      [
+        "3",
+        "10"
+      ],
+      [
+        "4",
+        "8"
+      ],
+      [
+        "5",
+        "10"
+      ],
+      [
+        "6",
+        "11"
+      ]
+    ]
+  },
+  "l045" : {
+    "columns" : [
+      "month_start",
+      "revenue"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "2024-05-01",
+        "369.00"
+      ],
+      [
+        "2024-06-01",
+        "151.00"
+      ],
+      [
+        "2024-07-01",
+        "374.00"
+      ]
+    ]
+  },
+  "l046" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "3",
+        "Keyboard"
+      ],
+      [
+        "7",
+        "Cable"
+      ]
+    ]
+  },
+  "l047" : {
+    "columns" : [
+      "id",
+      "color"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "blue"
+      ],
+      [
+        "2",
+        "black"
+      ],
+      [
+        "3",
+        "black"
+      ],
+      [
+        "4",
+        null
+      ],
+      [
+        "5",
+        "white"
+      ],
+      [
+        "6",
+        "blue"
+      ],
+      [
+        "7",
+        null
+      ],
+      [
+        "8",
+        null
+      ]
+    ]
+  },
+  "l048" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "Notebook"
+      ],
+      [
+        "6",
+        "Lamp"
+      ]
+    ]
+  },
+  "l049" : {
+    "columns" : [
+      "column_name",
+      "data_type",
+      "is_nullable"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "id",
+        "integer",
+        "NO"
+      ],
+      [
+        "customer_id",
+        "integer",
+        "NO"
+      ],
+      [
+        "body",
+        "text",
+        "NO"
+      ]
+    ]
+  },
+  "l050" : {
+    "columns" : [
+      "id",
+      "quantity"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "1"
+      ]
+    ]
+  },
+  "l051" : {
+    "columns" : [
+      "id",
+      "message"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "Started"
+      ],
+      [
+        "2",
+        "Finished"
+      ]
+    ]
+  },
+  "l052" : {
+    "columns" : [
+      "customer_id",
+      "product_id"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "3"
+      ],
+      [
+        "2",
+        "1"
+      ]
+    ]
+  },
+  "l053" : {
+    "columns" : [
+      "column_name",
+      "data_type"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "id",
+        "integer"
+      ],
+      [
+        "name",
+        "text"
+      ],
+      [
+        "city",
+        "text"
+      ],
+      [
+        "email",
+        "text"
+      ],
+      [
+        "joined_on",
+        "date"
+      ],
+      [
+        "vip",
+        "boolean"
+      ]
+    ]
+  },
+  "l054" : {
+    "columns" : [
+      "id",
+      "segment"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "priority"
+      ],
+      [
+        "2",
+        "standard"
+      ],
+      [
+        "3",
+        "standard"
+      ],
+      [
+        "4",
+        "priority"
+      ],
+      [
+        "5",
+        "standard"
+      ],
+      [
+        "6",
+        "standard"
+      ]
+    ]
+  },
+  "l055" : {
+    "columns" : [
+      "id",
+      "department",
+      "salary",
+      "department_total"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "Leadership",
+        "120000.00",
+        "120000.00"
+      ],
+      [
+        "2",
+        "Engineering",
+        "90000.00",
+        "250000.00"
+      ],
+      [
+        "3",
+        "Engineering",
+        "80000.00",
+        "250000.00"
+      ],
+      [
+        "4",
+        "Sales",
+        "70000.00",
+        "140000.00"
+      ],
+      [
+        "5",
+        "Sales",
+        "70000.00",
+        "140000.00"
+      ],
+      [
+        "6",
+        "Engineering",
+        "80000.00",
+        "250000.00"
+      ]
+    ]
+  },
+  "l056" : {
+    "columns" : [
+      "id",
+      "category",
+      "position"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "Office",
+        "1"
+      ],
+      [
+        "2",
+        "Office",
+        "3"
+      ],
+      [
+        "3",
+        "Tech",
+        "2"
+      ],
+      [
+        "4",
+        "Tech",
+        "1"
+      ],
+      [
+        "5",
+        "Home",
+        "2"
+      ],
+      [
+        "6",
+        "Home",
+        "1"
+      ],
+      [
+        "7",
+        "Tech",
+        "3"
+      ],
+      [
+        "8",
+        "Office",
+        "2"
+      ]
+    ]
+  },
+  "l057" : {
+    "columns" : [
+      "id",
+      "customer_id",
+      "total",
+      "previous_total"
+    ],
+    "rowCount" : 12,
+    "rows" : [
+      [
+        "101",
+        "1",
+        "29.00",
+        null
+      ],
+      [
+        "102",
+        "2",
+        "75.00",
+        null
+      ],
+      [
+        "103",
+        "1",
+        "250.00",
+        "29.00"
+      ],
+      [
+        "104",
+        "3",
+        "15.00",
+        null
+      ],
+      [
+        "105",
+        "4",
+        "90.00",
+        null
+      ],
+      [
+        "106",
+        "2",
+        "20.00",
+        "75.00"
+      ],
+      [
+        "107",
+        "5",
+        "25.00",
+        null
+      ],
+      [
+        "108",
+        "1",
+        "16.00",
+        "250.00"
+      ]
+    ]
+  },
+  "l058" : {
+    "columns" : [
+      "id",
+      "ordered_on",
+      "running_revenue"
+    ],
+    "rowCount" : 9,
+    "rows" : [
+      [
+        "101",
+        "2024-05-01",
+        "29.00"
+      ],
+      [
+        "102",
+        "2024-05-02",
+        "104.00"
+      ],
+      [
+        "103",
+        "2024-05-10",
+        "354.00"
+      ],
+      [
+        "105",
+        "2024-06-01",
+        "444.00"
+      ],
+      [
+        "107",
+        "2024-06-05",
+        "469.00"
+      ],
+      [
+        "108",
+        "2024-06-10",
+        "485.00"
+      ],
+      [
+        "110",
+        "2024-07-03",
+        "530.00"
+      ],
+      [
+        "111",
+        "2024-07-04",
+        "605.00"
+      ]
+    ]
+  },
+  "l059" : {
+    "columns" : [
+      "id",
+      "category_max"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "12.50"
+      ],
+      [
+        "2",
+        "12.50"
+      ],
+      [
+        "3",
+        "250.00"
+      ],
+      [
+        "4",
+        "250.00"
+      ],
+      [
+        "5",
+        "45.00"
+      ],
+      [
+        "6",
+        "45.00"
+      ],
+      [
+        "7",
+        "250.00"
+      ],
+      [
+        "8",
+        "12.50"
+      ]
+    ]
+  },
+  "l060" : {
+    "columns" : [
+      "customer_id",
+      "order_id",
+      "ordered_on"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "108",
+        "2024-06-10"
+      ],
+      [
+        "2",
+        "111",
+        "2024-07-04"
+      ],
+      [
+        "3",
+        "110",
+        "2024-07-03"
+      ],
+      [
+        "4",
+        "109",
+        "2024-07-01"
+      ],
+      [
+        "5",
+        "107",
+        "2024-06-05"
+      ]
+    ]
+  },
+  "l061" : {
+    "columns" : [
+      "id",
+      "customer_id",
+      "ordered_on",
+      "total"
+    ],
+    "rowCount" : 9,
+    "rows" : [
+      [
+        "101",
+        "1",
+        "2024-05-01",
+        "29.00"
+      ],
+      [
+        "102",
+        "2",
+        "2024-05-02",
+        "75.00"
+      ],
+      [
+        "103",
+        "1",
+        "2024-05-10",
+        "250.00"
+      ],
+      [
+        "105",
+        "4",
+        "2024-06-01",
+        "90.00"
+      ],
+      [
+        "107",
+        "5",
+        "2024-06-05",
+        "25.00"
+      ],
+      [
+        "108",
+        "1",
+        "2024-06-10",
+        "16.00"
+      ],
+      [
+        "110",
+        "3",
+        "2024-07-03",
+        "45.00"
+      ],
+      [
+        "111",
+        "2",
+        "2024-07-04",
+        "75.00"
+      ]
+    ]
+  },
+  "l062" : {
+    "columns" : [
+      "category",
+      "stock_units"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "Home",
+        "8"
+      ],
+      [
+        "Office",
+        "180"
+      ],
+      [
+        "Tech",
+        "67"
+      ]
+    ]
+  },
+  "l063" : {
+    "columns" : [
+      "n"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1"
+      ],
+      [
+        "2"
+      ],
+      [
+        "3"
+      ],
+      [
+        "4"
+      ],
+      [
+        "5"
+      ]
+    ]
+  },
+  "l064" : {
+    "columns" : [
+      "id",
+      "gross_price"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "15.00"
+      ],
+      [
+        "2",
+        "2.40"
+      ],
+      [
+        "3",
+        "90.00"
+      ],
+      [
+        "4",
+        "300.00"
+      ],
+      [
+        "5",
+        "18.00"
+      ],
+      [
+        "6",
+        "54.00"
+      ],
+      [
+        "7",
+        "9.60"
+      ],
+      [
+        "8",
+        "4.80"
+      ]
+    ]
+  },
+  "l065" : {
+    "columns" : [
+      "id",
+      "label"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "ready"
+      ],
+      [
+        "2",
+        "ready"
+      ],
+      [
+        "3",
+        "ready"
+      ],
+      [
+        "4",
+        "low"
+      ],
+      [
+        "5",
+        "empty"
+      ],
+      [
+        "6",
+        "low"
+      ],
+      [
+        "7",
+        "ready"
+      ],
+      [
+        "8",
+        "ready"
+      ]
+    ]
+  },
+  "l066" : {
+    "columns" : [
+      "id",
+      "stock"
+    ],
+    "rowCount" : 8,
+    "rows" : [
+      [
+        "1",
+        "47"
+      ],
+      [
+        "2",
+        "120"
+      ],
+      [
+        "3",
+        "12"
+      ],
+      [
+        "4",
+        "5"
+      ],
+      [
+        "5",
+        "0"
+      ],
+      [
+        "6",
+        "8"
+      ],
+      [
+        "7",
+        "50"
+      ],
+      [
+        "8",
+        "20"
+      ]
+    ]
+  },
+  "l067" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 7,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ],
+      [
+        "3",
+        "Cleo"
+      ],
+      [
+        "4",
+        "Davi"
+      ],
+      [
+        "5",
+        "Eli"
+      ],
+      [
+        "6",
+        "Fara"
+      ],
+      [
+        "60",
+        "Zara"
+      ]
+    ]
+  },
+  "l068" : {
+    "columns" : [
+      "product_id",
+      "old_price",
+      "new_price"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "12.50",
+        "14.50"
+      ]
+    ]
+  },
+  "l069" : {
+    "columns" : [
+      "id",
+      "title"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "SQL guide"
+      ]
+    ]
+  },
+  "l070" : {
+    "columns" : [
+      "amname",
+      "key1",
+      "key2"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "btree",
+        "customer_id",
+        "ordered_on"
+      ]
+    ]
+  },
+  "l071" : {
+    "columns" : [
+      "amname",
+      "key1"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "gin",
+        "attributes"
+      ]
+    ]
+  },
+  "l072" : {
+    "columns" : [
+      "key1",
+      "predicate"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "ordered_on",
+        "(status = 'pending'::text)"
+      ]
+    ]
+  },
+  "l073" : {
+    "columns" : [
+      "QUERY PLAN"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "Seq Scan on products"
+      ],
+      [
+        "  Filter: (price > '50'::numeric)"
+      ]
+    ]
+  },
+  "l074" : {
+    "columns" : [
+      "QUERY PLAN"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "Seq Scan on products (actual rows=1.00 loops=1)"
+      ],
+      [
+        "  Filter: (stock = 0)"
+      ],
+      [
+        "  Rows Removed by Filter: 7"
+      ],
+      [
+        "  Buffers: shared hit=1"
+      ],
+      [
+        "Planning:"
+      ],
+      [
+        "  Buffers: shared hit=80"
+      ]
+    ]
+  },
+  "l075" : {
+    "columns" : [
+      "customer_id",
+      "paid_count"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "3"
+      ],
+      [
+        "2",
+        "2"
+      ],
+      [
+        "3",
+        "1"
+      ],
+      [
+        "4",
+        "1"
+      ],
+      [
+        "5",
+        "1"
+      ],
+      [
+        "6",
+        "0"
+      ]
+    ]
+  },
+  "l076" : {
+    "columns" : [
+      "category",
+      "product_count"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "Home",
+        "2"
+      ],
+      [
+        "Office",
+        "3"
+      ],
+      [
+        "Tech",
+        "3"
+      ]
+    ]
+  },
+  "l077" : {
+    "columns" : [
+      "estimated_rows",
+      "has_visible_pages"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "8",
+        "t"
+      ]
+    ]
+  },
+  "l078" : {
+    "columns" : [
+      "customer_id",
+      "order_count"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "3"
+      ],
+      [
+        "2",
+        "3"
+      ],
+      [
+        "3",
+        "2"
+      ],
+      [
+        "4",
+        "2"
+      ],
+      [
+        "5",
+        "1"
+      ]
+    ]
+  },
+  "l079" : {
+    "columns" : [
+      "isolation_level"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "read committed"
+      ]
+    ]
+  },
+  "l080" : {
+    "columns" : [
+      "id",
+      "balance"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "1000.00"
+      ],
+      [
+        "2",
+        "500.00"
+      ]
+    ]
+  },
+  "l081" : {
+    "columns" : [
+      "id",
+      "balance"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "1",
+        "985.00"
+      ],
+      [
+        "2",
+        "500.00"
+      ],
+      [
+        "3",
+        "765.00"
+      ]
+    ]
+  },
+  "l082" : {
+    "columns" : [
+      "can_select"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "t"
+      ]
+    ]
+  },
+  "l083" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ]
+    ]
+  },
+  "l084" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "4",
+        "Davi"
+      ]
+    ]
+  },
+  "l085" : {
+    "columns" : [
+      "id",
+      "owner",
+      "balance"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "1",
+        "Ada",
+        "1000.00"
+      ],
+      [
+        "2",
+        "Ben",
+        "500.00"
+      ],
+      [
+        "3",
+        "Cleo",
+        "750.00"
+      ]
+    ]
+  },
+  "l086" : {
+    "columns" : [
+      "in_recovery"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "f"
+      ]
+    ]
+  },
+  "l087" : {
+    "columns" : [
+      "invalid_total_count"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "0"
+      ]
+    ]
+  },
+  "l088" : {
+    "columns" : [
+      "n"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1"
+      ],
+      [
+        "2"
+      ],
+      [
+        "3"
+      ],
+      [
+        "4"
+      ],
+      [
+        "5"
+      ]
+    ]
+  },
+  "l089" : {
+    "columns" : [
+      "id",
+      "path"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "{1}"
+      ],
+      [
+        "2",
+        "{1,2}"
+      ],
+      [
+        "3",
+        "{1,2,3}"
+      ],
+      [
+        "4",
+        "{1,4}"
+      ],
+      [
+        "5",
+        "{1,4,5}"
+      ],
+      [
+        "6",
+        "{1,2,6}"
+      ]
+    ]
+  },
+  "l090" : {
+    "columns" : [
+      "manager_id",
+      "report_count"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "5"
+      ],
+      [
+        "2",
+        "2"
+      ],
+      [
+        "3",
+        "0"
+      ],
+      [
+        "4",
+        "1"
+      ],
+      [
+        "5",
+        "0"
+      ],
+      [
+        "6",
+        "0"
+      ]
+    ]
+  },
+  "l091" : {
+    "columns" : [
+      "id",
+      "guest"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ],
+      [
+        "2",
+        "Ben"
+      ]
+    ]
+  },
+  "l092" : {
+    "columns" : [
+      "id",
+      "event_day",
+      "partition"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "1",
+        "2024-03-31",
+        "q1_events"
+      ],
+      [
+        "2",
+        "2024-04-01",
+        "q2_events"
+      ]
+    ]
+  },
+  "l093" : {
+    "columns" : [
+      "category",
+      "product_names"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "Home",
+        "{Mug,Lamp}"
+      ],
+      [
+        "Office",
+        "{Notebook,Pen,Folder}"
+      ],
+      [
+        "Tech",
+        "{Keyboard,Monitor,Cable}"
+      ]
+    ]
+  },
+  "l094" : {
+    "columns" : [
+      "island_start",
+      "island_end",
+      "day_count"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "2024-07-01",
+        "2024-07-02",
+        "2"
+      ],
+      [
+        "2024-07-04",
+        "2024-07-04",
+        "1"
+      ],
+      [
+        "2024-07-07",
+        "2024-07-07",
+        "1"
+      ]
+    ]
+  },
+  "l095" : {
+    "columns" : [
+      "id",
+      "name"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "Ada"
+      ]
+    ]
+  },
+  "l096" : {
+    "columns" : [
+      "median_price"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "13.75"
+      ]
+    ]
+  },
+  "l097" : {
+    "columns" : [
+      "customer_id",
+      "name",
+      "paid_orders",
+      "revenue"
+    ],
+    "rowCount" : 6,
+    "rows" : [
+      [
+        "1",
+        "Ada",
+        "3",
+        "295.00"
+      ],
+      [
+        "2",
+        "Ben",
+        "2",
+        "150.00"
+      ],
+      [
+        "4",
+        "Davi",
+        "1",
+        "90.00"
+      ],
+      [
+        "3",
+        "Cleo",
+        "1",
+        "45.00"
+      ],
+      [
+        "5",
+        "Eli",
+        "1",
+        "25.00"
+      ],
+      [
+        "6",
+        "Fara",
+        "0",
+        "0"
+      ]
+    ]
+  },
+  "l098" : {
+    "columns" : [
+      "id",
+      "name",
+      "stock",
+      "units_to_buy"
+    ],
+    "rowCount" : 4,
+    "rows" : [
+      [
+        "5",
+        "Mug",
+        "0",
+        "20"
+      ],
+      [
+        "4",
+        "Monitor",
+        "5",
+        "15"
+      ],
+      [
+        "6",
+        "Lamp",
+        "8",
+        "12"
+      ],
+      [
+        "3",
+        "Keyboard",
+        "12",
+        "8"
+      ]
+    ]
+  },
+  "l099" : {
+    "columns" : [
+      "id",
+      "guest",
+      "nights",
+      "charge"
+    ],
+    "rowCount" : 5,
+    "rows" : [
+      [
+        "1",
+        "Ada",
+        "3",
+        "300.00"
+      ],
+      [
+        "2",
+        "Ben",
+        "3",
+        "360.00"
+      ],
+      [
+        "3",
+        "Cleo",
+        "2",
+        "200.00"
+      ],
+      [
+        "4",
+        "Davi",
+        "1",
+        "150.00"
+      ],
+      [
+        "5",
+        "Eli",
+        "3",
+        "360.00"
+      ]
+    ]
+  },
+  "l100" : {
+    "columns" : [
+      "id",
+      "source_id",
+      "destination_id",
+      "amount"
+    ],
+    "rowCount" : 1,
+    "rows" : [
+      [
+        "1",
+        "1",
+        "2",
+        "50.00"
+      ]
+    ]
+  },
+  "l101" : {
+    "columns" : [
+      "device",
+      "event_count",
+      "customer_count"
+    ],
+    "rowCount" : 2,
+    "rows" : [
+      [
+        "desktop",
+        "3",
+        "2"
+      ],
+      [
+        "mobile",
+        "3",
+        "2"
+      ]
+    ]
+  },
+  "l102" : {
+    "columns" : [
+      "month_start",
+      "paid_orders",
+      "paid_revenue",
+      "unique_customers"
+    ],
+    "rowCount" : 3,
+    "rows" : [
+      [
+        "2024-05-01",
+        "3",
+        "354.00",
+        "2"
+      ],
+      [
+        "2024-06-01",
+        "3",
+        "131.00",
+        "3"
+      ],
+      [
+        "2024-07-01",
+        "3",
+        "124.00",
+        "2"
+      ]
+    ]
+  }
+}

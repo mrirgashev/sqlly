@@ -1,0 +1,16 @@
+{
+  "archive": "SQLLY-source.zip",
+  "appVersion": "0.3.0",
+  "zipCRC": "passed",
+  "entries": 110,
+  "sourceFiles": 88,
+  "courseVersion": "1.1.0",
+  "exercisesPerLanguage": 516,
+  "includesEnglishAndRussianUIAndContent": true,
+  "includesLearningCenterAndActivityTests": true,
+  "buildCachesExcluded": true,
+  "generatedNativeRuntimeExcluded": true,
+  "privateUserDataAndSigningMaterialExcluded": true,
+  "developerHomePathMatches": 0,
+  "nativeBinaryEntries": 0
+}

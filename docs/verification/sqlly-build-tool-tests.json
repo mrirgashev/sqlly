@@ -1,0 +1,10 @@
+{
+  "dependency": "DSStore",
+  "source": "https://github.com/sindresorhus/DSStore",
+  "revision": "6dc395837c3dc371f9c3e71794fab719db74c17a",
+  "result": "passed",
+  "tests": 170,
+  "suites": 12,
+  "durationSeconds": 0.696,
+  "scope": "upstream build-only package tests; separate from retained application tests"
+}

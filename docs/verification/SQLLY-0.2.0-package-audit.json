@@ -1,0 +1,34 @@
+{
+  "file": "SQLLY-0.2.0-arm64.dmg",
+  "bytes": 8046757,
+  "sha256": "fa1576079a72f3aed596496203b7a5069b302f0060d4e1e8939de6021d0e717c",
+  "imageIntegrity": "passed",
+  "mountReadOnly": true,
+  "applicationsSymlink": "/Applications",
+  "installationNotesLanguages": [
+    "en",
+    "ru"
+  ],
+  "mountedAppSignature": "deep strict passed",
+  "mountedAppFilesScanned": 715,
+  "developerHomePathMatches": 0,
+  "runtimeNativeBinaries": 39,
+  "architecture": "arm64",
+  "runtimeSmoke": {
+    "postgresVersion": "18.6",
+    "initialization": true,
+    "privateUnixSocket": true,
+    "scramAuthentication": true,
+    "recursiveCTE": true,
+    "jsonb": true,
+    "result": "6|object",
+    "cleanup": true
+  },
+  "nativeMountedLaunch": "passed",
+  "nativeAppAndPostgresExecutablePaths": "confirmed inside mounted SQLLY.app",
+  "automaticAlternativeQueryRows": 6,
+  "explicitGradeFixturesPassed": 2,
+  "automaticExecutionPreservedZeroCompletion": true,
+  "searchAndNumberedTopicNavigation": "Window Function Foundations; 22 steps; six-row SUM OVER result",
+  "quitAndDetach": "passed"
+}

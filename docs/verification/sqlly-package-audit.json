@@ -1,0 +1,55 @@
+{
+  "file": "SQLLY-0.3.1-arm64.dmg",
+  "bytes": 8268102,
+  "sha256": "4bc697ec5ae7dfaedc83575ae818c9bce7bd02fb288ac6e51f28496359ae5144",
+  "version": "0.3.1",
+  "build": "4",
+  "imageIntegrity": "passed",
+  "readOnlyAudit": true,
+  "visibleInstallTargets": [
+    "Applications",
+    "SQLLY.app"
+  ],
+  "applicationsSymlink": "/Applications",
+  "hiddenSupportFiles": [
+    ".DS_Store",
+    ".VolumeIcon.icns",
+    ".Installation.txt",
+    ".background/installer.tiff"
+  ],
+  "finderLayout": {
+    "windowPoints": [
+      660,
+      420
+    ],
+    "appIconPosition": [
+      168,
+      214
+    ],
+    "applicationsIconPosition": [
+      492,
+      214
+    ],
+    "iconSizePoints": 112,
+    "view": "icon",
+    "toolbar": false,
+    "sidebar": false,
+    "statusBar": false,
+    "pathBar": false,
+    "background": "internal relative Carbon Alias; TIFF includes1x/2xoriginalAppKitartwork"
+  },
+  "privacyFilesScanned": 715,
+  "privateOrTemporaryPathMatches": 0,
+  "mountedAppSignature": "strict deep passed",
+  "runtimeNativeBinaries": 39,
+  "architecture": "arm64",
+  "runtimeSmokeResult": "6|object",
+  "runtimeSmokeCleanup": true,
+  "auditMountDetachedBeforeFinderInspection": true,
+  "finderFirstOpen": "passed; two icons, arrow, bilingual background, no extra icons",
+  "installedDragAndLaunch": "passed; actual Finder drag replaced0.3.0with0.3.1",
+  "installedAppFileHashesMatchingDist": 715,
+  "installedRealQueryRows": 6,
+  "userLearningTableValuesPreserved": true,
+  "installationImageDetachedByVerifiedImagePath": true
+}

@@ -1,0 +1,22 @@
+.build/
+.swiftpm/
+dist/
+.DS_Store
+*.xcuserstate
+*.xcuserdata/
+work/
+# Runtime is reproducible from official source; publish via release assets.
+Sources/SQLCore/Resources/Postgres/
+# Local credentials, signing material, and user progress must never be committed.
+.env
+.env.*
+!.env.example
+*.p12
+*.pem
+*.pfx
+*.p8
+*.key
+*.mobileprovision
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

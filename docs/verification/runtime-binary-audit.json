@@ -1,0 +1,335 @@
+{
+  "runtimeVersion": "18.6",
+  "architecture": "arm64",
+  "filesScanned": 701,
+  "developerHomePathMatches": 0,
+  "nativeBinaries": 39,
+  "binaries": [
+    {
+      "path": "bin/initdb",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "@executable_path/../lib/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/pg_ctl",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/pg_dump",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "@executable_path/../lib/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/pg_isready",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "@executable_path/../lib/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/pg_restore",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "@executable_path/../lib/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/postgres",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "bin/psql",
+      "file": "Mach-O 64-bit executable arm64",
+      "dependencies": [
+        "@executable_path/../lib/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 11\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/libecpg.6.dylib",
+      "file": "Mach-O 64-bit dynamically linked shared library arm64",
+      "dependencies": [
+        "@loader_path/libecpg.6.dylib (compatibility version 6.0.0, current version 6.18.0)",
+        "@loader_path/libpgtypes.3.dylib (compatibility version 3.0.0, current version 3.18.0)",
+        "@loader_path/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 10\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/libecpg_compat.3.dylib",
+      "file": "Mach-O 64-bit dynamically linked shared library arm64",
+      "dependencies": [
+        "@loader_path/libecpg_compat.3.dylib (compatibility version 3.0.0, current version 3.18.0)",
+        "@loader_path/libecpg.6.dylib (compatibility version 6.0.0, current version 6.18.0)",
+        "@loader_path/libpgtypes.3.dylib (compatibility version 3.0.0, current version 3.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 10\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/libpgtypes.3.dylib",
+      "file": "Mach-O 64-bit dynamically linked shared library arm64",
+      "dependencies": [
+        "@loader_path/libpgtypes.3.dylib (compatibility version 3.0.0, current version 3.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 10\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/libpq.5.dylib",
+      "file": "Mach-O 64-bit dynamically linked shared library arm64",
+      "dependencies": [
+        "@loader_path/libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 10\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/cyrillic_and_mic.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/dict_snowball.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/euc2004_sjis2004.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/euc_cn_and_mic.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/euc_jp_and_sjis.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/euc_kr_and_mic.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/euc_tw_and_big5.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/latin2_and_win1250.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/latin_and_mic.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/libpqwalreceiver.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "@loader_path/../libpq.5.dylib (compatibility version 5.0.0, current version 5.18.0)",
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 9\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/pgoutput.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 9\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/plpgsql.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 9\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_big5.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_cyrillic.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_euc2004.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_euc_cn.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_euc_jp.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_euc_kr.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_euc_tw.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_gb18030.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_gbk.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_iso8859.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_iso8859_1.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_johab.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_sjis.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_sjis2004.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_uhc.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    },
+    {
+      "path": "lib/postgresql/utf8_and_win.dylib",
+      "file": "Mach-O 64-bit bundle arm64",
+      "dependencies": [
+        "/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)"
+      ],
+      "buildVersion": "Load command 8\n      cmd LC_BUILD_VERSION\n  cmdsize 32\n platform MACOS\n    minos 14.0\n      sdk 27.0\n   ntools 1\n     tool LD\n  version 27037.1"
+    }
+  ]
+}

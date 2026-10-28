@@ -1,0 +1,46 @@
+{
+  "file": "SQLLY-0.3.0-arm64.dmg",
+  "bytes": 8227995,
+  "sha256": "b18ce4ff32f21d4fa608ee973a3b90bae7ace48d626932e7964a793213948e71",
+  "imageIntegrity": "passed",
+  "mountReadOnly": true,
+  "verifiedMountPoint": "/Volumes/SQLLY 1",
+  "version": "0.3.0",
+  "build": "3",
+  "existingUserSQLLYMountPreserved": true,
+  "applicationsSymlink": "/Applications",
+  "installationNotesLanguages": [
+    "en",
+    "ru"
+  ],
+  "mountedAppSignature": "deep strict passed",
+  "mountedAppFilesScanned": 715,
+  "developerHomePathMatches": 0,
+  "runtimeNativeBinaries": 39,
+  "architecture": "arm64",
+  "runtimeSmoke": {
+    "postgresVersion": "18.6",
+    "initialization": true,
+    "privateUnixSocket": true,
+    "scramAuthentication": true,
+    "recursiveCTE": true,
+    "jsonb": true,
+    "result": "6|object",
+    "cleanup": true
+  },
+  "nativeMountedLaunch": "passed",
+  "nativeAppAndPostgresExecutablePaths": "confirmed inside /Volumes/SQLLY 1/SQLLY.app",
+  "nativeActualQueryRows": 6,
+  "runShortcut": "Command-Return passed",
+  "learningCenterShortcut": "Command-Shift-L passed",
+  "preservedEmptyActivity": {
+    "submissions": 0,
+    "currentStreak": 0,
+    "russianDateLabel": true,
+    "firstSubmissionCaption": true
+  },
+  "quitAndOwnMountDetach": "passed",
+  "userLearningDataRowValuesPreserved": true,
+  "originalLanguageAppearanceAndEditorSizePreferencesPreserved": true,
+  "windowSizingScope": "current application window and 960x680 Learning Center; panel dragging/minimum sizing not separately tested"
+}

@@ -1,0 +1,53 @@
+SQLLY — Offline SQL & PostgreSQL learning
+
+1. Open the SQLLY .dmg file. In its Finder window, drag SQLLY.app on the left
+   onto the Applications folder on the right.
+2. Wait for copying to finish, then eject the SQLLY disk image in Finder.
+3. Open SQLLY from Applications.
+4. Begin a lesson. PostgreSQL is bundled and initializes locally on first use.
+
+This development release is ad-hoc signed, not Developer ID signed or
+notarized. macOS may require an explicit Open action in Finder or approval in
+System Settings > Privacy & Security. Do not disable system-wide security.
+
+No Homebrew, Docker, Node.js, Python, or separate PostgreSQL installation is
+needed to use the app. Course content, practice SQL, grading, and progress are
+stored locally. Network access is not needed for learning.
+
+Updates: quit SQLLY, replace the app, reopen it. Progress lives outside
+the app and is preserved. Export progress before updating to a new version.
+
+Uninstall: quit SQLLY and move the app to Trash. The app's learning
+progress remains in ~/Library/Application Support/QueryCraft. To remove all
+learning data too, export it first, then remove that folder while the app is
+closed. Appearance/editor preferences may remain in the macOS defaults domain
+org.querycraft.QueryCraft. See docs/PROGRESS.md and docs/ENGINE.md in the source
+project for complete data locations and recovery details.
+
+SQLLY is the new visible name of the existing application. The internal bundle
+identifier and QueryCraft data-folder name stay stable so updates preserve
+learning progress and preferences.
+
+Upgrading from QueryCraft 0.1.0: close QueryCraft, install SQLLY, then remove
+the old QueryCraft.app copy if it remains in Applications. Keep the existing
+Application Support/QueryCraft folder; SQLLY reads the same learning data.
+
+Установка SQLLY
+
+1. Откройте файл .dmg. В окне Finder перетащите значок SQLLY.app слева
+   на папку Applications («Программы») справа.
+2. Дождитесь завершения копирования и извлеките образ SQLLY в Finder.
+3. Откройте SQLLY из папки «Программы».
+4. В настройках приложения выберите English или Русский.
+
+PostgreSQL входит в приложение. Отдельный сервер, Docker, Homebrew, Node.js
+или Python для обучения не нужны. Уроки, запросы и прогресс доступны локально.
+
+Эта сборка для разработки подписана локальной подписью и не прошла
+нотаризацию Apple. Не отключайте системные средства защиты. Для обновления
+закройте SQLLY, замените приложение и откройте его снова. Существующий
+прогресс хранится отдельно в ~/Library/Application Support/QueryCraft.
+
+При обновлении с QueryCraft 0.1.0 закройте старое приложение, установите SQLLY
+и затем удалите старую копию QueryCraft.app из «Программ», если она осталась.
+Папку Application Support/QueryCraft сохраняйте: SQLLY использует тот же прогресс.

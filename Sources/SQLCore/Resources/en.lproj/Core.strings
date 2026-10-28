@@ -1,0 +1,15 @@
+"Expected %ld columns, but your query returned %ld. Check the SELECT list." = "Expected %ld columns, but your query returned %ld. Check the SELECT list.";
+"Column names must be %@. Check your aliases and column order." = "Column names must be %@. Check your aliases and column order.";
+"Expected %ld rows, but your query returned %ld. Check filters, JOIN cardinality, and duplicates." = "Expected %ld rows, but your query returned %ld. Check filters, JOIN cardinality, and duplicates.";
+"Some values or their order differ. Check ORDER BY, NULL handling, expressions, and tie breakers." = "Some values or their order differ. Check ORDER BY, NULL handling, expressions, and tie breakers.";
+"Some values differ. Duplicate rows count separately. Check NULL handling, calculations, and JOIN conditions." = "Some values differ. Duplicate rows count separately. Check NULL handling, calculations, and JOIN conditions.";
+"%@ Fixture %ld of %ld." = "%@ Fixture %ld of %ld.";
+"Row order was checked." = "Row order was checked.";
+"Equivalent row orderings are accepted." = "Equivalent row orderings are accepted.";
+"Correct across all %ld datasets. %@" = "Correct across all %ld datasets. %@";
+"Correct. You selected every valid option." = "Correct. You selected every valid option.";
+"Revisit the conditions. Select every valid option; more than one may be correct." = "Revisit the conditions. Select every valid option; more than one may be correct.";
+"Explanation tasks require learner self-assessment with the supplied rubric." = "Explanation tasks require learner self-assessment with the supplied rubric.";
+"Enter values in the prediction table, or mark a missing value as NULL. Add or remove rows to match the predicted output." = "Enter values in the prediction table, or mark a missing value as NULL. Add or remove rows to match the predicted output.";
+"Each predicted row needs %ld values." = "Each predicted row needs %ld values.";
+"Correct prediction, verified by PostgreSQL across all %ld datasets." = "Correct prediction, verified by PostgreSQL across all %ld datasets.";

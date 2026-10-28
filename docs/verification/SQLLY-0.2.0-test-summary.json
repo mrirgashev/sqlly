@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-28",
+  "command": "swift test",
+  "result": "passed",
+  "tests": 41,
+  "suites": 10,
+  "durationSeconds": 386.292,
+  "courseAnswers": 516,
+  "sqlAnswers": 510,
+  "predictions": 2,
+  "conceptualResponses": 4,
+  "fixtureComparisons": 1020,
+  "lessonsWithExpectedResultPreviews": 102,
+  "referencePreviews": 512,
+  "note": "Manual interface and package evidence is documented separately in VERIFICATION.md."
+}

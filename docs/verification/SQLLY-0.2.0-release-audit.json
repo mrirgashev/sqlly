@@ -1,0 +1,35 @@
+{
+  "appName": "SQLLY",
+  "version": "0.2.0",
+  "build": "2",
+  "bundleIdentifier": "org.querycraft.QueryCraft",
+  "architecture": "arm64",
+  "deploymentTarget": "14.0",
+  "signed": "ad-hoc; deep strict validation passed",
+  "resourceBundles": [
+    "SQLLY_SQLCore.bundle",
+    "SQLLY_SQLLY.bundle"
+  ],
+  "courseVersion": "1.1.0",
+  "modules": 34,
+  "lessons": 102,
+  "exercisesPerLanguage": 516,
+  "localizations": [
+    "en",
+    "ru"
+  ],
+  "interfaceEntriesPerLanguage": 279,
+  "stateValidationTasks": 138,
+  "outputContractTasks": [
+    "l034-e1",
+    "l034-e4",
+    "l039-e1",
+    "l039-e3",
+    "l039-e4",
+    "l051-e4",
+    "l084-e1"
+  ],
+  "filesScanned": 715,
+  "developerHomePathMatches": 0,
+  "iconBytes": 148065
+}

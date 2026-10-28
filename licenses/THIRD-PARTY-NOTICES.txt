@@ -1,0 +1,2462 @@
+QueryCraft bundled PostgreSQL 18.6 — upstream third-party notices
+
+PostgreSQL is distributed under its own license, reproduced separately.
+Its upstream source also contains permissively licensed components.
+This notice preserves embedded licenses, including conditional portability
+implementations that may not be used on every supported macOS version.
+
+Snowball source snapshot: d19326ac6c1b9a417fc872f7c2f845265a5e9ece
+https://github.com/snowballstem/snowball/tree/d19326ac6c1b9a417fc872f7c2f845265a5e9ece
+Unicode generated data version: 16.0 (upstream src/include/common/unicode_version.h)
+https://www.unicode.org/Public/16.0.0/ucd/ReadMe.txt
+Unicode License V3 notice retrieved from https://www.unicode.org/license.txt on 2026-10-28.
+
+
+========================================================================
+LICENSE-PostgreSQL.txt
+========================================================================
+
+PostgreSQL Database Management System
+(also known as Postgres, formerly known as Postgres95)
+
+Portions Copyright (c) 1996-2026, PostgreSQL Global Development Group
+
+Portions Copyright (c) 1994, The Regents of the University of California
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose, without fee, and without a written agreement
+is hereby granted, provided that the above copyright notice and this
+paragraph and the following two paragraphs appear in all copies.
+
+IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
+LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
+DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS
+ON AN "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO
+PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+
+
+
+========================================================================
+LICENSE-Regex-Tcl.txt
+========================================================================
+
+This regular expression package was originally developed by Henry Spencer.
+It bears the following copyright notice:
+
+**********************************************************************
+
+Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+
+Development of this software was funded, in part, by Cray Research Inc.,
+UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+Corporation, none of whom are responsible for the results.  The author
+thanks all of them. 
+
+Redistribution and use in source and binary forms -- with or without
+modification -- are permitted for any purpose, provided that
+redistributions in source form retain this entire copyright notice and
+indicate the origin and nature of any modifications.
+
+I'd appreciate being given credit for this package in the documentation
+of software which uses it, but that is not a requirement.
+
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+**********************************************************************
+
+PostgreSQL adopted the code out of Tcl 8.4.1.  Portions of regc_locale.c
+and re_syntax.n were developed by Tcl developers other than Henry; these
+files bear the Tcl copyright and license notice:
+
+**********************************************************************
+
+This software is copyrighted by the Regents of the University of
+California, Sun Microsystems, Inc., Scriptics Corporation, ActiveState
+Corporation and other parties.  The following terms apply to all files
+associated with the software unless explicitly disclaimed in
+individual files.
+
+The authors hereby grant permission to use, copy, modify, distribute,
+and license this software and its documentation for any purpose, provided
+that existing copyright notices are retained in all copies and that this
+notice is included verbatim in any distributions. No written agreement,
+license, or royalty fee is required for any of the authorized uses.
+Modifications to this software may be copyrighted by their authors
+and need not follow the licensing terms described here, provided that
+the new terms are clearly indicated on the first page of each file where
+they apply.
+
+IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY PARTY
+FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION, OR ANY
+DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  THIS SOFTWARE
+IS PROVIDED ON AN "AS IS" BASIS, AND THE AUTHORS AND DISTRIBUTORS HAVE
+NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR
+MODIFICATIONS.
+
+GOVERNMENT USE: If you are acquiring this software on behalf of the
+U.S. government, the Government shall have only "Restricted Rights"
+in the software and related documentation as defined in the Federal 
+Acquisition Regulations (FARs) in Clause 52.227.19 (c) (2).  If you
+are acquiring the software on behalf of the Department of Defense, the
+software shall be classified as "Commercial Computer Software" and the
+Government shall have only "Restricted Rights" as defined in Clause
+252.227-7013 (c) (1) of DFARs.  Notwithstanding the foregoing, the
+authors grant the U.S. Government and others acting in its behalf
+permission to use and distribute the software in accordance with the
+terms specified in this license. 
+
+**********************************************************************
+
+Subsequent modifications to the code by the PostgreSQL project follow
+the same license terms as the rest of PostgreSQL.
+
+
+
+========================================================================
+LICENSE-Snowball.txt
+========================================================================
+
+Copyright (c) 2001, Dr Martin Porter
+Copyright (c) 2004,2005, Richard Boulton
+Copyright (c) 2013, Yoshiki Shibukawa
+Copyright (c) 2006,2007,2009,2010,2011,2014-2019, Olly Betts
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  1. Redistributions of source code must retain the above copyright notice,
+     this list of conditions and the following disclaimer.
+  2. Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+  3. Neither the name of the Snowball project nor the names of its contributors
+     may be used to endorse or promote products derived from this software
+     without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+========================================================================
+LICENSE-Unicode.txt
+========================================================================
+
+UNICODE LICENSE V3
+
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright © 1991-2026 Unicode, Inc.
+
+NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of data files and any associated documentation (the "Data Files") or
+software and any associated documentation (the "Software") to deal in the
+Data Files or Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that either (a)
+this copyright and permission notice appear with all copies of the Data
+Files or Software, or (b) this copyright and permission notice appear in
+associated Documentation.
+
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+THIRD PARTY RIGHTS.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+FILES OR SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written
+authorization of the copyright holder.
+
+
+
+========================================================================
+LICENSE-Boost.txt
+========================================================================
+
+Boost Software License - Version 1.0 - August 17th, 2003
+
+Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare derivative works of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:
+
+The copyright notices in the Software and this entire statement, including
+the above license grant, this restriction and the following disclaimer,
+must be included in all copies of the Software, in whole or in part, and
+all derivative works of the Software, unless such copies or derivative
+works are solely in the form of machine-executable object code generated by
+a source language processor.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+
+
+========================================================================
+Upstream src/backend/lib/hyperloglog.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * hyperloglog.c
+ *	  HyperLogLog cardinality estimator
+ *
+ * Portions Copyright (c) 2014-2025, PostgreSQL Global Development Group
+ *
+ * Based on Hideaki Ohno's C++ implementation.  This is probably not ideally
+ * suited to estimating the cardinality of very large sets;  in particular, we
+ * have not attempted to further optimize the implementation as described in
+ * the Heule, Nunkesser and Hall paper "HyperLogLog in Practice: Algorithmic
+ * Engineering of a State of The Art Cardinality Estimation Algorithm".
+ *
+ * A sparse representation of HyperLogLog state is used, with fixed space
+ * overhead.
+ *
+ * The copyright terms of Ohno's original version (the MIT license) follow.
+ *
+ * IDENTIFICATION
+ *	  src/backend/lib/hyperloglog.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/backend/lib/hyperloglog.c
+========================================================================
+
+/*
+ * Copyright (c) 2013 Hideaki Ohno <hide.o.j55{at}gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the 'Software'), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+
+========================================================================
+Upstream src/backend/optimizer/geqo/geqo_copy.c
+========================================================================
+
+/*	Copyright (c) 1990										 */
+
+
+========================================================================
+Upstream src/backend/optimizer/geqo/geqo_copy.c
+========================================================================
+
+/*	Permission is hereby granted to copy all or any part of  */
+
+
+========================================================================
+Upstream src/backend/optimizer/geqo/geqo_copy.c
+========================================================================
+
+/*	and this copyright notice must be included in any copy.  */
+
+
+========================================================================
+Upstream src/backend/regex/regc_color.c
+========================================================================
+
+/*
+ * colorings of characters
+ * This file is #included by regcomp.c.
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regc_color.c
+ *
+ *
+ * Note that there are some incestuous relationships between this code and
+ * NFA arc maintenance, which perhaps ought to be cleaned up sometime.
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regc_cvec.c
+========================================================================
+
+/*
+ * Utility functions for handling cvecs
+ * This file is #included by regcomp.c.
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regc_cvec.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regc_lex.c
+========================================================================
+
+/*
+ * lexical analyzer
+ * This file is #included by regcomp.c.
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regc_lex.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regc_locale.c
+========================================================================
+
+/*
+ * regc_locale.c --
+ *
+ *	This file contains locale-specific regexp routines.
+ *	This file is #included by regcomp.c.
+ *
+ * Copyright (c) 1998 by Scriptics Corporation.
+ *
+ * This software is copyrighted by the Regents of the University of
+ * California, Sun Microsystems, Inc., Scriptics Corporation, ActiveState
+ * Corporation and other parties.  The following terms apply to all files
+ * associated with the software unless explicitly disclaimed in
+ * individual files.
+ *
+ * The authors hereby grant permission to use, copy, modify, distribute,
+ * and license this software and its documentation for any purpose, provided
+ * that existing copyright notices are retained in all copies and that this
+ * notice is included verbatim in any distributions. No written agreement,
+ * license, or royalty fee is required for any of the authorized uses.
+ * Modifications to this software may be copyrighted by their authors
+ * and need not follow the licensing terms described here, provided that
+ * the new terms are clearly indicated on the first page of each file where
+ * they apply.
+ *
+ * IN NO EVENT SHALL THE AUTHORS OR DISTRIBUTORS BE LIABLE TO ANY PARTY
+ * FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES
+ * ARISING OUT OF THE USE OF THIS SOFTWARE, ITS DOCUMENTATION, OR ANY
+ * DERIVATIVES THEREOF, EVEN IF THE AUTHORS HAVE BEEN ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE AUTHORS AND DISTRIBUTORS SPECIFICALLY DISCLAIM ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  THIS SOFTWARE
+ * IS PROVIDED ON AN "AS IS" BASIS, AND THE AUTHORS AND DISTRIBUTORS HAVE
+ * NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR
+ * MODIFICATIONS.
+ *
+ * GOVERNMENT USE: If you are acquiring this software on behalf of the
+ * U.S. government, the Government shall have only "Restricted Rights"
+ * in the software and related documentation as defined in the Federal
+ * Acquisition Regulations (FARs) in Clause 52.227.19 (c) (2).  If you
+ * are acquiring the software on behalf of the Department of Defense, the
+ * software shall be classified as "Commercial Computer Software" and the
+ * Government shall have only "Restricted Rights" as defined in Clause
+ * 252.227-7013 (c) (1) of DFARs.  Notwithstanding the foregoing, the
+ * authors grant the U.S. Government and others acting in its behalf
+ * permission to use and distribute the software in accordance with the
+ * terms specified in this license.
+ *
+ * src/backend/regex/regc_locale.c
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regc_nfa.c
+========================================================================
+
+/*
+ * NFA utilities.
+ * This file is #included by regcomp.c.
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regc_nfa.c
+ *
+ *
+ * One or two things that technically ought to be in here
+ * are actually in color.c, thanks to some incestuous relationships in
+ * the color chains.
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regcomp.c
+========================================================================
+
+/*
+ * re_*comp and friends - compile REs
+ * This file #includes several others (see the bottom).
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regcomp.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/rege_dfa.c
+========================================================================
+
+/*
+ * DFA routines
+ * This file is #included by regexec.c.
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/rege_dfa.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regerror.c
+========================================================================
+
+/*
+ * regerror - error-code expansion
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regerror.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regexec.c
+========================================================================
+
+/*
+ * re_*exec and friends - match REs
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regexec.c
+ *
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regexport.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * regexport.c
+ *	  Functions for exporting info about a regex's NFA
+ *
+ * In this implementation, the NFA defines a necessary but not sufficient
+ * condition for a string to match the regex: that is, there can be strings
+ * that match the NFA but don't match the full regex, but not vice versa.
+ * Thus, for example, it is okay for the functions below to treat lookaround
+ * constraints as no-ops, since they merely constrain the string some more.
+ *
+ * Notice that these functions return info into caller-provided arrays
+ * rather than doing their own malloc's.  This simplifies the APIs by
+ * eliminating a class of error conditions, and in the case of colors
+ * allows the caller to decide how big is too big to bother with.
+ *
+ *
+ * Portions Copyright (c) 2013-2025, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1998, 1999 Henry Spencer
+ *
+ * IDENTIFICATION
+ *	  src/backend/regex/regexport.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regfree.c
+========================================================================
+
+/*
+ * regfree - free an RE
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/backend/regex/regfree.c
+ *
+ *
+ * You might think that this could be incorporated into regcomp.c, and
+ * that would be a reasonable idea... except that this is a generic
+ * function (with a generic name), applicable to all compiled REs
+ * regardless of the size of their characters, whereas the stuff in
+ * regcomp.c gets compiled once per character size.
+ */
+
+
+========================================================================
+Upstream src/backend/regex/regprefix.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * regprefix.c
+ *	  Extract a common prefix, if any, from a compiled regex.
+ *
+ *
+ * Portions Copyright (c) 2012-2025, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1998, 1999 Henry Spencer
+ *
+ * IDENTIFICATION
+ *	  src/backend/regex/regprefix.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/backend/utils/adt/inet_cidr_ntop.c
+========================================================================
+
+/*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (c) 1996,1999 by Internet Software Consortium.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *	  src/backend/utils/adt/inet_cidr_ntop.c
+ */
+
+
+========================================================================
+Upstream src/backend/utils/adt/inet_net_pton.c
+========================================================================
+
+/*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (c) 1996,1999 by Internet Software Consortium.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *	  src/backend/utils/adt/inet_net_pton.c
+ */
+
+
+========================================================================
+Upstream src/backend/utils/adt/pg_upgrade_support.c
+========================================================================
+
+/*
+	 * Binary upgrades only allowed super-user connections so we must have
+	 * permission to use replication slots.
+	 */
+
+
+========================================================================
+Upstream src/backend/utils/mb/conversion_procs/euc_tw_and_big5/big5.c
+========================================================================
+
+/*
+ * conversion between BIG5 and Mule Internal Code(CNS 116643-1992
+ * plane 1 and plane 2).
+ * This program is partially copied from lv(Multilingual file viewer)
+ * and slightly modified. lv is written and copyrighted by NARITA Tomio
+ * (nrt@web.ad.jp).
+ *
+ * 1999/1/15 Tatsuo Ishii
+ *
+ * src/backend/utils/mb/conversion_procs/euc_tw_and_big5/big5.c
+ */
+
+
+========================================================================
+Upstream src/backend/utils/mb/wstrcmp.c
+========================================================================
+
+/*
+ * src/backend/utils/mb/wstrcmp.c
+ *
+ *-
+ * Copyright (c) 1990, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * This code is derived from software contributed to Berkeley by
+ * Chris Torek.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/backend/utils/mb/wstrncmp.c
+========================================================================
+
+/*
+ * src/backend/utils/mb/wstrncmp.c
+ *
+ *
+ * Copyright (c) 1989, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * This code is derived from FreeBSD 2.2.1-RELEASE software.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/common/d2s.c
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Ryu floating-point output for double precision.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/common/d2s.c
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/common/d2s_full_table.h
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Ryu floating-point output for double precision.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/common/d2s_full_table.h
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/common/d2s_intrinsics.h
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Ryu floating-point output for double precision.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/common/d2s_intrinsics.h
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/common/f2s.c
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Ryu floating-point output for single precision.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/common/f2s.c
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/common/md5.c
+========================================================================
+
+/*
+ * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the project nor the names of its contributors
+ *   may be used to endorse or promote products derived from this software
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/common/md5_int.h
+========================================================================
+
+/*
+ * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the project nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE PROJECT AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE PROJECT OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/common/ryu_common.h
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Common routines for Ryu floating-point output.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/common/ryu_common.h
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/common/sha2.c
+========================================================================
+
+/*
+ * FILE:	sha2.c
+ * AUTHOR:	Aaron D. Gifford <me@aarongifford.com>
+ *
+ * Copyright (c) 2000-2001, Aaron D. Gifford
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTOR(S) ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTOR(S) BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * $From: sha2.c,v 1.1 2001/11/08 00:01:51 adg Exp adg $
+ */
+
+
+========================================================================
+Upstream src/common/sha2_int.h
+========================================================================
+
+/*
+ * FILE:	sha2.h
+ * AUTHOR:	Aaron D. Gifford <me@aarongifford.com>
+ *
+ * Copyright (c) 2000-2001, Aaron D. Gifford
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTOR(S) ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTOR(S) BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * $From: sha2.h,v 1.1 2001/11/08 00:02:01 adg Exp adg $
+ */
+
+
+========================================================================
+Upstream src/common/wchar.c
+========================================================================
+
+/*
+ * This is an implementation of wcwidth() and wcswidth() as defined in
+ * "The Single UNIX Specification, Version 2, The Open Group, 1997"
+ * <http://www.unix.org/online.html>
+ *
+ * Markus Kuhn -- 2001-09-08 -- public domain
+ *
+ * customised for PostgreSQL
+ *
+ * original available at : http://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c
+ */
+
+
+========================================================================
+Upstream src/port/bsearch_arg.c
+========================================================================
+
+/*
+ * bsearch_arg.c: bsearch variant with a user-supplied pointer
+ *
+ * Copyright (c) 2021-2025, PostgreSQL Global Development Group
+ * Copyright (c) 1990 Regents of the University of California.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. [rescinded 22 July 1999]
+ * 4. Neither the name of the University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * src/port/bsearch_arg.c
+ */
+
+
+========================================================================
+Upstream src/port/getopt.c
+========================================================================
+
+/*
+ * Copyright (c) 1987, 1993, 1994
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/port/getopt_long.c
+========================================================================
+
+/*
+ * getopt_long() -- long options parser
+ *
+ * Portions Copyright (c) 1987, 1993, 1994
+ * The Regents of the University of California.  All rights reserved.
+ *
+ * Portions Copyright (c) 2003
+ * PostgreSQL Global Development Group
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * src/port/getopt_long.c
+ */
+
+
+========================================================================
+Upstream src/port/inet_aton.c
+========================================================================
+
+/* src/port/inet_aton.c
+ *
+ *	This inet_aton() function was taken from the GNU C library and
+ *	incorporated into Postgres for those systems which do not have this
+ *	routine in their standard C libraries.
+ *
+ *	The function was been extracted whole from the file inet_aton.c in
+ *	Release 5.3.12 of the Linux C library, which is derived from the
+ *	GNU C library, by Bryan Henderson in October 1996.  The copyright
+ *	notice from that file is below.
+ */
+
+
+========================================================================
+Upstream src/port/inet_aton.c
+========================================================================
+
+/*
+ * Copyright (c) 1983, 1990, 1993
+ *		The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.  */
+
+
+========================================================================
+Upstream src/port/inet_net_ntop.c
+========================================================================
+
+/*
+ * Copyright (c) 2004 by Internet Systems Consortium, Inc. ("ISC")
+ * Copyright (c) 1996,1999 by Internet Software Consortium.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS.  IN NO EVENT SHALL ISC BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
+ * OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *	  src/port/inet_net_ntop.c
+ */
+
+
+========================================================================
+Upstream src/port/mkdtemp.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * mkdtemp.c
+ *	  create a mode-0700 temporary directory
+ *
+ * Portions Copyright (c) 1996-2025, PostgreSQL Global Development Group
+ *
+ *
+ * IDENTIFICATION
+ *	  src/port/mkdtemp.c
+ *
+ * This code was taken from NetBSD to provide an implementation for platforms
+ * that lack it.  (Among compatibly-licensed implementations, the OpenBSD
+ * version better resists denial-of-service attacks.  However, it has a
+ * cryptographic dependency.)  The NetBSD copyright terms follow.
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/port/mkdtemp.c
+========================================================================
+
+/*
+ * Copyright (c) 1987, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/port/pg_crc32c_sse42.c
+========================================================================
+
+/*
+ * Note: There is no copyright notice in the following generated code.
+ *
+ * We have modified the output to
+ *   - match our function declaration
+ *   - match whitespace to our project style
+ *   - add a threshold for the alignment stanza
+ */
+
+
+========================================================================
+Upstream src/port/pgmkdirp.c
+========================================================================
+
+/*
+ * This is adapted from FreeBSD's src/bin/mkdir/mkdir.c, which bears
+ * the following copyright notice:
+ *
+ * Copyright (c) 1983, 1992, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 4. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/port/snprintf.c
+========================================================================
+
+/*
+ * Copyright (c) 1983, 1995, 1996 Eric P. Allman
+ * Copyright (c) 1988, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ * Portions Copyright (c) 1996-2025, PostgreSQL Global Development Group
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ * src/port/snprintf.c
+ */
+
+
+========================================================================
+Upstream src/port/strlcat.c
+========================================================================
+
+/*
+ * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+
+========================================================================
+Upstream src/port/strlcpy.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * strlcpy.c
+ *	  strncpy done right
+ *
+ * Portions Copyright (c) 1996-2025, PostgreSQL Global Development Group
+ *
+ *
+ * IDENTIFICATION
+ *	  src/port/strlcpy.c
+ *
+ * This file was taken from OpenBSD and is used on platforms that don't
+ * provide strlcpy().  The OpenBSD copyright terms follow.
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/port/strsep.c
+========================================================================
+
+/*-
+ * Copyright (c) 1990, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/port/timingsafe_bcmp.c
+========================================================================
+
+/*
+ * Copyright (c) 2010 Damien Miller.  All rights reserved.
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+
+========================================================================
+Upstream src/port/win32gettimeofday.c
+========================================================================
+
+/*
+ * win32gettimeofday.c
+ *	  Win32 gettimeofday() replacement
+ *
+ * src/port/win32gettimeofday.c
+ *
+ * Copyright (c) 2003 SRA, Inc.
+ * Copyright (c) 2003 SKC, Inc.
+ *
+ * Permission to use, copy, modify, and distribute this software and
+ * its documentation for any purpose, without fee, and without a
+ * written agreement is hereby granted, provided that the above
+ * copyright notice and this paragraph and the following two
+ * paragraphs appear in all copies.
+ *
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE TO ANY PARTY FOR DIRECT,
+ * INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
+ * LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
+ * DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * THE AUTHOR SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE AUTHOR HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE,
+ * SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
+
+
+========================================================================
+Upstream src/include/common/hashfn_unstable.h
+========================================================================
+
+/*
+ * fasthash is a modification of code taken from
+ * https://code.google.com/archive/p/fast-hash/source/default/source
+ * under the terms of the MIT license. The original copyright
+ * notice follows:
+ */
+
+
+========================================================================
+Upstream src/include/common/hashfn_unstable.h
+========================================================================
+
+/* The MIT License
+
+   Copyright (C) 2012 Zilong Tan (eric.zltan@gmail.com)
+
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation
+   files (the "Software"), to deal in the Software without
+   restriction, including without limitation the rights to use, copy,
+   modify, merge, publish, distribute, sublicense, and/or sell copies
+   of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+*/
+
+
+========================================================================
+Upstream src/include/common/shortest_dec.h
+========================================================================
+
+/*---------------------------------------------------------------------------
+ *
+ * Ryu floating-point output.
+ *
+ * Portions Copyright (c) 2018-2025, PostgreSQL Global Development Group
+ *
+ * IDENTIFICATION
+ *	  src/include/common/shortest_dec.h
+ *
+ * This is a modification of code taken from github.com/ulfjack/ryu under the
+ * terms of the Boost license (not the Apache license). The original copyright
+ * notice follows:
+ *
+ * Copyright 2018 Ulf Adams
+ *
+ * The contents of this file may be used under the terms of the Apache
+ * License, Version 2.0.
+ *
+ *     (See accompanying file LICENSE-Apache or copy at
+ *      http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Alternatively, the contents of this file may be used under the terms of the
+ * Boost Software License, Version 1.0.
+ *
+ *     (See accompanying file LICENSE-Boost or copy at
+ *      https://www.boost.org/LICENSE_1_0.txt)
+ *
+ * Unless required by applicable law or agreed to in writing, this software is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.
+ *
+ *---------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/include/getopt_long.h
+========================================================================
+
+/*
+ * Portions Copyright (c) 1987, 1993, 1994
+ * The Regents of the University of California.  All rights reserved.
+ *
+ * Portions Copyright (c) 2003-2025, PostgreSQL Global Development Group
+ *
+ * src/include/getopt_long.h
+ */
+
+
+========================================================================
+Upstream src/include/lib/hyperloglog.h
+========================================================================
+
+/*
+ * hyperloglog.h
+ *
+ * A simple HyperLogLog cardinality estimator implementation
+ *
+ * Portions Copyright (c) 2014-2025, PostgreSQL Global Development Group
+ *
+ * Based on Hideaki Ohno's C++ implementation.  The copyright terms of Ohno's
+ * original version (the MIT license) follow.
+ *
+ * src/include/lib/hyperloglog.h
+ */
+
+
+========================================================================
+Upstream src/include/lib/sort_template.h
+========================================================================
+
+/*-
+ * Copyright (c) 1992, 1993
+ *	  The Regents of the University of California.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/include/pg_getopt.h
+========================================================================
+
+/*
+ * Postgres files that use getopt(3) always include this file.
+ * We must cope with three different scenarios:
+ * 1. We're using the platform's getopt(), and we should just import the
+ *    appropriate declarations.
+ * 2. The platform lacks getopt(), and we must declare everything.
+ * 3. The platform has getopt(), but we're not using it because we don't
+ *    like its behavior.  The declarations we make here must be compatible
+ *    with both the platform's getopt() and our src/port/getopt.c.
+ *
+ * Portions Copyright (c) 1987, 1993, 1994
+ * The Regents of the University of California.  All rights reserved.
+ *
+ * Portions Copyright (c) 2003-2025, PostgreSQL Global Development Group
+ *
+ * src/include/pg_getopt.h
+ */
+
+
+========================================================================
+Upstream src/include/regex/regcustom.h
+========================================================================
+
+/*
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/include/regex/regcustom.h
+ */
+
+
+========================================================================
+Upstream src/include/regex/regex.h
+========================================================================
+
+/*
+ * regular expressions
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/include/regex/regex.h
+ */
+
+
+========================================================================
+Upstream src/include/regex/regexport.h
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * regexport.h
+ *	  Declarations for exporting info about a regex's NFA (nondeterministic
+ *	  finite automaton)
+ *
+ * The functions declared here provide accessors to extract the NFA state
+ * graph and color character sets of a successfully-compiled regex.
+ *
+ * An NFA contains one or more states, numbered 0..N-1.  There is an initial
+ * state, as well as a final state --- reaching the final state denotes
+ * successful matching of an input string.  Each state except the final one
+ * has some out-arcs that lead to successor states, each arc being labeled
+ * with a color that represents one or more concrete character codes.
+ * (The colors of a state's out-arcs need not be distinct, since this is an
+ * NFA not a DFA.)	There are also "pseudocolors" representing start/end of
+ * line and start/end of string.  Colors are numbered 0..C-1, but note that
+ * color 0 is "white" (all unused characters) and can generally be ignored.
+ *
+ * Portions Copyright (c) 2013-2025, PostgreSQL Global Development Group
+ * Portions Copyright (c) 1998, 1999 Henry Spencer
+ *
+ * IDENTIFICATION
+ *	  src/include/regex/regexport.h
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/include/regex/regguts.h
+========================================================================
+
+/*
+ * Internal interface definitions, etc., for the reg package
+ *
+ * Copyright (c) 1998, 1999 Henry Spencer.  All rights reserved.
+ *
+ * Development of this software was funded, in part, by Cray Research Inc.,
+ * UUNET Communications Services Inc., Sun Microsystems Inc., and Scriptics
+ * Corporation, none of whom are responsible for the results.  The author
+ * thanks all of them.
+ *
+ * Redistribution and use in source and binary forms -- with or without
+ * modification -- are permitted for any purpose, provided that
+ * redistributions in source form retain this entire copyright notice and
+ * indicate the origin and nature of any modifications.
+ *
+ * I'd appreciate being given credit for this package in the documentation
+ * of software which uses it, but that is not a requirement.
+ *
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * HENRY SPENCER BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * src/include/regex/regguts.h
+ */
+
+
+========================================================================
+Upstream src/timezone/localtime.c
+========================================================================
+
+/*
+ * This file is in the public domain, so clarified as of
+ * 1996-06-05 by Arthur David Olson.
+ *
+ * IDENTIFICATION
+ *	  src/timezone/localtime.c
+ */
+
+
+========================================================================
+Upstream src/timezone/private.h
+========================================================================
+
+/*
+ * This file is in the public domain, so clarified as of
+ * 1996-06-05 by Arthur David Olson.
+ *
+ * IDENTIFICATION
+ *	  src/timezone/private.h
+ */
+
+
+========================================================================
+Upstream src/timezone/strftime.c
+========================================================================
+
+/*
+ * Copyright 1989 The Regents of the University of California.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *	  notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *	  notice, this list of conditions and the following disclaimer in the
+ *	  documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *	  may be used to endorse or promote products derived from this software
+ *	  without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ */
+
+
+========================================================================
+Upstream src/timezone/strftime.c
+========================================================================
+
+/*
+ * Based on the UCB version with the copyright notice appearing above.
+ *
+ * This is ANSIish only when "multibyte character == plain character".
+ *
+ * IDENTIFICATION
+ *	  src/timezone/strftime.c
+ */
+
+
+========================================================================
+Upstream src/timezone/tzfile.h
+========================================================================
+
+/*
+ * This file is in the public domain, so clarified as of
+ * 1996-06-05 by Arthur David Olson.
+ *
+ * IDENTIFICATION
+ *	  src/timezone/tzfile.h
+ */
+
+
+========================================================================
+Upstream src/timezone/zic.c
+========================================================================
+
+/*
+ * This file is in the public domain, so clarified as of
+ * 2006-07-17 by Arthur David Olson.
+ *
+ * IDENTIFICATION
+ *	  src/timezone/zic.c
+ */
+
+
+========================================================================
+Upstream src/bin/psql/command.c
+========================================================================
+
+/*
+ * \copyright -- print copyright notice
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup.h
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup.h
+ *
+ *	Public interface to the pg_dump archiver routines.
+ *
+ *	See the headers to pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup.h
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_archiver.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_archiver.c
+ *
+ *	Private implementation of the archiver routines.
+ *
+ *	See the headers to pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *	Rights are granted to use this software in any way so long
+ *	as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_archiver.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_archiver.h
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_archiver.h
+ *
+ *	Private interface to the pg_dump archiver routines.
+ *	It is NOT intended that these routines be called by any
+ *	dumper directly.
+ *
+ *	See the headers to pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_archiver.h
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_custom.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_custom.c
+ *
+ *	Implements the custom output format.
+ *
+ *	The comments with the routines in this code are a good place to
+ *	understand how to write a new format.
+ *
+ *	See the headers to pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	and any liability will be limited to the time taken to fix any
+ *	related bug.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_custom.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_directory.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_directory.c
+ *
+ *	A directory format dump is a directory, which contains a "toc.dat" file
+ *	for the TOC, and a separate file for each data entry, named "<oid>.dat".
+ *	Large objects are stored in separate files named "blob_<oid>.dat",
+ *	and there's a plain-text TOC file for each BLOBS TOC entry named
+ *	"blobs_<dumpID>.toc" (or just "blobs.toc" in archive versions before 16).
+ *
+ *	If compression is used, each data file is individually compressed and the
+ *	".gz" suffix is added to the filenames. The TOC files are never
+ *	compressed by pg_dump, however they are accepted with the .gz suffix too,
+ *	in case the user has manually compressed them with 'gzip'.
+ *
+ *	NOTE: This format is identical to the files written in the tar file in
+ *	the 'tar' format, except that we don't write the restore.sql file (TODO),
+ *	and the tar format doesn't support compression. Please keep the formats in
+ *	sync.
+ *
+ *
+ *	Portions Copyright (c) 1996-2025, PostgreSQL Global Development Group
+ *	Portions Copyright (c) 1994, Regents of the University of California
+ *	Portions Copyright (c) 2000, Philip Warner
+ *
+ *	Rights are granted to use this software in any way so long
+ *	as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_directory.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_null.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_null.c
+ *
+ *	Implementation of an archive that is never saved; it is used by
+ *	pg_dump to output a plain text SQL script instead of saving
+ *	a real archive.
+ *
+ *	See the headers to pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_null.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_backup_tar.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_backup_tar.c
+ *
+ *	This file is copied from the 'files' format file, but dumps data into
+ *	one temp file then sends it to the output TAR archive.
+ *
+ *	The tar format also includes a 'restore.sql' script which is there for
+ *	the benefit of humans. This script is never used by pg_restore.
+ *
+ *	NOTE: If you untar the created 'tar' file, the resulting files are
+ *	compatible with the 'directory' format. Please keep the two formats in
+ *	sync.
+ *
+ *	See the headers to pg_backup_directory & pg_restore for more details.
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_backup_tar.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+========================================================================
+Upstream src/bin/pg_dump/pg_restore.c
+========================================================================
+
+/*-------------------------------------------------------------------------
+ *
+ * pg_restore.c
+ *	pg_restore is an utility extracting postgres database definitions
+ *	from a backup archive created by pg_dump using the archiver
+ *	interface.
+ *
+ *	pg_restore will read the backup archive and
+ *	dump out a script that reproduces
+ *	the schema of the database in terms of
+ *		  user-defined types
+ *		  user-defined functions
+ *		  tables
+ *		  indexes
+ *		  aggregates
+ *		  operators
+ *		  ACL - grant/revoke
+ *
+ * the output script is SQL that is understood by PostgreSQL
+ *
+ * Basic process in a restore operation is:
+ *
+ *	Open the Archive and read the TOC.
+ *	Set flags in TOC entries, and *maybe* reorder them.
+ *	Generate script to stdout
+ *	Exit
+ *
+ * Copyright (c) 2000, Philip Warner
+ *		Rights are granted to use this software in any way so long
+ *		as this notice is not removed.
+ *
+ *	The author is not responsible for loss or damages that may
+ *	result from its use.
+ *
+ *
+ * IDENTIFICATION
+ *		src/bin/pg_dump/pg_restore.c
+ *
+ *-------------------------------------------------------------------------
+ */
+
+
+IANA timezone data header, upstream src/timezone/data/tzdata.zi:
+# version 2026c
+# redo posix_only
+# This zic input file is in the public domain.
+R d 1916 o - Jun 14 23s 1 S

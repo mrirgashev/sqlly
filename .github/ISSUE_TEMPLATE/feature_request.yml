@@ -1,0 +1,15 @@
+name: Feature or lesson request
+description: Suggest an improvement or original lesson
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Learning problem or workflow
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and examples
+    validations:
+      required: true

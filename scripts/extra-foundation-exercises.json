@@ -1,0 +1,2681 @@
+[
+  {
+    "lessonID": "l001",
+    "id": "l001-e4",
+    "title": "Read employee records",
+    "prompt": "Return id, name, and department from employees ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name,department FROM employees ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "SELECT chooses columns. FROM names a table. A semicolon ends the statement. PostgreSQL is the DBMS used throughout this course.",
+      "A table is not a spreadsheet with guaranteed row positions. Use ORDER BY whenever row order matters."
+    ],
+    "explanation": "A relational database stores facts in tables. A row describes one thing; a column describes one property. A DBMS is the software that stores, protects, and queries those facts. SELECT chooses columns. FROM names a table. A semicolon ends the statement. PostgreSQL is the DBMS used throughout this course.",
+    "ru": {
+      "title": "Записи сотрудников",
+      "prompt": "Верните id, name и department из employees в порядке id."
+    }
+  },
+  {
+    "lessonID": "l001",
+    "id": "l001-e5",
+    "title": "Read hotel dates",
+    "prompt": "Return id, room, check_in, and check_out from bookings ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,room,check_in,check_out FROM bookings ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "SELECT chooses columns. FROM names a table. A semicolon ends the statement. PostgreSQL is the DBMS used throughout this course.",
+      "A table is not a spreadsheet with guaranteed row positions. Use ORDER BY whenever row order matters."
+    ],
+    "explanation": "A relational database stores facts in tables. A row describes one thing; a column describes one property. A DBMS is the software that stores, protects, and queries those facts. SELECT chooses columns. FROM names a table. A semicolon ends the statement. PostgreSQL is the DBMS used throughout this course.",
+    "ru": {
+      "title": "Даты гостиничных бронирований",
+      "prompt": "Верните id, room, check_in и check_out из bookings в порядке id."
+    }
+  },
+  {
+    "lessonID": "l002",
+    "id": "l002-e4",
+    "title": "Read event ownership",
+    "prompt": "Return id and customer_id from events ordered by id. A NULL relationship must remain NULL.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,customer_id FROM events ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "customers.id is unique. orders.customer_id refers to customers.id and may be NULL for a guest order. order_items has a two-column primary key.",
+      "An identifier and a display name have different jobs. Different people can share a name, and a NULL foreign key means no known related row."
+    ],
+    "explanation": "A primary key identifies one row. A foreign key points to a row in another table. A schema is a namespace containing tables and other objects. customers.id is unique. orders.customer_id refers to customers.id and may be NULL for a guest order. order_items has a two-column primary key.",
+    "ru": {
+      "title": "Владельцы событий",
+      "prompt": "Верните id и customer_id из events в порядке id. Сохраните NULL в связях."
+    }
+  },
+  {
+    "lessonID": "l002",
+    "id": "l002-e5",
+    "title": "Connect the inventory key",
+    "prompt": "Return product_id, warehouse, and quantity from inventory ordered by product_id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT product_id,warehouse,quantity FROM inventory ORDER BY product_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "customers.id is unique. orders.customer_id refers to customers.id and may be NULL for a guest order. order_items has a two-column primary key.",
+      "An identifier and a display name have different jobs. Different people can share a name, and a NULL foreign key means no known related row."
+    ],
+    "explanation": "A primary key identifies one row. A foreign key points to a row in another table. A schema is a namespace containing tables and other objects. customers.id is unique. orders.customer_id refers to customers.id and may be NULL for a guest order. order_items has a two-column primary key.",
+    "ru": {
+      "title": "Ключ складской записи",
+      "prompt": "Верните product_id, warehouse и quantity из inventory в порядке product_id."
+    }
+  },
+  {
+    "lessonID": "l003",
+    "id": "l003-e4",
+    "title": "Proposed discount prices",
+    "prompt": "Return id and discounted_price equal to price multiplied by 0.9 for each product, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,price*0.9 AS discounted_price FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The logical pipeline starts with FROM and WHERE, then grouping and HAVING, then SELECT, DISTINCT, ordering, and limiting. The physical plan may differ.",
+      "SELECT aliases usually are not available in WHERE. Integer division truncates; use a numeric operand when fractions matter."
+    ],
+    "explanation": "An expression computes a value. SQL is declarative: you describe the answer rather than a loop through the data. The logical pipeline starts with FROM and WHERE, then grouping and HAVING, then SELECT, DISTINCT, ordering, and limiting. The physical plan may differ.",
+    "ru": {
+      "title": "Расчёт скидки",
+      "prompt": "Верните id и discounted_price = price * 0.9 для каждого товара в порядке id."
+    }
+  },
+  {
+    "lessonID": "l003",
+    "id": "l003-e5",
+    "title": "Increase account balances in a report",
+    "prompt": "Without changing accounts, return id and projected_balance equal to balance+25, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,balance+25 AS projected_balance FROM accounts ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The logical pipeline starts with FROM and WHERE, then grouping and HAVING, then SELECT, DISTINCT, ordering, and limiting. The physical plan may differ.",
+      "SELECT aliases usually are not available in WHERE. Integer division truncates; use a numeric operand when fractions matter."
+    ],
+    "explanation": "An expression computes a value. SQL is declarative: you describe the answer rather than a loop through the data. The logical pipeline starts with FROM and WHERE, then grouping and HAVING, then SELECT, DISTINCT, ordering, and limiting. The physical plan may differ.",
+    "ru": {
+      "title": "Прогноз остатков без изменения данных",
+      "prompt": "Не меняя accounts, верните id и projected_balance = balance + 25 в порядке id."
+    }
+  },
+  {
+    "lessonID": "l004",
+    "id": "l004-e4",
+    "title": "Employee directory aliases",
+    "prompt": "Return employees.id as employee_id and employees.name as employee_name, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id AS employee_id,name AS employee_name FROM employees ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Write a comma-separated output list after SELECT. AS introduces an alias. Unquoted names become lowercase.",
+      "SELECT * changes when the table changes. Double quotes identify names; single quotes create text values."
+    ],
+    "explanation": "Projection means choosing the columns of the result. An alias gives a result column a clear name. Write a comma-separated output list after SELECT. AS introduces an alias. Unquoted names become lowercase.",
+    "ru": {
+      "title": "Псевдонимы справочника сотрудников",
+      "prompt": "Верните employees.id как employee_id и employees.name как employee_name в порядке id."
+    }
+  },
+  {
+    "lessonID": "l004",
+    "id": "l004-e5",
+    "title": "Booking label columns",
+    "prompt": "Return room as room_number and guest as guest_name from bookings ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT room AS room_number,guest AS guest_name FROM bookings ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Write a comma-separated output list after SELECT. AS introduces an alias. Unquoted names become lowercase.",
+      "SELECT * changes when the table changes. Double quotes identify names; single quotes create text values."
+    ],
+    "explanation": "Projection means choosing the columns of the result. An alias gives a result column a clear name. Write a comma-separated output list after SELECT. AS introduces an alias. Unquoted names become lowercase.",
+    "ru": {
+      "title": "Подписи бронирования",
+      "prompt": "Верните room как room_number и guest как guest_name из bookings в порядке id."
+    }
+  },
+  {
+    "lessonID": "l005",
+    "id": "l005-e4",
+    "title": "Distinct warehouses",
+    "prompt": "Return each warehouse once from inventory ordered alphabetically.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT DISTINCT warehouse FROM inventory ORDER BY warehouse;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "DISTINCT applies to the entire selected row, not just the first selected column. NULLs are treated as equal for duplicate elimination.",
+      "Adding id to a DISTINCT category query makes every row unique again."
+    ],
+    "explanation": "DISTINCT removes duplicate result rows after the output expressions have been evaluated. DISTINCT applies to the entire selected row, not just the first selected column. NULLs are treated as equal for duplicate elimination.",
+    "ru": {
+      "title": "Уникальные склады",
+      "prompt": "Верните каждый warehouse из inventory один раз в алфавитном порядке."
+    }
+  },
+  {
+    "lessonID": "l005",
+    "id": "l005-e5",
+    "title": "Distinct booking date pairs",
+    "prompt": "Return distinct check_in and check_out pairs from bookings ordered by check_in then check_out.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT DISTINCT check_in,check_out FROM bookings ORDER BY check_in,check_out;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "DISTINCT applies to the entire selected row, not just the first selected column. NULLs are treated as equal for duplicate elimination.",
+      "Adding id to a DISTINCT category query makes every row unique again."
+    ],
+    "explanation": "DISTINCT removes duplicate result rows after the output expressions have been evaluated. DISTINCT applies to the entire selected row, not just the first selected column. NULLs are treated as equal for duplicate elimination.",
+    "ru": {
+      "title": "Уникальные пары дат",
+      "prompt": "Верните различные пары check_in и check_out из bookings в порядке check_in, затем check_out."
+    }
+  },
+  {
+    "lessonID": "l006",
+    "id": "l006-e4",
+    "title": "Top three salaries",
+    "prompt": "Return id,name,salary for the three highest-paid employees, salary descending and id ascending on ties.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name,salary FROM employees ORDER BY salary DESC,id LIMIT 3;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Sort keys are evaluated left to right. DESC reverses one key. Add a unique tie-breaker to make limited results deterministic.",
+      "LIMIT without ORDER BY does not mean the first inserted rows. Large OFFSET values still require work to skip rows."
+    ],
+    "explanation": "ORDER BY establishes a result order. LIMIT chooses a maximum number of rows; OFFSET skips rows. Sort keys are evaluated left to right. DESC reverses one key. Add a unique tie-breaker to make limited results deterministic.",
+    "ru": {
+      "title": "Три наибольшие зарплаты",
+      "prompt": "Верните id, name и salary трёх сотрудников с наибольшей зарплатой; salary по убыванию, id по возрастанию при равенстве."
+    }
+  },
+  {
+    "lessonID": "l006",
+    "id": "l006-e5",
+    "title": "Recent order page",
+    "prompt": "Return id and ordered_on for orders ordered newest date first then highest id; skip the first row and take four.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,ordered_on FROM orders ORDER BY ordered_on DESC,id DESC LIMIT 4 OFFSET 1;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Sort keys are evaluated left to right. DESC reverses one key. Add a unique tie-breaker to make limited results deterministic.",
+      "LIMIT without ORDER BY does not mean the first inserted rows. Large OFFSET values still require work to skip rows."
+    ],
+    "explanation": "ORDER BY establishes a result order. LIMIT chooses a maximum number of rows; OFFSET skips rows. Sort keys are evaluated left to right. DESC reverses one key. Add a unique tie-breaker to make limited results deterministic.",
+    "ru": {
+      "title": "Страница последних заказов",
+      "prompt": "Верните id и ordered_on в порядке от новой даты к старой, затем id по убыванию. Пропустите одну строку и возьмите четыре."
+    }
+  },
+  {
+    "lessonID": "l007",
+    "id": "l007-e4",
+    "title": "Large account balances",
+    "prompt": "Return id,owner,balance from accounts where balance>=750, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,owner,balance FROM accounts WHERE balance>=750 ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use =, <>, <, <=, >, and >= to compare compatible values. WHERE runs before grouping.",
+      "Use = for equality, not ==. Comparing a value to NULL with = does not produce true."
+    ],
+    "explanation": "WHERE keeps rows for which its condition is true. Comparisons produce Boolean values: true, false, or unknown. Use =, <>, <, <=, >, and >= to compare compatible values. WHERE runs before grouping.",
+    "ru": {
+      "title": "Крупные остатки счетов",
+      "prompt": "Верните id, owner и balance из accounts с balance >= 750 в порядке id."
+    }
+  },
+  {
+    "lessonID": "l007",
+    "id": "l007-e5",
+    "title": "Affordable hotel nights",
+    "prompt": "Return id,guest,room for bookings with nightly_rate<=100, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,guest,room FROM bookings WHERE nightly_rate<=100 ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use =, <>, <, <=, >, and >= to compare compatible values. WHERE runs before grouping.",
+      "Use = for equality, not ==. Comparing a value to NULL with = does not produce true."
+    ],
+    "explanation": "WHERE keeps rows for which its condition is true. Comparisons produce Boolean values: true, false, or unknown. Use =, <>, <, <=, >, and >= to compare compatible values. WHERE runs before grouping.",
+    "ru": {
+      "title": "Невысокая стоимость ночи",
+      "prompt": "Верните id, guest и room бронирований с nightly_rate <= 100 в порядке id."
+    }
+  },
+  {
+    "lessonID": "l008",
+    "id": "l008-e4",
+    "title": "VIP customers outside Paris",
+    "prompt": "Return id,name for VIP customers whose city is known and is not Paris, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM customers WHERE vip AND city IS NOT NULL AND city<>'Paris' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "NOT binds before AND, and AND binds before OR. Parentheses make the intended grouping explicit.",
+      "A missing pair of parentheses can include rows that bypass part of a filter."
+    ],
+    "explanation": "AND requires both conditions. OR accepts either condition. NOT reverses a Boolean condition. NOT binds before AND, and AND binds before OR. Parentheses make the intended grouping explicit.",
+    "ru": {
+      "title": "VIP за пределами Парижа",
+      "prompt": "Верните id и name VIP-клиентов с известным city, не равным Paris, в порядке id."
+    }
+  },
+  {
+    "lessonID": "l008",
+    "id": "l008-e5",
+    "title": "Urgent product selection",
+    "prompt": "Return id,name for products that either have stock=0 or have both category Tech and price<100, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM products WHERE stock=0 OR (category='Tech' AND price<100) ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "NOT binds before AND, and AND binds before OR. Parentheses make the intended grouping explicit.",
+      "A missing pair of parentheses can include rows that bypass part of a filter."
+    ],
+    "explanation": "AND requires both conditions. OR accepts either condition. NOT reverses a Boolean condition. NOT binds before AND, and AND binds before OR. Parentheses make the intended grouping explicit.",
+    "ru": {
+      "title": "Срочный отбор товаров",
+      "prompt": "Верните id и name товаров: stock равен 0 либо одновременно category = Tech и price < 100. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l009",
+    "id": "l009-e5",
+    "title": "Open order statuses",
+    "prompt": "Return id,status for orders in pending or cancelled status ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,status FROM orders WHERE status IN('pending','cancelled') ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use IN for discrete alternatives. Use >= start AND < end for a date or timestamp period when adjacent periods must not overlap.",
+      "BETWEEN on timestamps through a final date includes only midnight of that date unless the endpoint says otherwise."
+    ],
+    "explanation": "IN tests membership in a list. BETWEEN includes both endpoints. A half-open range includes its start and excludes its end. Use IN for discrete alternatives. Use >= start AND < end for a date or timestamp period when adjacent periods must not overlap.",
+    "ru": {
+      "title": "Незавершённые статусы",
+      "prompt": "Верните id и status заказов со статусом pending или cancelled в порядке id."
+    }
+  },
+  {
+    "lessonID": "l009",
+    "id": "l009-e6",
+    "title": "Salary interval",
+    "prompt": "Return id,salary for employees with salary between 70000 and 90000 inclusive, ordered by salary then id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,salary FROM employees WHERE salary BETWEEN 70000 AND 90000 ORDER BY salary,id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use IN for discrete alternatives. Use >= start AND < end for a date or timestamp period when adjacent periods must not overlap.",
+      "BETWEEN on timestamps through a final date includes only midnight of that date unless the endpoint says otherwise."
+    ],
+    "explanation": "IN tests membership in a list. BETWEEN includes both endpoints. A half-open range includes its start and excludes its end. Use IN for discrete alternatives. Use >= start AND < end for a date or timestamp period when adjacent periods must not overlap.",
+    "ru": {
+      "title": "Интервал зарплат",
+      "prompt": "Верните id и salary сотрудников с salary от 70000 до 90000 включительно. Сортируйте по salary, затем id."
+    }
+  },
+  {
+    "lessonID": "l010",
+    "id": "l010-e5",
+    "title": "Unknown customer orders",
+    "prompt": "Return id,total for orders with NULL customer_id ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,total FROM orders WHERE customer_id IS NULL ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use IS NULL and IS NOT NULL. WHERE keeps true only; false and unknown are discarded. IS DISTINCT FROM compares NULLs as values.",
+      "NOT IN can become unknown when its list or subquery contains NULL. Use NOT EXISTS for nullable anti-joins."
+    ],
+    "explanation": "NULL represents a missing or unknown value. It is not zero, an empty string, or a special ordinary value. Use IS NULL and IS NOT NULL. WHERE keeps true only; false and unknown are discarded. IS DISTINCT FROM compares NULLs as values.",
+    "ru": {
+      "title": "Заказы неизвестных клиентов",
+      "prompt": "Верните id и total заказов с NULL в customer_id в порядке id."
+    }
+  },
+  {
+    "lessonID": "l010",
+    "id": "l010-e6",
+    "title": "Null-safe city equality",
+    "prompt": "Return id and is_london from customers using a NULL-safe equality comparison with London, ordered by id. NULL cities must produce false.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,city IS NOT DISTINCT FROM 'London' AS is_london FROM customers ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use IS NULL and IS NOT NULL. WHERE keeps true only; false and unknown are discarded. IS DISTINCT FROM compares NULLs as values.",
+      "NOT IN can become unknown when its list or subquery contains NULL. Use NOT EXISTS for nullable anti-joins."
+    ],
+    "explanation": "NULL represents a missing or unknown value. It is not zero, an empty string, or a special ordinary value. Use IS NULL and IS NOT NULL. WHERE keeps true only; false and unknown are discarded. IS DISTINCT FROM compares NULLs as values.",
+    "ru": {
+      "title": "Безопасное равенство города",
+      "prompt": "Верните id и is_london клиентов с NULL-безопасным сравнением с London в порядке id. Для NULL результат false."
+    }
+  },
+  {
+    "lessonID": "l011",
+    "id": "l011-e4",
+    "title": "Names ending in a",
+    "prompt": "Return id,name for customer names ending in a, ignoring case, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM customers WHERE name ILIKE '%a' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Surround a fragment with percent signs for contains. Escape wildcard characters when they must match literally.",
+      "LIKE is not a regular expression. A leading wildcard often prevents a plain B-tree prefix search."
+    ],
+    "explanation": "LIKE matches a pattern. Percent matches any string; underscore matches one character. PostgreSQL ILIKE ignores case according to locale. Surround a fragment with percent signs for contains. Escape wildcard characters when they must match literally.",
+    "ru": {
+      "title": "Имена на a",
+      "prompt": "Верните id и name клиентов, имя которых заканчивается на a без учёта регистра. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l011",
+    "id": "l011-e5",
+    "title": "Product names with a second-letter a",
+    "prompt": "Return id,name for products whose second character is a, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM products WHERE name LIKE '_a%' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Surround a fragment with percent signs for contains. Escape wildcard characters when they must match literally.",
+      "LIKE is not a regular expression. A leading wildcard often prevents a plain B-tree prefix search."
+    ],
+    "explanation": "LIKE matches a pattern. Percent matches any string; underscore matches one character. PostgreSQL ILIKE ignores case according to locale. Surround a fragment with percent signs for contains. Escape wildcard characters when they must match literally.",
+    "ru": {
+      "title": "Буква a на второй позиции",
+      "prompt": "Верните id и name товаров, в названии которых второй символ равен a. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l012",
+    "id": "l012-e4",
+    "title": "Names not beginning A through D",
+    "prompt": "Return id,name for customers whose name does not start with A,B,C,D, case-insensitively, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM customers WHERE name !~* '^[a-d]' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The ~ operator matches case-sensitively; ~* ignores case. Anchors ^ and $ mark the beginning and end.",
+      "Do not assume an unanchored pattern matches the entire value. Complex patterns can be expensive on long text."
+    ],
+    "explanation": "A regular expression describes a richer text pattern than LIKE. PostgreSQL uses POSIX-style regular expressions. The ~ operator matches case-sensitively; ~* ignores case. Anchors ^ and $ mark the beginning and end.",
+    "ru": {
+      "title": "Имена вне начального диапазона",
+      "prompt": "Верните id и name клиентов, имя которых не начинается с A, B, C или D без учёта регистра. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l012",
+    "id": "l012-e5",
+    "title": "Remove email domains",
+    "prompt": "Return id and local_part using a regular-expression replacement that removes @ and everything after it from known emails, ordered by id.",
+    "difficulty": "Beginner",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,regexp_replace(email,'@.*$','') AS local_part FROM customers WHERE email IS NOT NULL ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The ~ operator matches case-sensitively; ~* ignores case. Anchors ^ and $ mark the beginning and end.",
+      "Do not assume an unanchored pattern matches the entire value. Complex patterns can be expensive on long text."
+    ],
+    "explanation": "A regular expression describes a richer text pattern than LIKE. PostgreSQL uses POSIX-style regular expressions. The ~ operator matches case-sensitively; ~* ignores case. Anchors ^ and $ mark the beginning and end.",
+    "ru": {
+      "title": "Удаление почтового домена",
+      "prompt": "Для известных email верните id и local_part, удалив регулярной заменой @ и всё после него. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l013",
+    "id": "l013-e4",
+    "title": "Product price bands",
+    "prompt": "Return id,price_band: budget for price<10, regular for price<100, premium otherwise; order by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,CASE WHEN price<10 THEN 'budget' WHEN price<100 THEN 'regular' ELSE 'premium' END AS price_band FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Searched CASE tests WHEN conditions in order and returns the first matching THEN value. ELSE handles the remaining cases.",
+      "If ELSE is omitted, unmatched rows produce NULL. Put more specific conditions before broader ones."
+    ],
+    "explanation": "CASE returns a value chosen by conditions. It is an expression and can appear wherever a value is needed. Searched CASE tests WHEN conditions in order and returns the first matching THEN value. ELSE handles the remaining cases.",
+    "ru": {
+      "title": "Ценовые группы товаров",
+      "prompt": "Верните id и price_band: budget при price < 10, regular при price < 100, иначе premium. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l013",
+    "id": "l013-e5",
+    "title": "Shipment progress labels",
+    "prompt": "Return id,delivery_state: sent when shipped_on is known, cancelled when status=cancelled, otherwise waiting; order by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,CASE WHEN shipped_on IS NOT NULL THEN 'sent' WHEN status='cancelled' THEN 'cancelled' ELSE 'waiting' END AS delivery_state FROM orders ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Searched CASE tests WHEN conditions in order and returns the first matching THEN value. ELSE handles the remaining cases.",
+      "If ELSE is omitted, unmatched rows produce NULL. Put more specific conditions before broader ones."
+    ],
+    "explanation": "CASE returns a value chosen by conditions. It is an expression and can appear wherever a value is needed. Searched CASE tests WHEN conditions in order and returns the first matching THEN value. ELSE handles the remaining cases.",
+    "ru": {
+      "title": "Состояние доставки",
+      "prompt": "Верните id и delivery_state: sent при известной shipped_on, cancelled при status = cancelled, иначе waiting. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l014",
+    "id": "l014-e4",
+    "title": "Fallback shipment date",
+    "prompt": "Return id and effective_day using shipped_on when known, otherwise ordered_on; order by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,COALESCE(shipped_on,ordered_on) AS effective_day FROM orders ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Wrap a potentially zero denominator in NULLIF(value,0). COALESCE can then choose a display value if a fallback is truly appropriate.",
+      "Replacing missing numeric facts with zero changes their meaning and can change an average."
+    ],
+    "explanation": "COALESCE chooses the first non-NULL value. NULLIF returns NULL when two values are equal. Wrap a potentially zero denominator in NULLIF(value,0). COALESCE can then choose a display value if a fallback is truly appropriate.",
+    "ru": {
+      "title": "Резервная дата заказа",
+      "prompt": "Верните id и effective_day: shipped_on, если известна, иначе ordered_on. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l014",
+    "id": "l014-e5",
+    "title": "Hide zero stock values",
+    "prompt": "Return id and nonzero_stock equal to stock except zero becomes NULL, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,NULLIF(stock,0) AS nonzero_stock FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Wrap a potentially zero denominator in NULLIF(value,0). COALESCE can then choose a display value if a fallback is truly appropriate.",
+      "Replacing missing numeric facts with zero changes their meaning and can change an average."
+    ],
+    "explanation": "COALESCE chooses the first non-NULL value. NULLIF returns NULL when two values are equal. Wrap a potentially zero denominator in NULLIF(value,0). COALESCE can then choose a display value if a fallback is truly appropriate.",
+    "ru": {
+      "title": "Замена нулевого остатка на NULL",
+      "prompt": "Верните id и nonzero_stock: stock, но ноль замените на NULL. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l015",
+    "id": "l015-e4",
+    "title": "Exact percentage of price",
+    "prompt": "Return id and discounted_price equal to price*0.875 cast to numeric(10,2), ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,(price*0.875)::numeric(10,2) AS discounted_price FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "CAST(value AS type) and value::type are equivalent forms. Integer division discards the fraction; casting an operand to numeric preserves it.",
+      "A cast can fail on invalid text. Floating-point values are approximate and should not be compared as exact money."
+    ],
+    "explanation": "A cast converts a value to another data type when PostgreSQL has an appropriate conversion. NUMERIC represents exact decimal quantities. CAST(value AS type) and value::type are equivalent forms. Integer division discards the fraction; casting an operand to numeric preserves it.",
+    "ru": {
+      "title": "Точная цена после скидки",
+      "prompt": "Верните id и discounted_price = price * 0.875, приведённую к numeric(10,2). Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l015",
+    "id": "l015-e5",
+    "title": "Parsed fixed values",
+    "prompt": "Return parsed_integer from text 0042 cast to integer and parsed_date from text 2024-08-15 cast to date.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT '0042'::integer AS parsed_integer,CAST('2024-08-15' AS date) AS parsed_date;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "CAST(value AS type) and value::type are equivalent forms. Integer division discards the fraction; casting an operand to numeric preserves it.",
+      "A cast can fail on invalid text. Floating-point values are approximate and should not be compared as exact money."
+    ],
+    "explanation": "A cast converts a value to another data type when PostgreSQL has an appropriate conversion. NUMERIC represents exact decimal quantities. CAST(value AS type) and value::type are equivalent forms. Integer division discards the fraction; casting an operand to numeric preserves it.",
+    "ru": {
+      "title": "Преобразование текстовых значений",
+      "prompt": "Верните parsed_integer из текста 0042 типа integer и parsed_date из текста 2024-08-15 типа date."
+    }
+  },
+  {
+    "lessonID": "l016",
+    "id": "l016-e4",
+    "title": "Shipment coverage counts",
+    "prompt": "Return order_count and shipped_count from COUNT(*) and COUNT(shipped_on) over orders.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT count(*) AS order_count,count(shipped_on) AS shipped_count FROM orders;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "COUNT returns zero for no input rows. Other common aggregates usually return NULL on an empty input.",
+      "COUNT(city) does not count customers with unknown cities. COUNT(DISTINCT city) also removes duplicate known cities."
+    ],
+    "explanation": "An aggregate combines many input rows into one value. COUNT(*) counts rows, while COUNT(expression) counts non-NULL values. COUNT returns zero for no input rows. Other common aggregates usually return NULL on an empty input.",
+    "ru": {
+      "title": "Полнота дат отгрузки",
+      "prompt": "Верните order_count и shipped_count через COUNT(*) и COUNT(shipped_on) по orders."
+    }
+  },
+  {
+    "lessonID": "l016",
+    "id": "l016-e5",
+    "title": "Distinct customer references",
+    "prompt": "Return known_customers as COUNT(DISTINCT customer_id) from orders.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT count(DISTINCT customer_id) AS known_customers FROM orders;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "COUNT returns zero for no input rows. Other common aggregates usually return NULL on an empty input.",
+      "COUNT(city) does not count customers with unknown cities. COUNT(DISTINCT city) also removes duplicate known cities."
+    ],
+    "explanation": "An aggregate combines many input rows into one value. COUNT(*) counts rows, while COUNT(expression) counts non-NULL values. COUNT returns zero for no input rows. Other common aggregates usually return NULL on an empty input.",
+    "ru": {
+      "title": "Уникальные ссылки на клиентов",
+      "prompt": "Верните known_customers как COUNT(DISTINCT customer_id) из orders."
+    }
+  },
+  {
+    "lessonID": "l017",
+    "id": "l017-e4",
+    "title": "Hotel gross charges",
+    "prompt": "Return total_charge as the sum of booking nights times nightly_rate.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT sum((check_out-check_in)*nightly_rate) AS total_charge FROM bookings;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The aggregate sees rows left after WHERE. Multiple aggregates can share one scan and produce one result row.",
+      "AVG ignores NULLs and is not the same as SUM divided by COUNT(*). AVG of group averages is often wrong."
+    ],
+    "explanation": "SUM adds values; AVG computes their mean; MIN and MAX find the smallest and largest non-NULL values. The aggregate sees rows left after WHERE. Multiple aggregates can share one scan and produce one result row.",
+    "ru": {
+      "title": "Общая стоимость проживания",
+      "prompt": "Верните total_charge — сумму числа ночей, умноженного на nightly_rate, по всем бронированиям."
+    }
+  },
+  {
+    "lessonID": "l017",
+    "id": "l017-e5",
+    "title": "Salary endpoints",
+    "prompt": "Return lowest_salary and highest_salary from employees.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT min(salary) AS lowest_salary,max(salary) AS highest_salary FROM employees;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The aggregate sees rows left after WHERE. Multiple aggregates can share one scan and produce one result row.",
+      "AVG ignores NULLs and is not the same as SUM divided by COUNT(*). AVG of group averages is often wrong."
+    ],
+    "explanation": "SUM adds values; AVG computes their mean; MIN and MAX find the smallest and largest non-NULL values. The aggregate sees rows left after WHERE. Multiple aggregates can share one scan and produce one result row.",
+    "ru": {
+      "title": "Границы зарплат",
+      "prompt": "Верните lowest_salary и highest_salary из employees."
+    }
+  },
+  {
+    "lessonID": "l018",
+    "id": "l018-e4",
+    "title": "Stock by availability",
+    "prompt": "Return empty_products and stocked_products using aggregate FILTER for stock=0 and stock>0.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT count(*) FILTER(WHERE stock=0) AS empty_products,count(*) FILTER(WHERE stock>0) AS stocked_products FROM products;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Write aggregate(...) FILTER (WHERE condition). The outer WHERE still filters the input for every aggregate.",
+      "SUM(CASE WHEN condition THEN 1 END) yields NULL when nothing matches. COUNT with FILTER returns zero."
+    ],
+    "explanation": "FILTER applies a condition to one aggregate. CASE inside an aggregate is another way to express conditional summaries. Write aggregate(...) FILTER (WHERE condition). The outer WHERE still filters the input for every aggregate.",
+    "ru": {
+      "title": "Наличие товаров",
+      "prompt": "Верните empty_products и stocked_products через FILTER агрегатов для stock = 0 и stock > 0."
+    }
+  },
+  {
+    "lessonID": "l018",
+    "id": "l018-e5",
+    "title": "Shipment revenue split",
+    "prompt": "Return shipped_revenue and unshipped_revenue as sums of paid order totals split by shipped_on known/NULL.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT sum(total) FILTER(WHERE shipped_on IS NOT NULL) AS shipped_revenue,sum(total) FILTER(WHERE shipped_on IS NULL) AS unshipped_revenue FROM orders WHERE status='paid';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Write aggregate(...) FILTER (WHERE condition). The outer WHERE still filters the input for every aggregate.",
+      "SUM(CASE WHEN condition THEN 1 END) yields NULL when nothing matches. COUNT with FILTER returns zero."
+    ],
+    "explanation": "FILTER applies a condition to one aggregate. CASE inside an aggregate is another way to express conditional summaries. Write aggregate(...) FILTER (WHERE condition). The outer WHERE still filters the input for every aggregate.",
+    "ru": {
+      "title": "Выручка по наличию отгрузки",
+      "prompt": "Верните shipped_revenue и unshipped_revenue — суммы total оплаченных заказов для известной shipped_on и NULL соответственно."
+    }
+  },
+  {
+    "lessonID": "l019",
+    "id": "l019-e4",
+    "title": "Warehouse unit totals",
+    "prompt": "Return warehouse and units as sum(quantity) from inventory grouped by warehouse, ordered by warehouse.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT warehouse,sum(quantity) AS units FROM inventory GROUP BY warehouse ORDER BY warehouse;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Every output expression must be grouped or aggregated, except columns that PostgreSQL can prove functionally dependent on grouped primary keys.",
+      "Grouping by too many columns changes the question. A NULL grouping value forms its own group."
+    ],
+    "explanation": "GROUP BY forms groups of rows that share grouping values, then calculates aggregates for each group. Every output expression must be grouped or aggregated, except columns that PostgreSQL can prove functionally dependent on grouped primary keys.",
+    "ru": {
+      "title": "Количество единиц по складам",
+      "prompt": "Верните warehouse и units = sum(quantity) из inventory по складам в порядке warehouse."
+    }
+  },
+  {
+    "lessonID": "l019",
+    "id": "l019-e5",
+    "title": "Orders by calendar day",
+    "prompt": "Return ordered_on and order_count for each order date, ordered by ordered_on.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT ordered_on,count(*) AS order_count FROM orders GROUP BY ordered_on ORDER BY ordered_on;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Every output expression must be grouped or aggregated, except columns that PostgreSQL can prove functionally dependent on grouped primary keys.",
+      "Grouping by too many columns changes the question. A NULL grouping value forms its own group."
+    ],
+    "explanation": "GROUP BY forms groups of rows that share grouping values, then calculates aggregates for each group. Every output expression must be grouped or aggregated, except columns that PostgreSQL can prove functionally dependent on grouped primary keys.",
+    "ru": {
+      "title": "Заказы по календарным дням",
+      "prompt": "Верните ordered_on и order_count для каждой даты заказа в порядке ordered_on."
+    }
+  },
+  {
+    "lessonID": "l020",
+    "id": "l020-e4",
+    "title": "Warehouses above fifty units",
+    "prompt": "Return warehouse and units for warehouses with sum(quantity)>50, ordered by warehouse.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT warehouse,sum(quantity) AS units FROM inventory GROUP BY warehouse HAVING sum(quantity)>50 ORDER BY warehouse;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Place HAVING after GROUP BY. Aggregate conditions belong here; ordinary row restrictions usually belong in WHERE.",
+      "Moving a row filter into HAVING may change the result or do unnecessary work."
+    ],
+    "explanation": "HAVING filters completed groups using aggregate conditions. WHERE filters individual rows before grouping. Place HAVING after GROUP BY. Aggregate conditions belong here; ordinary row restrictions usually belong in WHERE.",
+    "ru": {
+      "title": "Склады с большим запасом",
+      "prompt": "Верните warehouse и units складов с sum(quantity) > 50 в порядке warehouse."
+    }
+  },
+  {
+    "lessonID": "l020",
+    "id": "l020-e5",
+    "title": "Repeated salary values",
+    "prompt": "Return salary and employee_count for salaries shared by more than one employee, ordered by salary.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT salary,count(*) AS employee_count FROM employees GROUP BY salary HAVING count(*)>1 ORDER BY salary;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Place HAVING after GROUP BY. Aggregate conditions belong here; ordinary row restrictions usually belong in WHERE.",
+      "Moving a row filter into HAVING may change the result or do unnecessary work."
+    ],
+    "explanation": "HAVING filters completed groups using aggregate conditions. WHERE filters individual rows before grouping. Place HAVING after GROUP BY. Aggregate conditions belong here; ordinary row restrictions usually belong in WHERE.",
+    "ru": {
+      "title": "Повторяющиеся зарплаты",
+      "prompt": "Верните salary и employee_count зарплат, которые есть у нескольких сотрудников. Сортируйте по salary."
+    }
+  },
+  {
+    "lessonID": "l021",
+    "id": "l021-e4",
+    "title": "Status rollup count",
+    "prompt": "Return status,order_count,is_total for ROLLUP(status), details alphabetically then grand total.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT status,count(*) AS order_count,grouping(status) AS is_total FROM orders GROUP BY ROLLUP(status) ORDER BY is_total,status;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "GROUPING(column) returns 1 when that column is absent from a subtotal grouping set. It distinguishes subtotal NULL from a genuine NULL.",
+      "Do not label every NULL as a grand total. A source row can have a NULL grouping value."
+    ],
+    "explanation": "Grouping sets compute several grouping levels in one query. ROLLUP adds hierarchical subtotals; CUBE adds every combination. GROUPING(column) returns 1 when that column is absent from a subtotal grouping set. It distinguishes subtotal NULL from a genuine NULL.",
+    "ru": {
+      "title": "Итоги количества по статусам",
+      "prompt": "Верните status, order_count и is_total для ROLLUP(status): детали по алфавиту, затем общий итог."
+    }
+  },
+  {
+    "lessonID": "l021",
+    "id": "l021-e5",
+    "title": "Warehouse and grand total",
+    "prompt": "Use GROUPING SETS to return warehouse,units,is_total for warehouse sums and the grand total, details first alphabetically.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT warehouse,sum(quantity) AS units,grouping(warehouse) AS is_total FROM inventory GROUP BY GROUPING SETS((warehouse),()) ORDER BY is_total,warehouse;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "GROUPING(column) returns 1 when that column is absent from a subtotal grouping set. It distinguishes subtotal NULL from a genuine NULL.",
+      "Do not label every NULL as a grand total. A source row can have a NULL grouping value."
+    ],
+    "explanation": "Grouping sets compute several grouping levels in one query. ROLLUP adds hierarchical subtotals; CUBE adds every combination. GROUPING(column) returns 1 when that column is absent from a subtotal grouping set. It distinguishes subtotal NULL from a genuine NULL.",
+    "ru": {
+      "title": "Складские и общие итоги",
+      "prompt": "Через GROUPING SETS верните warehouse, units и is_total для сумм складов и общего итога. Сначала детали по алфавиту."
+    }
+  },
+  {
+    "lessonID": "l022",
+    "id": "l022-e4",
+    "title": "Order contacts",
+    "prompt": "Return order_id,customer_name,email for orders with a known customer using INNER JOIN, ordered by order_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT o.id AS order_id,c.name AS customer_name,c.email FROM orders o JOIN customers c ON c.id=o.customer_id ORDER BY o.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Name each source, give it a short alias, and connect its key columns with ON. One input row can match zero, one, or many rows.",
+      "Joining by names instead of keys can create accidental matches. A missing join condition can multiply rows."
+    ],
+    "explanation": "A join combines rows from two data sources. INNER JOIN keeps pairs whose ON condition is true. Name each source, give it a short alias, and connect its key columns with ON. One input row can match zero, one, or many rows.",
+    "ru": {
+      "title": "Контакты по заказам",
+      "prompt": "Через INNER JOIN верните order_id, customer_name и email заказов с известным клиентом. Сортируйте по order_id."
+    }
+  },
+  {
+    "lessonID": "l022",
+    "id": "l022-e5",
+    "title": "Sold product prices",
+    "prompt": "Return order_id,product_id,name,unit_price,current_price for every order line joined to products, ordered by order_id then product_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT i.order_id,i.product_id,p.name,i.unit_price,p.price AS current_price FROM order_items i JOIN products p ON p.id=i.product_id ORDER BY i.order_id,i.product_id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Name each source, give it a short alias, and connect its key columns with ON. One input row can match zero, one, or many rows.",
+      "Joining by names instead of keys can create accidental matches. A missing join condition can multiply rows."
+    ],
+    "explanation": "A join combines rows from two data sources. INNER JOIN keeps pairs whose ON condition is true. Name each source, give it a short alias, and connect its key columns with ON. One input row can match zero, one, or many rows.",
+    "ru": {
+      "title": "Цена покупки и текущая цена",
+      "prompt": "Соедините позиции с products и верните order_id, product_id, name, unit_price и current_price. Сортируйте по order_id, затем product_id."
+    }
+  },
+  {
+    "lessonID": "l023",
+    "id": "l023-e4",
+    "title": "Customer event counts",
+    "prompt": "Return customer_id and event_count for every customer, including zero, ordered by customer_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id AS customer_id,count(e.id) AS event_count FROM customers c LEFT JOIN events e ON e.customer_id=c.id GROUP BY c.id ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use LEFT JOIN ... ON. A right-side condition in ON limits matches; a right-side condition in WHERE can remove unmatched left rows.",
+      "COUNT(*) counts the unmatched placeholder row. COUNT(right_table.id) counts only actual matches."
+    ],
+    "explanation": "LEFT JOIN keeps every left row. If no right row matches, its right-side output columns are NULL. Use LEFT JOIN ... ON. A right-side condition in ON limits matches; a right-side condition in WHERE can remove unmatched left rows.",
+    "ru": {
+      "title": "Количество событий клиента",
+      "prompt": "Верните customer_id и event_count каждого клиента, включая ноль. Сортируйте по customer_id."
+    }
+  },
+  {
+    "lessonID": "l023",
+    "id": "l023-e5",
+    "title": "Products with no order lines",
+    "prompt": "Use LEFT JOIN to return id,name of products with no order_items, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.id,p.name FROM products p LEFT JOIN order_items i ON i.product_id=p.id WHERE i.product_id IS NULL ORDER BY p.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use LEFT JOIN ... ON. A right-side condition in ON limits matches; a right-side condition in WHERE can remove unmatched left rows.",
+      "COUNT(*) counts the unmatched placeholder row. COUNT(right_table.id) counts only actual matches."
+    ],
+    "explanation": "LEFT JOIN keeps every left row. If no right row matches, its right-side output columns are NULL. Use LEFT JOIN ... ON. A right-side condition in ON limits matches; a right-side condition in WHERE can remove unmatched left rows.",
+    "ru": {
+      "title": "Товары без позиций заказов",
+      "prompt": "Через LEFT JOIN верните id и name товаров без order_items. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l024",
+    "id": "l024-e4",
+    "title": "All event and customer links",
+    "prompt": "FULL JOIN customers to events on customer_id and return customer_id,event_id, including unmatched rows, ordered by customer_id NULLS LAST then event_id NULLS LAST.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id AS customer_id,e.id AS event_id FROM customers c FULL JOIN events e ON e.customer_id=c.id ORDER BY customer_id NULLS LAST,event_id NULLS LAST;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Outer joins add NULL values for the missing side. CROSS JOIN has no ON predicate. RIGHT JOIN can usually be rewritten by swapping a LEFT JOIN.",
+      "A cross product with a million rows on each side is enormous. Filter deliberately before expanding combinations."
+    ],
+    "explanation": "RIGHT JOIN preserves the right source. FULL JOIN preserves both sources. CROSS JOIN produces every possible pair. Outer joins add NULL values for the missing side. CROSS JOIN has no ON predicate. RIGHT JOIN can usually be rewritten by swapping a LEFT JOIN.",
+    "ru": {
+      "title": "Все связи событий и клиентов",
+      "prompt": "Соедините customers FULL JOIN events по customer_id. Верните customer_id и event_id, включая строки без пары. Сортируйте по customer_id NULLS LAST, затем event_id NULLS LAST."
+    }
+  },
+  {
+    "lessonID": "l024",
+    "id": "l024-e5",
+    "title": "Small product pairing grid",
+    "prompt": "CROSS JOIN products to accounts. Return product_id,account_id for products id<=2 and accounts id<=2, ordered by both IDs.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.id AS product_id,a.id AS account_id FROM products p CROSS JOIN accounts a WHERE p.id<=2 AND a.id<=2 ORDER BY p.id,a.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Outer joins add NULL values for the missing side. CROSS JOIN has no ON predicate. RIGHT JOIN can usually be rewritten by swapping a LEFT JOIN.",
+      "A cross product with a million rows on each side is enormous. Filter deliberately before expanding combinations."
+    ],
+    "explanation": "RIGHT JOIN preserves the right source. FULL JOIN preserves both sources. CROSS JOIN produces every possible pair. Outer joins add NULL values for the missing side. CROSS JOIN has no ON predicate. RIGHT JOIN can usually be rewritten by swapping a LEFT JOIN.",
+    "ru": {
+      "title": "Небольшая сетка пар",
+      "prompt": "Выполните CROSS JOIN products и accounts. Верните product_id и account_id для id товаров <= 2 и id счетов <= 2. Сортируйте по обоим id."
+    }
+  },
+  {
+    "lessonID": "l025",
+    "id": "l025-e4",
+    "title": "Employees sharing a manager",
+    "prompt": "Return first_id,second_id for employee pairs with the same non-NULL manager_id, first_id<second_id, ordered by both IDs.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT a.id AS first_id,b.id AS second_id FROM employees a JOIN employees b ON a.manager_id=b.manager_id AND a.id<b.id ORDER BY a.id,b.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Join employee.manager_id to manager.id. Use LEFT JOIN when the top-level employee has no manager.",
+      "Unqualified column names become ambiguous when both aliases have the same columns."
+    ],
+    "explanation": "A self join gives the same table two aliases so one row can refer to another row. Join employee.manager_id to manager.id. Use LEFT JOIN when the top-level employee has no manager.",
+    "ru": {
+      "title": "Сотрудники одного руководителя",
+      "prompt": "Верните first_id и second_id пар сотрудников с одинаковым известным manager_id. first_id < second_id. Сортируйте по обоим id."
+    }
+  },
+  {
+    "lessonID": "l025",
+    "id": "l025-e5",
+    "title": "Direct report salary difference",
+    "prompt": "Return id,name,manager_name,salary_difference as employee salary minus manager salary for employees with a manager, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT e.id,e.name,m.name AS manager_name,e.salary-m.salary AS salary_difference FROM employees e JOIN employees m ON m.id=e.manager_id ORDER BY e.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Join employee.manager_id to manager.id. Use LEFT JOIN when the top-level employee has no manager.",
+      "Unqualified column names become ambiguous when both aliases have the same columns."
+    ],
+    "explanation": "A self join gives the same table two aliases so one row can refer to another row. Join employee.manager_id to manager.id. Use LEFT JOIN when the top-level employee has no manager.",
+    "ru": {
+      "title": "Разница зарплат подчинённого и руководителя",
+      "prompt": "Для сотрудников с руководителем верните id, name, manager_name и salary_difference — зарплату сотрудника минус зарплата руководителя. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l026",
+    "id": "l026-e4",
+    "title": "Paid product quantities",
+    "prompt": "Return product_id,name,sold_units from paid order lines joined through orders to products, ordered by product_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.id AS product_id,p.name,sum(i.quantity) AS sold_units FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id WHERE o.status='paid' GROUP BY p.id ORDER BY p.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Join each relationship once. Name the intended result grain before aggregating. Pre-aggregate a many-side source when necessary.",
+      "Summing orders.total after joining multiple lines counts an order total repeatedly. DISTINCT is not a general repair for an incorrect join."
+    ],
+    "explanation": "Join cardinality describes how many rows match each source row. One-to-many joins repeat the one-side values. Join each relationship once. Name the intended result grain before aggregating. Pre-aggregate a many-side source when necessary.",
+    "ru": {
+      "title": "Оплаченные количества товаров",
+      "prompt": "Верните product_id, name и sold_units оплаченных позиций, соединив orders, order_items и products. Сортируйте по product_id."
+    }
+  },
+  {
+    "lessonID": "l026",
+    "id": "l026-e5",
+    "title": "Customer category purchases",
+    "prompt": "Return customer_id,category,line_count for paid order lines of known customers, ordered by customer_id then category.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id AS customer_id,p.category,count(*) AS line_count FROM customers c JOIN orders o ON o.customer_id=c.id JOIN order_items i ON i.order_id=o.id JOIN products p ON p.id=i.product_id WHERE o.status='paid' GROUP BY c.id,p.category ORDER BY c.id,p.category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Join each relationship once. Name the intended result grain before aggregating. Pre-aggregate a many-side source when necessary.",
+      "Summing orders.total after joining multiple lines counts an order total repeatedly. DISTINCT is not a general repair for an incorrect join."
+    ],
+    "explanation": "Join cardinality describes how many rows match each source row. One-to-many joins repeat the one-side values. Join each relationship once. Name the intended result grain before aggregating. Pre-aggregate a many-side source when necessary.",
+    "ru": {
+      "title": "Покупки категорий клиентами",
+      "prompt": "Для оплаченных позиций известных клиентов верните customer_id, category и line_count. Сортируйте по customer_id, затем category."
+    }
+  },
+  {
+    "lessonID": "l027",
+    "id": "l027-e4",
+    "title": "Customers without pending orders",
+    "prompt": "Return id,name of customers with no pending order, including customers with no orders, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id,c.name FROM customers c WHERE NOT EXISTS(SELECT 1 FROM orders o WHERE o.customer_id=c.id AND o.status='pending') ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A correlated subquery refers to the current outer row. EXISTS does not care which columns the inner SELECT returns.",
+      "NOT IN is unsafe with nullable subquery values unless NULL is handled explicitly."
+    ],
+    "explanation": "EXISTS checks whether a subquery produces at least one row. NOT EXISTS checks that it produces none. A correlated subquery refers to the current outer row. EXISTS does not care which columns the inner SELECT returns.",
+    "ru": {
+      "title": "Клиенты без ожидающих заказов",
+      "prompt": "Верните id и name клиентов без заказов pending, включая клиентов вообще без заказов. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l027",
+    "id": "l027-e5",
+    "title": "Employees who manage others",
+    "prompt": "Return id,name of employees with at least one direct report, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT e.id,e.name FROM employees e WHERE EXISTS(SELECT 1 FROM employees child WHERE child.manager_id=e.id) ORDER BY e.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A correlated subquery refers to the current outer row. EXISTS does not care which columns the inner SELECT returns.",
+      "NOT IN is unsafe with nullable subquery values unless NULL is handled explicitly."
+    ],
+    "explanation": "EXISTS checks whether a subquery produces at least one row. NOT EXISTS checks that it produces none. A correlated subquery refers to the current outer row. EXISTS does not care which columns the inner SELECT returns.",
+    "ru": {
+      "title": "Сотрудники с подчинёнными",
+      "prompt": "Верните id и name сотрудников, у которых есть хотя бы один прямой подчинённый. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l028",
+    "id": "l028-e4",
+    "title": "Cheapest stock",
+    "prompt": "Return id,name,stock for every product tied for the minimum product price, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name,stock FROM products WHERE price=(SELECT min(price) FROM products) ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Put the SELECT in parentheses where a value is expected. Aggregates without grouping are a common way to guarantee one row.",
+      "Do not assume a filter returns only one row unless a key or aggregate guarantees it."
+    ],
+    "explanation": "A scalar subquery supplies one value. Zero rows produce NULL; more than one row is an error. Put the SELECT in parentheses where a value is expected. Aggregates without grouping are a common way to guarantee one row.",
+    "ru": {
+      "title": "Запас самых дешёвых товаров",
+      "prompt": "Верните id, name и stock всех товаров с минимальной ценой каталога. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l028",
+    "id": "l028-e5",
+    "title": "Salary share of all employees",
+    "prompt": "Return id,salary_share as salary divided by total employee salary rounded to four decimals, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,round(salary/(SELECT sum(salary) FROM employees),4) AS salary_share FROM employees ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Put the SELECT in parentheses where a value is expected. Aggregates without grouping are a common way to guarantee one row.",
+      "Do not assume a filter returns only one row unless a key or aggregate guarantees it."
+    ],
+    "explanation": "A scalar subquery supplies one value. Zero rows produce NULL; more than one row is an error. Put the SELECT in parentheses where a value is expected. Aggregates without grouping are a common way to guarantee one row.",
+    "ru": {
+      "title": "Доля зарплаты в общей сумме",
+      "prompt": "Верните id и salary_share — зарплату, делённую на общую сумму зарплат с округлением до четырёх знаков. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l029",
+    "id": "l029-e4",
+    "title": "Above customer average orders",
+    "prompt": "Return id,customer_id,total for orders above the average total for their own known customer, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT o.id,o.customer_id,o.total FROM orders o WHERE o.customer_id IS NOT NULL AND o.total>(SELECT avg(x.total) FROM orders x WHERE x.customer_id=o.customer_id) ORDER BY o.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The inner query uses an outer alias. PostgreSQL may transform or repeatedly execute the operation depending on the plan.",
+      "A missing correlation condition silently changes a per-group question into a global one."
+    ],
+    "explanation": "A correlated subquery depends on values from the outer query row. The inner query uses an outer alias. PostgreSQL may transform or repeatedly execute the operation depending on the plan.",
+    "ru": {
+      "title": "Заказы выше среднего клиента",
+      "prompt": "Верните id, customer_id и total заказов выше среднего total своего известного клиента. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l029",
+    "id": "l029-e5",
+    "title": "Cheapest within category",
+    "prompt": "Return id,name,category for every product tied for its category minimum price, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT p.id,p.name,p.category FROM products p WHERE p.price=(SELECT min(x.price) FROM products x WHERE x.category=p.category) ORDER BY p.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The inner query uses an outer alias. PostgreSQL may transform or repeatedly execute the operation depending on the plan.",
+      "A missing correlation condition silently changes a per-group question into a global one."
+    ],
+    "explanation": "A correlated subquery depends on values from the outer query row. The inner query uses an outer alias. PostgreSQL may transform or repeatedly execute the operation depending on the plan.",
+    "ru": {
+      "title": "Самые дешёвые в категории",
+      "prompt": "Верните id, name и category всех товаров с минимальной ценой своей категории. Сохраните равные цены и сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l030",
+    "id": "l030-e4",
+    "title": "First order per customer",
+    "prompt": "Using LATERAL, return customer_id,first_order_id,ordered_on for every customer, including NULL when absent. Earliest date then smallest id wins; output by customer_id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT c.id AS customer_id,o.id AS first_order_id,o.ordered_on FROM customers c LEFT JOIN LATERAL(SELECT id,ordered_on FROM orders WHERE customer_id=c.id ORDER BY ordered_on,id LIMIT 1)o ON true ORDER BY c.id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Alias every derived table for clarity. LEFT JOIN LATERAL ... ON true preserves outer rows with no inner result.",
+      "ORDER BY inside a subquery does not establish the final output order. Add a top-level ORDER BY."
+    ],
+    "explanation": "A derived table is a subquery in FROM. LATERAL lets that subquery refer to preceding FROM sources. Alias every derived table for clarity. LEFT JOIN LATERAL ... ON true preserves outer rows with no inner result.",
+    "ru": {
+      "title": "Первый заказ каждого клиента",
+      "prompt": "Через LATERAL верните customer_id, first_order_id и ordered_on всех клиентов, с NULL при отсутствии. Выбирайте раннюю дату и меньший id; итог по customer_id."
+    }
+  },
+  {
+    "lessonID": "l030",
+    "id": "l030-e5",
+    "title": "Department salary leaders",
+    "prompt": "Use a derived set of departments with LATERAL to return department,id,name of the highest-paid employee, smallest id on ties; output by department.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT d.department,e.id,e.name FROM (SELECT DISTINCT department FROM employees)d CROSS JOIN LATERAL(SELECT id,name FROM employees WHERE department=d.department ORDER BY salary DESC,id LIMIT 1)e ORDER BY d.department;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Alias every derived table for clarity. LEFT JOIN LATERAL ... ON true preserves outer rows with no inner result.",
+      "ORDER BY inside a subquery does not establish the final output order. Add a top-level ORDER BY."
+    ],
+    "explanation": "A derived table is a subquery in FROM. LATERAL lets that subquery refer to preceding FROM sources. Alias every derived table for clarity. LEFT JOIN LATERAL ... ON true preserves outer rows with no inner result.",
+    "ru": {
+      "title": "Лидер зарплаты отдела",
+      "prompt": "Через производный набор отделов и LATERAL верните department, id и name самого высокооплачиваемого сотрудника отдела; при равенстве меньший id. Итог по department."
+    }
+  },
+  {
+    "lessonID": "l031",
+    "id": "l031-e4",
+    "title": "Low category stock stage",
+    "prompt": "Use a CTE to sum stock by category; return category,units only where units<100, ordered by category.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH category_stock AS(SELECT category,sum(stock) AS units FROM products GROUP BY category) SELECT category,units FROM category_stock WHERE units<100 ORDER BY category;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "WITH name AS (...) introduces a CTE before the main query. PostgreSQL can fold some CTEs into the parent query; MATERIALIZED and NOT MATERIALIZED influence that behavior.",
+      "A CTE is not automatically a persisted table or always an optimization barrier."
+    ],
+    "explanation": "A common table expression, or CTE, names a query for use within a larger statement. WITH name AS (...) introduces a CTE before the main query. PostgreSQL can fold some CTEs into the parent query; MATERIALIZED and NOT MATERIALIZED influence that behavior.",
+    "ru": {
+      "title": "Этап малых запасов категории",
+      "prompt": "Через CTE просуммируйте stock по категориям. Верните category и units только при units < 100 в порядке category."
+    }
+  },
+  {
+    "lessonID": "l031",
+    "id": "l031-e5",
+    "title": "Paid order dates stage",
+    "prompt": "Use a CTE of paid orders to return ordered_on and paid_count by date, ordered by ordered_on.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH paid AS(SELECT ordered_on FROM orders WHERE status='paid') SELECT ordered_on,count(*) AS paid_count FROM paid GROUP BY ordered_on ORDER BY ordered_on;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "WITH name AS (...) introduces a CTE before the main query. PostgreSQL can fold some CTEs into the parent query; MATERIALIZED and NOT MATERIALIZED influence that behavior.",
+      "A CTE is not automatically a persisted table or always an optimization barrier."
+    ],
+    "explanation": "A common table expression, or CTE, names a query for use within a larger statement. WITH name AS (...) introduces a CTE before the main query. PostgreSQL can fold some CTEs into the parent query; MATERIALIZED and NOT MATERIALIZED influence that behavior.",
+    "ru": {
+      "title": "Этап дат оплаченных заказов",
+      "prompt": "Через CTE оплаченных заказов верните ordered_on и paid_count по датам в порядке ordered_on."
+    }
+  },
+  {
+    "lessonID": "l032",
+    "id": "l032-e4",
+    "title": "Names across entity types",
+    "prompt": "Return each distinct name from customers and employees under column person, ordered by person.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT name AS person FROM customers UNION SELECT name FROM employees ORDER BY person;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Each branch needs the same number of columns and compatible data types. The first branch determines result column names.",
+      "UNION does not guarantee branch order. Removing duplicates can hide a data-quality issue or cost extra work."
+    ],
+    "explanation": "UNION combines compatible results and removes duplicates. UNION ALL preserves every input row. Each branch needs the same number of columns and compatible data types. The first branch determines result column names.",
+    "ru": {
+      "title": "Имена разных сущностей",
+      "prompt": "Верните различные name из customers и employees под именем person в порядке person."
+    }
+  },
+  {
+    "lessonID": "l032",
+    "id": "l032-e5",
+    "title": "Separate paid and pending amounts",
+    "prompt": "Using UNION ALL return status,total from paid and pending orders, preserving duplicates and sorting by status then total.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT status,total FROM orders WHERE status='paid' UNION ALL SELECT status,total FROM orders WHERE status='pending' ORDER BY status,total;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Each branch needs the same number of columns and compatible data types. The first branch determines result column names.",
+      "UNION does not guarantee branch order. Removing duplicates can hide a data-quality issue or cost extra work."
+    ],
+    "explanation": "UNION combines compatible results and removes duplicates. UNION ALL preserves every input row. Each branch needs the same number of columns and compatible data types. The first branch determines result column names.",
+    "ru": {
+      "title": "Суммы оплаченных и ожидающих заказов",
+      "prompt": "Через UNION ALL верните status и total оплаченных и ожидающих заказов. Сохраните повторы; сортируйте по status, затем total."
+    }
+  },
+  {
+    "lessonID": "l033",
+    "id": "l033-e4",
+    "title": "VIP customers who paid",
+    "prompt": "Using INTERSECT return id of VIP customers who have paid orders, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id FROM customers WHERE vip INTERSECT SELECT customer_id FROM orders WHERE status='paid' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The default forms remove duplicates; ALL forms retain multiplicities according to the operation. INTERSECT binds more tightly than UNION and EXCEPT.",
+      "NULLs participate in set duplicate comparison. Set difference is different from a nullable NOT IN predicate."
+    ],
+    "explanation": "INTERSECT keeps values present in both results. EXCEPT keeps values in the first result but not the second. The default forms remove duplicates; ALL forms retain multiplicities according to the operation. INTERSECT binds more tightly than UNION and EXCEPT.",
+    "ru": {
+      "title": "VIP с оплаченными заказами",
+      "prompt": "Через INTERSECT верните id VIP-клиентов с оплаченными заказами в порядке id."
+    }
+  },
+  {
+    "lessonID": "l033",
+    "id": "l033-e5",
+    "title": "Unpurchased product IDs",
+    "prompt": "Using EXCEPT return product id as id for products with no order_items, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id FROM products EXCEPT SELECT product_id FROM order_items ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "The default forms remove duplicates; ALL forms retain multiplicities according to the operation. INTERSECT binds more tightly than UNION and EXCEPT.",
+      "NULLs participate in set duplicate comparison. Set difference is different from a nullable NOT IN predicate."
+    ],
+    "explanation": "INTERSECT keeps values present in both results. EXCEPT keeps values in the first result but not the second. The default forms remove duplicates; ALL forms retain multiplicities according to the operation. INTERSECT binds more tightly than UNION and EXCEPT.",
+    "ru": {
+      "title": "Некупленные идентификаторы товаров",
+      "prompt": "Через EXCEPT верните id товаров без order_items в порядке id."
+    }
+  },
+  {
+    "lessonID": "l034",
+    "id": "l034-e4",
+    "title": "Add a fixed event",
+    "prompt": "Insert event 50 for customer 1 at 2024-08-01 12:00, kind visit, payload device tablet and pages 2. Return id,customer_id,kind.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "INSERT INTO events VALUES(50,1,'2024-08-01 12:00','visit','{\"device\":\"tablet\",\"pages\":2}') RETURNING id,customer_id,kind;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "List target columns explicitly. VALUES supplies matching values; INSERT ... SELECT copies a query result.",
+      "Omitting a column uses its default or NULL. A key conflict raises an error unless ON CONFLICT handles it."
+    ],
+    "explanation": "INSERT adds rows. RETURNING exposes the values of the rows actually inserted. List target columns explicitly. VALUES supplies matching values; INSERT ... SELECT copies a query result.",
+    "validationSQL": "SELECT id,customer_id,occurred_at,kind,payload FROM events ORDER BY id;",
+    "ru": {
+      "title": "Добавление события",
+      "prompt": "Вставьте событие 50 клиента 1 на 2024-08-01 12:00, kind visit, payload с device tablet и pages 2. Верните id, customer_id и kind."
+    },
+    "checkOutput": true,
+    "outputOrdered": false
+  },
+  {
+    "lessonID": "l034",
+    "id": "l034-e5",
+    "title": "Snapshot stocked product names",
+    "prompt": "Create stocked_names(id integer PRIMARY KEY,name text NOT NULL) and INSERT SELECT all product IDs/names with stock>0.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE stocked_names(id integer PRIMARY KEY,name text NOT NULL); INSERT INTO stocked_names SELECT id,name FROM products WHERE stock>0;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "List target columns explicitly. VALUES supplies matching values; INSERT ... SELECT copies a query result.",
+      "Omitting a column uses its default or NULL. A key conflict raises an error unless ON CONFLICT handles it."
+    ],
+    "explanation": "INSERT adds rows. RETURNING exposes the values of the rows actually inserted. List target columns explicitly. VALUES supplies matching values; INSERT ... SELECT copies a query result.",
+    "validationSQL": "SELECT id,name FROM stocked_names ORDER BY id;",
+    "ru": {
+      "title": "Снимок названий товаров в наличии",
+      "prompt": "Создайте stocked_names(id integer PRIMARY KEY,name text NOT NULL). Через INSERT SELECT добавьте id и name всех товаров со stock > 0."
+    }
+  },
+  {
+    "lessonID": "l035",
+    "id": "l035-e4",
+    "title": "Close selected pending orders",
+    "prompt": "Set status=cancelled for pending orders with total<100, changing no other order fields.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "UPDATE orders SET status='cancelled' WHERE status='pending' AND total<100;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "SET assigns columns; WHERE limits rows; RETURNING inspects changed rows. Test the WHERE predicate with SELECT first.",
+      "An omitted WHERE changes every row. UPDATE ... FROM with multiple source matches can choose an unpredictable source row."
+    ],
+    "explanation": "UPDATE changes matching rows. Expressions can use the old values in each row. SET assigns columns; WHERE limits rows; RETURNING inspects changed rows. Test the WHERE predicate with SELECT first.",
+    "validationSQL": "SELECT * FROM orders ORDER BY id;",
+    "ru": {
+      "title": "Закрытие небольших ожидающих заказов",
+      "prompt": "Установите status = cancelled у заказов pending с total < 100. Остальные поля не меняйте."
+    }
+  },
+  {
+    "lessonID": "l035",
+    "id": "l035-e5",
+    "title": "Consolidate North inventory",
+    "prompt": "Change inventory.warehouse from North to Central for all matching rows and preserve quantities/dates.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "UPDATE inventory SET warehouse='Central' WHERE warehouse='North';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "SET assigns columns; WHERE limits rows; RETURNING inspects changed rows. Test the WHERE predicate with SELECT first.",
+      "An omitted WHERE changes every row. UPDATE ... FROM with multiple source matches can choose an unpredictable source row."
+    ],
+    "explanation": "UPDATE changes matching rows. Expressions can use the old values in each row. SET assigns columns; WHERE limits rows; RETURNING inspects changed rows. Test the WHERE predicate with SELECT first.",
+    "validationSQL": "SELECT * FROM inventory ORDER BY product_id;",
+    "ru": {
+      "title": "Объединение северного склада",
+      "prompt": "Измените inventory.warehouse с North на Central у всех подходящих строк, сохранив количества и даты."
+    }
+  },
+  {
+    "lessonID": "l036",
+    "id": "l036-e4",
+    "title": "Delete old visits",
+    "prompt": "Delete visit events before 2024-07-02, leaving purchases and later events unchanged.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "DELETE FROM events WHERE kind='visit' AND occurred_at<'2024-07-02';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use DELETE FROM ... WHERE. DELETE ... USING can join supporting tables. TRUNCATE quickly empties whole tables with different locking and trigger behavior.",
+      "Deleting a parent row may fail when child rows exist. TRUNCATE is transactional in PostgreSQL but takes an ACCESS EXCLUSIVE lock."
+    ],
+    "explanation": "DELETE removes matching rows. Foreign-key actions decide whether dependent rows prevent or follow a deletion. Use DELETE FROM ... WHERE. DELETE ... USING can join supporting tables. TRUNCATE quickly empties whole tables with different locking and trigger behavior.",
+    "validationSQL": "SELECT * FROM events ORDER BY id;",
+    "ru": {
+      "title": "Удаление старых посещений",
+      "prompt": "Удалите события visit до 2024-07-02. Покупки и более поздние события сохраните."
+    }
+  },
+  {
+    "lessonID": "l036",
+    "id": "l036-e5",
+    "title": "Remove cancelled order lines",
+    "prompt": "Delete order_items belonging to cancelled orders while preserving the orders themselves.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "DELETE FROM order_items i USING orders o WHERE o.id=i.order_id AND o.status='cancelled';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use DELETE FROM ... WHERE. DELETE ... USING can join supporting tables. TRUNCATE quickly empties whole tables with different locking and trigger behavior.",
+      "Deleting a parent row may fail when child rows exist. TRUNCATE is transactional in PostgreSQL but takes an ACCESS EXCLUSIVE lock."
+    ],
+    "explanation": "DELETE removes matching rows. Foreign-key actions decide whether dependent rows prevent or follow a deletion. Use DELETE FROM ... WHERE. DELETE ... USING can join supporting tables. TRUNCATE quickly empties whole tables with different locking and trigger behavior.",
+    "validationSQL": "SELECT * FROM order_items ORDER BY order_id,product_id;",
+    "ru": {
+      "title": "Удаление позиций отменённых заказов",
+      "prompt": "Удалите order_items отменённых заказов, сохранив сами orders."
+    }
+  },
+  {
+    "lessonID": "l037",
+    "id": "l037-e4",
+    "title": "Warehouse reassignment upsert",
+    "prompt": "Upsert inventory for product 3 with warehouse Central,quantity 20,date 2024-08-10; on conflict replace warehouse and date but preserve current quantity.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "INSERT INTO inventory VALUES(3,'Central',20,'2024-08-10') ON CONFLICT(product_id) DO UPDATE SET warehouse=EXCLUDED.warehouse,updated_on=EXCLUDED.updated_on;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "ON CONFLICT(key) DO UPDATE uses EXCLUDED to refer to the proposed new row. DO NOTHING skips a conflict.",
+      "Only suitable unique or exclusion conflicts are handled. DO UPDATE needs a deterministic rule for merging values."
+    ],
+    "explanation": "An upsert inserts a new row or updates an existing row when a unique constraint conflicts. ON CONFLICT(key) DO UPDATE uses EXCLUDED to refer to the proposed new row. DO NOTHING skips a conflict.",
+    "validationSQL": "SELECT * FROM inventory ORDER BY product_id;",
+    "ru": {
+      "title": "Upsert с сохранением количества",
+      "prompt": "Вставьте inventory товара 3: Central, 20, 2024-08-10. При конфликте замените склад и дату, сохранив текущее quantity."
+    }
+  },
+  {
+    "lessonID": "l037",
+    "id": "l037-e5",
+    "title": "Insert an optional new customer safely",
+    "prompt": "Insert customer id 70,name Nika,city Oslo,joined_on 2024-08-10,vip false and NULL email; on id conflict do nothing.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "INSERT INTO customers(id,name,city,joined_on,vip) VALUES(70,'Nika','Oslo','2024-08-10',false) ON CONFLICT(id) DO NOTHING;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "ON CONFLICT(key) DO UPDATE uses EXCLUDED to refer to the proposed new row. DO NOTHING skips a conflict.",
+      "Only suitable unique or exclusion conflicts are handled. DO UPDATE needs a deterministic rule for merging values."
+    ],
+    "explanation": "An upsert inserts a new row or updates an existing row when a unique constraint conflicts. ON CONFLICT(key) DO UPDATE uses EXCLUDED to refer to the proposed new row. DO NOTHING skips a conflict.",
+    "validationSQL": "SELECT * FROM customers ORDER BY id;",
+    "ru": {
+      "title": "Безопасная вставка необязательного клиента",
+      "prompt": "Добавьте клиента 70: Nika, Oslo, joined_on 2024-08-10, vip false, email NULL. При конфликте id ничего не меняйте."
+    }
+  },
+  {
+    "lessonID": "l038",
+    "id": "l038-e4",
+    "title": "Commit paired account adjustments",
+    "prompt": "In one explicit transaction subtract 30 from account 2 and add 30 to account 3, then commit.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "BEGIN; UPDATE accounts SET balance=balance-30 WHERE id=2; UPDATE accounts SET balance=balance+30 WHERE id=3; COMMIT;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "BEGIN starts; COMMIT keeps changes; ROLLBACK discards them. SAVEPOINT and ROLLBACK TO SAVEPOINT allow partial recovery. Each submitted practice run uses a fresh isolated database.",
+      "After an error, a transaction is aborted until rolled back. Do not catch an error and continue as if earlier work committed."
+    ],
+    "explanation": "A transaction makes a sequence of changes succeed or fail as one unit. A savepoint marks a point that can be rolled back inside it. BEGIN starts; COMMIT keeps changes; ROLLBACK discards them. SAVEPOINT and ROLLBACK TO SAVEPOINT allow partial recovery. Each submitted practice run uses a fresh isolated database.",
+    "validationSQL": "SELECT * FROM accounts ORDER BY id;",
+    "ru": {
+      "title": "Связанные корректировки счетов",
+      "prompt": "В одной явной транзакции снимите 30 со счёта 2 и добавьте 30 на счёт 3, затем зафиксируйте."
+    }
+  },
+  {
+    "lessonID": "l038",
+    "id": "l038-e5",
+    "title": "Rollback stock but keep price",
+    "prompt": "In a transaction increase product 1 price by 1, create savepoint stock_draft, increase its stock by 100, rollback to that savepoint, and commit.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "BEGIN; UPDATE products SET price=price+1 WHERE id=1; SAVEPOINT stock_draft; UPDATE products SET stock=stock+100 WHERE id=1; ROLLBACK TO SAVEPOINT stock_draft; COMMIT;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "BEGIN starts; COMMIT keeps changes; ROLLBACK discards them. SAVEPOINT and ROLLBACK TO SAVEPOINT allow partial recovery. Each submitted practice run uses a fresh isolated database.",
+      "After an error, a transaction is aborted until rolled back. Do not catch an error and continue as if earlier work committed."
+    ],
+    "explanation": "A transaction makes a sequence of changes succeed or fail as one unit. A savepoint marks a point that can be rolled back inside it. BEGIN starts; COMMIT keeps changes; ROLLBACK discards them. SAVEPOINT and ROLLBACK TO SAVEPOINT allow partial recovery. Each submitted practice run uses a fresh isolated database.",
+    "validationSQL": "SELECT id,price,stock FROM products ORDER BY id;",
+    "ru": {
+      "title": "Откат запаса с сохранением цены",
+      "prompt": "В транзакции повысьте price товара 1 на 1, создайте SAVEPOINT stock_draft, прибавьте к stock 100, откатитесь к точке и выполните COMMIT."
+    }
+  },
+  {
+    "lessonID": "l039",
+    "id": "l039-e4",
+    "title": "Capture stock updates",
+    "prompt": "Use an UPDATE CTE to increase stock by 3 for Tech products; return id,stock ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "WITH changed AS(UPDATE products SET stock=stock+3 WHERE category='Tech' RETURNING id,stock) SELECT id,stock FROM changed ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A modifying WITH query executes once. Its RETURNING output is the relation visible to the rest of the statement. Sibling statements share one snapshot.",
+      "Do not rely on the physical execution order of sibling modifying CTEs or update the same row twice within one statement."
+    ],
+    "explanation": "A data-changing CTE can use RETURNING rows as input to another operation in the same statement. A modifying WITH query executes once. Its RETURNING output is the relation visible to the rest of the statement. Sibling statements share one snapshot.",
+    "validationSQL": "SELECT id,stock FROM products ORDER BY id;",
+    "ru": {
+      "title": "Получение изменённых запасов",
+      "prompt": "Через UPDATE CTE увеличьте stock товаров Tech на 3. Верните id и stock в порядке id."
+    },
+    "checkOutput": true,
+    "outputOrdered": true
+  },
+  {
+    "lessonID": "l039",
+    "id": "l039-e5",
+    "title": "Move cancelled lines to an archive",
+    "prompt": "Create cancelled_lines(order_id integer,product_id integer,quantity integer). Use DELETE RETURNING in a CTE to move cancelled order lines into it.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE cancelled_lines(order_id integer,product_id integer,quantity integer); WITH moved AS(DELETE FROM order_items i USING orders o WHERE o.id=i.order_id AND o.status='cancelled' RETURNING i.order_id,i.product_id,i.quantity) INSERT INTO cancelled_lines SELECT * FROM moved;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A modifying WITH query executes once. Its RETURNING output is the relation visible to the rest of the statement. Sibling statements share one snapshot.",
+      "Do not rely on the physical execution order of sibling modifying CTEs or update the same row twice within one statement."
+    ],
+    "explanation": "A data-changing CTE can use RETURNING rows as input to another operation in the same statement. A modifying WITH query executes once. Its RETURNING output is the relation visible to the rest of the statement. Sibling statements share one snapshot.",
+    "validationSQL": "SELECT order_id,product_id,quantity FROM cancelled_lines ORDER BY order_id,product_id;",
+    "ru": {
+      "title": "Перенос отменённых позиций в архив",
+      "prompt": "Создайте cancelled_lines(order_id integer,product_id integer,quantity integer). Через DELETE RETURNING в CTE перенесите туда позиции отменённых заказов."
+    }
+  },
+  {
+    "lessonID": "l040",
+    "id": "l040-e4",
+    "title": "Choose integer widths",
+    "prompt": "Return ordinary_type as pg_typeof(42)::text and wide_type as pg_typeof(10000000000)::text.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT pg_typeof(42)::text AS ordinary_type,pg_typeof(10000000000)::text AS wide_type;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "INTEGER is exact within its range; NUMERIC stores exact decimals; TEXT stores variable-length text; BOOLEAN stores true, false, or NULL.",
+      "VARCHAR(n) limits characters rather than bytes. A boolean is not the text string true, even when casts can convert it."
+    ],
+    "explanation": "A data type defines which values a column accepts and which operations make sense. PostgreSQL has smallint, integer, bigint, numeric, text, and boolean types. INTEGER is exact within its range; NUMERIC stores exact decimals; TEXT stores variable-length text; BOOLEAN stores true, false, or NULL.",
+    "ru": {
+      "title": "Выбор размера целого числа",
+      "prompt": "Верните ordinary_type как pg_typeof(42)::text и wide_type как pg_typeof(10000000000)::text."
+    }
+  },
+  {
+    "lessonID": "l040",
+    "id": "l040-e5",
+    "title": "Known Boolean states",
+    "prompt": "Return id,is_vip,is_not_vip from customers using vip and NOT vip, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,vip AS is_vip,NOT vip AS is_not_vip FROM customers ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "INTEGER is exact within its range; NUMERIC stores exact decimals; TEXT stores variable-length text; BOOLEAN stores true, false, or NULL.",
+      "VARCHAR(n) limits characters rather than bytes. A boolean is not the text string true, even when casts can convert it."
+    ],
+    "explanation": "A data type defines which values a column accepts and which operations make sense. PostgreSQL has smallint, integer, bigint, numeric, text, and boolean types. INTEGER is exact within its range; NUMERIC stores exact decimals; TEXT stores variable-length text; BOOLEAN stores true, false, or NULL.",
+    "ru": {
+      "title": "Известные логические состояния",
+      "prompt": "Верните id, is_vip и is_not_vip из customers через vip и NOT vip в порядке id."
+    }
+  },
+  {
+    "lessonID": "l041",
+    "id": "l041-e4",
+    "title": "Enum priority order",
+    "prompt": "Create enum ticket_priority(low,normal,high), table tickets(id integer PRIMARY KEY,priority ticket_priority NOT NULL); insert (1,high),(2,low),(3,normal).",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TYPE ticket_priority AS ENUM('low','normal','high'); CREATE TABLE tickets(id integer PRIMARY KEY,priority ticket_priority NOT NULL); INSERT INTO tickets VALUES(1,'high'),(2,'low'),(3,'normal');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use uuid literals for known identifiers. CREATE TYPE ... AS ENUM defines labels; comparisons follow their declaration order. PostgreSQL 18 includes uuidv4() and uuidv7(), but generated values are nondeterministic.",
+      "An enum label is case-sensitive. Adding and removing labels has migration tradeoffs compared with a lookup table."
+    ],
+    "explanation": "A UUID is a 128-bit identifier. An enum is a type with a fixed ordered set of text labels. Use uuid literals for known identifiers. CREATE TYPE ... AS ENUM defines labels; comparisons follow their declaration order. PostgreSQL 18 includes uuidv4() and uuidv7(), but generated values are nondeterministic.",
+    "validationSQL": "SELECT id,priority FROM tickets ORDER BY priority,id;",
+    "ru": {
+      "title": "Порядок приоритетов enum",
+      "prompt": "Создайте enum ticket_priority(low,normal,high) и tickets(id integer PRIMARY KEY,priority ticket_priority NOT NULL). Вставьте (1,high), (2,low), (3,normal)."
+    }
+  },
+  {
+    "lessonID": "l041",
+    "id": "l041-e5",
+    "title": "UUID equality ignores text case",
+    "prompt": "Return same_identifier comparing uppercase and lowercase UUID literals 123E4567-E89B-12D3-A456-426614174000 and 123e4567-e89b-12d3-a456-426614174000 as uuid.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT '123E4567-E89B-12D3-A456-426614174000'::uuid='123e4567-e89b-12d3-a456-426614174000'::uuid AS same_identifier;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use uuid literals for known identifiers. CREATE TYPE ... AS ENUM defines labels; comparisons follow their declaration order. PostgreSQL 18 includes uuidv4() and uuidv7(), but generated values are nondeterministic.",
+      "An enum label is case-sensitive. Adding and removing labels has migration tradeoffs compared with a lookup table."
+    ],
+    "explanation": "A UUID is a 128-bit identifier. An enum is a type with a fixed ordered set of text labels. Use uuid literals for known identifiers. CREATE TYPE ... AS ENUM defines labels; comparisons follow their declaration order. PostgreSQL 18 includes uuidv4() and uuidv7(), but generated values are nondeterministic.",
+    "ru": {
+      "title": "Регистр текстовой записи UUID",
+      "prompt": "Верните same_identifier, сравнив UUID-литералы 123E4567-E89B-12D3-A456-426614174000 и 123e4567-e89b-12d3-a456-426614174000 после приведения к uuid."
+    }
+  },
+  {
+    "lessonID": "l042",
+    "id": "l042-e4",
+    "title": "Trim and uppercase a fixed label",
+    "prompt": "Return normalized as uppercase text after trimming both ends of the literal two spaces then office then two spaces.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT upper(trim('  office  ')) AS normalized;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "lower and upper change case; trim removes edge spaces; length counts characters; concat_ws joins known parts with a separator.",
+      "length counts characters, while octet_length counts bytes. Case folding and ordering depend on collation and locale."
+    ],
+    "explanation": "String functions transform or inspect text. Normalization means consistently representing values before matching or storing them. lower and upper change case; trim removes edge spaces; length counts characters; concat_ws joins known parts with a separator.",
+    "ru": {
+      "title": "Обрезка пробелов и верхний регистр",
+      "prompt": "Верните normalized — текст Office в верхнем регистре после удаления двух пробелов с каждой стороны литерала office."
+    }
+  },
+  {
+    "lessonID": "l042",
+    "id": "l042-e5",
+    "title": "First three product letters",
+    "prompt": "Return id,prefix as the first three characters of each product name, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,left(name,3) AS prefix FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "lower and upper change case; trim removes edge spaces; length counts characters; concat_ws joins known parts with a separator.",
+      "length counts characters, while octet_length counts bytes. Case folding and ordering depend on collation and locale."
+    ],
+    "explanation": "String functions transform or inspect text. Normalization means consistently representing values before matching or storing them. lower and upper change case; trim removes edge spaces; length counts characters; concat_ws joins known parts with a separator.",
+    "ru": {
+      "title": "Первые три буквы товара",
+      "prompt": "Верните id и prefix — первые три символа name каждого товара в порядке id."
+    }
+  },
+  {
+    "lessonID": "l043",
+    "id": "l043-e4",
+    "title": "Three-day booking follow-ups",
+    "prompt": "Return id,follow_up_day equal to check_out+3 days for bookings, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,check_out+3 AS follow_up_day FROM bookings ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use typed literals such as DATE 2024-07-01 with quotes around the value. Adding an integer to a date shifts it by days.",
+      "Calendar months have different lengths. Age in calendar years and elapsed days answer different questions."
+    ],
+    "explanation": "DATE stores a calendar day. Subtracting two dates produces the number of elapsed days. Use typed literals such as DATE 2024-07-01 with quotes around the value. Adding an integer to a date shifts it by days.",
+    "ru": {
+      "title": "Напоминание после выезда",
+      "prompt": "Верните id и follow_up_day — дату через три дня после check_out каждого бронирования в порядке id."
+    }
+  },
+  {
+    "lessonID": "l043",
+    "id": "l043-e5",
+    "title": "Client tenure at a fixed date",
+    "prompt": "Return id,days_joined as 2024-08-01 minus joined_on for customers, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,DATE '2024-08-01'-joined_on AS days_joined FROM customers ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Use typed literals such as DATE 2024-07-01 with quotes around the value. Adding an integer to a date shifts it by days.",
+      "Calendar months have different lengths. Age in calendar years and elapsed days answer different questions."
+    ],
+    "explanation": "DATE stores a calendar day. Subtracting two dates produces the number of elapsed days. Use typed literals such as DATE 2024-07-01 with quotes around the value. Adding an integer to a date shifts it by days.",
+    "ru": {
+      "title": "Стаж клиента на заданную дату",
+      "prompt": "Верните id и days_joined — разность DATE 2024-08-01 и joined_on клиентов в порядке id."
+    }
+  },
+  {
+    "lessonID": "l044",
+    "id": "l044-e4",
+    "title": "Winter New York wall time",
+    "prompt": "Return new_york_time as timestamp without time zone for instant 2024-01-15 12:00:00+00 displayed in America/New_York.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT TIMESTAMPTZ '2024-01-15 12:00:00+00' AT TIME ZONE 'America/New_York' AS new_york_time;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "AT TIME ZONE converts between a local timestamp and an instant using a named time zone. Prefer explicit zones in reports.",
+      "TIMESTAMPTZ does not retain the original zone name. A local time during a daylight-saving transition can be ambiguous or nonexistent."
+    ],
+    "explanation": "TIMESTAMP WITHOUT TIME ZONE stores local date and time fields. TIMESTAMPTZ stores an instant and displays it in the session time zone. AT TIME ZONE converts between a local timestamp and an instant using a named time zone. Prefer explicit zones in reports.",
+    "ru": {
+      "title": "Зимнее время Нью-Йорка",
+      "prompt": "Верните new_york_time типа timestamp without time zone для момента 2024-01-15 12:00:00+00 в America/New_York."
+    }
+  },
+  {
+    "lessonID": "l044",
+    "id": "l044-e5",
+    "title": "Summer New York wall time",
+    "prompt": "Return new_york_time as timestamp without time zone for instant 2024-07-15 12:00:00+00 displayed in America/New_York.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT TIMESTAMPTZ '2024-07-15 12:00:00+00' AT TIME ZONE 'America/New_York' AS new_york_time;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "AT TIME ZONE converts between a local timestamp and an instant using a named time zone. Prefer explicit zones in reports.",
+      "TIMESTAMPTZ does not retain the original zone name. A local time during a daylight-saving transition can be ambiguous or nonexistent."
+    ],
+    "explanation": "TIMESTAMP WITHOUT TIME ZONE stores local date and time fields. TIMESTAMPTZ stores an instant and displays it in the session time zone. AT TIME ZONE converts between a local timestamp and an instant using a named time zone. Prefer explicit zones in reports.",
+    "ru": {
+      "title": "Летнее время Нью-Йорка",
+      "prompt": "Верните new_york_time типа timestamp without time zone для момента 2024-07-15 12:00:00+00 в America/New_York."
+    }
+  },
+  {
+    "lessonID": "l045",
+    "id": "l045-e4",
+    "title": "Weekly event counts",
+    "prompt": "Return week_start as date and event_count by date_trunc week of occurred_at, ordered by week_start.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT date_trunc('week',occurred_at)::date AS week_start,count(*) AS event_count FROM events GROUP BY week_start ORDER BY week_start;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Group on date_trunc for calendar periods. Subtract timestamps for elapsed intervals. Use fixed reference dates in reproducible tests.",
+      "A day across daylight-saving transitions need not equal 24 hours. now() is fixed at transaction start; clock_timestamp() observes wall-clock time."
+    ],
+    "explanation": "An interval represents a duration with month, day, and sub-day components. date_trunc rounds a timestamp down to a calendar boundary. Group on date_trunc for calendar periods. Subtract timestamps for elapsed intervals. Use fixed reference dates in reproducible tests.",
+    "ru": {
+      "title": "События по неделям",
+      "prompt": "Верните week_start типа date и event_count по date_trunc week от occurred_at в порядке week_start."
+    }
+  },
+  {
+    "lessonID": "l045",
+    "id": "l045-e5",
+    "title": "Interval delivery deadline",
+    "prompt": "Return id,deadline as ordered_on plus interval 48 hours for pending orders, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,ordered_on+INTERVAL '48 hours' AS deadline FROM orders WHERE status='pending' ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Group on date_trunc for calendar periods. Subtract timestamps for elapsed intervals. Use fixed reference dates in reproducible tests.",
+      "A day across daylight-saving transitions need not equal 24 hours. now() is fixed at transaction start; clock_timestamp() observes wall-clock time."
+    ],
+    "explanation": "An interval represents a duration with month, day, and sub-day components. date_trunc rounds a timestamp down to a calendar boundary. Group on date_trunc for calendar periods. Subtract timestamps for elapsed intervals. Use fixed reference dates in reproducible tests.",
+    "ru": {
+      "title": "Срок доставки через интервал",
+      "prompt": "Верните id и deadline — ordered_on плюс INTERVAL 48 hours ожидающих заказов в порядке id."
+    }
+  },
+  {
+    "lessonID": "l046",
+    "id": "l046-e4",
+    "title": "Any work or light tag",
+    "prompt": "Return id,name for products whose tags overlap ARRAY[work,light], ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM products WHERE tags && ARRAY['work','light'] ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "ARRAY[...] constructs an array; = ANY(array) tests membership; @> tests containment; cardinality counts elements; unnest expands rows.",
+      "An empty array differs from NULL. A NULL element affects membership logic. Avoid comma-separated text as a substitute for an array."
+    ],
+    "explanation": "A PostgreSQL array stores an ordered collection of values of one element type. Arrays normally use one-based indexes. ARRAY[...] constructs an array; = ANY(array) tests membership; @> tests containment; cardinality counts elements; unnest expands rows.",
+    "ru": {
+      "title": "Хотя бы одна нужная метка",
+      "prompt": "Верните id и name товаров, tags которых пересекается с ARRAY[work,light]. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l046",
+    "id": "l046-e5",
+    "title": "USB tag positions",
+    "prompt": "Return id,usb_position using array_position(tags,usb) for every product, NULL when absent, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,array_position(tags,'usb') AS usb_position FROM products ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "ARRAY[...] constructs an array; = ANY(array) tests membership; @> tests containment; cardinality counts elements; unnest expands rows.",
+      "An empty array differs from NULL. A NULL element affects membership logic. Avoid comma-separated text as a substitute for an array."
+    ],
+    "explanation": "A PostgreSQL array stores an ordered collection of values of one element type. Arrays normally use one-based indexes. ARRAY[...] constructs an array; = ANY(array) tests membership; @> tests containment; cardinality counts elements; unnest expands rows.",
+    "ru": {
+      "title": "Позиция метки USB",
+      "prompt": "Верните id и usb_position через array_position(tags,usb) каждого товара, NULL при отсутствии. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l047",
+    "id": "l047-e4",
+    "title": "Event page counts",
+    "prompt": "Return id,pages as integer extracted from payload for every event, NULL when missing, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,(payload->>'pages')::integer AS pages FROM events ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "-> returns JSON; ->> returns text; #>> extracts a nested path as text. Cast extracted text before numeric comparison.",
+      "JSON null differs from SQL NULL. JSONB removes insignificant whitespace and duplicate object keys, keeping the last value."
+    ],
+    "explanation": "JSON stores JSON text; JSONB stores a decomposed representation that supports efficient operations and indexing. -> returns JSON; ->> returns text; #>> extracts a nested path as text. Cast extracted text before numeric comparison.",
+    "ru": {
+      "title": "Число страниц событий",
+      "prompt": "Верните id и pages типа integer, извлечённое из payload каждого события, с NULL при отсутствии. Сортируйте по id."
+    }
+  },
+  {
+    "lessonID": "l047",
+    "id": "l047-e5",
+    "title": "Missing product ratings",
+    "prompt": "Return id,name of products where attributes->>rating is SQL NULL, ordered by id.",
+    "difficulty": "Intermediate",
+    "kind": "query",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "SELECT id,name FROM products WHERE attributes->>'rating' IS NULL ORDER BY id;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "-> returns JSON; ->> returns text; #>> extracts a nested path as text. Cast extracted text before numeric comparison.",
+      "JSON null differs from SQL NULL. JSONB removes insignificant whitespace and duplicate object keys, keeping the last value."
+    ],
+    "explanation": "JSON stores JSON text; JSONB stores a decomposed representation that supports efficient operations and indexing. -> returns JSON; ->> returns text; #>> extracts a nested path as text. Cast extracted text before numeric comparison.",
+    "ru": {
+      "title": "Товары без рейтинга",
+      "prompt": "Верните id и name товаров, у которых attributes->>rating равно SQL NULL, в порядке id."
+    }
+  },
+  {
+    "lessonID": "l048",
+    "id": "l048-e4",
+    "title": "Remove Tech color attributes",
+    "prompt": "Remove the top-level color key from every Tech product attributes, preserving other keys and other products.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "UPDATE products SET attributes=attributes-'color' WHERE category='Tech';",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "@> tests containment; ? tests a top-level key. jsonb_set takes a text-array path and a JSONB replacement value.",
+      "Containment is structural and type-sensitive: JSON number 2 differs from JSON string 2. Preserve relational constraints for critical shared facts."
+    ],
+    "explanation": "JSONB operators can test structure and create modified documents. jsonb_set returns a new document with a path changed. @> tests containment; ? tests a top-level key. jsonb_set takes a text-array path and a JSONB replacement value.",
+    "validationSQL": "SELECT id,attributes FROM products ORDER BY id;",
+    "ru": {
+      "title": "Удаление цвета техники",
+      "prompt": "Удалите ключ color верхнего уровня из attributes всех товаров Tech, сохранив прочие ключи и остальные товары."
+    }
+  },
+  {
+    "lessonID": "l048",
+    "id": "l048-e5",
+    "title": "Add a JSON promotion flag",
+    "prompt": "Add JSONB promotional:false to every product attributes using concatenation, preserving existing keys.",
+    "difficulty": "Intermediate",
+    "kind": "modify",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "UPDATE products SET attributes=attributes||'{\"promotional\":false}'::jsonb;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "@> tests containment; ? tests a top-level key. jsonb_set takes a text-array path and a JSONB replacement value.",
+      "Containment is structural and type-sensitive: JSON number 2 differs from JSON string 2. Preserve relational constraints for critical shared facts."
+    ],
+    "explanation": "JSONB operators can test structure and create modified documents. jsonb_set returns a new document with a path changed. @> tests containment; ? tests a top-level key. jsonb_set takes a text-array path and a JSONB replacement value.",
+    "validationSQL": "SELECT id,attributes FROM products ORDER BY id;",
+    "ru": {
+      "title": "Флаг акции JSON",
+      "prompt": "Добавьте promotional:false в attributes каждого товара через конкатенацию JSONB, сохранив существующие ключи."
+    }
+  },
+  {
+    "lessonID": "l049",
+    "id": "l049-e4",
+    "title": "One preference per customer",
+    "prompt": "Create customer_preferences(customer_id integer PRIMARY KEY REFERENCES customers(id),locale text NOT NULL); insert (1,en).",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE customer_preferences(customer_id integer PRIMARY KEY REFERENCES customers(id),locale text NOT NULL); INSERT INTO customer_preferences VALUES(1,'en');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Declare constraints in CREATE TABLE or ALTER TABLE. A UNIQUE constraint ordinarily permits multiple NULLs; NULLS NOT DISTINCT changes that in PostgreSQL 15 and later.",
+      "A foreign key does not automatically create an index on the referencing columns. A nullable foreign key can represent an optional relationship."
+    ],
+    "explanation": "Constraints are database-enforced rules. A primary key combines uniqueness and non-NULL; a foreign key requires a matching referenced key. Declare constraints in CREATE TABLE or ALTER TABLE. A UNIQUE constraint ordinarily permits multiple NULLs; NULLS NOT DISTINCT changes that in PostgreSQL 15 and later.",
+    "validationSQL": "SELECT customer_id,locale FROM customer_preferences ORDER BY customer_id;",
+    "ru": {
+      "title": "Одна настройка на клиента",
+      "prompt": "Создайте customer_preferences(customer_id integer PRIMARY KEY REFERENCES customers(id),locale text NOT NULL). Вставьте (1,en)."
+    }
+  },
+  {
+    "lessonID": "l049",
+    "id": "l049-e5",
+    "title": "Unique external references",
+    "prompt": "Create external_orders(id integer PRIMARY KEY,external_ref text NOT NULL UNIQUE,order_id integer NOT NULL REFERENCES orders(id)); insert (1,import-101,101).",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE external_orders(id integer PRIMARY KEY,external_ref text NOT NULL UNIQUE,order_id integer NOT NULL REFERENCES orders(id)); INSERT INTO external_orders VALUES(1,'import-101',101);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "Declare constraints in CREATE TABLE or ALTER TABLE. A UNIQUE constraint ordinarily permits multiple NULLs; NULLS NOT DISTINCT changes that in PostgreSQL 15 and later.",
+      "A foreign key does not automatically create an index on the referencing columns. A nullable foreign key can represent an optional relationship."
+    ],
+    "explanation": "Constraints are database-enforced rules. A primary key combines uniqueness and non-NULL; a foreign key requires a matching referenced key. Declare constraints in CREATE TABLE or ALTER TABLE. A UNIQUE constraint ordinarily permits multiple NULLs; NULLS NOT DISTINCT changes that in PostgreSQL 15 and later.",
+    "validationSQL": "SELECT id,external_ref,order_id FROM external_orders ORDER BY id;",
+    "ru": {
+      "title": "Уникальные внешние ссылки",
+      "prompt": "Создайте external_orders(id integer PRIMARY KEY,external_ref text NOT NULL UNIQUE,order_id integer NOT NULL REFERENCES orders(id)). Вставьте (1,import-101,101)."
+    }
+  },
+  {
+    "lessonID": "l050",
+    "id": "l050-e4",
+    "title": "Bounded discount rule",
+    "prompt": "Create promotions(id integer PRIMARY KEY,discount numeric NOT NULL DEFAULT 0 CHECK(discount BETWEEN 0 AND 1)); insert only id=1.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE promotions(id integer PRIMARY KEY,discount numeric NOT NULL DEFAULT 0 CHECK(discount BETWEEN 0 AND 1)); INSERT INTO promotions(id) VALUES(1);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A CHECK passes when its expression is true or NULL, so combine it with NOT NULL when missing values are forbidden. ON DELETE CASCADE removes dependents.",
+      "A CHECK cannot safely maintain cross-row totals. Defaults are applied on insertion; they do not retroactively fill existing rows."
+    ],
+    "explanation": "CHECK constrains a row expression. DEFAULT supplies a value for an omitted column. Referential actions define what happens when a referenced row changes. A CHECK passes when its expression is true or NULL, so combine it with NOT NULL when missing values are forbidden. ON DELETE CASCADE removes dependents.",
+    "validationSQL": "SELECT id,discount FROM promotions ORDER BY id;",
+    "ru": {
+      "title": "Ограниченный размер скидки",
+      "prompt": "Создайте promotions(id integer PRIMARY KEY,discount numeric NOT NULL DEFAULT 0 CHECK(discount BETWEEN 0 AND 1)). Вставьте только id = 1."
+    }
+  },
+  {
+    "lessonID": "l050",
+    "id": "l050-e5",
+    "title": "Protect a booking duration",
+    "prompt": "Create stays(id integer PRIMARY KEY,start_day date NOT NULL,end_day date NOT NULL,CHECK(end_day>start_day)); insert (1,2024-08-01,2024-08-03).",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE stays(id integer PRIMARY KEY,start_day date NOT NULL,end_day date NOT NULL,CHECK(end_day>start_day)); INSERT INTO stays VALUES(1,'2024-08-01','2024-08-03');",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "A CHECK passes when its expression is true or NULL, so combine it with NOT NULL when missing values are forbidden. ON DELETE CASCADE removes dependents.",
+      "A CHECK cannot safely maintain cross-row totals. Defaults are applied on insertion; they do not retroactively fill existing rows."
+    ],
+    "explanation": "CHECK constrains a row expression. DEFAULT supplies a value for an omitted column. Referential actions define what happens when a referenced row changes. A CHECK passes when its expression is true or NULL, so combine it with NOT NULL when missing values are forbidden. ON DELETE CASCADE removes dependents.",
+    "validationSQL": "SELECT id,start_day,end_day FROM stays ORDER BY id;",
+    "ru": {
+      "title": "Положительная длительность проживания",
+      "prompt": "Создайте stays(id integer PRIMARY KEY,start_day date NOT NULL,end_day date NOT NULL,CHECK(end_day>start_day)). Вставьте (1,2024-08-01,2024-08-03)."
+    }
+  },
+  {
+    "lessonID": "l051",
+    "id": "l051-e4",
+    "title": "Sequence with a step",
+    "prompt": "Create batch_number START WITH 10 INCREMENT BY 5. Return three nextval values as first_batch,second_batch,third_batch.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE SEQUENCE batch_number START WITH 10 INCREMENT BY 5; SELECT nextval('batch_number') AS first_batch,nextval('batch_number') AS second_batch,nextval('batch_number') AS third_batch;",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "GENERATED ALWAYS AS IDENTITY rejects ordinary explicit values; BY DEFAULT allows them. RETURNING retrieves generated values.",
+      "Sequences can have gaps after rollbacks or failed inserts. A generated number is not a reliable count or chronology."
+    ],
+    "explanation": "An identity column obtains values from a sequence. A sequence generates numbers independently of ordinary row transaction rollback. GENERATED ALWAYS AS IDENTITY rejects ordinary explicit values; BY DEFAULT allows them. RETURNING retrieves generated values.",
+    "ru": {
+      "title": "Последовательность с шагом",
+      "prompt": "Создайте batch_number START WITH 10 INCREMENT BY 5. Верните три nextval как first_batch, second_batch и third_batch."
+    },
+    "validationSQL": "SELECT start_value,increment_by,last_value FROM pg_sequences WHERE schemaname='public' AND sequencename='batch_number';",
+    "checkOutput": true,
+    "outputOrdered": false
+  },
+  {
+    "lessonID": "l051",
+    "id": "l051-e5",
+    "title": "Identity range starts at one hundred",
+    "prompt": "Create receipts(id integer GENERATED ALWAYS AS IDENTITY(START WITH 100) PRIMARY KEY,total numeric NOT NULL); insert totals 10 and 20.",
+    "difficulty": "Intermediate",
+    "kind": "design",
+    "starterSQL": "-- Write your PostgreSQL query here\n",
+    "solutionSQL": "CREATE TABLE receipts(id integer GENERATED ALWAYS AS IDENTITY(START WITH 100) PRIMARY KEY,total numeric NOT NULL); INSERT INTO receipts(total) VALUES(10),(20);",
+    "fixtureIDs": [
+      "retail",
+      "retail-edge"
+    ],
+    "ordered": true,
+    "columnNames": true,
+    "hints": [
+      "Identify the output columns and the intended result grain.",
+      "GENERATED ALWAYS AS IDENTITY rejects ordinary explicit values; BY DEFAULT allows them. RETURNING retrieves generated values.",
+      "Sequences can have gaps after rollbacks or failed inserts. A generated number is not a reliable count or chronology."
+    ],
+    "explanation": "An identity column obtains values from a sequence. A sequence generates numbers independently of ordinary row transaction rollback. GENERATED ALWAYS AS IDENTITY rejects ordinary explicit values; BY DEFAULT allows them. RETURNING retrieves generated values.",
+    "validationSQL": "SELECT id,total FROM receipts ORDER BY id;",
+    "ru": {
+      "title": "Identity с началом 100",
+      "prompt": "Создайте receipts(id integer GENERATED ALWAYS AS IDENTITY(START WITH 100) PRIMARY KEY,total numeric NOT NULL). Вставьте total 10 и 20."
+    }
+  }
+]

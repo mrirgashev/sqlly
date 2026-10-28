@@ -1,0 +1,22 @@
+name: Bug report
+description: Report a reproducible SQLLY problem
+body:
+  - type: input
+    id: version
+    attributes:
+      label: App version, macOS version, and Mac architecture
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Include lesson/exercise ID and a minimal query when relevant. Remove private data.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

@@ -1,0 +1,25 @@
+name: macOS build and test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Toolchain
+        run: swift --version
+      - name: Build bundled PostgreSQL
+        run: ./scripts/build-postgres.sh
+      - name: Test
+        run: swift test
+      - name: Package app
+        run: ./scripts/build-app.sh
+      - name: Package disk image
+        run: ./scripts/package-dmg.sh
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: SQLLY-development
+          path: dist/*.dmg*

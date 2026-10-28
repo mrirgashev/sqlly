@@ -1,0 +1,13 @@
+{
+  "courseVersion": "1.1.0",
+  "modules": 34,
+  "lessons": 102,
+  "exercises": 516,
+  "translatedLessonSections": 1122,
+  "translatedPrompts": 516,
+  "translatedHints": 1548,
+  "missingTranslations": [],
+  "executableFieldsAndFixturesSHA256": "f377ce169678af8b75e839c7bd6ac3a72cb140105be51c89e9cf324a255030f8",
+  "executableParity": true,
+  "note": "Full-line instructional comments are localized; SQL tokens, literals, reference/check scripts, fixtures, policies and IDs are unchanged between languages."
+}

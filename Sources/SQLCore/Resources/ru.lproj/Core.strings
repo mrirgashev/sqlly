@@ -1,0 +1,15 @@
+"Expected %ld columns, but your query returned %ld. Check the SELECT list." = "Ожидалось столбцов: %ld, получено: %ld. Проверьте список выражений SELECT.";
+"Column names must be %@. Check your aliases and column order." = "Ожидаемые имена столбцов: %@. Проверьте псевдонимы и порядок столбцов.";
+"Expected %ld rows, but your query returned %ld. Check filters, JOIN cardinality, and duplicates." = "Ожидалось строк: %ld, получено: %ld. Проверьте фильтры, число совпадений при JOIN и повторы.";
+"Some values or their order differ. Check ORDER BY, NULL handling, expressions, and tie breakers." = "Значения или их порядок отличаются. Проверьте ORDER BY, обработку NULL, выражения и дополнительные условия сортировки при равенстве.";
+"Some values differ. Duplicate rows count separately. Check NULL handling, calculations, and JOIN conditions." = "Некоторые значения отличаются. Повторяющиеся строки учитываются отдельно. Проверьте NULL, вычисления и условия JOIN.";
+"%@ Fixture %ld of %ld." = "%@ Набор данных %ld из %ld.";
+"Row order was checked." = "Порядок строк проверен.";
+"Equivalent row orderings are accepted." = "Любой порядок строк с теми же значениями допускается.";
+"Correct across all %ld datasets. %@" = "Верно на всех наборах данных: %ld. %@";
+"Correct. You selected every valid option." = "Верно. Вы выбрали все правильные варианты.";
+"Revisit the conditions. Select every valid option; more than one may be correct." = "Перечитайте условие. Выберите все правильные варианты — их может быть несколько.";
+"Explanation tasks require learner self-assessment with the supplied rubric." = "Письменное объяснение нужно самостоятельно проверить по предложенным критериям.";
+"Enter values in the prediction table, or mark a missing value as NULL. Add or remove rows to match the predicted output." = "Заполните таблицу предполагаемого результата. Отметьте отсутствующее значение как NULL. Добавьте или удалите строки по необходимости.";
+"Each predicted row needs %ld values." = "В каждой предполагаемой строке должно быть значений: %ld.";
+"Correct prediction, verified by PostgreSQL across all %ld datasets." = "Результат предсказан верно. PostgreSQL проверил его на всех наборах данных: %ld.";
