@@ -32,9 +32,18 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           if [[ "$TEST_STATUS" != 0 ]]; then
             ANNOTATION_COUNT=0
+            CRASH_CONTEXT_LEFT=0
             while IFS= read -r LINE || [[ -n "$LINE" ]]; do
+              case "$LINE" in *'Stack dump:'*) CRASH_CONTEXT_LEFT=12 ;; esac
+              REPORT_LINE=0
               case "$LINE" in
-                *'✘'*|*'recorded an issue'*|*'Expectation failed'*|*'Caught error:'*|*'error:'*)
+                *'✘'*|*'recorded an issue'*|*'Expectation failed'*|*'Caught error:'*|*'error:'*|*'While evaluating request'*|*'While running pass'*|*'While emitting'*|*'while emitting'*) REPORT_LINE=1 ;;
+              esac
+              if [[ "$CRASH_CONTEXT_LEFT" -gt 0 ]]; then
+                REPORT_LINE=1
+                CRASH_CONTEXT_LEFT=$((CRASH_CONTEXT_LEFT - 1))
+              fi
+              if [[ "$REPORT_LINE" == 1 ]]; then
                   LINE="${LINE:0:2000}"
                   LINE="${LINE//'%'/'%25'}"
                   LINE="${LINE//$'\r'/'%0D'}"
@@ -42,8 +51,7 @@ jobs:
                   printf '::error title=Native Swift test failure::%s\n' "$LINE"
                   ANNOTATION_COUNT=$((ANNOTATION_COUNT + 1))
                   if [[ "$ANNOTATION_COUNT" -ge 20 ]]; then break; fi
-                  ;;
-              esac
+              fi
             done < "$TEST_LOG"
           fi
           if [[ "$TEST_STATUS" != 0 ]]; then exit "$TEST_STATUS"; fi
