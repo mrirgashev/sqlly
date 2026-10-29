@@ -345,19 +345,35 @@ struct ExerciseContent: View {
                     MarkdownContent(text: hint)
                 }
             }
-            DisclosureGroup(isExpanded: $model.showSolution) {
+            DisclosureGroup(isExpanded: Binding(get: { model.showSolution && model.canRevealSolution }, set: model.setSolutionRevealed)) {
+                if model.canRevealSolution && model.showSolution {
                 VStack(alignment: .leading, spacing: 14) {
                     if exercise.kind == "choose" {
                         Text(L.format("Valid choices: %@", (exercise.correctChoiceIDs ?? []).joined(separator: ", "))).font(.callout.weight(.medium))
                     } else if exercise.kind != "explain" { CodeBlock(code: exercise.solutionSQL) }
                     if let answer = exercise.modelAnswer { MarkdownContent(text: answer) }
                     MarkdownContent(text: exercise.explanation)
-                    if !["choose", "explain"].contains(exercise.kind) {
-                        Button { model.sql = exercise.solutionSQL } label: { Text(L.text("Load solution in editor")).font(.system(size: 14, weight: .medium)).frame(minHeight: 34) }.buttonStyle(.link)
+                    if model.requiresCodeEditor {
+                        Button(action: model.loadWorkedSolution) { Text(L.text("Load solution in editor")).font(.system(size: 14, weight: .medium)).frame(minHeight: 34) }.buttonStyle(.link)
                     }
                 }.padding(.top, 12)
+                }
             } label: {
-                Text(L.text("Worked solution")).font(.system(size: 14, weight: .medium)).frame(minHeight: 36)
+                HStack(spacing: 9) {
+                    if !model.canRevealSolution { Image(systemName: "lock").accessibilityHidden(true) }
+                    Text(L.text("Worked solution"))
+                }.font(.system(size: 14, weight: .medium)).frame(minHeight: 36)
+            }
+            .disabled(!model.canRevealSolution)
+            if model.requiresCodeEditor {
+                Text(model.canRevealSolution
+                     ? L.text("Worked solution unlocked. Open it when you are ready.")
+                     : L.format("%ld of %ld distinct unsuccessful code attempts. Submit a different solution to keep trying.", min(model.solutionAccess.distinctFailedCodeAttempts, SolutionAccessPolicy.requiredDistinctFailures), SolutionAccessPolicy.requiredDistinctFailures))
+                    .font(.caption).foregroundStyle(.secondary)
+                if !model.canRevealSolution {
+                    Text(L.text("Run and Live do not count. Repeated code or changes only to formatting or comments do not add an attempt."))
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
             Text(L.format("Exercise %@", exercise.id)).font(.system(size: 10, design: .monospaced)).foregroundStyle(.tertiary).textSelection(.enabled)
         }

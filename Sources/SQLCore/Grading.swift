@@ -8,6 +8,16 @@ public struct Grade: Sendable {
     public let result: QueryResult?
 }
 
+/// A PostgreSQL failure attributable to the submitted answer. Infrastructure,
+/// fixture, and reference-answer failures retain their original error types.
+public struct GradingSubmissionError: LocalizedError, Sendable {
+    public let underlying: PostgresError
+    public var message: String { underlying.message }
+    public var sqlState: String { underlying.sqlState }
+    public var errorDescription: String? { underlying.errorDescription }
+    public init(_ underlying: PostgresError) { self.underlying = underlying }
+}
+
 /// Compares typed PostgreSQL results; preserves NULLs and bag multiplicity.
 /// Numeric types compare exact decimal values, without rounding tolerances.
 public enum ResultComparator {
@@ -112,8 +122,13 @@ public struct GradingService: Sendable {
             let actual: QueryResult
             let expected: QueryResult
             if let verification = exercise.validationSQL, !verification.isEmpty {
-                let submitted = try await engine.validateDetailed(sql: sql, fixture: fixture, verificationSQL: verification)
+                // Check the authored reference and validation contract first.
+                // Only a candidate's failure after this succeeds is attributable
+                // to learner SQL (for example, dropping a required table).
                 let reference = try await engine.validateDetailed(sql: exercise.solutionSQL, fixture: fixture, verificationSQL: verification)
+                let submitted: ValidatedExecution
+                do { submitted = try await engine.validateDetailed(sql: sql, fixture: fixture, verificationSQL: verification) }
+                catch { throw Self.submissionError(error) }
                 actual = submitted.state; expected = reference.state
                 if first == nil { first = submitted.output }
                 if exercise.checkOutput == true,
@@ -121,7 +136,8 @@ public struct GradingService: Sendable {
                     return Grade(passed: false, message: CoreText.format("%@ Fixture %ld of %ld.", language: language, issue, index + 1, exercise.fixtureIDs.count), fixturesPassed: index, fixturesTotal: exercise.fixtureIDs.count, result: first)
                 }
             } else {
-                actual = try await engine.execute(sql: sql, fixture: fixture)
+                do { actual = try await engine.execute(sql: sql, fixture: fixture) }
+                catch { throw Self.submissionError(error) }
                 expected = try await engine.execute(sql: exercise.solutionSQL, fixture: fixture)
             }
             if first == nil { first = actual }
@@ -131,6 +147,22 @@ public struct GradingService: Sendable {
         }
         let ordering = CoreText.text(exercise.ordered ? "Row order was checked." : "Equivalent row orderings are accepted.", language: language)
         return Grade(passed: true, message: CoreText.format("Correct across all %ld datasets. %@", language: language, exercise.fixtureIDs.count, ordering), fixturesPassed: exercise.fixtureIDs.count, fixturesTotal: exercise.fixtureIDs.count, result: first)
+    }
+
+    private static func submissionError(_ error: Error) -> Error {
+        guard let postgres = error as? PostgresError, isSubmissionFailure(postgres) else { return error }
+        return GradingSubmissionError(postgres)
+    }
+
+    static func isSubmissionFailure(_ error: PostgresError) -> Bool {
+        guard error.origin == .submittedStatement || error.origin == .validation,
+              !error.sqlState.isEmpty else { return false }
+        let state = error.sqlState.uppercased()
+        // SQLSTATE classes for transport, resource exhaustion, system/internal
+        // failures and server shutdown must never count as an incorrect answer.
+        if ["08", "53", "58", "XX"].contains(where: state.hasPrefix) { return false }
+        if state.hasPrefix("57"), state != "57014" { return false }
+        return true
     }
 
     /// Concept questions use explicit answer forms. SQL answers always use the

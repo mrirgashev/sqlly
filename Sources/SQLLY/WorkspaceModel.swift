@@ -55,7 +55,7 @@ final class WorkspaceModel {
     var feedbackPassed: Bool?
     var queryError: String?
     var revealedHints = 0
-    var showSolution = false
+    private(set) var showSolution = false
     var selectedResultTab = "Results"
     var showHistory = false
     var showStatistics = false
@@ -65,14 +65,14 @@ final class WorkspaceModel {
     var inspectorVisible = true
     private var booting = false
 
-    init() {
+    init(progressStore: ProgressStore? = nil, practiceEngine: PostgresEngine? = nil) {
         let initialLanguage = UserDefaults.standard.string(forKey: "language") ?? "en"
         var loaded: Curriculum?
         var storage: ProgressStore?
         do { loaded = try Curriculum.load(language: CourseLanguage(rawValue: initialLanguage) ?? .english) } catch { fatalError = "Course could not load: \(error.localizedDescription)" }
-        do { storage = try ProgressStore() } catch { storageNotice = error.localizedDescription }
+        do { storage = try progressStore ?? ProgressStore() } catch { storageNotice = error.localizedDescription }
         course = loaded; store = storage
-        let engine = PostgresEngine()
+        let engine = practiceEngine ?? PostgresEngine()
         self.engine = engine; liveController = LiveQueryController(engine: engine)
         do {
             try storage?.migrateReadingSteps(lessonIDs: loaded?.lessons.map(\.id) ?? [])
@@ -95,6 +95,17 @@ final class WorkspaceModel {
     var requiresCodeEditor: Bool {
         guard let exercise = currentExercise else { return false }
         return !["choose", "explain", "predict"].contains(exercise.kind)
+    }
+    var solutionAccess: SolutionAccessPolicy { SolutionAccessPolicy(exerciseID: selection, attempts: attempts) }
+    var canRevealSolution: Bool { currentExercise != nil && (!requiresCodeEditor || solutionAccess.isUnlocked) }
+
+    func setSolutionRevealed(_ revealed: Bool) {
+        showSolution = revealed && canRevealSolution
+    }
+
+    func loadWorkedSolution() {
+        guard requiresCodeEditor, canRevealSolution, let exercise = currentExercise else { return }
+        sql = exercise.solutionSQL
     }
     var position: Int { currentLesson?.steps.firstIndex(where: { $0.id == selection }) ?? 0 }
     var completedExercises: Int { course?.exercises.filter { progress[$0.id]?.completed == true }.count ?? 0 }
@@ -225,7 +236,7 @@ final class WorkspaceModel {
             }
             if submit, let exercise, let course {
                 let grade = try await GradingService(engine: engine).grade(sql: capturedSQL, exercise: exercise, curriculum: course)
-                let attempt = Attempt(exerciseID: capturedID, sql: capturedSQL, passed: grade.passed, feedback: grade.message)
+                let attempt = Attempt(exerciseID: capturedID, sql: capturedSQL, passed: grade.passed, feedback: grade.message, submissionKind: .gradedCode)
                 attempts.insert(attempt, at: 0)
                 do { try store?.record(attempt) } catch { storageNotice = error.localizedDescription }
                 var state = progress[capturedID] ?? StepProgress()
@@ -246,7 +257,8 @@ final class WorkspaceModel {
             if selection == capturedID, sameAnswer { result = nil; queryError = message }
             if submit {
                 let answer = ["predict", "choose", "explain"].contains(exercise?.kind ?? "") ? capturedResponse : capturedSQL
-                let attempt = Attempt(exerciseID: capturedID, sql: answer, passed: false, feedback: message)
+                let submissionKind: Attempt.SubmissionKind = error is GradingSubmissionError ? .gradedCode : .infrastructureFailure
+                let attempt = Attempt(exerciseID: capturedID, sql: answer, passed: false, feedback: message, submissionKind: submissionKind)
                 attempts.insert(attempt, at: 0)
                 do { try store?.record(attempt) } catch { storageNotice = error.localizedDescription }
                 var state = progress[capturedID] ?? StepProgress(); state.review = true; state.updatedAt = Date(); save(state, id: capturedID)
@@ -276,7 +288,7 @@ final class WorkspaceModel {
         response = String(decoding: (try? JSONEncoder().encode(selected.sorted())) ?? Data(), as: UTF8.self)
     }
     private func recordAssessment(id: String, answer: String, passed: Bool, message: String) {
-        let attempt = Attempt(exerciseID: id, sql: answer, passed: passed, feedback: message)
+        let attempt = Attempt(exerciseID: id, sql: answer, passed: passed, feedback: message, submissionKind: .assessment)
         attempts.insert(attempt, at: 0)
         do { try store?.record(attempt) } catch { storageNotice = error.localizedDescription }
         var state = progress[id] ?? StepProgress(); state.completed = state.completed || passed; state.review = !passed

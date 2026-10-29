@@ -11,15 +11,27 @@ public struct StepProgress: Codable, Sendable, Equatable {
 }
 
 public struct Attempt: Codable, Identifiable, Sendable {
+    public enum SubmissionKind: String, Codable, Sendable {
+        /// A code answer checked by the grader, including a candidate SQL error.
+        case gradedCode
+        case assessment
+        /// Initialization, fixture/reference execution, storage or other service failure.
+        case infrastructureFailure
+    }
+
     public var id: UUID
     public var exerciseID: String
     public var sql: String
     public var passed: Bool
     public var feedback: String
     public var date: Date
-    public init(exerciseID: String, sql: String, passed: Bool, feedback: String) {
+    /// Missing in older progress/backup JSON. Unknown legacy outcomes remain nil
+    /// and are retained in history, but cannot unlock a worked code solution.
+    public var submissionKind: SubmissionKind?
+    public init(exerciseID: String, sql: String, passed: Bool, feedback: String, submissionKind: SubmissionKind? = nil) {
         self.id = UUID(); self.exerciseID = exerciseID; self.sql = sql
         self.passed = passed; self.feedback = feedback; self.date = Date()
+        self.submissionKind = submissionKind
     }
 }
 

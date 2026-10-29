@@ -19,9 +19,17 @@ public struct QueryResult: Codable, Equatable, Sendable {
 }
 
 public struct PostgresError: Error, LocalizedError, Sendable {
+    public enum Origin: Sendable, Equatable {
+        case system
+        case submittedStatement
+        case validation
+    }
     public var message: String
     public var sqlState: String
-    public init(_ message: String, sqlState: String = "") { self.message = message; self.sqlState = sqlState }
+    public var origin: Origin
+    public init(_ message: String, sqlState: String = "", origin: Origin = .system) {
+        self.message = message; self.sqlState = sqlState; self.origin = origin
+    }
     public var errorDescription: String? { message }
 }
 
@@ -180,10 +188,10 @@ public actor PostgresEngine {
         // The learner login has no membership in the administrator role. RESET
         // ROLE cannot elevate it. All validation uses an independent connection.
         if let setup, !setup.isEmpty { _ = try query(setup, database: name, administrator: false) }
-        let result = try query(sql, database: name, administrator: false)
+        let result = try query(sql, database: name, administrator: false, origin: .submittedStatement)
         if let verificationSQL {
             try resetLearnerSettings()
-            return ValidatedExecution(output: result, state: try query(verificationSQL, database: name, administrator: false))
+            return ValidatedExecution(output: result, state: try query(verificationSQL, database: name, administrator: false, origin: .validation))
         }
         return ValidatedExecution(output: result, state: result)
     }
@@ -195,7 +203,7 @@ public actor PostgresEngine {
         _ = try query("ALTER ROLE learner PASSWORD '\(learnerPassword)'; ALTER ROLE learner RESET ALL;", database: "postgres", administrator: true)
     }
 
-    private func query(_ sql: String, database: String, administrator isAdmin: Bool, timeout: Int = 4000) throws -> QueryResult {
+    private func query(_ sql: String, database: String, administrator isAdmin: Bool, timeout: Int = 4000, origin: PostgresError.Origin = .system) throws -> QueryResult {
         guard let socketURL else { throw PostgresError("The practice engine has not started.") }
         let user = isAdmin ? administrator : "learner"
         let password = isAdmin ? adminPassword : learnerPassword
@@ -204,7 +212,7 @@ public actor PostgresEngine {
         defer { qc_free_result(pointer) }
         let value = pointer.pointee
         guard value.status == 1 else {
-            throw PostgresError(value.error.map { String(cString: $0) } ?? "PostgreSQL query failed.", sqlState: value.sqlstate.map { String(cString: $0) } ?? "")
+            throw PostgresError(value.error.map { String(cString: $0) } ?? "PostgreSQL query failed.", sqlState: value.sqlstate.map { String(cString: $0) } ?? "", origin: origin)
         }
         var columns: [QueryColumn] = []
         for index in 0..<Int(value.column_count) {

@@ -83,3 +83,15 @@ Checked items combine archived application evidence and the actual version-speci
 - [x] Verify the native UI and restore all learning tables to their pre-test state.
 - [x] Build the optimized 0.3.3 app and verify it without its build cache.
 - [x] Record all 67 passing tests and the mounted distribution audit.
+
+## SQLLY 0.3.4 solution policy and light icon
+
+- [x] Render and inspect the light icon at native large/small sizes.
+- [x] Keep coding solutions inactive through nine distinct failed submissions and enable after ten.
+- [x] Ignore Run/Live, duplicate or reformatted code, successes, and service failures for unlock eligibility.
+- [x] Preserve eligibility through persistent history and compatible progress exports/imports.
+- [x] Verify the actual UI at zero, nine, and ten failures, explicit reveal, and restart.
+- [x] Restore all four learning tables exactly after UI verification.
+- [x] Execute all 93 tests and both SwiftPM build-system checks.
+- [x] Complete the mounted 0.3.4 distribution audit.
+- [x] Move older app copies/installers and the temporary build app to recoverable Trash, preserving source and learning data.

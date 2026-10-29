@@ -13,14 +13,16 @@ func icon(_ pixels: Int) throws -> Data {
     let markStroke = max(30.0, 1.0 / s) // At least one device pixel at small icon sizes.
     NSAffineTransform(transform: AffineTransform(scaleByX: s, byY: s)).concat()
     let background = NSBezierPath(roundedRect: NSRect(x: 74, y: 74, width: 876, height: 876), xRadius: 194, yRadius: 194)
-    NSColor.black.setFill()
+    // Light edition of SQLLY's original cylinder artwork. Keep the same
+    // geometry and native icon inset, with contrast tuned for small sizes.
+    NSColor(srgbRed: 0.98, green: 0.98, blue: 0.965, alpha: 1).setFill()
     background.fill()
-    NSColor(white: 0.18, alpha: 1).setStroke()
+    NSColor(srgbRed: 0.82, green: 0.84, blue: 0.815, alpha: 1).setStroke()
     background.lineWidth = 2
     background.stroke()
     // Original artwork. The familiar cylinder metaphor was studied in the
     // Bootstrap database reference; no Bootstrap SVG/path/font is copied.
-    NSColor(white: 0.97, alpha: 1).setStroke()
+    NSColor(srgbRed: 0.125, green: 0.16, blue: 0.14, alpha: 1).setStroke()
     let sides = NSBezierPath()
     sides.move(to: NSPoint(x: 286, y: 702))
     sides.line(to: NSPoint(x: 286, y: 338))
@@ -35,7 +37,7 @@ func icon(_ pixels: Int) throws -> Data {
         layer.curve(to: NSPoint(x: 738, y: y), controlPoint1: NSPoint(x: 286, y: y - 110), controlPoint2: NSPoint(x: 738, y: y - 110))
         layer.lineWidth = markStroke; layer.lineCapStyle = .round; layer.stroke()
     }
-    NSColor(srgbRed: 0.35, green: 0.81, blue: 0.55, alpha: 1).setStroke()
+    NSColor(srgbRed: 0.14, green: 0.52, blue: 0.29, alpha: 1).setStroke()
     let active = NSBezierPath()
     active.move(to: NSPoint(x: 444, y: 274))
     active.curve(to: NSPoint(x: 580, y: 274), controlPoint1: NSPoint(x: 485, y: 261), controlPoint2: NSPoint(x: 539, y: 261))
