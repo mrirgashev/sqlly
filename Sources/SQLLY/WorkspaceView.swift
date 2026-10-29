@@ -345,7 +345,7 @@ struct ExerciseContent: View {
                     MarkdownContent(text: hint)
                 }
             }
-            DisclosureGroup(isExpanded: Binding(get: { model.showSolution && model.canRevealSolution }, set: model.setSolutionRevealed)) {
+            DisclosureGroup(isExpanded: Binding(get: { model.showSolution && model.canRevealSolution }, set: { model.setSolutionRevealed($0) })) {
                 if model.canRevealSolution && model.showSolution {
                 VStack(alignment: .leading, spacing: 14) {
                     if exercise.kind == "choose" {
