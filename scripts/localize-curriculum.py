@@ -9,6 +9,7 @@ import hashlib
 import json
 import pathlib
 import re
+from lesson_explanations import apply_explanations
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'Sources/SQLCore/Resources/curriculum.json'
@@ -191,6 +192,8 @@ def main():
                 bodies = [idea, why, how, how + '\n\n' + '\n'.join('• ' + g for g in guides), examples[0]['prompt'], examples[2]['prompt'], expected, mistake, related,
                           f'Выполните практические шаги этого понятия по порядку. Всего заданий: {len(examples)}. Сначала изучите результат пробного запроса, затем отправьте решение на проверку. Ошибка не стирает прогресс. Открывайте подсказки по одной. Если понадобилось готовое решение, вернитесь к заданию позже и попробуйте ещё раз. Прошлые попытки в Учебном центре помогут разобраться в ошибках.', idea + ' ' + how]
                 lesson['sections'] = [dict(title=SECTION_TITLES[i], body=body, **({'code': codes[i]} if codes[i] is not None else {})) for i, body in enumerate(bodies)]
+    russian['modules'][7]['topics'][0]['title'] = 'Объединение связанных данных'
+    apply_explanations(russian, 'ru')
     # A content-language switch must never alter query semantics or progress IDs.
     sql_fields = ['id', 'kind', 'solutionSQL', 'fixtureIDs', 'ordered', 'columnNames', 'validationSQL', 'stateValidationSQL', 'correctChoiceIDs', 'predictionColumns', 'checkOutput', 'outputOrdered']
     en_lessons = [l for m in english['modules'] for t in m['topics'] for l in t['lessons']]

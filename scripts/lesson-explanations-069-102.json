@@ -1,0 +1,1132 @@
+{
+  "lessons": {
+    "l069": {
+      "en": [
+        "Full-text search finds words and related word forms in documents. PostgreSQL first reduces words to searchable forms called lexemes.",
+        "Use it for articles or help pages when matching different forms of a word is more useful than finding an exact substring.",
+        "to_tsvector prepares the document; a tsquery describes the search. The @@ operator asks whether they match. Use the same language configuration on both sides.",
+        "'english' selects English word rules. body supplies the document. plainto_tsquery treats SQL as ordinary search text; WHERE keeps matches and ORDER BY id sorts them.",
+        "The small query searches document bodies for SQL and returns only their IDs and titles. It does not search the title column.",
+        "phraseto_tsquery searches for SQL queries in that order, accounting for word positions. This is narrower than requiring both words anywhere in a document.",
+        "On Retail, SQL guide is the only matching document. The result shows its id and title, not the transformed search representation.",
+        "ILIKE matches character patterns; full-text search uses language rules and can remove common words. A search configuration must suit the document language.",
+        "Compare LIKE and regular expressions with word-based search. For larger collections, GIN can index prepared tsvector values; ranking is a separate calculation.",
+        "Test a single word, several words, and a phrase. Check which column is searched before deciding that a missing match is an error.",
+        "Prepare the document and search with matching language rules, then use @@ to test each document."
+      ],
+      "ru": [
+        "Полнотекстовый поиск находит слова и их формы в документах. PostgreSQL сначала приводит слова к поисковым формам — лексемам.",
+        "Он полезен для статей и справочных материалов, когда нужно искать слова с учётом языка, а не точное сочетание символов.",
+        "to_tsvector подготавливает документ, а tsquery описывает поисковый запрос. Оператор @@ проверяет совпадение. Для обеих сторон выбирайте одну языковую конфигурацию.",
+        "'english' задаёт правила английского языка, body содержит текст. plainto_tsquery воспринимает SQL как обычный поисковый текст. WHERE оставляет совпадения, ORDER BY id сортирует строки.",
+        "Небольшой запрос ищет SQL в содержимом документов и возвращает их идентификаторы и заголовки. Столбец title в поиске не участвует.",
+        "phraseto_tsquery ищет SQL queries с учётом порядка и позиций слов. Это более строгое условие, чем наличие обоих слов где угодно.",
+        "В наборе Retail подходит только документ SQL guide. В результате показаны его id и title, а не внутреннее представление поискового текста.",
+        "ILIKE ищет шаблон символов, а полнотекстовый поиск применяет языковые правила и может исключать частые слова. Конфигурация должна соответствовать языку документа.",
+        "Сравните поиск по словам с LIKE и регулярными выражениями. Большие наборы tsvector можно индексировать через GIN; оценка релевантности вычисляется отдельно.",
+        "Попробуйте одно слово, несколько слов и фразу. Если документ не найден, сначала проверьте, по какому столбцу выполняется поиск.",
+        "Подготовьте документ и поисковый запрос по одним языковым правилам, затем проверьте совпадение оператором @@."
+      ],
+      "review": "Verified language normalization, phrase semantics and searched column; title not searched by body-only example.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/textsearch-intro.html",
+        "https://www.postgresql.org/docs/18/textsearch-controls.html"
+      ]
+    },
+    "l070": {
+      "en": [
+        "An index is an extra structure that helps PostgreSQL find rows. A B-tree supports equality, ranges, and ordered access; a Hash index supports equality.",
+        "Indexes can reduce the rows a query must inspect. They also consume storage and add work to inserts, updates, and deletes.",
+        "The planner compares possible ways to read a table. Selectivity means how small a fraction of rows a condition matches; fewer matches often make an index more useful.",
+        "CREATE INDEX names the index. ON orders selects its table; USING btree selects the method; (customer_id,ordered_on) gives the key columns in order.",
+        "The example builds an index for customer order histories. It creates a structure; it does not return the indexed rows or guarantee its use.",
+        "The reporting query counts products below 20 and all products together. Comparing these counts shows how much of the table that condition selects.",
+        "The checker confirms the btree method and the two key columns. This inspection table is separate from CREATE INDEX's command response.",
+        "A sequential scan can be sensible on a small table. A multicolumn B-tree is usually most effective when conditions constrain its leading columns, though other access strategies exist.",
+        "Connect indexes with WHERE, ORDER BY, and EXPLAIN. An ordinary index speeds access; a unique index also enforces a uniqueness rule.",
+        "Check the method and column order, then reason about the matching fraction. Do not use tiny-fixture timings as evidence of a production speedup.",
+        "Choose an index for actual lookup conditions and ordering needs, then confirm the planner's choice with a plan."
+      ],
+      "ru": [
+        "Индекс — дополнительная структура, помогающая PostgreSQL находить строки. B-tree подходит для равенства, диапазонов и упорядоченного чтения; Hash — для равенства.",
+        "Индекс может сократить число просматриваемых строк. Но он занимает место и требует дополнительной работы при вставке, изменении и удалении данных.",
+        "Планировщик сравнивает способы чтения таблицы. Селективность показывает, какую долю строк выбирает условие: при небольшой доле индекс часто полезнее.",
+        "CREATE INDEX задаёт имя индекса. ON orders выбирает таблицу, USING btree — метод, (customer_id,ordered_on) — столбцы ключа и их порядок.",
+        "Пример создаёт индекс для истории заказов клиента. Команда не возвращает строки таблицы и не гарантирует использование индекса каждым запросом.",
+        "Отчёт одновременно считает товары дешевле 20 и все товары. Сравнение этих чисел показывает, какую часть таблицы выбирает условие.",
+        "Проверочный запрос подтверждает метод btree и два столбца ключа. Эта таблица проверки не является обычным ответом команды CREATE INDEX.",
+        "Для маленькой таблицы последовательное чтение может быть выгоднее. Составной B-tree обычно особенно полезен при условиях по первым столбцам ключа, хотя возможны и другие способы доступа.",
+        "Свяжите индексы с WHERE, ORDER BY и EXPLAIN. Обычный индекс помогает читать данные; уникальный индекс дополнительно обеспечивает уникальность.",
+        "Проверьте метод и порядок столбцов, затем оцените долю подходящих строк. Время на крошечном наборе не доказывает ускорение реальной системы.",
+        "Выбирайте индекс под условия поиска и сортировки, а решение планировщика проверяйте по плану."
+      ],
+      "review": "Verified equality/range distinction, maintenance costs, multicolumn leading-key guidance without obsolete absolute rule.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/indexes-multicolumn.html"
+      ]
+    },
+    "l071": {
+      "en": [
+        "Index methods solve different search problems. GIN finds components inside collections; GiST supports searches such as range overlap; BRIN summarizes neighboring table pages.",
+        "A JSON containment query and a date-range overlap query need different kinds of information. One index method cannot efficiently serve every operator.",
+        "An operator class tells an index how a data type's operations work. Choose a supported method and operator class for the condition you plan to use.",
+        "USING gin(attributes) builds a GIN index on the JSONB attributes column. The default JSONB operator class supports several searches, including containment.",
+        "The small example indexes product attributes. It prepares an access path for suitable JSONB conditions without changing any product values.",
+        "The BRIN example summarizes occurred_at across page ranges. It is especially useful on large tables when nearby rows tend to have nearby timestamps.",
+        "The checker identifies a gin index on attributes. It verifies the structure, not that every query will become faster.",
+        "A matching method is only a starting point. BRIN may still inspect many rows; GIN can be costly to update; supported operators vary by operator class.",
+        "Use GiST with range overlap, GIN with arrays or JSONB, and EXPLAIN to see whether a specific query can use the index.",
+        "Match each index to its intended operator. Consider table size, value order, and update frequency before comparing access methods.",
+        "Choose the search operation first, then an index method and operator class that support it."
+      ],
+      "ru": [
+        "Разные методы индексации решают разные задачи. GIN ищет элементы внутри коллекций, GiST поддерживает, например, пересечение диапазонов, BRIN хранит сводки по соседним страницам таблицы.",
+        "Для поиска внутри JSON и проверки пересечения дат нужна разная информация. Один метод индексации не подходит одинаково хорошо для всех операторов.",
+        "Класс операторов определяет, какие операции над типом данных поддерживает индекс. Метод и класс операторов выбирают под конкретное условие поиска.",
+        "USING gin(attributes) создаёт GIN-индекс по столбцу JSONB attributes. Стандартный класс операторов JSONB поддерживает несколько видов поиска, включая проверку содержимого.",
+        "Небольшой пример индексирует свойства товаров. Он подготавливает способ поиска по подходящим условиям JSONB, не изменяя сами товары.",
+        "Пример с BRIN сохраняет сводки occurred_at по диапазонам страниц. Это особенно полезно для больших таблиц, где соседние строки обычно близки по времени.",
+        "Проверка показывает индекс gin по attributes. Она подтверждает устройство индекса, а не ускорение любого запроса.",
+        "Подходящий метод — лишь начало выбора. BRIN может потребовать проверки многих строк, GIN добавляет работу при записи, а набор операторов зависит от их класса.",
+        "Свяжите GiST с диапазонами, GIN — с массивами и JSONB. Через EXPLAIN проверьте, может ли нужный запрос использовать индекс.",
+        "Для каждого индекса определите оператор поиска. Перед сравнением учтите размер таблицы, расположение значений и частоту обновлений.",
+        "Сначала определите операцию поиска, затем выберите поддерживающие её метод и класс операторов."
+      ],
+      "review": "Verified operator classes, BRIN correlation and lossy summaries, no universal performance promise.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/gin-intro.html",
+        "https://www.postgresql.org/docs/18/brin-intro.html"
+      ]
+    },
+    "l072": {
+      "en": [
+        "A partial index stores only qualifying rows. An expression index stores a calculated search key. INCLUDE stores extra columns alongside the key.",
+        "These options tailor indexes to frequent queries, such as pending orders, case-normalized email searches, or reports needing a few extra values.",
+        "The planner must recognize that a query satisfies a partial index's condition. Expression indexes need matching expressions and immutable calculations; included columns are payload, not search keys.",
+        "ON orders(ordered_on) indexes order dates. WHERE status='pending' restricts the index to pending orders; this WHERE belongs to the index definition.",
+        "The small example omits paid and cancelled orders from the index. A query for pending orders may then use a smaller structure.",
+        "The covering index searches by customer_id and also stores total and ordered_on. These included columns can avoid table reads when visibility information allows it.",
+        "The checker shows ordered_on as the key and the pending-status condition. The table describes the index definition, not order data.",
+        "INCLUDE does not guarantee an index-only scan. The planner may not prove a partial condition from a parameter, and a different expression may not match an expression index.",
+        "Compare a search key with an included value. Relate index-only scans to VACUUM's visibility information and partial indexes to Boolean conditions.",
+        "Read each query and index side by side. Check the filter, expression, key order, and which selected columns are actually covered.",
+        "Specialized indexes help only when their definitions match the workload; every extra column also has a storage and write cost."
+      ],
+      "ru": [
+        "Частичный индекс содержит только подходящие строки. Индекс по выражению хранит вычисленный ключ. INCLUDE добавляет в индекс значения других столбцов.",
+        "Так индекс можно настроить под частые запросы: ожидающие заказы, поиск email без учёта регистра или отчёт с несколькими дополнительными полями.",
+        "Планировщик должен распознать, что условие запроса соответствует условию частичного индекса. Для выражений нужны подходящие неизменяемые вычисления; столбцы INCLUDE не становятся ключами поиска.",
+        "ON orders(ordered_on) индексирует дату заказа. WHERE status='pending' ограничивает состав индекса ожидающими заказами; здесь WHERE относится к определению индекса.",
+        "В небольшом примере оплаченные и отменённые заказы в индекс не попадают. Запрос по ожидающим заказам может использовать меньшую структуру.",
+        "Покрывающий индекс ищет по customer_id и дополнительно хранит total и ordered_on. При подходящей информации о видимости строк чтение таблицы может не понадобиться.",
+        "Проверка показывает ключ ordered_on и условие по статусу pending. Это описание индекса, а не строки заказов.",
+        "INCLUDE не гарантирует чтение только индекса. Планировщик не всегда выводит условие частичного индекса из параметра; другое выражение может не подойти индексу по выражению.",
+        "Различайте ключ поиска и дополнительное значение INCLUDE. Свяжите чтение только индекса с информацией о видимости строк, которую поддерживает VACUUM.",
+        "Сопоставьте запрос с индексом: проверьте фильтр, выражение, порядок ключей и наличие всех нужных выходных столбцов.",
+        "Специальный индекс полезен при совпадении его определения с запросами; каждый дополнительный столбец увеличивает расходы на хранение и запись."
+      ],
+      "review": "Verified predicate implication, immutable expressions, INCLUDE payload and visibility-dependent index-only scans.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-partial.html",
+        "https://www.postgresql.org/docs/18/indexes-expressional.html",
+        "https://www.postgresql.org/docs/18/indexes-index-only-scans.html"
+      ]
+    },
+    "l073": {
+      "en": [
+        "A query plan describes how PostgreSQL intends to produce a result. Its nodes are operations such as scanning, sorting, joining, and grouping.",
+        "EXPLAIN helps you see where work is planned before guessing which index or rewrite might help.",
+        "Child nodes feed rows to their parents. Costs and row counts are estimates; cost is a planning unit, not elapsed milliseconds. Plain EXPLAIN normally does not execute the statement.",
+        "EXPLAIN (COSTS OFF) describes the following SELECT and hides estimated cost details. The products filter still means price greater than 50.",
+        "The filtered-scan example asks how PostgreSQL will find expensive products. The returned rows describe a plan rather than products themselves.",
+        "The grouped-revenue example adds aggregation by status. Find the scan that supplies orders and the node that combines rows into status totals.",
+        "The sample plan uses Seq Scan and a price filter. That means reading products and checking the condition; the tiny table can make this a sensible choice.",
+        "Do not treat every sequential scan as a problem. Plan shape may change with data, statistics, settings, or PostgreSQL versions.",
+        "Connect scans to indexes, row estimates to ANALYZE statistics, and plan trees to the logical operations in SELECT.",
+        "For each plan, identify the data source, filter, and any sort or aggregate. Explain what each node contributes to the final result.",
+        "Read a plan as a flow of rows, and distinguish an estimated plan from measured execution."
+      ],
+      "ru": [
+        "План запроса описывает, как PostgreSQL собирается получить результат. Его узлы обозначают чтение, сортировку, соединение и группировку строк.",
+        "EXPLAIN позволяет увидеть предполагаемую работу до того, как вы начнёте выбирать индекс или переписывать запрос.",
+        "Дочерние узлы передают строки родительским. Стоимость и число строк — оценки; стоимость не измеряется в миллисекундах. Обычный EXPLAIN, как правило, не выполняет команду.",
+        "EXPLAIN (COSTS OFF) описывает следующий SELECT и скрывает оценки стоимости. Условие запроса по-прежнему выбирает товары с ценой больше 50.",
+        "Пример с фильтром показывает, как будут найдены дорогие товары. Строки ответа описывают план, а не сами товары.",
+        "В отчёте по выручке появляется группировка по status. Найдите чтение orders и узел, собирающий строки в суммы по статусам.",
+        "В образце видны Seq Scan и фильтр по цене: PostgreSQL читает товары и проверяет условие. Для маленькой таблицы это разумный выбор.",
+        "Последовательное чтение не всегда означает проблему. План может меняться вместе с данными, статистикой, настройками и версией PostgreSQL.",
+        "Свяжите способы чтения с индексами, оценки числа строк — со статистикой ANALYZE, а узлы плана — с операциями SELECT.",
+        "Для каждого плана найдите источник данных, фильтр, сортировку и агрегирование, если они есть. Объясните вклад каждого узла в результат.",
+        "Читайте план как движение строк и отличайте предполагаемый способ выполнения от измеренного выполнения."
+      ],
+      "review": "Verified plain EXPLAIN versus execution, costs not time, variable plans and tiny-table sequential scans.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/using-explain.html",
+        "https://www.postgresql.org/docs/18/sql-explain.html"
+      ]
+    },
+    "l074": {
+      "en": [
+        "EXPLAIN ANALYZE runs a statement and reports what its plan actually did, including returned rows and execution counts.",
+        "Actual measurements help you discover where estimated row counts were wrong or unexpectedly much work occurred.",
+        "Compare estimates with actual rows when both are displayed. For repeated nodes, actual rows are averages per execution; loops shows how many executions occurred.",
+        "ANALYZE executes the SELECT. TIMING OFF hides per-node timing, SUMMARY OFF hides the overall summary, and COSTS OFF hides estimates. PostgreSQL 18 enables buffer reporting with ANALYZE by default.",
+        "The stock example reads products and retains those with stock=0. The plan reports retained rows and rows rejected by the filter.",
+        "The order-item example counts every input row into one result. Distinguish the scan's input count from the aggregate's single output row.",
+        "On Retail, one product has zero stock and seven are rejected. Buffer lines describe page access; their exact counts can vary between runs.",
+        "ANALYZE on UPDATE or DELETE really changes data. A rollback can undo ordinary database changes, but not every possible external or sequence side effect.",
+        "Unlike the standalone ANALYZE maintenance command, EXPLAIN ANALYZE measures execution. BUFFERS describes page activity rather than just elapsed time.",
+        "Read rows and loops together. Compare where rows enter, are removed, and leave each operation without relying on identical timing or buffer counts.",
+        "Use measured plans to explain work, remembering that collecting measurements executes the statement."
+      ],
+      "ru": [
+        "EXPLAIN ANALYZE выполняет команду и показывает реальную работу плана: число возвращённых строк и количество запусков узлов.",
+        "Измерения помогают найти неверные оценки числа строк и операции, выполнившие неожиданно много работы.",
+        "Когда оценки видны, сравнивайте их с actual rows. При повторных запусках actual rows показывает среднее за запуск, а loops — число запусков.",
+        "ANALYZE выполняет SELECT. TIMING OFF скрывает время узлов, SUMMARY OFF — общий итог, COSTS OFF — оценки. В PostgreSQL 18 ANALYZE по умолчанию включает сведения о буферах.",
+        "Пример с stock читает товары и оставляет строки с stock=0. План показывает подходящие строки и число строк, удалённых фильтром.",
+        "Пример с позициями заказов считает входные строки и возвращает одно число. Не путайте число строк чтения с единственной строкой агрегата.",
+        "В Retail один товар имеет нулевой остаток, семь отбрасываются. Строки Buffers описывают обращения к страницам; точные числа могут различаться между запусками.",
+        "ANALYZE для UPDATE или DELETE действительно меняет данные. Откат отменяет обычные изменения в базе, но не любые внешние эффекты или изменения последовательностей.",
+        "Отдельная команда ANALYZE собирает статистику, а EXPLAIN ANALYZE измеряет выполнение. BUFFERS показывает работу со страницами, а не только затраченное время.",
+        "Читайте rows вместе с loops. Проследите, где строки поступают, отбрасываются и выходят, не ожидая одинакового времени или числа обращений к буферам.",
+        "Используйте измеренный план для объяснения работы и помните: ради измерения команда выполняется."
+      ],
+      "review": "Verified PostgreSQL18 ANALYZE default BUFFERS, per-loop averages, options and actual side effects.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-explain.html",
+        "https://www.postgresql.org/docs/18/using-explain.html"
+      ]
+    },
+    "l075": {
+      "en": [
+        "A useful optimization changes how a query does its work while preserving what the result means: its rows, duplicates, NULLs, and required order.",
+        "A report is only useful when it remains correct. Improve unnecessary work after defining who and what must appear.",
+        "First identify what one output row represents. Then check join conditions, filters, and grouping before comparing alternative plans on representative data.",
+        "LEFT JOIN keeps every customer. The paid filter belongs in ON; count(o.id) counts matching orders, GROUP BY c.id summarizes each customer, and ORDER BY fixes the result order.",
+        "The repaired report keeps customers with no paid orders and gives them a zero count. WHERE o.status='paid' would remove those customers.",
+        "The June example uses a lower date bound and an exclusive July bound. This captures one month's dates without applying a function to each stored date.",
+        "Fara remains in the sample with paid_count=0. Her presence is a correctness check, not an optional display detail.",
+        "Moving filters across an outer join can change its meaning. An index-friendly condition does not guarantee a faster plan on every dataset.",
+        "Relate this work to LEFT JOIN, EXISTS, NULL handling, and date ranges. Equivalent results must be established before comparing execution costs.",
+        "Check missing customers, repeated matches, boundary dates, and NULLs. Only then investigate whether a rewrite reduces work.",
+        "Preserve the report's rules first; use plans and realistic data to justify performance changes."
+      ],
+      "ru": [
+        "Полезная оптимизация меняет способ выполнения запроса, сохраняя смысл результата: строки, повторы, NULL и нужный порядок.",
+        "Отчёт полезен лишь при правильных расчётах. Устранять лишнюю работу стоит после определения того, кто и что должно попасть в результат.",
+        "Сначала определите, что означает одна строка результата. Затем проверьте соединения, фильтры и группировку и только потом сравнивайте планы на подходящих данных.",
+        "LEFT JOIN сохраняет всех клиентов. Условие оплаты находится в ON; count(o.id) считает найденные заказы, GROUP BY c.id собирает итог клиента, ORDER BY задаёт порядок.",
+        "Исправленный отчёт сохраняет клиентов без оплаченных заказов и показывает ноль. Условие WHERE o.status='paid' удалило бы таких клиентов.",
+        "Пример за июнь задаёт нижнюю границу и исключает начало июля. Так выбирается один месяц без вычисления функции для каждой сохранённой даты.",
+        "В образце Fara остаётся с paid_count=0. Её наличие — проверка правильности отчёта, а не необязательная деталь оформления.",
+        "Перенос фильтра через внешнее соединение может изменить смысл. Условие, удобное для индекса, не гарантирует ускорения на любом наборе данных.",
+        "Повторите LEFT JOIN, EXISTS, обработку NULL и диапазоны дат. Прежде чем сравнивать затраты, убедитесь в равенстве результатов.",
+        "Проверьте клиентов без заказов, повторные совпадения, границы дат и NULL. Затем выясняйте, сокращает ли переписывание работу.",
+        "Сначала сохраните правила отчёта, затем обоснуйте ускорение планами и реалистичными данными."
+      ],
+      "review": "Verified LEFT JOIN filter placement, matched-id count, range semantics and no unmeasured performance promises.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/indexes-expressional.html"
+      ]
+    },
+    "l076": {
+      "en": [
+        "PostgreSQL uses statistics to estimate how many rows a condition will match. ANALYZE refreshes these summaries from table data.",
+        "Good estimates help the planner choose scans and joins. A common value and a rare value may justify different plans.",
+        "Statistics describe distributions, such as frequent values and distinct-value estimates. Extended statistics can describe relationships among columns; CREATE STATISTICS defines them and ANALYZE collects them.",
+        "ANALYZE products refreshes statistics. The following SELECT groups by category and count(*) reports actual product counts; these are two separate commands.",
+        "The example both refreshes statistics and shows the category distribution. Its displayed counts come from SELECT, not ANALYZE's internal sample.",
+        "The status report divides each status count by the total number of orders. Casting to numeric preserves a fractional share before rounding.",
+        "Retail has two Home products, three Office products, and three Tech products. The shown table is an exact grouped count for this fixture.",
+        "Statistics can become stale after major changes and estimates need not be exact. Raising the statistics target adds analysis work and does not repair incorrect SQL.",
+        "Compare estimated rows in EXPLAIN with real counts. ANALYZE updates planner information; VACUUM handles old row versions and can optionally run ANALYZE too.",
+        "Inspect distributions and consider whether columns are related. Verify extended-statistics definitions separately from whether a particular plan uses them.",
+        "Refresh statistics after meaningful data changes, and treat planner row counts as estimates rather than guarantees."
+      ],
+      "ru": [
+        "PostgreSQL использует статистику, чтобы оценить число строк, подходящих под условие. ANALYZE обновляет эти сводные сведения по данным таблицы.",
+        "Хорошие оценки помогают выбирать способы чтения и соединения. Для частого и редкого значения могут быть выгодны разные планы.",
+        "Статистика описывает распределение: например, частые значения и предполагаемое число различных значений. Расширенная статистика описывает связи столбцов; CREATE STATISTICS объявляет её, ANALYZE собирает.",
+        "ANALYZE products обновляет статистику. Следующий SELECT группирует товары по category и считает строки через count(*). Это две отдельные команды.",
+        "Пример обновляет статистику и показывает распределение категорий. Выведенные числа получены SELECT, а не взяты из внутренней выборки ANALYZE.",
+        "Отчёт по статусам делит число заказов каждого статуса на общее число заказов. Приведение к numeric сохраняет дробную долю перед округлением.",
+        "В Retail два товара Home, три Office и три Tech. Таблица показывает точные сгруппированные количества для этого набора.",
+        "После больших изменений статистика может устареть, а оценки не обязаны быть точными. Увеличение объёма статистики требует работы и не исправляет неверный SQL.",
+        "Сравните оценки EXPLAIN с реальными количествами. ANALYZE обновляет сведения для планировщика, VACUUM обслуживает старые версии строк и при необходимости запускает ANALYZE.",
+        "Изучите распределения и связи между столбцами. Наличие определения расширенной статистики и её использование конкретным планом проверяются отдельно.",
+        "Обновляйте статистику после существенных изменений данных и воспринимайте числа планировщика как оценки, а не гарантии."
+      ],
+      "review": "Verified sampled estimates versus exact example output, extended-statistics definition versus collection.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/planner-stats.html",
+        "https://www.postgresql.org/docs/18/sql-analyze.html"
+      ]
+    },
+    "l077": {
+      "en": [
+        "PostgreSQL can keep older row versions while other transactions still need them. VACUUM removes versions that are no longer needed and makes space reusable.",
+        "Frequent updates and deletes leave cleanup work behind. Maintenance also prevents transaction-ID wraparound and supports efficient visibility checks.",
+        "Ordinary VACUUM usually allows reads and writes. Autovacuum performs routine maintenance. VACUUM FULL rewrites the table, needs extra space, and takes a much stronger lock.",
+        "VACUUM (ANALYZE) products cleans the table and refreshes its statistics. Run it outside an explicit transaction block.",
+        "The small example maintains products. Its checker inspects the row estimate and whether pages are marked all-visible; VACUUM itself does not return this table.",
+        "The catalog query reports each current-schema table's persistence code. Ordinary, unlogged, and temporary tables have different durability and lifetime rules.",
+        "The checker reports eight estimated product rows and visible pages on Retail. The t value means true; this is maintenance-state inspection, not a data query from VACUUM.",
+        "Ordinary VACUUM usually reuses space rather than fully shrinking the file. Long-running transactions can delay cleanup; VACUUM cannot run inside BEGIN…COMMIT.",
+        "Connect cleanup to MVCC and index-only scans. ANALYZE describes data for planning; it does not replace removal of obsolete row versions.",
+        "Keep maintenance commands standalone. Distinguish row estimates, visibility information, and table persistence from the business values stored in rows.",
+        "Maintain changing tables regularly; use ordinary VACUUM, statistics, and monitoring together rather than assuming deletion immediately frees disk space."
+      ],
+      "ru": [
+        "PostgreSQL сохраняет старые версии строк, пока они нужны другим транзакциям. VACUUM удаляет уже ненужные версии и освобождает место для повторного использования.",
+        "Частые изменения и удаления оставляют работу по очистке. Обслуживание также предотвращает переполнение идентификаторов транзакций и помогает проверять видимость строк.",
+        "Обычный VACUUM обычно допускает чтение и запись. Autovacuum выполняет плановое обслуживание. VACUUM FULL переписывает таблицу, требует дополнительного места и намного более строгой блокировки.",
+        "VACUUM (ANALYZE) products очищает таблицу и обновляет статистику. Команду нужно запускать вне явного блока транзакции.",
+        "Небольшой пример обслуживает products. Проверка читает оценку числа строк и признак полной видимости страниц; сам VACUUM такую таблицу не возвращает.",
+        "Запрос к каталогу показывает код сохранности каждой таблицы текущей схемы. Обычные, нежурналируемые и временные таблицы различаются надёжностью и временем жизни.",
+        "Для Retail проверка показывает оценку в восемь товаров и наличие полностью видимых страниц. t означает истину; это проверка состояния обслуживания, а не обычный вывод VACUUM.",
+        "Обычный VACUUM главным образом делает место доступным повторно, а не полностью уменьшает файл. Долгие транзакции задерживают очистку; внутри BEGIN…COMMIT VACUUM недопустим.",
+        "Свяжите очистку с MVCC и чтением только индекса. ANALYZE описывает данные для планировщика, но не заменяет удаление ненужных версий строк.",
+        "Выполняйте обслуживание отдельной командой. Различайте оценки строк, сведения о видимости страниц, сохранность таблиц и обычные значения данных.",
+        "Регулярно обслуживайте изменяемые таблицы: удаление строк не означает немедленного освобождения места на диске."
+      ],
+      "review": "Verified ordinary versus FULL locks/space, wraparound, visibility, standalone restriction and checker provenance.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/routine-vacuuming.html",
+        "https://www.postgresql.org/docs/18/sql-vacuum.html"
+      ]
+    },
+    "l078": {
+      "en": [
+        "Performance troubleshooting means finding evidence for why a query is slow, rather than changing SQL at random.",
+        "The same query can behave differently with larger data, uneven value frequencies, cached pages, or competing work.",
+        "Record the query and its parameters, confirm the result rules, inspect its plan, and compare estimated with actual rows. Change one likely cause, then measure again.",
+        "WHERE removes unknown customer IDs. GROUP BY customer_id counts each customer's orders; descending count and then customer_id make the busiest customers easy to inspect.",
+        "The order-count example reveals uneven activity between customers. Such uneven distributions can explain why one parameter value is more expensive than another.",
+        "The repeated-price query groups products by price and keeps groups with more than one row. On another dataset it can reveal duplicates absent from the basic fixture.",
+        "The sample counts range from one to three orders per known customer. They describe this dataset; they are not measurements of query speed.",
+        "One quick run does not establish a speedup. Include planning overhead, page-cache effects, current load, and representative parameter values in comparisons.",
+        "Use EXPLAIN ANALYZE, statistics, and index knowledge together. Keep business correctness checks separate from performance measurements.",
+        "Explain what each diagnostic count tells you. Form a specific hypothesis before proposing an index or rewrite.",
+        "Measure a defined workload, identify the expensive work, and verify both speed and unchanged results after a targeted change."
+      ],
+      "ru": [
+        "Разбор производительности — это поиск причин медленной работы по наблюдениям, а не случайное переписывание SQL.",
+        "Один запрос работает по-разному при росте данных, неравномерном распределении значений, заполненном кеше и конкурирующей нагрузке.",
+        "Сохраните запрос с параметрами, проверьте правила результата и изучите план. Сравните оценки с реальными строками, измените одну предполагаемую причину и измерьте снова.",
+        "WHERE исключает неизвестные идентификаторы клиентов. GROUP BY customer_id считает заказы каждого клиента; сортировка по убыванию количества и затем по customer_id упорядочивает отчёт.",
+        "Пример с заказами показывает разную активность клиентов. Такое распределение помогает понять, почему запрос с одним параметром дороже, чем с другим.",
+        "Запрос повторяющихся цен группирует товары по price и оставляет группы больше одной строки. На другом наборе он может обнаружить повторы, которых нет в основном.",
+        "В образце у известных клиентов от одного до трёх заказов. Это характеристика данных, а не измерение скорости запроса.",
+        "Один быстрый запуск не доказывает ускорения. При сравнении учитывайте планирование, кеш страниц, текущую нагрузку и характерные параметры.",
+        "Используйте EXPLAIN ANALYZE вместе со статистикой и знаниями индексов. Проверяйте правильность бизнес-результата отдельно от времени выполнения.",
+        "Объясните, что показывает каждый диагностический подсчёт. Перед индексом или переписыванием сформулируйте конкретную проверяемую причину.",
+        "Измерьте определённую нагрузку, найдите дорогую работу и после изменения проверьте скорость и неизменность результата."
+      ],
+      "review": "Verified diagnostic query scope, skew, caching, representative parameters and repeatable comparison limitations.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/using-explain.html",
+        "https://www.postgresql.org/docs/18/performance-tips.html"
+      ]
+    },
+    "l079": {
+      "en": [
+        "A transaction groups changes into one unit. ACID means all-or-nothing changes, preservation of defined rules, controlled interaction with other transactions, and durable committed data under normal durability settings.",
+        "A transfer should not debit one account while leaving the credit undone. Readers also need a predictable view when other transactions change data.",
+        "MVCC keeps row versions for a snapshot, a view of visible data. READ COMMITTED uses a fresh snapshot per statement; REPEATABLE READ keeps a transaction snapshot from its first non-control statement.",
+        "current_setting('transaction_isolation') returns the active isolation level. AS isolation_level gives that value a readable result-column name.",
+        "The small query inspects isolation without changing it. This practice environment normally uses read committed.",
+        "The SERIALIZABLE example starts a transaction, subtracts 5 from account 2, then rolls back. The balance change is discarded.",
+        "The sample reports read committed. This one-session query cannot show what a second session would see during a competing transaction.",
+        "SERIALIZABLE can abort a transaction to prevent inconsistent concurrent outcomes; retry the whole transaction. PostgreSQL treats READ UNCOMMITTED as READ COMMITTED, and constraints remain necessary at every level.",
+        "Relate snapshots to old row versions and VACUUM. Isolation controls concurrent visibility; atomicity controls whether a transaction's changes succeed together.",
+        "Predict balances after COMMIT and ROLLBACK. Use the written concurrency scenario to compare snapshots; actual competing sessions are outside this workspace.",
+        "Choose transaction boundaries and isolation deliberately, preserve data rules, and handle failures with a whole-transaction recovery policy."
+      ],
+      "ru": [
+        "Транзакция объединяет изменения в одно целое. ACID означает выполнение целиком или отмену, сохранение заданных правил, управляемое взаимодействие транзакций и надёжное хранение подтверждённых данных при обычных настройках надёжности.",
+        "Перевод не должен списать деньги, забыв зачислить их получателю. Чтение тоже должно иметь понятные правила, когда другие транзакции меняют данные.",
+        "MVCC сохраняет версии строк для снимка — набора видимых данных. READ COMMITTED обновляет снимок для каждой команды; REPEATABLE READ сохраняет снимок с первой команды работы с данными.",
+        "current_setting('transaction_isolation') возвращает текущий уровень изоляции. AS isolation_level задаёт понятное имя столбцу результата.",
+        "Небольшой запрос проверяет изоляцию, не меняя её. В учебной среде обычно используется read committed.",
+        "Пример SERIALIZABLE начинает транзакцию, уменьшает баланс счёта 2 на 5 и выполняет ROLLBACK. Изменение баланса отменяется.",
+        "В образце показано read committed. Запрос в одном сеансе не демонстрирует, что увидит второй сеанс во время конкурирующей транзакции.",
+        "SERIALIZABLE может прервать транзакцию для предотвращения несогласованных результатов; повторять нужно её целиком. В PostgreSQL READ UNCOMMITTED работает как READ COMMITTED. Ограничения нужны при любом уровне.",
+        "Свяжите снимки со старыми версиями строк и VACUUM. Изоляция регулирует совместную работу транзакций, атомарность — совместный успех или отмену изменений одной транзакции.",
+        "Предскажите балансы после COMMIT и ROLLBACK. Сравните снимки в письменном сценарии; реальные конкурирующие сеансы в этой среде не моделируются.",
+        "Осознанно выбирайте границы транзакций и изоляцию, сохраняйте правила данных и предусматривайте восстановление после ошибки всей транзакции."
+      ],
+      "review": "Verified ACID terminology, snapshot acquisition, PG READ UNCOMMITTED mapping, serialization retries and single-session limit.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/transaction-iso.html",
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html"
+      ]
+    },
+    "l080": {
+      "en": [
+        "A row lock coordinates transactions that want to change the same row. SELECT … FOR UPDATE reads rows and locks them against conflicting changes.",
+        "Locking is useful when a decision and the following update must be based on protected rows, such as checking accounts before a transfer.",
+        "Ordinary readers can usually still read locked rows. Conflicting writers wait; NOWAIT reports an error immediately, while SKIP LOCKED leaves unavailable rows out of the result.",
+        "WHERE chooses accounts 1 and 2; ORDER BY id sets the requested order; FOR UPDATE locks the selected rows until transaction end.",
+        "The account example returns balances while taking locks. In a real application, keep dependent reads and updates in the same explicit transaction.",
+        "The queue example takes the oldest pending order by date and id. LIMIT 1 bounds the claim; SKIP LOCKED lets another worker choose a different available row.",
+        "The sample shows accounts 1 and 2 with their original balances. With no competing session, there is no waiting or skipping to observe.",
+        "SKIP LOCKED omits rows, so it is unsuitable for a complete financial report. NOWAIT and SKIP LOCKED affect row locks; required table locks can still wait. An autocommitted statement releases locks when its transaction ends.",
+        "Compare row locks with MVCC snapshots and table locks. FOR KEY SHARE is a weaker row-lock mode useful for protecting referenced keys.",
+        "Check the selected rows and lock clause. Explain the difference between waiting, failing immediately, and skipping; this single-operation workspace cannot demonstrate competing workers.",
+        "Lock only the rows needed, keep transactions short, and choose waiting behavior that matches the application."
+      ],
+      "ru": [
+        "Блокировка строки согласует транзакции, меняющие одну запись. SELECT … FOR UPDATE читает строки и защищает их от конфликтующих изменений.",
+        "Она полезна, когда решение и следующее обновление должны опираться на защищённые строки, например при проверке счетов перед переводом.",
+        "Обычное чтение обычно остаётся доступным. Конкурирующая запись ждёт; NOWAIT сразу сообщает ошибку, а SKIP LOCKED исключает недоступные строки из результата.",
+        "WHERE выбирает счета 1 и 2, ORDER BY id задаёт нужный порядок, FOR UPDATE удерживает блокировки выбранных строк до завершения транзакции.",
+        "Пример возвращает балансы и блокирует строки. В реальном приложении зависимые чтения и изменения нужно объединять одной явной транзакцией.",
+        "Пример очереди выбирает самый ранний ожидающий заказ по дате и id. LIMIT 1 ограничивает выбор, SKIP LOCKED позволяет другому обработчику взять доступную строку.",
+        "В образце показаны счета 1 и 2 с исходными балансами. Без конкурирующего сеанса ожидание и пропуск строк наблюдать нельзя.",
+        "SKIP LOCKED пропускает строки и не подходит для полного финансового отчёта. NOWAIT и SKIP LOCKED относятся к строкам; нужная блокировка таблицы всё ещё может ждать. При автоматическом подтверждении блокировки заканчиваются вместе с транзакцией команды.",
+        "Сравните блокировки строк со снимками MVCC и блокировками таблиц. FOR KEY SHARE — более слабый режим, полезный для защиты ключей, на которые ссылаются другие строки.",
+        "Проверьте выбранные строки и режим блокировки. Объясните различие между ожиданием, немедленной ошибкой и пропуском; конкурирующие обработчики здесь не запускаются.",
+        "Блокируйте только нужные строки, сокращайте время транзакций и выбирайте подходящее поведение при ожидании."
+      ],
+      "review": "Verified ordinary-reader behavior, NOWAIT/SKIP LOCKED scope, transaction lifetime, no claimed concurrency simulation. NOWAIT/SKIP LOCKED affect row locks only; table lock acquisition may still wait.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/explicit-locking.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    "l081": {
+      "en": [
+        "A deadlock is a cycle of transactions waiting for one another's locks. A connection pool reuses database connections instead of opening a new one for every request.",
+        "Consistent lock order reduces deadlock risk. A pool limits connection overhead and load, but does not remove transaction failures or data-consistency requirements.",
+        "PostgreSQL detects deadlocks and aborts one transaction. After deadlock or serialization failure, retry the whole transaction with bounded delays; make externally visible actions safe to repeat.",
+        "BEGIN groups the transfer. Separate FOR UPDATE reads lock account 1 before 3; two UPDATE commands move 15; COMMIT keeps both changes.",
+        "The ordered-lock example applies a consistent account order. It does not create an actual deadlock because the workspace has no competing learner session.",
+        "The second transfer moves 20 from account 1 to 2 together. The total across accounts must remain unchanged.",
+        "The checker shows balances 985, 500, and 765 after the first transfer. It inspects committed state rather than the intermediate SELECT output.",
+        "Retrying only the last failed command is unsafe. Transaction pooling may use another server connection next time, so do not rely on persistent session settings or temporary tables.",
+        "Use transaction-local settings for transaction-scoped behavior. An idempotency key prevents a retried request from applying the same business operation twice.",
+        "Trace lock order and account totals. For retry exercises, check that a repeated request cannot debit again and that local settings end with the transaction.",
+        "Short transactions, consistent lock order, bounded retries, and repeat-safe writes solve different parts of reliable concurrent work."
+      ],
+      "ru": [
+        "Взаимоблокировка — цикл транзакций, ожидающих блокировки друг друга. Пул соединений повторно использует подключения вместо открытия нового для каждого запроса.",
+        "Одинаковый порядок блокировок снижает риск взаимоблокировок. Пул уменьшает расходы и нагрузку, но не отменяет ошибки транзакций и требования к согласованности данных.",
+        "PostgreSQL обнаруживает взаимоблокировку и прерывает одну транзакцию. После неё или ошибки сериализации повторяйте всю транзакцию с ограниченными паузами; внешние действия должны безопасно переносить повтор.",
+        "BEGIN объединяет перевод. Отдельные SELECT FOR UPDATE блокируют счёт 1 перед счётом 3; два UPDATE перемещают 15, COMMIT сохраняет оба изменения.",
+        "Пример соблюдает одинаковый порядок счетов. Он не создаёт настоящую взаимоблокировку: в среде нет конкурирующего учебного сеанса.",
+        "Второй перевод перемещает 20 со счёта 1 на счёт 2 одной транзакцией. Общая сумма на счетах должна сохраниться.",
+        "После первого перевода проверка показывает балансы 985, 500 и 765. Она читает подтверждённое состояние, а не промежуточный вывод SELECT.",
+        "Повторять только последнюю ошибочную команду опасно. При транзакционном пуле следующее обращение может получить другое соединение: постоянные настройки сеанса и временные таблицы нельзя считать сохранёнными.",
+        "Для настроек в пределах транзакции используйте SET LOCAL. Ключ идемпотентности позволяет распознать повтор запроса и не выполнить бизнес-операцию дважды.",
+        "Проследите порядок блокировок и сумму балансов. В заданиях с повтором проверьте отсутствие второго списания и завершение действия локальных настроек вместе с транзакцией.",
+        "Короткие транзакции, одинаковый порядок блокировок, ограниченные повторы и защита от повторной записи решают разные части надёжной совместной работы."
+      ],
+      "review": "Verified deadlock victim retry scope, consistent lock order, idempotency, transaction-local versus session state; no pool provisioning claim.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/explicit-locking.html",
+        "https://www.postgresql.org/docs/18/transaction-iso.html",
+        "https://www.postgresql.org/docs/18/sql-set.html"
+      ]
+    },
+    "l082": {
+      "en": [
+        "A role is a PostgreSQL identity. It can own objects and receive permissions; LOGIN allows it to open a database session.",
+        "Least privilege means granting only what each job needs. A reporting account, for example, usually needs to read selected tables rather than administer the server.",
+        "GRANT adds privileges and REVOKE removes grants. Ownership carries object-management rights. PUBLIC means all roles, including roles created later.",
+        "has_table_privilege checks a named permission. current_user identifies the active role, 'products' identifies the table, and 'SELECT' is the privilege being tested.",
+        "The small query asks whether the current learner can read products. It inspects permission without adding any rights.",
+        "REVOKE ALL ON products FROM PUBLIC removes public grants on that table. It does not transfer ownership or remove rights inherited through another role.",
+        "The sample returns t, meaning the current role can SELECT from products. It does not mean the role can administer PostgreSQL.",
+        "Removing one grant may leave access through another role or ownership. Schema USAGE and table permissions are separate. These permissions do not give access to files on the server.",
+        "Compare permission to ownership and RLS. The learner role is intentionally unable to create privileged roles, administer the server, or install unrestricted extensions.",
+        "Inspect specific privileges and administrative flags. Explain which permission source is changed by REVOKE before assuming access has disappeared.",
+        "Grant the minimum required rights, account for ownership and inherited access, and verify permissions from the intended role."
+      ],
+      "ru": [
+        "Роль — учётная сущность PostgreSQL. Она может владеть объектами и получать права; атрибут LOGIN позволяет открывать сеанс базы данных.",
+        "Принцип минимальных прав означает выдачу только необходимого для работы. Например, отчётной учётной записи обычно достаточно чтения отдельных таблиц, а не управления сервером.",
+        "GRANT добавляет права, REVOKE отменяет выданные права. Владение даёт возможности управления объектом. PUBLIC обозначает все роли, включая созданные позже.",
+        "has_table_privilege проверяет указанное право. current_user — действующая роль, 'products' — таблица, 'SELECT' — проверяемая операция.",
+        "Небольшой запрос выясняет, может ли текущая учебная роль читать products. Он проверяет доступ, не добавляя прав.",
+        "REVOKE ALL ON products FROM PUBLIC отменяет общие права на эту таблицу. Команда не меняет владельца и не отменяет доступ через другую роль.",
+        "В образце t означает, что текущая роль может выполнить SELECT из products. Это не даёт ей права администрировать PostgreSQL.",
+        "После отзыва одного разрешения доступ может сохраниться через другую роль или владение объектом. USAGE даёт доступ к схеме, а права на таблицу выдаются отдельно. Эти разрешения не дают доступа к файлам сервера.",
+        "Сравните права с владением и RLS. Учебная роль намеренно не может создавать привилегированные роли, управлять сервером или произвольно устанавливать расширения.",
+        "Проверяйте конкретные права и административные атрибуты. Прежде чем считать доступ закрытым, определите, какой именно источник разрешения изменил REVOKE.",
+        "Выдавайте минимум прав, учитывайте владение и наследуемый доступ и проверяйте результат от имени нужной роли."
+      ],
+      "review": "Verified role/login distinction, PUBLIC scope, ownership/inheritance and schema/table privilege boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-priv.html",
+        "https://www.postgresql.org/docs/18/user-manag.html"
+      ]
+    },
+    "l083": {
+      "en": [
+        "SQL injection occurs when application input becomes part of SQL syntax. Value parameters keep input separate from the command's structure.",
+        "A customer name may contain quotes or SQL-looking text. It must remain a name, not become a condition that changes which rows are returned.",
+        "The application sends a fixed query with placeholders and binds values through its database driver's API. Parameters represent values; table names and keywords need separate validated composition.",
+        "PREPARE lookup_customer(text) declares one text parameter. In WHERE name=$1, $1 refers to that value. EXECUTE supplies Ada for this prepared statement.",
+        "The lookup example returns Ada's record through an exact name comparison. Its SQL structure stays the same when the parameter value changes.",
+        "The hostile-looking name Ada' OR true -- is supplied as one text value. Because nobody has that literal name, the intended result is empty.",
+        "The small example returns id 1 and name Ada. Those rows come from the bound name comparison, not from interpreting input as SQL.",
+        "Do not concatenate user input or rely on blocking words such as DROP. In the handwritten EXECUTE example, doubled quotes express a literal; application code should use driver binding instead.",
+        "Prepared statements also support reuse, but safe value binding does not require manually writing SQL PREPARE. Authorization and allowed identifier choices remain separate responsibilities.",
+        "Check that changed values cannot change the query structure. Distinguish value placeholders from dynamic identifiers and keep output columns and ordering unchanged.",
+        "Keep SQL structure fixed, bind external values with the driver, and validate any separately composed identifiers."
+      ],
+      "ru": [
+        "SQL-инъекция возникает, когда ввод приложения становится частью синтаксиса SQL. Параметры значений отделяют ввод от структуры команды.",
+        "Имя клиента может содержать кавычки или текст, похожий на SQL. Оно должно оставаться именем, а не превращаться в условие выбора строк.",
+        "Приложение передаёт фиксированный запрос с параметрами и связывает значения через API драйвера. Параметры обозначают значения; имена таблиц и ключевые слова требуют отдельного безопасного формирования.",
+        "PREPARE lookup_customer(text) объявляет один текстовый параметр. В WHERE name=$1 обозначение $1 ссылается на него. EXECUTE передаёт значение Ada.",
+        "Пример находит запись Ada точным сравнением имени. Структура SQL остаётся прежней при замене значения параметра.",
+        "Подозрительное имя Ada' OR true -- передаётся целиком как текст. Такого буквального имени в данных нет, поэтому правильный результат пуст.",
+        "Небольшой пример возвращает id 1 и имя Ada. Эти строки найдены сравнением с переданным значением, а не выполнением ввода как SQL.",
+        "Не склеивайте пользовательский ввод с запросом и не полагайтесь на запрет слов вроде DROP. Удвоенные кавычки в учебном EXECUTE записывают литерал; код приложения должен использовать привязку драйвера.",
+        "Подготовленные команды также можно использовать повторно, но безопасная привязка не требует ручного SQL PREPARE. Проверка прав и допустимых имён объектов остаётся отдельной задачей.",
+        "Проверьте, что смена значений не меняет структуру запроса. Различайте параметры значений и динамические имена, сохраняя нужные столбцы и порядок результата.",
+        "Сохраняйте структуру SQL фиксированной, связывайте внешние значения через драйвер и отдельно проверяйте формируемые имена объектов."
+      ],
+      "review": "Verified server PREPARE versus driver binding, hostile text as value, identifier limitation, no unsafe escaping advice.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-prepare.html",
+        "https://www.postgresql.org/docs/18/libpq-exec.html"
+      ]
+    },
+    "l084": {
+      "en": [
+        "Row-level security, or RLS, controls which table rows a role may read or change. It adds row rules to ordinary object permissions.",
+        "A shared table may hold data for different users or teams. RLS can enforce row access centrally instead of depending on every application query to remember a filter.",
+        "ENABLE activates RLS. USING tests existing rows; WITH CHECK tests proposed new values. With RLS enabled and no applicable policy, access is denied by default for roles subject to RLS.",
+        "FORCE makes the table owner obey RLS too. CREATE POLICY … FOR SELECT USING(vip) allows reading VIP rows; the final SELECT shows the permitted customers.",
+        "The example forces the owner-held customers table through its SELECT policy. Customers whose vip value is false are hidden.",
+        "The accounts policy permits balances of at least 500. This is a SELECT rule, not a constraint preventing smaller balances from existing.",
+        "The checker sees Ada and Davi in Retail after the VIP policy. It inspects policy-filtered rows, not just whether policy metadata exists.",
+        "Owners normally bypass RLS; superusers and BYPASSRLS roles still bypass it despite FORCE. Table privileges are still required. RLS does not govern whole-table operations such as TRUNCATE.",
+        "Permissive policies combine with OR; restrictive policies add AND requirements. Review views and SECURITY DEFINER functions carefully because execution identity affects access.",
+        "Check both permitted and hidden rows. When combining policies, work through the Boolean conditions and distinguish row visibility from allowed inserted or updated values.",
+        "RLS adds per-row authorization; test it as the intended role and account for ownership, bypass rights, and policy combinations."
+      ],
+      "ru": [
+        "Защита на уровне строк, RLS, определяет, какие записи таблицы роль может читать или менять. Она добавляет правила строк к обычным правам на объекты.",
+        "Общая таблица может хранить данные разных пользователей и команд. RLS задаёт доступ централизованно, не заставляя каждый запрос приложения помнить дополнительный фильтр.",
+        "ENABLE включает RLS. USING проверяет существующие строки, WITH CHECK — предлагаемые новые значения. Если подходящей политики нет, доступ ролей, подчинённых RLS, по умолчанию запрещён.",
+        "FORCE подчиняет RLS и владельца таблицы. CREATE POLICY … FOR SELECT USING(vip) разрешает чтение VIP-строк; завершающий SELECT показывает доступных клиентов.",
+        "В примере владелец customers тоже проходит проверку SELECT-политики. Клиенты со значением vip=false скрыты.",
+        "Политика accounts разрешает чтение балансов от 500. Это правило SELECT, а не ограничение, запрещающее хранить меньший баланс.",
+        "После VIP-политики проверка видит в Retail Ada и Davi. Проверяется доступный набор строк, а не только наличие определения политики.",
+        "Владелец обычно обходит RLS; суперпользователь и BYPASSRLS обходят её даже при FORCE. Права на таблицу всё равно нужны. RLS не регулирует операции над всей таблицей, например TRUNCATE.",
+        "Разрешающие политики соединяются через OR, ограничительные добавляют условия AND. Проверяйте представления и функции SECURITY DEFINER: действующая роль влияет на доступ.",
+        "Проверьте разрешённые и скрытые строки. При сочетании политик разберите логические условия и различайте видимость строк и допустимость новых значений.",
+        "RLS добавляет авторизацию по строкам; проверяйте её нужной ролью с учётом владельца, обхода и сочетания политик."
+      ],
+      "review": "Verified default deny, USING/WITH CHECK, FORCE owner scope, bypass exceptions, policy combinations and TRUNCATE exception.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-rowsecurity.html",
+        "https://www.postgresql.org/docs/18/sql-createpolicy.html"
+      ]
+    },
+    "l085": {
+      "en": [
+        "A useful backup contains enough information to restore the required data and structure. A copied result table is only a small part of that job.",
+        "Backups protect against mistakes, loss, and corruption. A recovery plan must say how much data loss is acceptable and how quickly service must return.",
+        "pg_dump creates a consistent logical export of one database. Plain SQL is restored with tools such as psql; archive formats use pg_restore. Roles and other cluster-wide objects need a separate plan.",
+        "CREATE TABLE account_snapshot AS runs the SELECT and creates a table from its output. This copies columns and rows, not the original keys, indexes, or full database configuration.",
+        "The snapshot example copies account IDs, owners, and balances inside the practice database. It neither creates an external backup file nor runs a host command.",
+        "The orphan-check query looks for non-NULL customer IDs without a customer. After a restore, checks like this complement row counts, totals, and application tests.",
+        "The checker reads the three copied accounts. Matching these rows proves this copy's contents, not that a complete backup and restore process works.",
+        "A successful dump command is not a tested recovery. Plan retention, access protection, globals, and restore testing; point-in-time recovery additionally needs an appropriate physical backup and WAL archive.",
+        "Compare logical export, row copying, and physical recovery. The SQL workspace teaches safe checks; it does not execute pg_dump or provision an operational backup service.",
+        "Verify copied data and reconciliation totals. Explain what each check misses, especially constraints, privileges, and objects outside the copied table.",
+        "Define the recovery goal, preserve everything needed for it, and prove recovery by restoring and checking a separate environment."
+      ],
+      "ru": [
+        "Полезная резервная копия содержит всё, что требуется для восстановления нужных данных и структуры. Копия результата запроса решает лишь небольшую часть задачи.",
+        "Резервирование защищает от ошибок, потери и повреждения данных. План восстановления определяет допустимую потерю данных и время возврата к работе.",
+        "pg_dump создаёт согласованную логическую выгрузку одной базы. Обычный SQL восстанавливают, например, через psql, архивные форматы — через pg_restore. Роли и другие общие объекты кластера требуют отдельного плана.",
+        "CREATE TABLE account_snapshot AS выполняет SELECT и создаёт таблицу по его результату. Копируются столбцы и строки, но не исходные ключи, индексы и настройки всей базы.",
+        "Пример копирует идентификаторы, владельцев и балансы счетов внутри учебной базы. Он не создаёт внешний файл резервной копии и не запускает команду компьютера.",
+        "Проверка потерянных связей ищет непустые customer_id без клиента. После восстановления такие проверки дополняют количество строк, суммы и тесты приложения.",
+        "Проверка читает три скопированных счёта. Совпадение строк подтверждает содержимое этой таблицы, но не работоспособность полного резервирования и восстановления.",
+        "Успешная выгрузка ещё не доказывает восстановление. Продумайте хранение, защиту доступа, общие объекты и пробное восстановление; восстановлению на момент времени дополнительно нужны физическая копия и архив WAL.",
+        "Различайте логическую выгрузку, копирование строк и физическое восстановление. SQL-среда обучает безопасным проверкам, но не запускает pg_dump и не настраивает резервирование.",
+        "Проверьте скопированные строки и контрольные суммы. Объясните, чего не подтверждает каждая проверка: например, ограничений, прав и объектов вне таблицы.",
+        "Определите цель восстановления, сохраните всё необходимое и подтвердите результат пробным восстановлением в отдельной среде."
+      ],
+      "review": "Verified CTAS is rows-only demonstration, pg_dump/restore formats, cluster globals and PITR dependencies.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/app-pgdump.html",
+        "https://www.postgresql.org/docs/18/backup.html",
+        "https://www.postgresql.org/docs/18/sql-createtableas.html"
+      ]
+    },
+    "l086": {
+      "en": [
+        "Write-ahead logging, WAL, records changes before their data pages are written durably. Replication sends database changes to another server.",
+        "WAL supports crash recovery. Replication can support availability or additional readers, but introduces questions about freshness, failure, and which server may accept writes.",
+        "Physical replication replays storage-level WAL. Logical replication transfers selected data changes through publications and subscriptions. Asynchronous replicas can lag; stronger acknowledgement requirements trade latency and availability for durability guarantees.",
+        "pg_is_in_recovery() reports whether the server is in recovery. AS in_recovery names the Boolean result; false normally identifies a writable primary in this example.",
+        "The small query inspects the bundled server. SQLLY runs one local primary; it does not create a standby or simulate failover.",
+        "The status summary compares order counts and amounts by status. It could help compare datasets at a consistent point, but equal totals alone cannot prove identical replicas.",
+        "The sample returns f, meaning false: this server is not in recovery. That result alone does not say whether replication is configured.",
+        "A replica is not a historical backup: accidental deletions can propagate. Logical replication has identity and schema-management requirements; failover needs a deliberate plan to avoid conflicting primaries.",
+        "Relate WAL to crash recovery and physical backups. Logical replica identity tells PostgreSQL how to identify updated or deleted rows, often through a primary key.",
+        "Inspect recovery state and replica-identity metadata. Treat reconciliation queries as checks on data, not as evidence that this workspace provisions replication.",
+        "Separate crash recovery, replication, and backup goals; define acceptable lag and failure behavior before choosing an operational setup."
+      ],
+      "ru": [
+        "Журнал предзаписи WAL сохраняет сведения об изменениях до надёжной записи соответствующих страниц данных. Репликация передаёт изменения другому серверу.",
+        "WAL помогает восстановиться после сбоя. Репликация повышает доступность или добавляет серверы чтения, но требует правил актуальности данных, отказов и разрешения записи.",
+        "Физическая репликация воспроизводит WAL на уровне хранения. Логическая передаёт выбранные изменения через публикации и подписки. Асинхронная реплика может отставать; более строгие подтверждения влияют на задержки и доступность.",
+        "pg_is_in_recovery() сообщает, находится ли сервер в восстановлении. AS in_recovery задаёт имя логическому результату; false в этом примере соответствует основному серверу.",
+        "Небольшой запрос проверяет встроенный сервер. SQLLY использует один локальный основной сервер, не создаёт резервный и не моделирует переключение при отказе.",
+        "Сводка по статусам сравнивает количество и суммы заказов. Она может помогать сверке на согласованный момент, но равные итоги ещё не доказывают полного совпадения данных.",
+        "В образце f означает ложь: сервер не находится в восстановлении. Само по себе это значение не сообщает, настроена ли репликация.",
+        "Реплика не заменяет историческую копию: случайное удаление тоже передаётся. Логическая репликация требует правил идентификации строк и управления схемой; переключение должно исключать конфликтующих основных серверов.",
+        "Свяжите WAL с восстановлением после сбоя и физическими копиями. Идентификация реплики позволяет определить изменённые или удалённые строки, часто по первичному ключу.",
+        "Проверьте режим восстановления и сведения об идентификации строк. Сверочные запросы проверяют данные, но не означают, что среда настраивает репликацию.",
+        "Различайте восстановление после сбоя, репликацию и резервирование; заранее определяйте допустимое отставание и поведение при отказе."
+      ],
+      "review": "Verified recovery-state limits, physical/logical distinction, lag/acknowledgement tradeoffs, replica identity, no provisioned replica claim.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/wal-intro.html",
+        "https://www.postgresql.org/docs/18/logical-replication.html",
+        "https://www.postgresql.org/docs/18/warm-standby.html"
+      ]
+    },
+    "l087": {
+      "en": [
+        "Operational troubleshooting traces a symptom to a specific cause using database errors, application behavior, and system observations.",
+        "A failed request might reflect bad data, a missing permission, a blocked transaction, or an unavailable server. Those problems require different responses.",
+        "Start with the exact error and SQLSTATE, the five-character error code. Confirm connectivity, inspect relevant data and constraints, then investigate activity or locks with appropriate permissions.",
+        "The query counts orders where total<0. AS invalid_total_count labels a direct check of one business rule; it does not check every possible order problem.",
+        "The small example verifies that no stored order has a negative total. A zero result means this one condition found no violations.",
+        "The constraint report groups available current-schema constraints by table and type. Its results reflect what the current role can see.",
+        "Retail returns invalid_total_count=0. This is a useful data check, not proof that the database, application, and server are entirely healthy.",
+        "Do not terminate sessions or change global settings without identifying the cause. Logs can expose sensitive input; collect only what is necessary and remove credentials.",
+        "Connect diagnostic queries to constraints, locks, and monitoring views. The learner role cannot administer the bundled server; use available app recovery controls when needed.",
+        "State what each diagnostic checks and what it leaves unknown. Separate a database error from a grading result or an empty but valid query result.",
+        "Collect a small set of relevant evidence, identify the cause, and apply the narrowest appropriate remedy."
+      ],
+      "ru": [
+        "Диагностика работы системы связывает симптом с конкретной причиной по ошибкам базы, поведению приложения и наблюдениям за системой.",
+        "Неудачный запрос может означать неверные данные, отсутствие прав, ожидание блокировки или недоступность сервера. Эти проблемы требуют разных действий.",
+        "Начните с точной ошибки и SQLSTATE — пятисимвольного кода. Проверьте подключение, нужные данные и ограничения, затем изучайте активность и блокировки при наличии прав.",
+        "Запрос считает заказы с total<0. Имя invalid_total_count обозначает проверку одного бизнес-правила, а не всех возможных проблем заказов.",
+        "Небольшой пример проверяет отсутствие отрицательных сумм заказов. Ноль означает, что нарушений именно этого условия не найдено.",
+        "Отчёт по ограничениям группирует доступные ограничения текущей схемы по таблице и типу. Видимость сведений зависит от прав текущей роли.",
+        "Retail возвращает invalid_total_count=0. Это полезная проверка данных, но не доказательство полной исправности базы, приложения и сервера.",
+        "Не завершайте чужие сеансы и не меняйте общие настройки без установленной причины. Журналы могут раскрывать ввод: собирайте необходимое и исключайте секреты подключения.",
+        "Свяжите диагностику с ограничениями, блокировками и представлениями мониторинга. Учебная роль не управляет встроенным сервером; при необходимости используйте доступные средства восстановления приложения.",
+        "Для каждого запроса определите, что он проверяет и чего не выясняет. Различайте ошибку базы, оценку задания и корректный пустой результат.",
+        "Соберите подходящие наблюдения, установите причину и примените минимально необходимое исправление."
+      ],
+      "review": "Verified SQLSTATE and privilege-limited metadata, bounded diagnostic conclusions and restricted administrative scope.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+        "https://www.postgresql.org/docs/18/monitoring-stats.html"
+      ]
+    },
+    "l088": {
+      "en": [
+        "A recursive query follows a rule repeatedly. It starts with initial rows, then uses each round's rows to find the next round.",
+        "It can walk an organization chart or connected records when the number of levels is unknown in advance.",
+        "WITH RECURSIVE defines an initial term and a recursive term. PostgreSQL repeats the recursive term using a working set and stops when that set produces no rows.",
+        "numbers(n) names the result and its column. SELECT 1 starts it; UNION ALL appends n+1 while n<5; the final SELECT orders the completed result.",
+        "The number example starts at 1 and reaches 5. The stop condition is tested before adding the next number.",
+        "The employee query starts with direct reports of employee 2, then finds their reports. Employee 2 is excluded because the initial rows are their children.",
+        "The small result contains 1, 2, 3, 4, and 5. ORDER BY n guarantees this display order; recursive processing alone does not define final row order.",
+        "UNION ALL preserves duplicates and does not detect cycles. A link returning to a previous node can run indefinitely unless you prevent revisits or impose an appropriate stopping rule.",
+        "Compare recursion with ordinary CTEs and self joins. A fixed self join follows a fixed number of levels; recursion follows as many as its rule allows.",
+        "Trace the initial rows, one recursive round, and the stopping point. Check whether the starting employee should be included.",
+        "Define the starting set, the next-step rule, and a termination strategy; order the final result explicitly."
+      ],
+      "ru": [
+        "Рекурсивный запрос многократно применяет одно правило. Сначала он получает начальные строки, затем по строкам каждого шага находит следующий набор.",
+        "Так можно обойти структуру подчинения или связанные записи, когда число уровней заранее неизвестно.",
+        "WITH RECURSIVE объединяет начальную и рекурсивную части. PostgreSQL повторяет рекурсивную часть с рабочим набором и останавливается, когда следующий шаг не даёт строк.",
+        "numbers(n) задаёт имя результата и столбца. SELECT 1 начинает последовательность; UNION ALL добавляет n+1 при n<5. Последний SELECT сортирует готовый результат.",
+        "Пример с числами начинает с 1 и доходит до 5. Условие остановки проверяется перед добавлением следующего числа.",
+        "Запрос сотрудников начинает с прямых подчинённых сотрудника 2 и ищет их подчинённых. Сам сотрудник 2 исключён, поскольку начальный набор состоит из его подчинённых.",
+        "Небольшой результат содержит 1, 2, 3, 4 и 5. ORDER BY n гарантирует этот порядок; сама рекурсия окончательный порядок строк не задаёт.",
+        "UNION ALL сохраняет повторы и не распознаёт циклы. Возврат к уже посещённому узлу может продолжать вычисление бесконечно без защиты или подходящего условия остановки.",
+        "Сравните рекурсию с обычным CTE и самосоединением. Заданное самосоединение проходит фиксированное число уровней, рекурсия — столько, сколько разрешает правило.",
+        "Проследите начальные строки, один рекурсивный шаг и остановку. Проверьте, должен ли исходный сотрудник входить в ответ.",
+        "Определите начало, правило следующего шага и способ завершения; явно сортируйте окончательный результат."
+      ],
+      "review": "Verified iterative working-table semantics, UNION ALL duplicates/cycles and explicit final order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    "l089": {
+      "en": [
+        "A path records the nodes visited on a route through connected data. It helps explain how a node was reached and avoid following a cycle forever.",
+        "Paths can produce navigation breadcrumbs or employee ancestry while protecting traversal from links that return to an earlier node.",
+        "Start a path with ARRAY[id], append each child's ID, and reject a child already in that path. This prevents cycles on that route, not duplicate visits through every possible route.",
+        "The initial term selects root employees with no manager. t.path||e.id extends the array; NOT e.id=ANY(t.path) rejects an ID already visited on this path.",
+        "The employee example returns each reachable employee and the IDs from the root to that employee. Roots start with a one-element array.",
+        "The graph example uses UNION over node alone. Repeated node IDs are discarded, so the cycle 1→2→3→1 does not keep adding rows.",
+        "The sample path {1,2,3} means employee 3 is reached through 1 and 2. These arrays describe routes; ORDER BY id controls row display.",
+        "UNION removes duplicates of the whole row. If depth or path changes each time, it may not stop a cycle. A depth cap limits work but does not prove the graph is acyclic.",
+        "PostgreSQL also offers SEARCH and CYCLE clauses. SEARCH computes ordering information; use ORDER BY on it to request the corresponding final order.",
+        "Trace a repeated-node edge and confirm why it is rejected. Distinguish finding unique reachable nodes from returning all distinct paths.",
+        "Choose whether you need nodes or routes, then design cycle protection and ordering for that result."
+      ],
+      "ru": [
+        "Путь хранит узлы, пройденные по цепочке связей. Он показывает, как найден узел, и помогает не ходить по циклу бесконечно.",
+        "Пути полезны для цепочек навигации и подчинения сотрудников: можно показать предков и не возвращаться к уже встреченному узлу.",
+        "Начните с ARRAY[id], добавляйте идентификатор потомка и отклоняйте его, если он уже есть в этом пути. Это защищает конкретный маршрут, а не запрещает все повторные посещения через другие маршруты.",
+        "Начальная часть выбирает сотрудников без руководителя. t.path||e.id расширяет массив; NOT e.id=ANY(t.path) отклоняет уже посещённый в этом пути идентификатор.",
+        "Пример сотрудников возвращает каждого достижимого сотрудника и цепочку от корня до него. Для корня массив содержит один идентификатор.",
+        "В графовом примере UNION применяется только к node. Повторные идентификаторы исключаются, поэтому цикл 1→2→3→1 не порождает строки бесконечно.",
+        "Путь {1,2,3} означает, что сотрудник 3 найден через 1 и 2. Массивы описывают маршруты; ORDER BY id задаёт порядок строк.",
+        "UNION сравнивает всю строку. Если глубина или путь каждый раз меняются, цикл может продолжиться. Предел глубины ограничивает работу, но не доказывает отсутствие циклов.",
+        "В PostgreSQL также есть SEARCH и CYCLE. SEARCH вычисляет данные для сортировки; чтобы получить нужный окончательный порядок, используйте их в ORDER BY.",
+        "Проследите ребро к уже встреченному узлу и объясните отказ. Различайте поиск уникальных достижимых узлов и перечисление разных путей.",
+        "Решите, нужны узлы или маршруты, затем выберите соответствующие защиту от циклов и порядок."
+      ],
+      "review": "Verified path-local detection versus global deduplication, UNION whole-row caveat and SEARCH ordering semantics.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    "l090": {
+      "en": [
+        "A recursive rollup totals information across a hierarchy. First find which descendants belong to each ancestor, then summarize those relationships.",
+        "A manager's report may need everyone below them, including indirect reports, rather than only employees whose manager_id names them directly.",
+        "Keep the ancestor ID unchanged while following each descendant's children. Group the completed ancestor–descendant pairs by ancestor; decide whether to include the ancestor itself.",
+        "The initial rows pair each employee with themselves. The recursive join adds descendants while retaining manager_id; count(*)-1 removes the one self-pair from each total.",
+        "The count example includes every employee, even those with no reports. Their initial self-pair ensures a group exists and produces zero after subtraction.",
+        "NOT EXISTS finds employees with no direct reports. These are leaf nodes in the employee tree, not necessarily employees with no manager.",
+        "The sample gives employee 1 five reports and employee 2 two. Employees 3, 5, and 6 have zero reports.",
+        "This tree example assumes one route to each descendant and no cycles. In a graph, multiple routes can double-count a descendant; define deduplication before summing.",
+        "Connect recursion with GROUP BY and EXISTS. Traversal builds relationships; aggregation decides what those relationships mean in the final report.",
+        "Check a root, an intermediate manager, and a leaf. Explain whether salaries or people should include the manager before writing the aggregate.",
+        "Traverse first, then aggregate at the requested ancestor level, with explicit rules for self-inclusion and duplicate paths."
+      ],
+      "ru": [
+        "Рекурсивная сводка считает показатели по иерархии. Сначала определите потомков каждого предка, затем обобщите найденные связи.",
+        "Руководителю может понадобиться вся нижележащая команда, включая непрямых подчинённых, а не только строки с его id в manager_id.",
+        "Сохраняйте идентификатор предка при переходе к потомкам. Готовые пары «предок — потомок» группируйте по предку, заранее решив, включать ли его самого.",
+        "Начальные строки связывают каждого сотрудника с ним самим. Рекурсивное соединение добавляет потомков, сохраняя manager_id; count(*)-1 исключает единственную связь с самим собой.",
+        "Пример подсчёта сохраняет всех сотрудников, даже без подчинённых. Начальная связь с собой создаёт группу, а вычитание даёт ноль.",
+        "NOT EXISTS находит сотрудников без прямых подчинённых. Это конечные узлы дерева, а не обязательно сотрудники без руководителя.",
+        "В образце у сотрудника 1 пять подчинённых, у сотрудника 2 — два. У сотрудников 3, 5 и 6 их нет.",
+        "Пример предполагает дерево без циклов и с единственным путём к потомку. В графе разные маршруты могут учесть человека дважды; правило устранения повторов нужно определить до суммирования.",
+        "Свяжите рекурсию с GROUP BY и EXISTS. Обход строит связи, а агрегирование превращает их в нужный показатель отчёта.",
+        "Проверьте корень, промежуточного руководителя и конечного сотрудника. До подсчёта решите, нужно ли включать самого руководителя в число людей или сумму зарплат.",
+        "Сначала выполните обход, затем считайте по нужному предку с явными правилами включения себя и повторных путей."
+      ],
+      "review": "Verified tree assumptions, self-pair count subtraction, DAG fan-out and leaf definition.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l091": {
+      "en": [
+        "A range stores a span of ordered values together with its boundary rules. PostgreSQL has range types for dates, timestamps, and numbers.",
+        "Ranges make questions such as “does this stay include Tuesday?” or “do these reservations overlap?” easier to express consistently.",
+        "Inclusive bounds contain their endpoint; exclusive bounds do not. daterange(check_in,check_out,'[)') includes check-in and excludes checkout. @> checks containment; && checks overlap.",
+        "The constructor builds a date range for each booking. @> DATE '2024-07-03' keeps ranges containing that day; ORDER BY id sorts matching bookings.",
+        "The small query finds bookings occupying the night of July 3. A stay ending that day is excluded because checkout is exclusive.",
+        "The self join checks bookings in the same room for overlap. a.id<b.id excludes self-pairs and returns each pair only once.",
+        "On Retail, bookings 1 and 2 contain July 3. Their departure dates are later than that day.",
+        "Two stays may meet at checkout without overlapping. An empty range, an unbounded range, and a SQL NULL range mean different things; do not substitute one for another.",
+        "Connect ranges to half-open date filters and GiST indexes. PostgreSQL normalizes discrete date ranges, so their printed bounds may differ from equivalent input notation.",
+        "Check the start, the last occupied day, and checkout. For overlap pairs, verify the same-room rule and duplicate-pair prevention.",
+        "Choose boundary rules once and use containment or overlap operators to apply them consistently."
+      ],
+      "ru": [
+        "Диапазон хранит промежуток упорядоченных значений и правила его границ. В PostgreSQL есть диапазоны дат, времени и чисел.",
+        "С ними проще одинаково отвечать на вопросы «входит ли вторник в проживание?» и «пересекаются ли бронирования?».",
+        "Включённая граница содержит своё значение, исключённая — нет. daterange(check_in,check_out,'[)') включает заезд и исключает выезд. @> проверяет вхождение, && — пересечение.",
+        "Конструктор создаёт диапазон дат каждой брони. @> DATE '2024-07-03' оставляет диапазоны с этим днём; ORDER BY id сортирует найденные бронирования.",
+        "Небольшой запрос ищет брони, занимающие ночь 3 июля. Проживание с выездом в этот день не подходит: дата выезда исключена.",
+        "Самосоединение проверяет пересечения броней одного номера. Условие a.id<b.id исключает сравнение с собой и оставляет каждую пару один раз.",
+        "В Retail дату 3 июля содержат бронирования 1 и 2. Их даты выезда наступают позже этого дня.",
+        "Проживания могут соприкасаться датой выезда без пересечения. Пустой диапазон, неограниченный диапазон и SQL NULL — разные состояния; не заменяйте их друг другом.",
+        "Свяжите диапазоны с полуоткрытыми фильтрами дат и GiST. PostgreSQL нормализует дискретные диапазоны дат, поэтому отображаемые границы могут отличаться от равнозначной записи при вводе.",
+        "Проверьте начало, последнюю занятую ночь и дату выезда. В парах пересечений проверьте одинаковый номер и отсутствие повторных пар.",
+        "Один раз выберите правила границ и последовательно применяйте операторы вхождения и пересечения."
+      ],
+      "review": "Verified half-open occupancy, unique pair condition, empty/unbounded/NULL distinctions and canonical discrete ranges.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/rangetypes.html"
+      ]
+    },
+    "l092": {
+      "en": [
+        "Partitioning divides one logical table among child tables. PostgreSQL routes each inserted row to a partition using a partition key.",
+        "Large time-based tables can benefit from reading only relevant partitions or removing old partitions together. Partitioning still needs a workload-specific design.",
+        "PARTITION BY declares the parent strategy. PARTITION OF supplies a child and its bounds. Range lower bounds are inclusive and upper bounds exclusive; unmatched rows need a suitable or default partition.",
+        "quarterly_events is partitioned by event_day. q1_events ends before April 1; q2_events starts on April 1. INSERT targets the parent, which chooses the child.",
+        "The example routes March 31 to the first quarter and April 1 to the second. The shared boundary belongs to exactly one partition.",
+        "The dated_notes example adds a DEFAULT partition for otherwise unmatched rows. Its primary key includes note_day, the partition-key column.",
+        "The checker shows each inserted date and its actual child table: q1_events or q2_events. It inspects routing rather than ordinary INSERT output.",
+        "A missing partition causes an insertion error unless a default partition accepts the row. A partitioned parent's unique or primary key must include every partition-key column; expression partition keys add restrictions.",
+        "Partition pruning skips children that cannot match a condition. Indexes speed work within partitions; pruning and indexing solve different problems.",
+        "Test dates on both sides of each boundary and the boundary itself. Check key definitions and where an out-of-range row would go.",
+        "Choose useful partitions, cover intended input ranges, and verify both row routing and the constraints the design can enforce."
+      ],
+      "ru": [
+        "Секционирование делит одну логическую таблицу на дочерние таблицы. PostgreSQL направляет вставляемую строку в секцию по ключу секционирования.",
+        "Для больших таблиц по времени можно читать только нужные секции или удалять старые секции целиком. Польза зависит от конкретной нагрузки и устройства данных.",
+        "PARTITION BY задаёт стратегию родителя, PARTITION OF — дочернюю таблицу и границы. У диапазона нижняя граница включена, верхняя исключена; строке нужна подходящая или стандартная секция.",
+        "quarterly_events разделяется по event_day. q1_events заканчивается перед 1 апреля, q2_events начинается 1 апреля. INSERT обращается к родителю, который выбирает секцию.",
+        "Пример направляет 31 марта в первый квартал, а 1 апреля — во второй. Общая граница принадлежит ровно одной секции.",
+        "Пример dated_notes добавляет DEFAULT для остальных строк. Его первичный ключ включает note_day — столбец секционирования.",
+        "Проверка показывает вставленные даты и фактические дочерние таблицы: q1_events или q2_events. Это проверка маршрутизации, а не обычный вывод INSERT.",
+        "Если нет ни подходящей секции, ни секции по умолчанию, вставка завершается ошибкой. Уникальный или первичный ключ родителя должен включать все столбцы секционирования. Для ключей секционирования на основе выражений действуют дополнительные ограничения.",
+        "Отсечение секций исключает таблицы, которые не могут подходить условию. Индекс ускоряет поиск внутри секции; это другая задача.",
+        "Проверьте даты до и после каждой границы и саму границу. Уточните состав ключей и место назначения строки вне обычных диапазонов.",
+        "Выбирайте полезные секции, покрывайте нужные диапазоны и проверяйте маршрутизацию и возможности ограничений."
+      ],
+      "review": "Verified exclusive upper bounds, default fallback, partition-key uniqueness limits and pruning versus indexing.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-partitioning.html"
+      ]
+    },
+    "l093": {
+      "en": [
+        "An ordered aggregate builds a value from rows in a specified order. A generated column calculates its value from other columns in the same row.",
+        "Ordered arrays make reports stable. Generated columns keep a repeated calculation consistent without trusting every writer to supply it correctly.",
+        "Place ORDER BY inside array_agg to order its elements. A STORED generated column is calculated on writes; PostgreSQL 18 also supports VIRTUAL columns calculated on reads and defaults to VIRTUAL if omitted.",
+        "GROUP BY category forms one row per category. array_agg(name ORDER BY id) orders names inside each array; the outer ORDER BY category orders the result rows.",
+        "The product example returns a name array for each category. Product ID determines element order even when names sort differently.",
+        "The invoice example declares amount GENERATED ALWAYS AS(quantity*unit_price) STORED. INSERT supplies quantity and price; PostgreSQL computes amount rather than accepting a manually supplied value.",
+        "Home contains {Mug,Lamp}, reflecting product IDs rather than alphabetical order. Each category is shown once.",
+        "Outer ORDER BY does not control array elements. array_agg includes NULL inputs and returns NULL for no input rows. Generated expressions must be immutable, row-local, and free of subqueries or other generated columns; virtual columns also prohibit user-defined types and functions.",
+        "Compare generated columns with defaults: defaults provide an initial value, while generated values follow their expression when source columns change.",
+        "Check ordering inside and outside each aggregate. For generated-column tasks, omit the generated value from INSERT and verify the calculation after writes.",
+        "Specify collection order at the aggregate and let generated columns enforce valid row-local calculations."
+      ],
+      "ru": [
+        "Упорядоченный агрегат собирает значение из строк в заданном порядке. Генерируемый столбец вычисляет значение по другим столбцам той же строки.",
+        "Заданный порядок элементов массива делает отчёт предсказуемым. Генерируемый столбец рассчитывается по одному правилу независимо от того, какое приложение записывает данные.",
+        "ORDER BY внутри array_agg задаёт порядок элементов. STORED вычисляется при записи; PostgreSQL 18 также поддерживает VIRTUAL, вычисляемый при чтении, и выбирает VIRTUAL при отсутствии указания.",
+        "GROUP BY category создаёт строку на категорию. array_agg(name ORDER BY id) сортирует имена внутри массива; внешний ORDER BY category сортирует строки результата.",
+        "Пример товаров возвращает массив имён для каждой категории. Порядок элементов задаётся id товара, даже если алфавитный порядок иной.",
+        "В примере счёта amount объявлен GENERATED ALWAYS AS(quantity*unit_price) STORED. INSERT задаёт количество и цену; PostgreSQL сам рассчитывает amount вместо ручного ввода.",
+        "Home содержит {Mug,Lamp}: это порядок идентификаторов, а не алфавита. Каждая категория показана один раз.",
+        "Внешний ORDER BY не упорядочивает элементы массива. array_agg включает NULL и возвращает NULL без строк. Генерируемые выражения должны быть неизменяемыми, обращаться только к своей строке и не содержать подзапросов или других генерируемых столбцов; виртуальные также запрещают пользовательские типы и функции.",
+        "Сравните генерацию с DEFAULT: значение по умолчанию задаёт начальное значение, а генерируемое меняется по выражению при изменении исходных столбцов.",
+        "Проверьте порядок внутри и снаружи агрегата. В заданиях с генерацией не передавайте вычисляемый столбец в INSERT и проверяйте результат записи.",
+        "Задавайте порядок коллекции внутри агрегата и используйте генерируемые столбцы для допустимых вычислений по одной строке."
+      ],
+      "review": "Verified inner/outer order, array NULL behavior, PostgreSQL18 VIRTUAL default, explicit STORED and generation restrictions.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/ddl-generated-columns.html"
+      ]
+    },
+    "l094": {
+      "en": [
+        "A gaps-and-islands query finds consecutive runs and the breaks between them. You must first define what counts as consecutive.",
+        "This pattern answers questions about daily activity streaks, uninterrupted bookings, or missing dates in an expected calendar.",
+        "For distinct dates in order, date minus row number stays constant within a daily run. A missing day changes that key, starting another group.",
+        "The days CTE removes repeated check-in dates. row_number numbers them; subtracting its integer value produces grp. GROUP BY grp returns each run's minimum, maximum, and length.",
+        "The small query finds consecutive check-in dates across all bookings. It measures days with arrivals, not nights occupied or individual guests' streaks.",
+        "The missing-day query generates July 1–7 and retains dates with no matching order. It creates the expected calendar before checking for absence.",
+        "The sample has a two-day run on July 1–2 and single-day runs on July 4 and 7. Several arrivals on one day still count as one day.",
+        "Duplicates must not advance the daily counter. Calendar days and business days have different adjacency rules; per-customer streaks also need separate customer partitions.",
+        "Relate the pattern to DISTINCT, row_number, date arithmetic, and NOT EXISTS. Window numbering supplies a grouping key; the final aggregate summarizes each run.",
+        "Test a repeated date, a missing day, and a one-day run. Confirm the entity and date unit before calculating the sequence.",
+        "Define adjacency, deduplicate at the right level, then form and summarize runs or compare with a complete calendar."
+      ],
+      "ru": [
+        "Запрос о разрывах и последовательностях находит непрерывные участки и промежутки между ними. Сначала нужно определить, что значит «подряд».",
+        "Так находят серии ежедневной активности, непрерывные интервалы или отсутствующие даты в ожидаемом календаре.",
+        "Для различных дат по порядку разность «дата минус номер строки» постоянна внутри ежедневной серии. Пропущенный день меняет этот ключ и начинает новую группу.",
+        "CTE days удаляет повторы дат заезда. row_number нумерует даты; вычитание целого номера даёт grp. GROUP BY grp возвращает начало, конец и длину серии.",
+        "Небольшой запрос ищет последовательные даты заездов по всем броням. Он считает дни с заездами, а не занятые ночи и не серии отдельных гостей.",
+        "Запрос пропущенных дней создаёт календарь 1–7 июля и оставляет даты без заказов. Сначала задаётся ожидаемый календарь, затем проверяется отсутствие.",
+        "В образце есть серия 1–2 июля и отдельные дни 4 и 7 июля. Несколько заездов в одну дату всё равно считаются одним днём.",
+        "Повтор даты не должен увеличивать номер дня. Для календарных и рабочих дней правила соседства различаются; сериям по клиентам нужно отдельное разделение по клиенту.",
+        "Свяжите приём с DISTINCT, row_number, арифметикой дат и NOT EXISTS. Оконная нумерация создаёт ключ группы, итоговый агрегат описывает серию.",
+        "Проверьте повтор даты, пропуск и однодневную серию. Перед расчётом определите объект наблюдения и единицу времени.",
+        "Определите соседство, удалите повторы на нужном уровне, затем собирайте серии или сравнивайте данные с полным календарём."
+      ],
+      "review": "Verified global check-in-date grain, duplicate removal, calendar adjacency and numbering cast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l095": {
+      "en": [
+        "An “every” question asks whether every required item has a match. SQL often expresses this as “there is no required item without a match.”",
+        "Examples include customers who bought every required category or products containing all required tags. Finding any one match is not enough.",
+        "The outer NOT EXISTS searches for missing requirements. Its inner NOT EXISTS identifies one requirement with no qualifying purchase. A customer qualifies only when none are missing.",
+        "The VALUES table lists Office and Tech. The inner query follows paid orders to products and compares their category with the current requirement. Both NOT EXISTS levels implement “every”.",
+        "The customer example requires paid purchases in both listed categories. Repeated Office purchases cannot compensate for a missing Tech purchase.",
+        "The array example uses tags @> ARRAY['usb','work']. Containment requires both tag values, not just either one, and does not count repeated tag occurrences.",
+        "Only Ada qualifies in Retail. She has paid purchases in both required categories; other customers are missing at least one.",
+        "Counting ordinary joined rows can mistake duplicates for fulfilled requirements. An empty requirement set makes the double-NOT-EXISTS condition true for every candidate; decide if that business rule is desired.",
+        "Compare universal matching with EXISTS for “at least one”. count(DISTINCT requirement) can be another approach when its candidate and requirement sets are defined correctly.",
+        "Test missing one requirement, repeated matching purchases, no purchases, and an empty requirement set. Keep paid-status rules consistent.",
+        "Translate “every” into an explicit requirement set and prove that no required match is missing."
+      ],
+      "ru": [
+        "Условие «каждый» требует совпадения для всех обязательных элементов. В SQL его удобно выразить так: «нет обязательного элемента без совпадения».",
+        "Например, клиент должен купить все нужные категории, а товар — содержать все нужные метки. Одного совпадения недостаточно.",
+        "Внешний NOT EXISTS ищет невыполненные требования. Внутренний NOT EXISTS определяет требование без подходящей покупки. Клиент подходит, только если пропусков нет.",
+        "Таблица VALUES перечисляет Office и Tech. Внутренний запрос связывает оплаченные заказы с товарами и сравнивает категорию с текущим требованием. Два NOT EXISTS реализуют «каждый».",
+        "Пример клиентов требует оплаченных покупок в обеих категориях. Повторные покупки Office не заменяют отсутствующую Tech.",
+        "Пример массива использует tags @> ARRAY['usb','work']. Нужны обе метки, а не любая одна; повторные вхождения метки не подсчитываются.",
+        "В Retail подходит только Ada: у неё есть оплаченные покупки в обеих нужных категориях. Остальным не хватает хотя бы одной.",
+        "Подсчёт обычных строк соединения может принять повторы за выполненные требования. При пустом наборе требований двойной NOT EXISTS истинен для любого кандидата; это правило нужно выбрать осознанно.",
+        "Сравните проверку всех требований с EXISTS для «хотя бы одного». Возможен count(DISTINCT требование), если правильно определены кандидаты и обязательный набор.",
+        "Проверьте отсутствие одного требования, повторные покупки, отсутствие покупок и пустой набор требований. Согласуйте фильтр оплаченного статуса.",
+        "Задайте явный набор требований и докажите, что ни одно обязательное совпадение не пропущено."
+      ],
+      "review": "Verified double NOT EXISTS, duplicate insensitivity, array containment multiplicity and vacuous truth on empty requirements.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/functions-array.html"
+      ]
+    },
+    "l096": {
+      "en": [
+        "A percentile locates a position in sorted values. The median is the 50th percentile: a useful description of the middle of a distribution.",
+        "When a few values are unusually large, an average may hide the typical scale. Percentiles describe the middle or upper end more directly.",
+        "percentile_cont can interpolate between adjacent values; percentile_disc selects an actual input value. Fractions run from 0 to 1, and these aggregates ignore NULL inputs.",
+        "percentile_cont(0.5) requests the median. WITHIN GROUP(ORDER BY price) defines the sorted input; ::numeric allows round(value,2) to present two decimal places.",
+        "The median-price example sorts all product prices conceptually and interpolates the middle position. Its answer need not equal any individual product price.",
+        "The paid-order example filters to paid orders before finding the 90th percentile. Changing that population changes the metric even when the percentile fraction stays the same.",
+        "The Retail median is 13.75, between the two middle prices 12.50 and 15.00. It differs from the arithmetic average.",
+        "A percentile of group percentiles is not the overall percentile. No non-NULL inputs yield NULL; casting an approximate result before rounding does not restore lost precision.",
+        "Compare median with AVG, percentile_disc, and ranking functions. WITHIN GROUP orders aggregate input; the outer ORDER BY orders final report rows.",
+        "Check the population, fraction, NULL policy, and output rounding. Use both odd and even input counts to understand interpolation.",
+        "Define the population first, then choose continuous or discrete percentiles according to the meaning of the requested value."
+      ],
+      "ru": [
+        "Процентиль задаёт позицию среди отсортированных значений. Медиана — 50-й процентиль, удобная характеристика середины распределения.",
+        "Несколько очень больших значений могут сделать среднее непохожим на обычное значение. Процентили помогают отдельно описать середину и верхнюю часть распределения.",
+        "percentile_cont может вычислить промежуточное значение между соседями, percentile_disc выбирает существующее входное значение. Доля задаётся от 0 до 1; NULL не участвуют.",
+        "percentile_cont(0.5) запрашивает медиану. WITHIN GROUP(ORDER BY price) задаёт порядок входа; ::numeric позволяет вызвать round(value,2) для двух знаков после запятой.",
+        "Пример медианной цены мысленно сортирует все цены товаров и определяет середину с интерполяцией. Ответ не обязан совпадать с ценой отдельного товара.",
+        "Пример оплаченных заказов сначала оставляет paid и затем находит 90-й процентиль. Изменение набора заказов меняет показатель даже при той же доле.",
+        "Медиана Retail равна 13.75 — между двумя средними ценами 12.50 и 15.00. Она отличается от среднего арифметического.",
+        "Процентиль процентилей групп не равен общему процентилю. Без непустых значений получается NULL; приведение приближённого результата перед округлением не возвращает потерянную точность.",
+        "Сравните медиану с AVG, percentile_disc и ранжированием. WITHIN GROUP упорядочивает вход агрегата, внешний ORDER BY — строки итогового отчёта.",
+        "Проверьте состав данных, долю, правило NULL и округление. Сравните чётное и нечётное количество значений, чтобы понять интерполяцию.",
+        "Сначала определите набор данных, затем выберите непрерывный или дискретный процентиль по смыслу нужного показателя."
+      ],
+      "review": "Verified interpolation, discrete actual-value selection, input population, NULLs and precision limits.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    "l097": {
+      "en": [
+        "A customer report needs an agreed definition of one result row, eligible sales, and how to show customers without sales.",
+        "Revenue, purchase counts, and customer value support decisions only when everyone uses the same business rules.",
+        "Here, count paid orders and sum their stored totals once per customer. Keep every customer, including those without paid orders, and display zero rather than NULL for their revenue.",
+        "LEFT JOIN preserves customers; the paid filter in ON limits matching orders. count(o.id) skips missing matches, COALESCE changes an absent sum to zero, and revenue DESC,c.id breaks ties.",
+        "The customer example returns purchase counts and revenue without joining line items. Each order total is counted once, rather than once per order line.",
+        "The category report instead uses quantity*unit_price from paid line items. A window sum supplies the total line revenue; NULLIF protects a zero denominator when calculating shares.",
+        "Ada has revenue 295.00 from three paid orders. Fara remains with no paid orders and zero revenue; the revenue sort places her last here.",
+        "Joining orders to their line items before adding order totals can count each order several times. The stored order total can differ from the sum of its lines. Label and check these two figures separately.",
+        "Combine outer joins, grouped summaries, and window totals. A customer's first purchase and last purchase require the same eligibility rules as their revenue.",
+        "Check customers with zero sales, several lines per order, and tied totals. Verify category shares against the chosen line-revenue denominator.",
+        "Define the report population and row meaning, aggregate each amount once, and preserve customers the business requires."
+      ],
+      "ru": [
+        "Для отчёта по клиентам нужно согласовать смысл одной строки, подходящие продажи и отображение клиентов без продаж.",
+        "Выручка, число покупок и ценность клиента помогают принимать решения только при одинаковых бизнес-правилах расчёта.",
+        "Здесь считаются оплаченные заказы и их сохранённые суммы по каждому клиенту. Все клиенты сохраняются; без оплаченных заказов выручка показывается нулём, а не NULL.",
+        "LEFT JOIN сохраняет клиентов, фильтр paid в ON ограничивает заказы. count(o.id) пропускает отсутствующие совпадения, COALESCE заменяет пустую сумму нулём, revenue DESC,c.id разрешает равенство выручки.",
+        "Пример клиентов считает покупки и выручку без соединения с позициями заказа. Сумма заказа учитывается один раз, а не по числу его позиций.",
+        "Отчёт категорий использует quantity*unit_price оплаченных позиций. Оконная сумма даёт общую выручку позиций; NULLIF защищает расчёт долей от деления на ноль.",
+        "У Ada выручка 295.00 по трём оплаченным заказам. Fara остаётся без оплаченных заказов с нулевой выручкой; здесь сортировка помещает её последней.",
+        "Если сначала соединить заказы с их позициями, общая сумма заказа повторится для каждой позиции. Сумма заказа и сумма его позиций могут различаться по правилам расчёта. Сверяйте эти показатели отдельно.",
+        "Соедините знания внешних соединений, группировки и оконных итогов. Для первой и последней покупки клиента нужны те же правила отбора, что для выручки.",
+        "Проверьте клиентов без продаж, заказы с несколькими позициями и равные суммы. Сверьте доли категорий с выбранной общей выручкой позиций.",
+        "Определите состав отчёта и смысл строки, учитывайте каждую сумму один раз и сохраняйте нужных бизнесу клиентов."
+      ],
+      "review": "Verified customer preservation, header-versus-line grain/revenue, NULL denominator and deterministic tie order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-window.html"
+      ]
+    },
+    "l098": {
+      "en": [
+        "An inventory report compares stock with a target or a defined measure of demand. Quantities and money describe different aspects of the same products.",
+        "Replenishment decisions need to show shortages without losing products that have never sold or currently have no stock.",
+        "Summarize demand once per product before joining it to stock. Use explicit time and order-status rules; a sales quantity is not automatically a forecast of future demand.",
+        "WHERE stock<20 selects shortages. greatest(20-stock,0) calculates units needed to reach 20; descending units_to_buy shows the largest shortage first, with id breaking ties.",
+        "The small example uses products.stock and a fixed target of 20. A product already at or above the target requires no purchase and is excluded.",
+        "The warehouse report uses inventory.quantity and product price to total units and stock value by warehouse. It does not use products.stock as an additional quantity.",
+        "The Mug needs 20 units, Monitor 15, Lamp 12, and Keyboard 8 on Retail. These are unit shortages, not purchase costs.",
+        "Do not add quantities to currency or mix two stock sources. This project's demand counts paid orders; whether paid also means fulfilled must be defined by a real business.",
+        "Relate the report to pre-aggregation, LEFT JOIN, and COALESCE. Stock coverage ratios need an explicit denominator and a rule for zero demand.",
+        "Check zero stock, stock exactly at the target, no paid demand, and multiple order lines. Identify the source and unit of every reported quantity.",
+        "Keep stock, demand, targets, and valuation separate, then combine them at one well-defined product or warehouse level."
+      ],
+      "ru": [
+        "Отчёт запасов сравнивает остаток с целевым уровнем или определённым спросом. Количество и стоимость описывают разные стороны одних товаров.",
+        "Для закупок нужно видеть нехватку, не теряя товары, которые ещё не продавались или сейчас отсутствуют на складе.",
+        "Сначала соберите спрос один раз по товару, затем соедините с остатками. Явно задайте период и статусы заказов: проданное количество ещё не является прогнозом будущего спроса.",
+        "WHERE stock<20 выбирает нехватку. greatest(20-stock,0) считает количество до уровня 20; убывание units_to_buy показывает большую нехватку первой, id разрешает равенство.",
+        "Небольшой пример использует products.stock и фиксированную цель 20. Товар с остатком от 20 не требует покупки и исключается.",
+        "Складской отчёт использует inventory.quantity и цену товара, считая единицы и стоимость по складу. products.stock не прибавляется как дополнительное количество.",
+        "В Retail Mug требует 20 единиц, Monitor — 15, Lamp — 12, Keyboard — 8. Это нехватка в штуках, а не стоимость закупки.",
+        "Не складывайте количество с деньгами и не смешивайте два источника остатков. Спрос проекта считается по оплаченным заказам; означает ли оплата исполнение, должен определить реальный бизнес.",
+        "Свяжите отчёт с предварительной группировкой, LEFT JOIN и COALESCE. Покрытию спроса запасом нужны явный знаменатель и правило для нулевого спроса.",
+        "Проверьте нулевой остаток, точное достижение цели, отсутствие оплаченного спроса и несколько позиций заказа. Уточните источник и единицу каждого показателя.",
+        "Различайте остатки, спрос, цели и стоимость, затем соединяйте их на одном определённом уровне товара или склада."
+      ],
+      "review": "Verified fixed-target arithmetic, distinct stock sources/units and paid demand not equivalent to actual fulfillment/forecast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-conditional.html"
+      ]
+    },
+    "l099": {
+      "en": [
+        "A hotel stay occupies nights from check-in up to, but not including, checkout. Revenue and occupancy must use that same boundary rule.",
+        "Counting dates incorrectly can charge an extra night or show an occupied room after the guest has left.",
+        "For date columns, check_out-check_in gives nights. A daily calendar can be left joined to bookings where check_in<=day and check_out>day, keeping empty days too.",
+        "The small SELECT subtracts dates for nights and multiplies by nightly_rate for charge. ORDER BY id keeps booking results deterministic.",
+        "Ada's July 1–4 stay contains three nights, not four. The example calculates one charge for each booking.",
+        "The daily report generates July 1–10, counts distinct occupied room numbers, and sums one nightly rate per matching booking. COALESCE displays zero revenue on empty days.",
+        "Ada's three nights at 100 cost 300.00. Ben's three nights at 120 cost 360.00; each booking remains a separate row.",
+        "Counting bookings is not counting room-nights. Overlapping bookings for one room are a data-quality problem: DISTINCT room avoids duplicate occupancy counts but does not prevent double-counted revenue.",
+        "Connect half-open date ranges, generated calendars, and LEFT JOIN. An occupancy percentage also needs an explicit available-room roster as its denominator.",
+        "Test checkout followed by same-day check-in, a stay crossing the report boundary, and an empty day. Apply nightly prices only to nights inside the requested period.",
+        "Use exclusive checkout consistently, separate nights from bookings, and define the room-capacity and revenue rules before reporting."
+      ],
+      "ru": [
+        "Проживание занимает ночи с даты заезда до даты выезда, не включая выезд. Для выручки и занятости нужно одно правило границ.",
+        "Ошибка в датах добавляет лишнюю ночь к оплате или показывает номер занятым после отъезда гостя.",
+        "Для столбцов date разность check_out-check_in даёт число ночей. Календарь соединяется с бронями по check_in<=day и check_out>day; LEFT JOIN сохраняет пустые дни.",
+        "Небольшой SELECT вычитает даты для nights и умножает результат на nightly_rate для charge. ORDER BY id задаёт устойчивый порядок броней.",
+        "Проживание Ada с 1 по 4 июля содержит три ночи, а не четыре. Пример рассчитывает одну стоимость для каждой брони.",
+        "Дневной отчёт создаёт календарь 1–10 июля, считает различные занятые номера и суммирует суточную ставку подходящих броней. COALESCE показывает нулевую выручку пустых дней.",
+        "Три ночи Ada по 100 стоят 300.00. Три ночи Ben по 120 стоят 360.00; каждая бронь остаётся отдельной строкой.",
+        "Число броней не равно числу занятых номеро-ночей. Пересекающиеся брони одного номера — проблема данных: DISTINCT room убирает повтор номера из количества, но не предотвращает удвоение выручки.",
+        "Свяжите полуоткрытые диапазоны, календарь и LEFT JOIN. Проценту занятости дополнительно нужен явный список доступных номеров для знаменателя.",
+        "Проверьте выезд и новый заезд в один день, проживание за границами отчёта и пустой день. Начисляйте ставку только за ночи внутри нужного периода.",
+        "Всегда исключайте дату выезда, различайте ночи и брони и заранее определяйте доступную вместимость и правила выручки."
+      ],
+      "review": "Verified exclusive checkout, room-night grain, empty days, boundary clipping and DISTINCT occupancy not revenue deduplication.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/rangetypes.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-srf.html"
+      ]
+    },
+    "l100": {
+      "en": [
+        "A ledger records money movements; an account balance represents the resulting position. A useful design defines which rules must always hold.",
+        "A transfer needs a traceable record and matching balance changes. Recording only one side, or applying a retried request twice, can corrupt financial results.",
+        "Use exact numeric amounts, stable identifiers, valid account references, and one transaction for dependent changes. Real financial systems additionally require authorization, reconciliation, idempotency, and controlled audit history.",
+        "PRIMARY KEY identifies a transfer; foreign keys require existing accounts. NOT NULL requires values, amount>0 rejects nonpositive amounts, and source_id<>destination_id prevents same-account transfers.",
+        "The table example records a transfer of 50 from account 1 to 2. Inserting this record alone does not move money or alter accounts.balance.",
+        "The account-share report divides each balance by the total balance. A window sum keeps each account row; NULLIF makes a zero total produce NULL rather than a division error.",
+        "The checker shows the saved transfer row with amount 50.00. This confirms the ledger entry, not a corresponding change to account balances.",
+        "A CHECK constraint normally validates its row, not that all ledger postings balance. Constraints on the transfer table alone do not prevent overdrafts or implement a complete banking system.",
+        "Connect transactions and constraints with double-entry postings, where debits and credits must reconcile. Concurrent updates and request retries need their own protections.",
+        "Inspect each key and rule, then verify both account balances and ledger records after atomic tasks. Compare the total before and after a transfer.",
+        "Make the invariant explicit, enforce what constraints can express, and keep all related financial changes atomic and auditable."
+      ],
+      "ru": [
+        "Журнал операций хранит движения денег, а баланс счёта отражает получившееся состояние. При проектировании нужно задать правила, которые должны сохраняться всегда.",
+        "Переводу нужны запись операции и согласованные изменения балансов. Только одна сторона или повторное выполнение запроса могут исказить финансовый результат.",
+        "Используйте точный numeric, устойчивые идентификаторы, ссылки на существующие счета и одну транзакцию для зависимых изменений. Реальной системе также нужны авторизация, сверка, защита от повторов и контролируемая история.",
+        "PRIMARY KEY определяет перевод, внешние ключи требуют существующих счетов. NOT NULL требует значения, amount>0 запрещает неположительную сумму, source_id<>destination_id — перевод на тот же счёт.",
+        "Пример таблицы записывает перевод 50 со счёта 1 на 2. Вставка этой записи сама не перемещает деньги и не меняет accounts.balance.",
+        "Отчёт долей делит баланс каждого счёта на общий баланс. Оконная сумма сохраняет строки счетов; NULLIF превращает нулевой итог в NULL вместо ошибки деления.",
+        "Проверка показывает сохранённую операцию с суммой 50.00. Она подтверждает запись журнала, а не соответствующее изменение балансов счетов.",
+        "CHECK обычно проверяет одну строку, а не равенство всех проводок. Одни ограничения transfers не запрещают перерасход и не создают полноценную банковскую систему.",
+        "Свяжите транзакции и ограничения с двойной записью, где дебет и кредит должны сходиться. Конкурирующие изменения и повторы запросов требуют отдельной защиты.",
+        "Проверьте каждый ключ и правило, затем сравните балансы и записи журнала после атомарных заданий. Сверьте общую сумму до и после перевода.",
+        "Явно определяйте неизменные правила, выражайте доступные проверки ограничениями и делайте связанные финансовые изменения атомарными и проверяемыми."
+      ],
+      "review": "Verified record insertion does not transfer balances, row-local CHECK limits, exact amounts, transactional scope and educational project limitations.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html",
+        "https://www.postgresql.org/docs/18/datatype-numeric.html"
+      ]
+    },
+    "l101": {
+      "en": [
+        "An analytics metric needs a clear unit: events, people, sessions, or another defined group. Its numerator and denominator must describe the intended population.",
+        "One person may create many events or use several devices. Mixing event counts with people counts can produce a misleading conversion rate.",
+        "Aggregate at the chosen level before combining reports. Define the time window, eligibility rules, and missing-data policy; a recorded purchase does not by itself prove a prior visit caused it.",
+        "payload->>'device' reads the JSON device as text. GROUP BY device makes one device row; count(*) counts events and count(DISTINCT customer_id) counts known people separately.",
+        "The device example reports both activity volume and distinct customers. A person using mobile and desktop can appear in both groups, so group counts are not necessarily additive.",
+        "The cohort report groups customers by their join month. It calculates paid revenue per customer first, preserving customers without paid orders, then summarizes each cohort.",
+        "Retail has three desktop events from two known customers and three mobile events from two. Event counts and customer counts describe different things.",
+        "count(DISTINCT customer_id) ignores unknown IDs. An event-based purchase rate is not a person-based conversion rate; first-visit and first-purchase ordering must be defined explicitly.",
+        "Combine JSON extraction, DISTINCT, conditional aggregation, and date buckets. A cohort is a group sharing a starting characteristic, such as the month they joined.",
+        "Write the metric in words before SQL. Verify repeated events, customers on several devices, missing IDs, and customers with no paid revenue.",
+        "Name the unit, population, period, and denominator so the reader can understand exactly what each metric measures."
+      ],
+      "ru": [
+        "Аналитическому показателю нужна понятная единица: события, люди, сеансы или другая определённая группа. Числитель и знаменатель должны относиться к нужному набору данных.",
+        "Один человек создаёт много событий и пользуется несколькими устройствами. Смешение количества событий и людей даёт вводящую в заблуждение конверсию.",
+        "Сначала соберите данные на выбранном уровне, затем объединяйте отчёты. Определите период, правила отбора и пропуски; запись покупки сама не доказывает влияние предыдущего визита.",
+        "payload->>'device' извлекает устройство из JSON как текст. GROUP BY device создаёт строку устройства; count(*) считает события, count(DISTINCT customer_id) — отдельно известных людей.",
+        "Пример устройств показывает объём активности и различных клиентов. Человек с мобильным и настольным устройством входит в обе группы, поэтому количества групп не всегда можно складывать.",
+        "Когортный отчёт группирует клиентов по месяцу регистрации. Он сначала считает оплаченную выручку клиента, сохраняя клиентов без неё, затем собирает итоги когорты.",
+        "В Retail три desktop-события от двух известных клиентов и три mobile-события от двух. Количество событий и количество клиентов описывают разные вещи.",
+        "count(DISTINCT customer_id) не учитывает неизвестные идентификаторы. Доля покупок среди событий не равна конверсии людей; порядок первого визита и первой покупки нужно определить явно.",
+        "Соедините извлечение JSON, DISTINCT, условные агрегаты и периоды дат. Когорта — группа с общим начальным признаком, например месяцем регистрации.",
+        "До SQL опишите показатель словами. Проверьте повторные события, клиентов с несколькими устройствами, неизвестные id и клиентов без оплаченной выручки.",
+        "Указывайте единицу, состав данных, период и знаменатель, чтобы смысл каждого показателя был понятен читателю."
+      ],
+      "review": "Verified event-versus-person units, overlapping distinct counts, cohort meaning, unknown IDs and no causal inference.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-json.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    "l102": {
+      "en": [
+        "A reliable report has explicit business rules, correct calculations, stable output, and checks that reveal missing or inconsistent data.",
+        "Other people will maintain and use the report. They need to know what its totals include and why they can trust them.",
+        "Break complex work into named stages. Define one row's meaning, filter the population consistently, aggregate at the right level, and compare totals before inspecting performance.",
+        "WHERE keeps paid orders. date_trunc gives the start of each month for grouping. count(*) counts orders, sum(total) adds their totals, and count(DISTINCT customer_id) counts known customers once each. ORDER BY month_start puts the months in order.",
+        "The monthly example includes paid orders even when the customer ID is unknown. Such an order contributes revenue and order count, but not a known customer to the distinct count.",
+        "The reconciliation example adds up the line items for each order, then uses LEFT JOIN to keep every order. When there are no lines, their total is zero. The difference column subtracts the line total from the stored order total.",
+        "Retail shows May, June, and July. July has three paid orders but only two known customers because an anonymous order still contributes revenue.",
+        "An order total can differ from the sum of its lines because of tax, delivery, discounts, or rounding. Check the reason for each difference. Decide how the report should show months with no matching orders.",
+        "Bring together CTEs, outer joins, windows, NULL handling, and reconciliation. Reporting rules should agree across detailed checks, monthly totals, and growth calculations.",
+        "Check missing customers, no lines, duplicate joins, zero denominators, and period boundaries. Explain discrepancies at order level before comparing overall totals.",
+        "A report is complete when its rules are understandable, its edge cases are checked, and its totals can be reconciled."
+      ],
+      "ru": [
+        "Надёжный отчёт имеет явные бизнес-правила, правильные расчёты, устойчивый порядок и проверки пропущенных или несогласованных данных.",
+        "Другие люди будут читать, проверять и обновлять отчёт. Им нужно понимать, из каких данных получены итоги и как их проверить.",
+        "Разбейте сложную работу на именованные этапы. Определите смысл строки, согласуйте отбор, группируйте на нужном уровне и сверяйте суммы до анализа скорости.",
+        "WHERE оставляет оплаченные заказы. date_trunc возвращает начало месяца для группировки. count(*) считает заказы, sum(total) складывает суммы заказов, а count(DISTINCT customer_id) считает каждого известного клиента один раз. ORDER BY month_start упорядочивает месяцы.",
+        "Месячный пример включает оплаченные заказы с неизвестным клиентом. Такой заказ увеличивает выручку и количество заказов, но не число известных различных клиентов.",
+        "При сверке сначала складываются суммы позиций каждого заказа. LEFT JOIN сохраняет все заказы, даже если позиций нет. В этом случае сумма позиций равна нулю. Столбец difference показывает разницу между суммой заказа и суммой его позиций.",
+        "В Retail показаны май, июнь и июль. В июле три оплаченных заказа, но только два известных клиента: анонимный заказ тоже приносит выручку.",
+        "Сумма заказа и сумма его позиций могут различаться из-за налогов, доставки, скидок или округления. Проверяйте причину каждого расхождения. Заранее решите, как показывать месяцы без подходящих заказов.",
+        "Соедините CTE, внешние соединения, окна, NULL и сверку. Детальные проверки, месячные итоги и расчёты роста должны использовать согласованные правила.",
+        "Проверьте неизвестных клиентов, отсутствие позиций, размножение соединений, нулевые знаменатели и границы периодов. Сначала объясните расхождения заказов, затем сравнивайте общие итоги.",
+        "Отчёт готов, когда его правила понятны, крайние случаи проверены, а итоги можно сверить с исходными данными."
+      ],
+      "review": "Verified unknown-customer revenue versus distinct counts, header/line reconciliation provenance, missing-month policy and legitimate mismatch causes.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    }
+  }
+}

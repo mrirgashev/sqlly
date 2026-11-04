@@ -28,9 +28,14 @@ cp "$APP/Contents/Resources/AppIcon.icns" "$CONTENTS/.VolumeIcon.icns"
 
 # A separate, pinned Swift package writes the Finder layout. It is a build tool,
 # not an application/runtime dependency. No GUI scripting or Python is needed.
-LAYOUT_BUILD=(swift build --package-path "$ROOT/scripts/DMGLayout" --scratch-path "${DMG_LAYOUT_SCRATCH_PATH:-$ROOT/.build/dmg-layout}")
-"${LAYOUT_BUILD[@]}" -c release --product SQLLYDMGLayout
-LAYOUT_BIN="$("${LAYOUT_BUILD[@]}" -c release --show-bin-path)/SQLLYDMGLayout"
+if [[ -n "${DMG_LAYOUT_TOOL:-}" ]]; then
+  LAYOUT_BIN="$DMG_LAYOUT_TOOL"
+  [[ -x "$LAYOUT_BIN" ]] || { echo 'DMG_LAYOUT_TOOL must point to an executable SQLLYDMGLayout.' >&2; exit 1; }
+else
+  LAYOUT_BUILD=(swift build --package-path "$ROOT/scripts/DMGLayout" --scratch-path "${DMG_LAYOUT_SCRATCH_PATH:-$ROOT/.build/dmg-layout}")
+  "${LAYOUT_BUILD[@]}" -c release --product SQLLYDMGLayout
+  LAYOUT_BIN="$("${LAYOUT_BUILD[@]}" -c release --show-bin-path)/SQLLYDMGLayout"
+fi
 
 # The picture alias records volume/file IDs. Generate it on the writable image
 # itself, then preserve that filesystem while compressing the final disk image.

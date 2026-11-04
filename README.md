@@ -54,6 +54,6 @@ Read [architecture](docs/ARCHITECTURE.md), [content format](docs/CONTENT.md), [s
 
 ## Scope and release status
 
-Version 0.3.4 uses the light application icon and unlocks each coding exercise’s worked solution after ten distinct unsuccessful code submissions. It retains green topic outlines, Continue, coding-only workspaces, Command-/ comments with undo, and focus-sensitive arrow navigation across topics. Resource lookup works with both SwiftPM builders, and CI checks the packaged app without its build cache. The verification report records actual checks; earlier evidence is archived alongside it.
+Version 0.3.5 individually revises all 102 lesson explanations in English and Russian. Existing tasks, grading, learning steps and progress remain compatible. It retains the light icon, ten distinct failed submissions before worked solutions become available, green topic outlines, Continue, coding-only workspaces, Command-/ comments with undo, and focus-sensitive arrow navigation across topics. Resource lookup works with both SwiftPM builders, and CI checks the packaged app without its build cache. The verification report records actual checks; earlier evidence is archived alongside it.
 
 This repository is designed for public contribution. The current verification report and remaining acceptance work are recorded in [VERIFICATION.md](docs/VERIFICATION.md) and [CHECKLIST.md](docs/CHECKLIST.md). Unverified architecture support, notarization, and manual accessibility audits are release work, not completed claims.

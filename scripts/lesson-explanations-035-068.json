@@ -1,0 +1,1131 @@
+{
+  "lessons": {
+    "l035": {
+      "en": [
+        "UPDATE changes values in existing rows. It keeps the rows and changes only the columns listed in SET.",
+        "Use it to adjust stock, correct a price, or move an order to its next status.",
+        "WHERE chooses the rows; SET calculates their new values from their previous values. RETURNING can show the changed rows without a separate SELECT.",
+        "UPDATE products selects the table. SET stock=10 assigns a value. WHERE stock=0 limits the change to products currently out of stock.",
+        "Only zero-stock products receive 10 units. Products with any other stock value stay unchanged.",
+        "UPDATE ... FROM matches each product to inventory by product_id, then uses quantity+2 as the new stock. The source must supply at most one matching row per product.",
+        "The table below checks stored values after the small example; UPDATE itself does not return this table. Product 5 changes to 10, while other stock values remain the same.",
+        "Without WHERE, UPDATE changes every row. With multiple source matches in UPDATE ... FROM, the chosen source row is unpredictable. First inspect the intended rows with SELECT.",
+        "JOIN explains how source rows match. Constraints still apply during UPDATE, and a transaction lets several related changes succeed together.",
+        "Check both changed and unchanged products. Confirm that a second source match cannot accidentally choose a different quantity.",
+        "Choose rows carefully, calculate new values, then verify the resulting data."
+      ],
+      "ru": [
+        "UPDATE изменяет значения в существующих строках. Сами строки сохраняются; меняются только столбцы из SET.",
+        "Так можно пополнить остатки, исправить цену или изменить статус заказа.",
+        "WHERE выбирает строки, а SET вычисляет новые значения по прежним значениям строки. RETURNING позволяет сразу увидеть изменённые данные.",
+        "UPDATE products задаёт таблицу. SET stock=10 записывает новый остаток. WHERE stock=0 ограничивает изменение товарами с нулевым остатком.",
+        "Только товары с остатком 0 получают значение 10. Остальные строки не меняются.",
+        "UPDATE ... FROM находит запись inventory по product_id и записывает quantity+2 в stock. Каждому товару должна соответствовать не более чем одна исходная строка.",
+        "Таблица ниже показывает проверку данных после небольшого примера, а не прямой вывод UPDATE. У товара 5 остаток станет 10; остальные остатки сохранятся.",
+        "Без WHERE изменятся все строки. Если UPDATE ... FROM найдёт несколько исходных строк для одного товара, выбор будет непредсказуемым. Сначала проверьте нужные строки через SELECT.",
+        "Правила JOIN помогают понять сопоставление строк. Ограничения таблицы действуют и при UPDATE, а транзакция объединяет связанные изменения.",
+        "Проверьте изменённые и неизменённые товары. Убедитесь, что лишнее совпадение в исходной таблице не может подставить другую величину.",
+        "Точно выберите строки, вычислите новые значения и проверьте сохранённый результат."
+      ],
+      "review": "Reviewed UPDATE scope, old-value expressions, deterministic FROM matching, and state-check/output distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-update.html"
+      ]
+    },
+    "l036": {
+      "en": [
+        "DELETE removes rows from a table. A foreign key can prevent deletion of a row that other rows still reference.",
+        "Removing old or unwanted data must leave relationships between the remaining rows valid.",
+        "DELETE FROM names the table and WHERE selects rows to remove. USING can supply related tables. TRUNCATE empties whole tables without a row condition, using different locks and triggers.",
+        "The subquery looks for an order with o.customer_id=c.id. NOT EXISTS is true only when no such order exists, so DELETE removes only customers without orders.",
+        "Fara has no orders in the Retail dataset and is removed. A customer with even one order is kept.",
+        "TRUNCATE events removes every event but preserves the table definition. It does not run row-level DELETE triggers; it can run TRUNCATE triggers.",
+        "This checker table lists the five customers remaining after deletion. It is a separate read of the changed data, not direct DELETE output.",
+        "Omitting WHERE deletes all rows. Referencing rows may block DELETE unless a foreign-key action allows it. PostgreSQL can roll back TRUNCATE, but it takes an ACCESS EXCLUSIVE lock. Unlike DELETE, it can make a table appear empty to a concurrent transaction using an older snapshot.",
+        "NOT EXISTS expresses an absence test. Foreign-key actions such as CASCADE or SET NULL define what happens to dependent rows.",
+        "Before deleting, run the same condition with SELECT. Check that customers with orders remain and that the resulting relationships are valid.",
+        "DELETE chooses rows to remove; TRUNCATE empties tables. Understand dependencies before either operation."
+      ],
+      "ru": [
+        "DELETE удаляет строки из таблицы. Внешний ключ может запретить удаление строки, на которую ещё ссылаются другие строки.",
+        "После удаления ненужных данных связи между оставшимися строками должны остаться корректными.",
+        "DELETE FROM задаёт таблицу, WHERE — удаляемые строки. Через USING можно подключить другие таблицы. TRUNCATE очищает таблицу целиком, без условия по строкам; блокировки и триггеры у него другие.",
+        "Подзапрос ищет заказ с o.customer_id=c.id. NOT EXISTS выполняется, только если такого заказа нет. Поэтому удаляются лишь клиенты без заказов.",
+        "В наборе Retail у Fara нет заказов, поэтому её строка удаляется. Клиент с хотя бы одним заказом остаётся.",
+        "TRUNCATE events удаляет все события, сохраняя структуру таблицы. Строчные триггеры DELETE не запускаются; могут запускаться триггеры TRUNCATE.",
+        "Проверочная таблица содержит пять оставшихся клиентов. Это отдельное чтение изменённых данных, а не прямой вывод DELETE.",
+        "Без WHERE удаляются все строки. Связанные строки могут помешать DELETE, если действие внешнего ключа не разрешает удаление. TRUNCATE в PostgreSQL можно откатить, но он требует блокировку ACCESS EXCLUSIVE. В отличие от DELETE, он может сделать таблицу пустой для одновременной транзакции со старым снимком данных.",
+        "NOT EXISTS проверяет отсутствие совпадения. Действия CASCADE и SET NULL определяют судьбу зависимых строк.",
+        "Перед удалением проверьте то же условие через SELECT. Убедитесь, что клиенты с заказами остаются, а связи не нарушены.",
+        "DELETE удаляет выбранные строки, TRUNCATE очищает таблицы целиком. Сначала разберитесь с зависимостями."
+      ],
+      "review": "Reviewed anti-join deletion, TRUNCATE transactional/locking/trigger differences, and dependent rows.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-delete.html",
+        "https://www.postgresql.org/docs/18/sql-truncate.html"
+      ]
+    },
+    "l037": {
+      "en": [
+        "An upsert tries to insert a row and handles a specified uniqueness conflict instead of simply failing.",
+        "It helps imports and synchronisation jobs decide what to do when an identifier already exists.",
+        "ON CONFLICT ... DO NOTHING skips a conflicting insert. DO UPDATE changes the existing row. EXCLUDED names the proposed new values; the target table name refers to existing values.",
+        "ON CONFLICT(product_id) uses the unique product key. Each SET assignment copies a proposed value from EXCLUDED into the existing inventory row.",
+        "Product 1 already has an inventory row, so its warehouse, quantity, and date are replaced. If the key were absent, the proposed row would be inserted.",
+        "The second example adds EXCLUDED.quantity to the existing quantity. It changes the date but deliberately keeps the existing warehouse.",
+        "This table checks stored inventory after the first example. Product 1 becomes Central, 60, and 2024-08-01; the other rows remain unchanged.",
+        "DO UPDATE needs a suitable non-deferrable unique key or index; exclusion constraints cannot be its conflict target. Other errors still fail. Repeating an additive upsert adds again, so not every upsert is safe to retry unchanged.",
+        "A primary key is a common conflict target. Compare replacement with accumulation: both use upsert, but their business meaning differs.",
+        "Test the existing-key and missing-key cases. Read each assignment and decide whether it replaces, preserves, or adds to a value.",
+        "Choose the conflict key and merge rule explicitly; EXCLUDED contains the attempted insert."
+      ],
+      "ru": [
+        "Upsert сначала пытается вставить строку, а при указанном конфликте уникальности выполняет выбранное действие вместо обычной ошибки.",
+        "При импорте и синхронизации нужно заранее решить, что делать с уже существующим идентификатором.",
+        "ON CONFLICT ... DO NOTHING пропускает конфликтующую вставку. DO UPDATE изменяет существующую строку. EXCLUDED содержит предлагаемые новые значения, а имя целевой таблицы позволяет обратиться к прежним.",
+        "ON CONFLICT(product_id) выбирает уникальный ключ товара. Присваивания SET копируют значения EXCLUDED в существующую строку inventory.",
+        "Запись товара 1 уже существует, поэтому её склад, количество и дата заменяются. Если бы ключа не было, появилась бы новая строка.",
+        "Второй пример прибавляет EXCLUDED.quantity к прежнему количеству. Дата меняется, а существующий склад сохраняется.",
+        "Таблица показывает проверку inventory после первого примера. У товара 1 будут Central, 60 и 2024-08-01; остальные строки сохранятся.",
+        "DO UPDATE требует подходящий неоткладываемый уникальный ключ или индекс; ограничение исключения для этой ветви не подходит. Другие ошибки не подавляются. Повтор накопительного upsert снова прибавит количество: не любой upsert безопасно повторять.",
+        "Первичный ключ часто служит целью конфликта. Замена и прибавление используют одну команду, но решают разные задачи.",
+        "Проверьте случаи с существующим и новым ключом. Для каждого присваивания определите: оно заменяет, сохраняет или увеличивает значение?",
+        "Явно задавайте ключ конфликта и правило обновления. EXCLUDED хранит значения предлагаемой вставки."
+      ],
+      "review": "Corrected DO UPDATE exclusion-constraint caveat and false implication that every upsert is idempotent.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-insert.html"
+      ]
+    },
+    "l038": {
+      "en": [
+        "A transaction groups changes into one unit: commit all of them or discard them. A savepoint marks a place inside that unit to return to.",
+        "A bank transfer must not debit one account without crediting the other.",
+        "BEGIN opens a transaction. COMMIT keeps its changes; ROLLBACK cancels them. SAVEPOINT names an intermediate point, and ROLLBACK TO undoes later work while keeping the transaction open.",
+        "The first UPDATE subtracts 100 from account 1; the second adds 100 to account 2. BEGIN and COMMIT place both updates in one transaction.",
+        "The transfer changes balances to 900 and 600 while keeping their combined amount unchanged.",
+        "The savepoint follows the first addition of 10. Rolling back to it cancels only the later addition of 100, so committing preserves the first addition.",
+        "The table checks balances after the completed transfer. The UPDATE commands do not directly return these rows.",
+        "After a statement error, the transaction normally refuses further work until rollback. Rolling back to a suitable earlier savepoint can recover it. Atomicity alone does not validate missing account IDs or every concurrent business rule.",
+        "Constraints reject invalid balances. Isolation and row locks address concurrent transactions; those are separate from grouping statements atomically.",
+        "Check both balances and their sum. Trace exactly which changes survive a savepoint rollback. Each practice execution starts with a fresh isolated dataset.",
+        "Transactions control what is kept; savepoints allow a partial undo before the final commit."
+      ],
+      "ru": [
+        "Транзакция объединяет изменения: либо сохранить их все, либо отменить. Точка сохранения отмечает промежуточное состояние, к которому можно вернуться.",
+        "При банковском переводе нельзя списать деньги с одного счёта и не зачислить их на другой.",
+        "BEGIN открывает транзакцию. COMMIT сохраняет изменения, ROLLBACK отменяет. SAVEPOINT задаёт промежуточную точку; ROLLBACK TO отменяет более поздние действия, оставляя транзакцию открытой.",
+        "Первый UPDATE вычитает 100 со счёта 1, второй прибавляет 100 счёту 2. BEGIN и COMMIT объединяют оба изменения.",
+        "После перевода остатки станут 900 и 600. Их общая сумма не изменится.",
+        "Точка сохранения создаётся после прибавления 10. Возврат к ней отменяет только последующее прибавление 100. После COMMIT первое изменение сохраняется.",
+        "Таблица проверяет остатки после завершённого перевода. Сами команды UPDATE эти строки не возвращают.",
+        "После ошибки команды транзакция обычно не принимает дальнейшую работу до отката. Возврат к подходящей ранней точке сохранения позволяет продолжить. Атомарность сама по себе не проверяет наличие обоих счетов и все правила одновременной работы.",
+        "Ограничения защищают допустимые остатки. Изоляция и блокировки регулируют одновременные транзакции — это отдельная задача.",
+        "Проверьте оба остатка и их сумму. Проследите, какие изменения переживут откат к точке. Каждый учебный запуск начинает с нового изолированного набора данных.",
+        "Транзакция определяет, что сохранить целиком; точка сохранения позволяет отменить часть работы до COMMIT."
+      ],
+      "review": "Reviewed abort recovery, partial rollback, transfer invariant, and atomicity versus isolation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html",
+        "https://www.postgresql.org/docs/18/sql-savepoint.html",
+        "https://www.postgresql.org/docs/18/sql-rollback-to.html"
+      ]
+    },
+    "l039": {
+      "en": [
+        "A data-changing CTE puts INSERT, UPDATE, or DELETE inside WITH. Its RETURNING rows can feed the rest of the same SQL statement.",
+        "This connects a change to a report or follow-up insert without passing changed rows through application code.",
+        "A modifying CTE executes once and completes even if its output is not fully read. Its RETURNING output, not a fresh read of the target table, communicates changes to other parts of the statement.",
+        "WITH changed AS (...) names the UPDATE output. RETURNING id,price exposes the new prices, and the final SELECT reads and sorts those rows.",
+        "Home products lose 1 from their price. The direct SELECT output contains only the changed products.",
+        "The added CTE inserts Eraser and returns its id and name. The final SELECT reads that output as a small result table.",
+        "The table below is the dedicated state check for all products after the small example. It differs from the statement's direct output, which lists only changed rows.",
+        "Sibling modifying CTEs share a snapshot; their physical order is not a reliable communication mechanism. Use RETURNING dependencies and avoid changing the same row twice in one statement.",
+        "Ordinary CTEs organise queries; modifying CTEs also have effects. A transaction can group several statements when one WITH statement is unnecessary.",
+        "Distinguish returned changed rows from a later whole-table check. Verify both the new values and the rows that must stay unchanged.",
+        "Use RETURNING as the explicit data flow between a modification and its consumer."
+      ],
+      "ru": [
+        "Изменяющее CTE помещает INSERT, UPDATE или DELETE внутрь WITH. Строки RETURNING можно использовать в остальной части той же SQL-команды.",
+        "Так изменение связывается с отчётом или следующей вставкой без передачи промежуточных строк через приложение.",
+        "Изменяющее CTE выполняется один раз и полностью, даже если его вывод прочитан не весь. Другие части команды получают изменения через RETURNING, а не через повторное чтение исходной таблицы.",
+        "WITH changed AS (...) даёт имя выводу UPDATE. RETURNING id,price возвращает новые цены, а итоговый SELECT читает и сортирует эти строки.",
+        "У товаров Home цена уменьшается на 1. Прямой вывод SELECT содержит только изменённые товары.",
+        "CTE added вставляет Eraser и возвращает его id и name. Итоговый SELECT читает полученные строки как небольшую таблицу.",
+        "Ниже приведена отдельная проверка всех товаров после небольшого примера. Она отличается от прямого вывода команды, где перечислены только изменённые строки.",
+        "Соседние изменяющие CTE используют один снимок данных; нельзя полагаться на порядок их фактического выполнения. Передавайте строки через RETURNING и не изменяйте одну строку дважды в одной команде.",
+        "Обычные CTE организуют чтение, а изменяющие ещё и меняют данные. Несколько отдельных команд можно объединить транзакцией.",
+        "Отличайте возвращённые изменённые строки от последующей проверки всей таблицы. Проверяйте новые значения и строки, которые должны сохраниться.",
+        "RETURNING явно передаёт результат изменения следующей части команды."
+      ],
+      "review": "Reviewed shared snapshot, complete execution, RETURNING communication, and direct-output versus state-check tables.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    "l040": {
+      "en": [
+        "A data type tells PostgreSQL what a value means and which operations it supports: numbers, text, or true/false values.",
+        "The right type prevents invalid values and avoids surprising comparisons or calculations.",
+        "smallint, integer, and bigint store exact whole numbers in different ranges. numeric stores decimal values precisely within its declared limits; real and double precision are approximate. text stores characters; boolean stores true or false, with NULL allowed unless prohibited.",
+        "pg_typeof(value) reports a value's type. The ::text casts make those type names ordinary text columns, and AS names the outputs.",
+        "PostgreSQL interprets 1 as integer, 1.5 as numeric, 'x'::text as text, and true as boolean.",
+        "The expression 'product-' || id::text combines a text prefix with the product ID converted to text.",
+        "The single result row contains type names, not the original values. A column's type and the way its value is displayed are different things.",
+        "numeric(p,s) limits precision and scale and may round input. varchar(n) limits characters, not bytes. Text 'true' is not itself a boolean, even though an explicit conversion can produce one.",
+        "Casts convert values between compatible types. Constraints express additional rules such as positive quantities or required text.",
+        "Read the type as well as the displayed value. Check whether a calculation requires exact decimals, an integer range, or text formatting.",
+        "Choose types for meaning and valid operations; use explicit casts where conversion is needed."
+      ],
+      "ru": [
+        "Тип данных объясняет PostgreSQL, что означает значение и какие операции допустимы: число, текст или логическое значение.",
+        "Подходящий тип не допускает неверные значения и делает сравнения и вычисления понятнее.",
+        "smallint, integer и bigint хранят точные целые числа разных диапазонов. numeric точно хранит десятичные числа в заданных пределах; real и double precision дают приближение. text хранит символы, boolean — true или false; NULL разрешён, если отдельно не запрещён.",
+        "pg_typeof(value) сообщает тип значения. Преобразование ::text превращает названия типов в обычные текстовые значения, а AS задаёт имена столбцов результата.",
+        "Число 1 имеет тип integer, 1.5 — numeric, 'x'::text — text, а true — boolean.",
+        "Выражение 'product-' || id::text соединяет текстовый префикс с идентификатором товара, преобразованным в текст.",
+        "В единственной строке результата находятся названия типов, а не исходные значения. Тип столбца и отображение значения — разные вещи.",
+        "numeric(p,s) ограничивает точность и число знаков после запятой и может округлять ввод. varchar(n) считает символы, не байты. Текст 'true' сам по себе не boolean, хотя его можно явно преобразовать.",
+        "Приведения преобразуют совместимые типы. Ограничения добавляют правила, например положительное количество или обязательное значение.",
+        "Смотрите не только на отображение, но и на тип. Решите, нужны ли точные десятичные числа, диапазон целых или текстовое оформление.",
+        "Выбирайте тип по смыслу данных и операциям; нужные преобразования делайте явно."
+      ],
+      "review": "Reviewed literal types, exact versus approximate numeric storage, typemod rounding, and character limits.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-numeric.html",
+        "https://www.postgresql.org/docs/18/datatype-character.html",
+        "https://www.postgresql.org/docs/18/datatype-boolean.html",
+        "https://www.postgresql.org/docs/18/functions-info.html"
+      ]
+    },
+    "l041": {
+      "en": [
+        "A UUID is a 128-bit identifier. An enum is a named type that accepts only a declared set of text labels.",
+        "UUIDs help create identifiers across systems. Enums restrict a column to a small, deliberately maintained set of states.",
+        "A known UUID can be cast from text. PostgreSQL 18 offers uuidv4() for random UUIDs and uuidv7() for time-ordered UUIDs. CREATE TYPE ... AS ENUM declares labels and their comparison order.",
+        "The quoted value is UUID text; ::uuid validates and converts it. AS identifier gives the result column its name.",
+        "The example returns a fixed UUID so that repeated runs produce the same value.",
+        "request_log uses a UUID primary key and a required note. Inserting a known identifier illustrates storage without depending on random generation.",
+        "One UUID value appears under identifier. The displayed hyphens are formatting; the stored type is uuid rather than text.",
+        "Enum labels are case-sensitive and sort in declaration order, not alphabetically. Removing labels requires more work than adding them. A UUID does not by itself enforce a table key; declare PRIMARY KEY or UNIQUE.",
+        "Compare an enum with a CHECK constraint or a lookup table. A lookup table is often easier when states need their own editable metadata.",
+        "Keep fixed identifiers in reproducible exercises. Check that an enum accepts only declared labels and that its ordering matches the intended rule.",
+        "Use UUIDs for identifiers and enums for carefully chosen finite states; their roles are different."
+      ],
+      "ru": [
+        "UUID — идентификатор длиной 128 бит. Enum — именованный тип, принимающий только заранее перечисленные текстовые метки.",
+        "UUID удобны для идентификаторов в нескольких системах. Enum ограничивает столбец небольшим, осознанно поддерживаемым набором состояний.",
+        "Известный UUID можно преобразовать из текста. В PostgreSQL 18 uuidv4() создаёт случайный UUID, а uuidv7() — UUID с временным упорядочением. CREATE TYPE ... AS ENUM задаёт метки и порядок их сравнения.",
+        "В кавычках записан UUID как текст. ::uuid проверяет и преобразует его; AS identifier задаёт имя столбца результата.",
+        "Пример возвращает заранее заданный UUID, поэтому повторные запуски дают одно значение.",
+        "В request_log UUID служит первичным ключом, а note обязателен. Вставка известного идентификатора показывает хранение без случайной генерации.",
+        "Под именем identifier выводится один UUID. Дефисы — часть привычного отображения; значение имеет тип uuid, а не text.",
+        "Метки enum чувствительны к регистру и сравниваются в порядке объявления, не по алфавиту. Удалить метку сложнее, чем добавить. Сам тип UUID не гарантирует уникальность строк: нужен PRIMARY KEY или UNIQUE.",
+        "Сравните enum с CHECK и таблицей-справочником. Справочник удобнее, если у состояния есть свои изменяемые свойства.",
+        "Для воспроизводимых примеров используйте фиксированные идентификаторы. Проверьте допустимые метки enum и нужный порядок сравнения.",
+        "UUID задаёт идентификаторы, enum — ограниченный набор состояний. Эти типы решают разные задачи."
+      ],
+      "review": "Verified PostgreSQL18 uuidv4/uuidv7, enum ordering/case sensitivity, and key versus type distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-uuid.html",
+        "https://www.postgresql.org/docs/18/functions-uuid.html",
+        "https://www.postgresql.org/docs/18/datatype-enum.html"
+      ]
+    },
+    "l042": {
+      "en": [
+        "String functions inspect or transform text. Here, normalisation means applying the same cleanup rules before comparing or storing values.",
+        "Extra spaces and inconsistent letter case often make equivalent input look different.",
+        "lower and upper change case; trim removes surrounding spaces by default. length counts characters. concat_ws joins non-NULL arguments with a separator. Most text transformations return a value without changing stored data.",
+        "lower(email) produces lowercase text. WHERE email IS NOT NULL excludes missing addresses; AS normalized_email names the computed column.",
+        "The query displays known email addresses in lowercase, ordered by customer ID. It does not update customers.",
+        "length(name) produces name_length. Descending length puts longer names first; id resolves ties consistently.",
+        "The shown emails already use lowercase, so their appearance stays the same. Cleo is absent because her email is NULL.",
+        "length counts characters; octet_length counts bytes. trim does not remove all possible internal whitespace. Case conversion depends on locale and is not a universal rule for all identifiers or email systems.",
+        "This text cleanup differs from relational normalisation, which concerns table design. Expression indexes can support frequently used text transformations.",
+        "Test missing text, leading spaces, and equal-length names. Decide whether you want a transformed result or an UPDATE of stored data.",
+        "Choose a clear cleanup rule and apply it consistently; know whether it changes output or storage."
+      ],
+      "ru": [
+        "Строковые функции исследуют или преобразуют текст. Здесь нормализация означает одинаковую очистку значений перед сравнением или сохранением.",
+        "Лишние пробелы и разный регистр часто мешают распознать одинаковые по смыслу данные.",
+        "lower и upper меняют регистр, trim по умолчанию убирает пробелы по краям. length считает символы. concat_ws соединяет аргументы, отличные от NULL, через разделитель. Обычно функция возвращает новое значение, не изменяя данные таблицы.",
+        "lower(email) даёт текст в нижнем регистре. WHERE email IS NOT NULL исключает отсутствующие адреса, AS normalized_email задаёт имя вычисленного столбца.",
+        "Запрос показывает известные адреса в нижнем регистре по ID клиента. Таблица customers не изменяется.",
+        "length(name) вычисляет name_length. Убывание длины ставит длинные имена первыми; id однозначно упорядочивает имена одинаковой длины.",
+        "Адреса в наборе уже записаны строчными буквами, поэтому выглядят так же. Cleo отсутствует: её email равен NULL.",
+        "length считает символы, octet_length — байты. trim не удаляет любые пробельные символы внутри строки. Смена регистра зависит от языковых настроек и не является универсальным правилом для всех идентификаторов и адресов.",
+        "Очистка текста отличается от нормализации таблиц. Индекс по выражению может ускорить поиск по часто используемому преобразованию.",
+        "Проверьте NULL, пробелы по краям и имена одной длины. Решите, нужно изменить только вывод или сохранённые данные через UPDATE.",
+        "Выберите понятное правило очистки и применяйте его одинаково; отличайте изменение вывода от изменения таблицы."
+      ],
+      "review": "Reviewed SELECT versus UPDATE, character/byte counts, locale caveats, and overloaded normalisation terminology.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-string.html"
+      ]
+    },
+    "l043": {
+      "en": [
+        "DATE stores a calendar day without a time of day. Date arithmetic can count days or move to another calendar date.",
+        "Bookings, deadlines, and follow-up dates need clear rules about which days are included.",
+        "Subtracting one date from another returns an integer number of days. Adding an integer to a date moves by that many days. Write DATE '2024-07-01' to make a date literal unambiguous.",
+        "check_out-check_in computes nights for each booking. AS nights labels the result; ORDER BY id gives a stable display order.",
+        "A stay from July 1 to July 4 lasts three nights: July 1, 2, and 3. Checkout day is not an occupied night.",
+        "For pending orders, ordered_on+7 gives a follow-up date one week later. The query returns dates without changing the order rows.",
+        "The five displayed bookings have 3, 3, 2, 1, and 3 nights. These are whole-day differences, not elapsed timestamp hours.",
+        "A calendar month is not a fixed number of days. DATE subtraction differs from age(), which expresses calendar years, months, and days. Be explicit about inclusive and exclusive boundaries.",
+        "Timestamps add time of day and time-zone questions. Half-open ranges help represent stays whose checkout day is excluded.",
+        "Check a one-night stay and a month boundary. Verify that adjoining stays can share a checkout/check-in date without overlapping nights.",
+        "DATE arithmetic works with calendar days; state the boundary rule before calculating."
+      ],
+      "ru": [
+        "DATE хранит календарную дату без времени суток. Арифметика дат позволяет посчитать дни или перейти к другой дате.",
+        "Для бронирований, сроков и напоминаний важно точно определить, какие дни входят в период.",
+        "Разность двух дат — целое число дней. Прибавление целого числа сдвигает дату на столько дней. Запись DATE '2024-07-01' явно задаёт тип значения.",
+        "check_out-check_in вычисляет число ночей. AS nights даёт имя результату, ORDER BY id задаёт постоянный порядок вывода.",
+        "Проживание с 1 по 4 июля — три ночи: 1, 2 и 3 июля. День выезда занятой ночью не считается.",
+        "Для заказов pending выражение ordered_on+7 даёт дату напоминания через неделю. Запрос возвращает даты, не изменяя строки заказов.",
+        "У пяти бронирований получается 3, 3, 2, 1 и 3 ночи. Это разности календарных дат, а не часы между временными отметками.",
+        "В месяце нет фиксированного числа дней. Вычитание DATE отличается от age(), возвращающей календарные годы, месяцы и дни. Явно задавайте включённые и исключённые границы.",
+        "Временные отметки добавляют время суток и вопросы часовых поясов. Полуоткрытый диапазон подходит для проживания без включения дня выезда.",
+        "Проверьте одну ночь и переход между месяцами. Соседние проживания могут иметь общую дату выезда и заезда без пересечения ночей.",
+        "DATE работает с календарными днями. Перед расчётом определите правила границ периода."
+      ],
+      "review": "Reviewed DATE subtraction versus intervals/age, day offsets, and exclusive checkout.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    "l044": {
+      "en": [
+        "timestamp without time zone stores calendar and clock fields. timestamptz identifies an instant; its displayed clock time depends on the session time zone.",
+        "A local appointment and a globally timed event need different treatment, even if their text looks similar.",
+        "For a timestamp without a zone, AT TIME ZONE interprets the clock fields in the named zone and produces timestamptz. For timestamptz, it produces local clock fields in that zone. The original zone name is not stored in timestamptz.",
+        "EXTRACT(HOUR FROM occurred_at) reads the hour field; ::integer converts it to an integer. This does not convert time zones.",
+        "The events column is timestamp without time zone. The small example reads its stored hours directly.",
+        "The first AT TIME ZONE treats occurred_at as UTC. The second displays that instant as Tokyo local time, returning a timestamp without time zone.",
+        "The event_hour values are 9, 9, 10, 8, 10, and 11. These are stored clock hours, not inferred UTC instants.",
+        "Do not assume a zone-less timestamp means UTC. Daylight-saving transitions can make a local time ambiguous or nonexistent. Explicit offsets or a clear input policy avoid guessing.",
+        "DATE contains no time of day. Reporting with timestamptz also needs a chosen zone before extracting dates or grouping days.",
+        "Trace the type after each AT TIME ZONE. Check a conversion that crosses midnight, not only one that changes the hour.",
+        "First identify whether you have clock fields or an instant, then apply the intended zone."
+      ],
+      "ru": [
+        "timestamp without time zone хранит дату и показания часов. timestamptz задаёт момент времени; его отображение зависит от часового пояса сеанса.",
+        "Местная встреча и событие с единым мировым временем требуют разных правил, даже если записаны похожим текстом.",
+        "Для timestamp без пояса AT TIME ZONE трактует показания часов в указанном поясе и получает timestamptz. Для timestamptz та же операция возвращает местные показания часов в выбранном поясе. Исходное имя пояса в timestamptz не сохраняется.",
+        "EXTRACT(HOUR FROM occurred_at) читает час, ::integer преобразует его в целое число. Преобразования часового пояса здесь нет.",
+        "В events столбец имеет тип timestamp without time zone. Небольшой пример читает часы именно из сохранённых полей.",
+        "Первый AT TIME ZONE трактует occurred_at как UTC. Второй показывает полученный момент по времени Токио, возвращая timestamp без пояса.",
+        "В event_hour получатся 9, 9, 10, 8, 10 и 11. Это сохранённые часы, а не автоматически определённые моменты UTC.",
+        "Не считайте любую отметку без пояса временем UTC. При переводе часов местное время может повториться или не существовать. Нужны явное смещение или понятное правило ввода.",
+        "DATE не содержит времени суток. Для отчёта по timestamptz сначала выберите пояс, затем извлекайте дату или группируйте по дням.",
+        "Проследите тип после каждого AT TIME ZONE. Проверьте преобразование с переходом через полночь, а не только смену часа.",
+        "Сначала определите: перед вами показания часов или момент времени. Затем применяйте нужный пояс."
+      ],
+      "review": "Reviewed both AT TIME ZONE overloads, zone-less event data, session display, and DST ambiguity.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    "l045": {
+      "en": [
+        "An interval expresses a span using months, days, and smaller time units. date_trunc finds the start of a calendar period containing a timestamp.",
+        "Reports need consistent month boundaries; elapsed-time calculations need a clear starting point and unit.",
+        "date_trunc('month', value) clears the smaller date/time fields. Timestamp subtraction produces an interval; EXTRACT(EPOCH FROM interval) expresses it in seconds. Calendar units do not all have a fixed number of seconds.",
+        "date_trunc groups each ordered_on into its month. ::date displays the month start as a date; sum(total) adds the rows in each group.",
+        "The monthly summary includes every order status because the query has no status filter. It is a sum of order totals, not automatically a paid-revenue report.",
+        "Subtracting the fixed midnight timestamp gives the time since that start. Dividing extracted seconds by 60 expresses the interval in minutes.",
+        "The three month-start rows show totals 369, 151, and 374 on Retail. The query's explicit ORDER BY puts the months in sequence.",
+        "A month has varying length, and a local day across daylight-saving changes may not be 24 hours. now() stays at transaction-start time; clock_timestamp() changes as time passes. Choose the reporting zone for timestamptz.",
+        "DATE arithmetic counts calendar days. Time buckets and running totals answer different questions: one groups periods, the other accumulates rows.",
+        "Check month boundaries and whether unpaid orders belong in a report. Use a fixed reference time when a reproducible answer is required.",
+        "Keep calendar grouping, elapsed duration, and reporting-zone decisions explicit."
+      ],
+      "ru": [
+        "Интервал описывает промежуток через месяцы, дни и более мелкие единицы времени. date_trunc находит начало календарного периода для временной отметки.",
+        "Отчёту нужны одинаковые границы месяцев, а длительности — понятные начальная точка и единица измерения.",
+        "date_trunc('month', value) обнуляет более мелкие поля даты и времени. Разность временных отметок даёт интервал; EXTRACT(EPOCH FROM interval) выражает его в секундах. Не каждая календарная единица имеет постоянную длительность в секундах.",
+        "date_trunc относит ordered_on к месяцу. ::date отображает начало месяца как дату, sum(total) складывает значения внутри группы.",
+        "В месячную сумму входят заказы всех статусов: фильтра по статусу нет. Сумма заказов не становится выручкой от оплаченных заказов автоматически.",
+        "Вычитание заданной полуночи даёт время от выбранного начала. Деление числа секунд на 60 переводит его в минуты.",
+        "Для Retail три начала месяца имеют суммы 369, 151 и 374. Явный ORDER BY располагает месяцы по порядку.",
+        "Месяцы разной длины, а местные сутки при переводе часов могут отличаться от 24 часов. now() фиксируется в начале транзакции; clock_timestamp() меняется с ходом времени. Для timestamptz выбирайте пояс отчёта.",
+        "Арифметика DATE считает календарные дни. Группировка по периодам объединяет строки, а накопительный итог последовательно складывает их.",
+        "Проверьте границы месяцев и нужность неоплаченных заказов в отчёте. Для воспроизводимого ответа используйте фиксированную начальную дату.",
+        "Явно разделяйте календарную группировку, длительность и выбор часового пояса."
+      ],
+      "review": "Reviewed all-status monthly totals, interval calendar semantics, transaction clock functions, and explicit report zones.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    "l046": {
+      "en": [
+        "An array stores an ordered collection whose elements share a type, such as several text tags on one product.",
+        "Arrays suit small values that belong together. A separate relationship table is often better when elements need their own keys or references.",
+        "ARRAY[...] constructs an array. value = ANY(array) compares with its elements. @> tests containment; cardinality counts elements; unnest turns elements into rows. Array indexes usually start at 1 but can have other lower bounds.",
+        "'usb'=ANY(tags) asks whether any tag equals usb. WHERE keeps matching products, and ORDER BY id sorts the result.",
+        "Keyboard and Cable contain the usb tag in Retail, so they are returned.",
+        "LATERAL unnest(p.tags) produces one row per tag for each product. GROUP BY tag then counts those expanded rows.",
+        "The small example returns products 3 and 7. Membership tests keep product rows; they do not return one row for every tag.",
+        "An empty array differs from a NULL array. If no comparison is true but an element is NULL, = ANY may be unknown. Repeated tags count repeatedly after unnest; the product_count example assumes unique tags within each product.",
+        "Compare unnest with a one-to-many join: both can increase row count. Containment ignores repeated occurrences, unlike an expanded count.",
+        "Check empty arrays, NULLs, and duplicate tags. Decide whether you are counting tag occurrences or distinct products.",
+        "Arrays keep collections together; unnest expands them, so track the resulting row count."
+      ],
+      "ru": [
+        "Массив хранит упорядоченный набор элементов одного типа, например несколько текстовых меток товара.",
+        "Массив удобен для небольшого набора связанных значений. Если элементам нужны собственные ключи и внешние связи, часто лучше отдельная таблица.",
+        "ARRAY[...] создаёт массив. value = ANY(array) сравнивает значение с элементами. @> проверяет включение, cardinality считает элементы, unnest превращает их в строки. Индексы обычно начинаются с 1, но нижняя граница может быть другой.",
+        "'usb'=ANY(tags) проверяет наличие метки usb. WHERE оставляет подходящие товары, ORDER BY id упорядочивает результат.",
+        "В Retail метка usb есть у Keyboard и Cable, поэтому они попадают в результат.",
+        "LATERAL unnest(p.tags) создаёт для каждого товара по строке на метку. GROUP BY tag затем считает полученные строки.",
+        "Небольшой пример возвращает товары 3 и 7. Проверка наличия сохраняет строки товаров, а не создаёт строку для каждой метки.",
+        "Пустой массив отличается от NULL. Если совпадения нет, но есть NULL-элемент, = ANY может дать неизвестный результат. После unnest повторы считаются повторно; имя product_count предполагает отсутствие повторных меток у одного товара.",
+        "unnest, как связь один-ко-многим, может увеличить число строк. Проверка включения не учитывает число повторов, а подсчёт раскрытых элементов учитывает.",
+        "Проверьте пустые массивы, NULL и повторные метки. Решите, считаете ли вы вхождения или уникальные товары.",
+        "Массив объединяет значения, unnest разворачивает их. Следите за числом полученных строк."
+      ],
+      "review": "Reviewed non-one array bounds, ANY NULL semantics, unnest duplication, and product_count assumption.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/arrays.html",
+        "https://www.postgresql.org/docs/18/functions-array.html",
+        "https://www.postgresql.org/docs/18/functions-comparisons.html"
+      ]
+    },
+    "l047": {
+      "en": [
+        "json stores JSON text. jsonb stores a processed representation suited to structural operations and indexes. Both can hold objects, arrays, and scalar values.",
+        "JSON is useful for variable optional attributes, while regular columns remain useful for stable shared fields and constraints.",
+        "-> keeps the extracted value as JSON; ->> returns text. #>> follows a path and returns text. Missing keys return SQL NULL. Convert extracted text to numeric before doing numeric arithmetic.",
+        "attributes->>'color' reads color as text. AS color names the output; no WHERE filter removes products with missing color.",
+        "Every product appears. A missing color gives SQL NULL rather than removing the row.",
+        "For purchase events, the query extracts device and converts amount to numeric before summing by device.",
+        "Monitor, Cable, and Folder have NULL color in the displayed Retail result. Those missing values are different from the text 'NULL'.",
+        "JSON null and SQL NULL differ, although ->> returns SQL NULL for either a missing key or JSON null. jsonb keeps only the last duplicate object key and does not preserve formatting or key order. A numeric cast fails on nonnumeric text.",
+        "JSONB containment checks structure without extracting every field. Constraints and relational columns can protect fields that must always be valid.",
+        "Check absent keys, JSON null, and numeric strings. Inspect whether an operator returns JSON or text before combining it with other operations.",
+        "Choose the extraction operator by the result type you need, and convert numeric text explicitly."
+      ],
+      "ru": [
+        "json хранит текст JSON. jsonb хранит обработанное представление для операций со структурой и индексирования. Оба типа допускают объекты, массивы и отдельные значения.",
+        "JSON удобен для переменных необязательных свойств. Постоянные общие поля и правила часто проще хранить в обычных столбцах.",
+        "-> оставляет результат в формате JSON, ->> возвращает текст. #>> проходит по пути и возвращает текст. Отсутствующий ключ даёт SQL NULL. Для арифметики числовой текст нужно преобразовать в число.",
+        "attributes->>'color' читает цвет как текст. AS color задаёт имя столбца. Фильтра WHERE нет, поэтому товары без цвета не исключаются.",
+        "В результат входят все товары. Отсутствующий цвет даёт SQL NULL, а не удаляет строку.",
+        "Для событий purchase запрос извлекает устройство и преобразует amount в numeric, затем суммирует суммы по устройствам.",
+        "У Monitor, Cable и Folder в показанном Retail цвет равен NULL. Отсутствующее значение отличается от текста 'NULL'.",
+        "JSON null отличается от SQL NULL, хотя ->> возвращает SQL NULL и для отсутствующего ключа, и для JSON null. jsonb оставляет последнее значение повторного ключа и не сохраняет оформление или порядок ключей. Нечисловой текст не получится привести к numeric.",
+        "Включение JSONB проверяет структуру без отдельного извлечения каждого поля. Для обязательных корректных значений полезны обычные столбцы и ограничения.",
+        "Проверьте отсутствующий ключ, JSON null и числовой текст. Перед дальнейшими операциями определите, возвращает оператор JSON или текст.",
+        "Выбирайте оператор извлечения по нужному типу результата. Числа из текста преобразуйте явно."
+      ],
+      "review": "Reviewed extraction result types, missing/JSON-null differences, duplicate keys, and numeric conversion.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-json.html",
+        "https://www.postgresql.org/docs/18/functions-json.html"
+      ]
+    },
+    "l048": {
+      "en": [
+        "JSONB can be searched by structure and transformed into a new document. These operations work on values; storing the new document requires a write such as UPDATE.",
+        "You can filter optional attributes or change one field while keeping the rest of a document.",
+        "@> tests whether a document contains the given JSON structure. ? tests a top-level key or string array element. jsonb_set takes a document, a text-array path, a JSONB value, and an optional create-missing flag.",
+        "The right operand '{\"color\":\"blue\"}'::jsonb is an object. @> matches documents containing that color even if they also contain other keys.",
+        "Notebook and Lamp have color blue in Retail; extra attributes do not stop the match.",
+        "UPDATE stores jsonb_set's returned document for Office products. '{featured}' is the path; 'true'::jsonb is a Boolean JSON value, not a text string.",
+        "The small example returns products 1 and 6. This is a structural containment match, not a search for the word blue anywhere in JSON text.",
+        "JSON number 2 differs from JSON string \"2\". A missing intermediate path is not built automatically by jsonb_set; only the final item can be created when its parents exist. Updating the document replaces the stored value, so keep the original as the function's input.",
+        "Use ->> when you need a text value, @> when you need a structural match. Important relationships may still belong in relational columns.",
+        "Check that only Office documents change and that unrelated keys survive. Distinguish JSON true from the JSON string \"true\".",
+        "Match JSON structure deliberately, then store the transformed document when an actual change is needed."
+      ],
+      "ru": [
+        "JSONB позволяет искать по структуре и получать новый документ с изменённым полем. Чтобы сохранить новый документ, нужна запись, например UPDATE.",
+        "Можно отобрать строки по необязательным свойствам или заменить одно поле, сохранив остальные.",
+        "@> проверяет включение заданной JSON-структуры. ? ищет ключ верхнего уровня или строковый элемент массива. jsonb_set принимает документ, путь как текстовый массив, значение JSONB и необязательный признак создания.",
+        "Справа '{\"color\":\"blue\"}'::jsonb — объект. @> находит документы с таким цветом, даже если в них есть дополнительные ключи.",
+        "В Retail цвет blue имеют Notebook и Lamp. Дополнительные свойства совпадению не мешают.",
+        "UPDATE сохраняет результат jsonb_set для товаров Office. '{featured}' задаёт путь, а 'true'::jsonb — логическое значение JSON, не строку.",
+        "Небольшой пример возвращает товары 1 и 6. Проверяется структура, а не наличие слова blue в произвольном месте JSON-текста.",
+        "JSON-число 2 отличается от JSON-строки \"2\". jsonb_set не создаёт отсутствующие промежуточные части пути: добавляется только последний элемент при существующих родителях. Чтобы сохранить другие поля, передавайте исходный документ функции.",
+        "->> нужен для текстового значения, @> — для включения структуры. Важные связи по-прежнему могут требовать обычных столбцов.",
+        "Убедитесь, что меняются только документы Office и сохраняются другие ключи. Отличайте JSON true от строки JSON \"true\".",
+        "Осознанно проверяйте структуру и сохраняйте новый документ, если нужно изменить данные."
+      ],
+      "review": "Reviewed containment types, ? top-level semantics, jsonb_set parent path behavior and non-mutating return.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-json.html",
+        "https://www.postgresql.org/docs/18/datatype-json.html"
+      ]
+    },
+    "l049": {
+      "en": [
+        "Keys protect identity and relationships. PRIMARY KEY identifies a row uniquely and forbids NULL; UNIQUE prevents repeated key values; FOREIGN KEY requires a referenced row.",
+        "Database-enforced keys keep data consistent regardless of which application writes it.",
+        "PRIMARY KEY and UNIQUE can cover one or several columns. A foreign key can reference a suitable unique key. A nullable single-column foreign key permits NULL without a parent match; use NOT NULL to make the relationship required.",
+        "customer_notes.id is the primary key. customer_id is required and references customers(id); body is required text. The insert links a note to customer 1.",
+        "The note belongs to an existing customer. A different note needs a new id, but several notes may share customer_id.",
+        "customer_alias uses UNIQUE NULLS NOT DISTINCT on alias. Unlike ordinary UNIQUE, this rule allows at most one NULL alias.",
+        "The checker lists column types and nullability after table creation. It is metadata output from a separate query; key correctness also depends on the declared constraints.",
+        "Ordinary UNIQUE allows multiple NULLs. A foreign key does not automatically index the referencing column. By default, any NULL in a foreign key with several columns skips the match. MATCH FULL allows all key columns to be NULL together and rejects a mix of NULL and present values.",
+        "A primary key identifies the note, while a foreign key identifies its relationship. An index helps access data; a constraint states a rule.",
+        "Inspect keys as well as columns. Try reasoning about duplicate IDs, missing customers, and NULL aliases before submitting a table design.",
+        "Separate row identity, uniqueness rules, and required relationships; declare each one explicitly."
+      ],
+      "ru": [
+        "Ключи защищают уникальность и связи. PRIMARY KEY однозначно определяет строку и запрещает NULL; UNIQUE не допускает повторов ключа; FOREIGN KEY требует связанную строку.",
+        "Правила базы сохраняют согласованность независимо от приложения, которое записывает данные.",
+        "PRIMARY KEY и UNIQUE могут включать несколько столбцов. Внешний ключ ссылается на подходящий уникальный ключ. Внешний ключ из одного столбца, допускающего NULL, разрешает отсутствие ссылки на родителя; NOT NULL делает связь обязательной.",
+        "customer_notes.id — первичный ключ. Обязательный customer_id ссылается на customers(id), body — обязательный текст. Вставка связывает заметку с клиентом 1.",
+        "Заметка относится к существующему клиенту. Другой заметке нужен новый id, но несколько заметок могут иметь один customer_id.",
+        "В customer_alias для alias задано UNIQUE NULLS NOT DISTINCT. В отличие от обычного UNIQUE, оно допускает не более одного NULL в этом столбце.",
+        "Проверка показывает типы и обязательность столбцов после создания таблицы. Это метаданные отдельного запроса; корректность ключей определяется также самими ограничениями.",
+        "Обычный UNIQUE допускает несколько NULL. Внешний ключ не создаёт индекс на ссылающемся столбце автоматически. По умолчанию достаточно NULL в одном столбце составного внешнего ключа, чтобы совпадение не проверялось. MATCH FULL позволяет оставить пустым только весь ключ. Сочетание NULL и заполненных значений вызовет ошибку.",
+        "Первичный ключ определяет заметку, внешний — её связь с клиентом. Индекс помогает искать, а ограничение задаёт правило данных.",
+        "Проверяйте ключи вместе со столбцами. Заранее разберите повторы ID, несуществующего клиента и NULL в alias.",
+        "Отдельно задавайте идентичность строки, уникальность и обязательность связей."
+      ],
+      "review": "Reviewed key versus index, nullable/composite FK behavior and NULLS NOT DISTINCT.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    },
+    "l050": {
+      "en": [
+        "CHECK rejects a row when a condition is false. DEFAULT supplies an omitted value. A foreign-key action says what to do when a referenced row changes or is deleted.",
+        "These rules keep ordinary writes simple while protecting required business conditions.",
+        "CHECK accepts true or unknown, so use NOT NULL as well when missing values are invalid. DEFAULT applies when a column is omitted or DEFAULT is requested, not when NULL is explicitly supplied. CASCADE propagates a parent change; SET NULL clears a reference.",
+        "quantity has default 1, forbids NULL, and must be greater than zero. Inserting only id lets PostgreSQL supply the quantity.",
+        "The new reservation receives quantity 1. Supplying zero would violate CHECK; supplying NULL would violate NOT NULL.",
+        "Adding promoted with NOT NULL DEFAULT false gives existing products false and supplies false for future inserts that omit the column.",
+        "The checker reads the created reservation and shows id 1 with quantity 1. CREATE TABLE itself does not return this data table.",
+        "Changing an existing column's default does not rewrite its old values. This differs from adding a new column with a default. CHECK is not a safe way to maintain rules that depend on other rows. Cascading deletes can remove many dependent rows.",
+        "Foreign keys handle relationships; CHECK handles conditions on a row. Defaults provide values but do not replace validation.",
+        "Check omitted, explicit NULL, and invalid values separately. For a referential action, trace exactly which dependent rows will change.",
+        "Use defaults for convenience and constraints for validity; keep their roles separate."
+      ],
+      "ru": [
+        "CHECK отклоняет строку, если условие ложно. DEFAULT подставляет пропущенное значение. Действие внешнего ключа определяет последствия изменения или удаления связанной строки.",
+        "Эти правила упрощают обычные записи и защищают обязательные условия данных.",
+        "CHECK принимает true или неизвестный результат, поэтому для обязательного значения нужен ещё NOT NULL. DEFAULT применяется при пропуске столбца или явном DEFAULT, но не заменяет переданный NULL. CASCADE переносит изменение родителя; SET NULL очищает ссылку.",
+        "Для quantity заданы DEFAULT 1, запрет NULL и условие больше нуля. При вставке только id PostgreSQL подставляет количество.",
+        "Новое бронирование получает quantity 1. Ноль нарушил бы CHECK, а NULL — NOT NULL.",
+        "Добавление promoted с NOT NULL DEFAULT false даёт false существующим товарам и будущим вставкам, в которых столбец пропущен.",
+        "Проверочный запрос читает созданную запись: id 1 и quantity 1. Сама CREATE TABLE такую таблицу данных не выводит.",
+        "Изменение DEFAULT уже существующего столбца не меняет прежние значения. Это отличается от добавления нового столбца с DEFAULT. CHECK не подходит для надёжной проверки правил между строками. CASCADE может удалить много зависимых строк.",
+        "Внешние ключи защищают связи, CHECK — условия строки. Значение по умолчанию помогает при вводе, но не заменяет проверку.",
+        "Отдельно проверьте пропущенное значение, явный NULL и недопустимое значение. Для действия внешнего ключа проследите все затронутые строки.",
+        "DEFAULT даёт удобное значение, ограничения проверяют допустимость. Не смешивайте эти роли."
+      ],
+      "review": "Corrected default semantics for existing-column SET DEFAULT versus ADD COLUMN DEFAULT; reviewed CHECK UNKNOWN and referential actions.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/ddl-default.html",
+        "https://www.postgresql.org/docs/18/ddl-alter.html"
+      ]
+    },
+    "l051": {
+      "en": [
+        "An identity column gets values from an associated sequence, an object that hands out numbers. Generation and uniqueness are separate rules.",
+        "Automatic IDs avoid making every insert choose a new number manually.",
+        "GENERATED ALWAYS AS IDENTITY normally rejects an explicit ID; BY DEFAULT permits one. Identity implies NOT NULL, but a PRIMARY KEY or UNIQUE constraint must enforce uniqueness. RETURNING can retrieve generated IDs.",
+        "activity_log has an identity primary key and required message. The insert names only message, so the sequence supplies the IDs.",
+        "On the fresh table, Started and Finished receive IDs 1 and 2.",
+        "BY DEFAULT allows the explicit legacy ID 50. That insert does not advance the sequence to 50, so the following generated ID on this fresh table is 1.",
+        "The checker shows the two saved messages and generated IDs. The creation and insert statements do not directly produce this table.",
+        "Sequence numbers are not reclaimed after rollback and can have gaps. Manual IDs do not automatically keep a sequence ahead of existing rows. An ID is neither a row count nor a guaranteed commit-time order.",
+        "UUIDs offer another identifier strategy. Primary keys protect identity regardless of how values are generated.",
+        "Distinguish ALWAYS from BY DEFAULT. Check what a manual insert does to the next generated value and whether uniqueness is enforced.",
+        "A sequence generates numbers; a key makes them unique. Expect gaps."
+      ],
+      "ru": [
+        "Столбец identity получает значения из связанной последовательности — объекта, выдающего числа. Генерация и уникальность являются разными правилами.",
+        "Автоматические ID избавляют каждую вставку от ручного выбора нового номера.",
+        "GENERATED ALWAYS AS IDENTITY обычно запрещает явный ID, BY DEFAULT разрешает. Identity подразумевает NOT NULL, но уникальность должен обеспечивать PRIMARY KEY или UNIQUE. RETURNING позволяет получить выданные ID.",
+        "В activity_log задан первичный ключ identity и обязательное сообщение. Вставка перечисляет только message, поэтому ID выдаёт последовательность.",
+        "В новой таблице сообщения Started и Finished получают ID 1 и 2.",
+        "BY DEFAULT разрешает вручную вставить прежний ID 50. Это не передвигает последовательность к 50: следующая автоматическая вставка в новой таблице получает 1.",
+        "Проверка показывает два сохранённых сообщения и их ID. Команды создания и вставки напрямую эту таблицу не возвращают.",
+        "Выданные номера не возвращаются после отката, поэтому возможны пропуски. Ручные ID не продвигают последовательность автоматически. ID не является числом строк или гарантированным порядком фиксации транзакций.",
+        "UUID — другая стратегия идентификаторов. Первичный ключ защищает уникальность независимо от способа генерации.",
+        "Различайте ALWAYS и BY DEFAULT. Проверьте влияние ручной вставки на следующий номер и наличие ограничения уникальности.",
+        "Последовательность выдаёт числа, ключ обеспечивает уникальность. Пропуски нормальны."
+      ],
+      "review": "Reviewed identity NOT NULL versus uniqueness, explicit IDs not advancing sequence, and rollback gaps.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-identity-columns.html",
+        "https://www.postgresql.org/docs/18/functions-sequence.html"
+      ]
+    },
+    "l052": {
+      "en": [
+        "Normalisation organises data so that each property is stored with the entity it describes. A relationship table links two entities when each can relate to many of the other.",
+        "Keeping one authoritative copy of a property reduces inconsistent updates and accidental data loss.",
+        "Identify entities and keys, then ask which key determines each property. In a many-to-many relationship table, the pair of foreign keys often forms a primary key, preventing the same link from being stored twice.",
+        "favorites links a customer and a product. Each column references its parent table; PRIMARY KEY(customer_id,product_id) makes the pair unique and both parts required.",
+        "The inserted links mean customer 1 likes product 3 and customer 2 likes product 1. Neither product details nor customer names are copied.",
+        "The categories example extracts distinct category names and assigns deterministic IDs in alphabetical order. It creates a lookup table; it does not yet replace products.category with a foreign key.",
+        "The checker shows the two saved customer/product links. The table's key prevents duplicate pairs, while each individual ID may appear in several different pairs.",
+        "Normalisation does not mean making a table for every column. Splitting a design without preserving keys and dependencies can lose meaning. Denormalise only with a clear consistency strategy and a measured need.",
+        "Primary and foreign keys make relationships enforceable. JOIN combines normalised tables when a report needs their properties together.",
+        "For each new table, state what one row represents and what identifies it. Check whether repeated text is a property or a relationship.",
+        "Store each property in the right place and represent many-to-many links explicitly."
+      ],
+      "ru": [
+        "Нормализация организует данные так, чтобы свойство хранилось вместе с тем объектом, который оно описывает. Таблица связей нужна, когда каждому объекту может соответствовать много объектов с другой стороны.",
+        "Одна основная копия свойства помогает избежать противоречивых обновлений и случайной потери данных.",
+        "Определите объекты и ключи, затем спросите, какой ключ определяет каждое свойство. Для связи многие-ко-многим пара внешних ключей часто становится первичным ключом и запрещает повтор одной связи.",
+        "favorites связывает клиента с товаром. Столбцы ссылаются на родительские таблицы, а PRIMARY KEY(customer_id,product_id) делает пару уникальной и оба значения обязательными.",
+        "Вставленные строки означают: клиенту 1 нравится товар 3, клиенту 2 — товар 1. Имена клиентов и свойства товаров не копируются.",
+        "Пример categories выделяет уникальные названия категорий и назначает ID по алфавиту. Он создаёт справочник, но ещё не заменяет products.category внешним ключом.",
+        "Проверка показывает две сохранённые связи. Ключ запрещает повтор пары, но отдельный ID может встречаться в нескольких разных парах.",
+        "Нормализация не требует таблицы для каждого столбца. Разбиение без сохранения ключей и зависимостей может потерять смысл данных. Денормализации нужны понятные правила согласованности и измеримая причина.",
+        "Первичные и внешние ключи защищают связи. JOIN собирает нужные свойства из отдельных таблиц для отчёта.",
+        "Для каждой таблицы определите смысл одной строки и её ключ. Разберитесь, является ли повторяющийся текст свойством или связью.",
+        "Храните свойства у нужных объектов и явно задавайте связи многие-ко-многим."
+      ],
+      "review": "Reviewed junction composite key, entity meaning, and categories example not completing a foreign-key migration.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/tutorial-fk.html"
+      ]
+    },
+    "l053": {
+      "en": [
+        "A schema is a named container for database objects. Catalogs are database tables and views describing objects such as tables, columns, and constraints.",
+        "Schemas organise names; metadata queries let tools inspect a database without hardcoding every table definition.",
+        "A qualified name such as schema.table identifies the schema explicitly. Otherwise search_path supplies a list to search. information_schema provides standard metadata views; pg_catalog exposes PostgreSQL-specific details.",
+        "The columns view is filtered by current_schema() and table_name='customers'. ordinal_position orders the output by the table's declared column order.",
+        "The query describes customers; it does not read customer records. column_name and data_type are metadata fields.",
+        "Filtering information_schema.tables to BASE TABLE excludes views. The current-schema condition avoids mixing similarly named objects in other schemas.",
+        "The result lists id, name, city, email, joined_on, and vip with their types. Metadata visibility can depend on the current role's privileges.",
+        "A schema is not a separate database. current_schema() is the first effective schema in search_path, not every searched schema. Letting untrusted users create objects in a searched schema can change name resolution.",
+        "The schema browser uses similar metadata. Roles and search_path matter for secure functions and administrative tooling.",
+        "Distinguish table data from metadata. Always check schema filters when a table name could exist in several places.",
+        "Qualify object names when needed, and use catalogs to inspect the database definition."
+      ],
+      "ru": [
+        "Схема — именованный контейнер объектов базы. Системные каталоги и представления метаданных описывают таблицы, столбцы и ограничения.",
+        "Схемы упорядочивают имена. Запросы метаданных позволяют инструментам изучать структуру без заранее записанного описания каждой таблицы.",
+        "Имя schema.table явно указывает схему. Без уточнения PostgreSQL ищет объект по search_path. information_schema даёт стандартные представления метаданных, pg_catalog — подробности PostgreSQL.",
+        "Запрос к information_schema.columns оставляет столбцы таблицы customers из текущей схемы, которую возвращает current_schema(). Сортировка по ordinal_position показывает столбцы в порядке их объявления в таблице.",
+        "Запрос описывает customers, а не читает записи клиентов. column_name и data_type — поля метаданных.",
+        "Условие BASE TABLE исключает представления. Фильтр текущей схемы не даёт смешать одноимённые объекты разных схем.",
+        "Результат перечисляет id, name, city, email, joined_on и vip с типами. Видимость метаданных может зависеть от прав текущей роли.",
+        "Схема не является отдельной базой данных. current_schema() — первая действующая схема search_path, а не весь список поиска. Возможность посторонних создавать объекты в просматриваемой схеме влияет на разрешение имён.",
+        "Браузер схемы использует похожие метаданные. Роли и search_path важны для безопасных функций и служебных инструментов.",
+        "Отличайте записи таблицы от описания структуры. Проверяйте фильтр схемы, если имя таблицы встречается в нескольких местах.",
+        "При необходимости уточняйте имена схемой; структуру изучайте через каталоги."
+      ],
+      "review": "Reviewed current_schema/search_path meaning, metadata versus data, privilege visibility, and namespace security.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-schemas.html",
+        "https://www.postgresql.org/docs/18/information-schema.html",
+        "https://www.postgresql.org/docs/18/catalogs.html"
+      ]
+    },
+    "l054": {
+      "en": [
+        "A migration is a recorded, repeatable change to database structure or data. It should leave both existing data and application expectations consistent.",
+        "Applications evolve while real data must survive. An ordered migration is safer to verify than ad hoc edits.",
+        "A common sequence is: add a column that permits NULL, fill existing rows, then enforce the new constraint. Many PostgreSQL schema commands can roll back in a transaction, but locks and command-specific restrictions still matter.",
+        "ADD COLUMN creates segment. UPDATE fills it using vip. ALTER COLUMN ... SET NOT NULL is last, after every existing row has a value.",
+        "VIP customers receive priority; all others receive standard. The final constraint prevents future missing segments.",
+        "Adding reviewed_at without a default leaves existing orders NULL. This represents an unknown or not-yet-recorded review time.",
+        "The checker shows segment values after all three steps. It is a separate read of the migrated data, not ALTER TABLE output.",
+        "Adding NOT NULL before filling NULL rows fails. This example does not set a future default, so later inserts must supply segment. Large tables may need staged backfills, lock planning, and compatible application deployment.",
+        "Defaults, constraints, and transactions each solve part of migration safety. Backups and restore tests protect against changes that cannot simply be reversed.",
+        "Verify old rows and the final schema. Ask what a new insert must provide after the migration, not just whether today's rows look correct.",
+        "Plan the order of change, backfill existing data, and check the rules for future writes."
+      ],
+      "ru": [
+        "Миграция — записанное, повторяемое изменение структуры или данных. После неё существующие данные и ожидания приложения должны оставаться согласованными.",
+        "Приложение развивается, но реальные данные должны сохраниться. Упорядоченное изменение легче проверить, чем случайные ручные правки.",
+        "Частая последовательность: добавить столбец, допускающий NULL, заполнить старые строки, затем усилить ограничение. Многие изменения схемы PostgreSQL откатываются транзакцией, но блокировки и ограничения отдельных команд всё равно важны.",
+        "ADD COLUMN создаёт segment. UPDATE заполняет его по vip. ALTER COLUMN ... SET NOT NULL идёт последним, когда каждая строка уже имеет значение.",
+        "VIP-клиенты получают priority, остальные — standard. Итоговое ограничение запрещает новые отсутствующие значения segment.",
+        "reviewed_at добавляется без DEFAULT, поэтому у существующих заказов остаётся NULL: время проверки пока неизвестно или не записано.",
+        "Проверочная таблица показывает segment после всех трёх шагов. Это отдельное чтение данных, а не вывод ALTER TABLE.",
+        "NOT NULL до заполнения NULL завершится ошибкой. В примере нет DEFAULT для будущих строк, поэтому новые вставки должны передавать segment. Большим таблицам могут потребоваться поэтапное заполнение, план блокировок и совместимое обновление приложения.",
+        "Значения по умолчанию, ограничения и транзакции решают разные части задачи. Резервные копии и проверка восстановления нужны для изменений, которые нельзя просто обратить.",
+        "Проверьте старые строки и итоговую схему. Решите, что потребуется новой вставке после миграции, а не только как выглядят текущие данные.",
+        "Планируйте порядок изменений, заполнение старых данных и правила будущих записей."
+      ],
+      "review": "Reviewed add/backfill/constrain sequence, absent future default, transactional DDL caveats and locks.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-alter.html",
+        "https://www.postgresql.org/docs/18/sql-altertable.html"
+      ]
+    },
+    "l055": {
+      "en": [
+        "A window function calculates using related rows while retaining each individual result row. This lets a detail row carry a group total beside it.",
+        "Reports often need both an employee's salary and the total for that employee's department.",
+        "OVER turns an aggregate into a window calculation. PARTITION BY separates rows into groups for that calculation. With no window ORDER BY, sum sees the whole partition. Without PARTITION BY, all input rows form one partition.",
+        "sum(salary) OVER(PARTITION BY department) totals salaries independently within each department. The outer ORDER BY id controls the displayed rows.",
+        "Engineering employees keep their own salaries and each show the same department total, 250000, on Retail.",
+        "count(*) OVER(PARTITION BY customer_id) repeats the customer's order count on each order. NULL customer IDs form their own partition rather than disappearing.",
+        "Six employee rows remain. Department totals repeat because a window adds a calculation instead of collapsing the department to one row.",
+        "GROUP BY changes result row granularity; a window does not do that grouping. WHERE and HAVING filter before window calculations. To filter by a window result, calculate it in a subquery or CTE first.",
+        "Ordinary aggregates produce summaries; window aggregates attach summaries to detail. A window ORDER BY, introduced next, can also change the calculation's frame.",
+        "Compare input and output row counts. Check that every department has its own total and that NULL partition keys are handled deliberately.",
+        "PARTITION BY chooses related rows; OVER keeps the detail rows while calculating across them."
+      ],
+      "ru": [
+        "Оконная функция вычисляет значение по связанным строкам, сохраняя каждую отдельную строку результата. Так рядом с подробной записью можно показать итог группы.",
+        "Отчёту часто нужны и зарплата сотрудника, и общая зарплата его отдела.",
+        "OVER превращает агрегат в оконное вычисление. PARTITION BY разделяет строки на группы для расчёта. Без ORDER BY внутри окна sum видит весь раздел. Без PARTITION BY все входные строки составляют один раздел.",
+        "sum(salary) OVER(PARTITION BY department) отдельно складывает зарплаты каждого отдела. Внешний ORDER BY id управляет порядком вывода.",
+        "У сотрудников Engineering остаются собственные зарплаты, а рядом повторяется итог отдела 250000 для Retail.",
+        "count(*) OVER(PARTITION BY customer_id) показывает число заказов клиента рядом с каждым заказом. Значения customer_id=NULL образуют собственный раздел, а не исчезают.",
+        "Остаются шесть строк сотрудников. Итоги отделов повторяются, потому что окно добавляет вычисление, а не сворачивает отдел в одну строку.",
+        "GROUP BY меняет детализацию результата; окно само по себе не выполняет такое сворачивание. WHERE и HAVING отбирают строки до оконных вычислений. Для фильтра по результату окна сначала вычислите его в подзапросе или CTE.",
+        "Обычный агрегат даёт сводку, оконный — добавляет сводку к подробным строкам. ORDER BY внутри окна может также изменить границы расчёта.",
+        "Сравните число входных и выходных строк. Проверьте отдельный итог каждого отдела и осознанную обработку NULL в ключе раздела.",
+        "PARTITION BY выбирает связанные строки, OVER позволяет вычислять по ним без потери детализации."
+      ],
+      "review": "Reviewed aggregate versus window row granularity, whole-partition frame, NULL partition and filtering order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-window.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l056": {
+      "en": [
+        "row_number assigns a different number to each ordered row. rank gives tied rows the same rank and leaves gaps; dense_rank gives ties the same rank without gaps.",
+        "Use these functions for leaderboards, ordered positions, and selecting a limited number of rows within each group.",
+        "The ORDER BY inside OVER defines ranking order. Rows equal on every window sort expression are peers. For values 100, 100, 80, rank gives 1,1,3 and dense_rank gives 1,1,2; row_number gives 1,2,3.",
+        "PARTITION BY category starts numbering again for each category. ORDER BY price DESC,id places expensive products first and resolves equal prices by ID.",
+        "The output is displayed by id, so position need not increase down the visible table. It reflects the separate ordering inside each category.",
+        "The CTE first numbers employees within departments, then rn<=2 keeps at most two from each. The ID tie-breaker chooses a consistent result when salaries match.",
+        "Tech positions are Monitor 1, Keyboard 2, and Cable 3 on Retail, although the final rows appear in ID order.",
+        "The outer ORDER BY does not define window order. Adding id to rank removes salary ties. Decide whether 'top two' means exactly two rows or every row in the top two ranks.",
+        "A subquery or CTE lets WHERE filter a computed window value. DISTINCT ON is another option when only one row per group is needed.",
+        "Test equal salaries. Compare which employees survive row_number<=2 versus rank<=2 before choosing the function.",
+        "Choose numbering for a row limit and ranking for meaningful ties; define the window order explicitly."
+      ],
+      "ru": [
+        "row_number даёт каждой строке отдельный номер. rank присваивает равным строкам один ранг с пропусками, dense_rank — один ранг без пропусков.",
+        "Эти функции нужны для рейтингов, порядковых мест и выбора нескольких строк внутри каждой группы.",
+        "Порядок задаётся в OVER. Строки, равные по всем выражениям оконной сортировки, считаются равными для ранжирования. Для 100, 100, 80 функция rank даёт 1,1,3, dense_rank — 1,1,2, row_number — 1,2,3.",
+        "PARTITION BY category начинает нумерацию заново в категории. ORDER BY price DESC,id ставит дорогие товары первыми, а равные цены упорядочивает по ID.",
+        "Вывод отсортирован по id, поэтому position не обязан возрастать сверху вниз. Номер относится к отдельному порядку внутри категории.",
+        "CTE сначала нумерует сотрудников по отделам, затем rn<=2 оставляет не более двух из каждого. ID однозначно разрешает равенство зарплат.",
+        "В Retail внутри Tech Monitor имеет место 1, Keyboard — 2, Cable — 3. При этом итоговые строки выводятся по ID.",
+        "Внешний ORDER BY не задаёт порядок окна. Добавление id в rank убирает равенство зарплат. Решите, означают «два лучших» ровно две строки или всех с двумя лучшими рангами.",
+        "Подзапрос или CTE позволяет отфильтровать вычисленный оконный номер. Для одной строки на группу подходит также DISTINCT ON.",
+        "Проверьте равные зарплаты. Сравните выбор row_number<=2 и rank<=2 до выбора функции.",
+        "Для ограничения числа строк нужна нумерация, для значимых равенств — ранг. Явно задавайте порядок окна."
+      ],
+      "review": "Reviewed peer definitions, rank gaps, deterministic row_number and top-N ties.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/tutorial-window.html"
+      ]
+    },
+    "l057": {
+      "en": [
+        "lag reads a value from an earlier row in the window's order; lead reads one from a later row. Neither requires a self join.",
+        "Compare successive orders, salaries, or events while retaining each current row.",
+        "The default offset is one row. An optional third argument supplies a default only when that row does not exist. PostgreSQL does not skip NULL values. Partition boundaries stop the lookup.",
+        "PARTITION BY customer_id keeps customers separate. ORDER BY ordered_on,id defines which order precedes another. lag(total) returns that preceding row's total.",
+        "Ada's order 103 sees 29 from order 101; her order 108 sees 250 from order 103. Each customer's first order gets NULL.",
+        "The salary example subtracts the preceding employee's salary in hire-date order within the same department. It compares employees, not salary history for one employee.",
+        "NULL previous_total marks a first row in these data. More generally, it can also mean that a preceding row exists but its total is NULL. The displayed preview may show only part of the result.",
+        "A default argument does not replace a NULL in an existing neighbouring row. Date ties need a tie-breaker. The final display order can differ from the order used by lag or lead.",
+        "Window partitions define independent sequences. A self join can express similar comparisons but often needs more key-handling code.",
+        "Trace one customer's orders by window order. Check the first row, equal dates, and a neighbour whose value is missing.",
+        "Define the sequence first; lag and lead then read neighbours inside that sequence."
+      ],
+      "ru": [
+        "lag читает значение из более ранней строки в порядке окна, lead — из более поздней. Соединять таблицу саму с собой не требуется.",
+        "Так сравнивают соседние заказы, зарплаты или события, сохраняя текущую строку.",
+        "По умолчанию сдвиг равен одной строке. Третий аргумент задаёт значение только на случай отсутствия такой строки. PostgreSQL не пропускает NULL. Поиск не выходит за границу раздела.",
+        "PARTITION BY customer_id отделяет клиентов. ORDER BY ordered_on,id определяет последовательность заказов. lag(total) возвращает сумму предыдущей строки.",
+        "У заказа Ada 103 предыдущее значение — 29 из заказа 101, у заказа 108 — 250 из заказа 103. Первый заказ каждого клиента получает NULL.",
+        "В примере зарплат вычитается зарплата предыдущего сотрудника отдела по дате найма. Это сравнение сотрудников, а не история зарплаты одного человека.",
+        "В этих данных NULL в previous_total отмечает первый заказ. Вообще он может означать и существующую предыдущую строку с total=NULL. Предпросмотр показывает лишь часть результата, если строк много.",
+        "Значение по умолчанию не заменяет NULL существующей соседней строки. Для одинаковых дат нужен дополнительный ключ. Порядок вывода может отличаться от порядка lag или lead.",
+        "Разделы окна задают независимые последовательности. Самосоединение выражает похожее сравнение, но обычно требует больше работы с ключами.",
+        "Проследите заказы одного клиента в порядке окна. Проверьте первую строку, равные даты и отсутствующее значение у соседа.",
+        "Сначала определите последовательность, затем читайте соседей через lag или lead."
+      ],
+      "review": "Reviewed default argument versus existing NULL, RESPECT NULLS, sequence order, and salary comparison meaning.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html"
+      ]
+    },
+    "l058": {
+      "en": [
+        "A window frame is the portion of a partition used for the current calculation. It can grow with each row to produce a running total.",
+        "Running revenue answers 'how much so far?' without losing individual orders.",
+        "ROWS counts positions in the window order. RANGE uses ordering values and peer groups; GROUPS counts peer groups. UNBOUNDED PRECEDING starts at the partition's first row, and CURRENT ROW ends at the current position in ROWS mode.",
+        "WHERE keeps paid orders before the window calculation. ORDER BY ordered_on,id defines a unique sequence; the explicit ROWS frame sums from its beginning through the current order.",
+        "The first paid order contributes 29; adding the next 75 gives 104. Cancelled and pending orders do not contribute.",
+        "PARTITION BY customer_id restarts accumulation for each known customer. ROWS UNBOUNDED PRECEDING is shorthand for a frame ending at the current row.",
+        "The preview shows increasing paid-order totals in date/ID order. It may stop before the last row, so its last visible total need not be the complete total.",
+        "With an ordered window, the default RANGE frame includes all peers at the current sort value. A total can jump across equal dates. Use an explicit frame and a tie-breaker when row-by-row steps matter.",
+        "A whole-partition sum repeats one total; a running sum uses a changing frame. The outer ORDER BY still controls how the result is displayed.",
+        "Test same-day orders and two customers. Check that filtering happens before summing and that a new partition starts again.",
+        "Specify partition, order, and frame to make a running calculation unambiguous."
+      ],
+      "ru": [
+        "Рамка окна — часть раздела, участвующая в расчёте для текущей строки. Она может расширяться от строки к строке и давать накопительный итог.",
+        "Накопительная выручка отвечает на вопрос «сколько уже набралось?», сохраняя каждый заказ.",
+        "ROWS считает позиции в порядке окна. RANGE использует значения сортировки и равные им строки, GROUPS — группы равных строк. UNBOUNDED PRECEDING начинает с первой строки раздела, CURRENT ROW в режиме ROWS заканчивает текущей строкой.",
+        "WHERE оставляет оплаченные заказы до оконного расчёта. ORDER BY ordered_on,id задаёт однозначную последовательность. Явная рамка ROWS суммирует от начала до текущего заказа.",
+        "Первый оплаченный заказ даёт 29, следующий прибавляет 75: получается 104. Отменённые и ожидающие заказы не участвуют.",
+        "PARTITION BY customer_id начинает накопление заново для каждого известного клиента. ROWS UNBOUNDED PRECEDING — сокращённая запись рамки до текущей строки.",
+        "Предпросмотр показывает итоги по оплаченным заказам в порядке даты и ID. Он может обрываться до последней строки, поэтому последний видимый итог не обязательно общий.",
+        "Стандартная рамка RANGE при наличии сортировки включает все строки с текущим равным ключом. Итог может перескочить через несколько заказов одной даты. Для пошагового накопления задайте ROWS и дополнительный ключ.",
+        "Сумма всего раздела повторяет один итог, накопительная сумма использует меняющуюся рамку. Порядком отображения по-прежнему управляет внешний ORDER BY.",
+        "Проверьте заказы одной даты и двух клиентов. Убедитесь, что отбор происходит до суммы, а новый раздел начинает накопление заново.",
+        "Явно задавайте раздел, порядок и рамку накопительного расчёта."
+      ],
+      "review": "Reviewed ROWS/RANGE/GROUPS distinction, default peers, pre-window filtering, and truncated running-total preview.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/tutorial-window.html"
+      ]
+    },
+    "l059": {
+      "en": [
+        "first_value and last_value read the first and last value of the current window frame. ntile splits an ordered partition into numbered groups of rows.",
+        "These functions compare rows with a chosen endpoint or divide a ranked list into roughly equal-sized groups.",
+        "The frame matters for endpoint functions. To read the final value of a whole partition, end the frame at UNBOUNDED FOLLOWING. ntile(n) balances row counts; earlier buckets receive extra rows when the division is uneven.",
+        "first_value(price) reads the first price in each category's descending price order. With this ordering, the first price is the category maximum.",
+        "Every Office product shows 12.50 as category_max on Retail, while every Tech product shows 250.00.",
+        "ntile(4) divides all six employees in salary/ID order into four buckets. The buckets have 2, 2, 1, and 1 rows on this dataset.",
+        "The maximum price repeats for each product in its category. The query returns product rows, not one summary row per category.",
+        "The default ordered frame usually ends at the current peer group, so last_value may not mean 'last in the partition'. ntile divides rows, not value ranges, and can split equal salaries into different buckets. NULLs are not skipped.",
+        "max() OVER can express a whole-partition maximum directly. Ranking and bucketing differ: rank preserves ties, while ntile aims for balanced row counts.",
+        "Trace the frame endpoint before using last_value. Check ntile with ties and a row count not divisible by the bucket count.",
+        "Endpoint functions follow the frame; ntile balances ordered rows, not numeric intervals."
+      ],
+      "ru": [
+        "first_value и last_value читают первое и последнее значение текущей рамки окна. ntile делит упорядоченный раздел на пронумерованные группы строк.",
+        "Так сравнивают строки с выбранным крайним значением или разбивают рейтинг на группы примерно одинакового размера.",
+        "Для крайних значений важна рамка. Чтобы читать конец всего раздела, задайте UNBOUNDED FOLLOWING. ntile(n) выравнивает число строк; при остатке дополнительные строки попадают в первые группы.",
+        "first_value(price) читает первую цену категории при сортировке по убыванию цены. Поэтому здесь первое значение — максимальная цена категории.",
+        "В Retail у всех товаров Office category_max равен 12.50, а у всех Tech — 250.00.",
+        "ntile(4) делит шесть сотрудников на четыре группы по зарплате и ID. На этих данных размеры групп равны 2, 2, 1 и 1.",
+        "Максимальная цена повторяется для каждого товара категории. Запрос возвращает строки товаров, а не одну сводную строку на категорию.",
+        "Стандартная рамка обычно заканчивается текущей группой равных строк, поэтому last_value не всегда означает конец раздела. ntile делит строки, не диапазоны значений, и может разделить равные зарплаты. NULL не пропускаются.",
+        "max() OVER напрямую выражает максимум всего раздела. Ранг сохраняет равенства, а ntile стремится выровнять число строк.",
+        "Перед last_value определите конец рамки. Проверьте ntile при равных значениях и числе строк, не делящемся на число групп.",
+        "Крайние значения зависят от рамки, ntile распределяет упорядоченные строки по размеру групп."
+      ],
+      "review": "Reviewed frame endpoints, bucket sizes for actual six-row example, ties and non-skipped NULLs.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html"
+      ]
+    },
+    "l060": {
+      "en": [
+        "DISTINCT ON is a PostgreSQL feature that keeps one representative row for each group of key values. The ordering decides which row wins.",
+        "It is a compact way to select a latest event or highest-priced item per group while keeping that row's other columns.",
+        "The DISTINCT ON keys must match the leftmost ORDER BY expressions. Later sort expressions choose the first row within each group. Without a complete tie-breaking rule, the choice can vary.",
+        "DISTINCT ON(customer_id) keeps one order per customer. customer_id leads ORDER BY, then descending date chooses the latest order and descending id resolves date ties.",
+        "The WHERE condition excludes anonymous orders. The query keeps the latest order of any status, including pending or cancelled orders.",
+        "The event example applies the same rule to occurred_at, using the highest event ID to break identical timestamps.",
+        "The Retail result includes customer 4's pending order 109 because it is that customer's latest order. This is not a latest-paid-order query.",
+        "DISTINCT removes duplicate whole output rows; DISTINCT ON selects one row per key. To display chosen rows in a different overall order, wrap the selection in another query. PostgreSQL groups NULL keys together unless you filter them out.",
+        "row_number with a filter can express a similar rule in more SQL systems. Both approaches need an explicit definition of 'first'.",
+        "Check equal dates, different statuses, and NULL customers. Make sure the selected row matches the intended business rule.",
+        "Name the group keys, define the winning row, and keep the ORDER BY prefix compatible."
+      ],
+      "ru": [
+        "DISTINCT ON — возможность PostgreSQL, оставляющая одну строку для каждой группы значений ключа. Сортировка определяет, какая строка останется.",
+        "Это короткий способ выбрать последнее событие или самый дорогой товар группы вместе с другими столбцами той же строки.",
+        "Ключи DISTINCT ON должны соответствовать начальным выражениям ORDER BY. Следующие выражения выбирают первую строку группы. Без полного правила разрешения равенств выбор может меняться.",
+        "DISTINCT ON(customer_id) оставляет заказ клиента. В ORDER BY сначала идёт customer_id, затем дата по убыванию, затем id по убыванию для одинаковых дат.",
+        "WHERE исключает заказы без клиента. Запрос выбирает последний заказ любого статуса, включая ожидающие и отменённые.",
+        "Пример событий применяет то же правило к occurred_at. При одинаковом времени побеждает наибольший ID события.",
+        "В Retail у клиента 4 выбирается ожидающий заказ 109: он последний для этого клиента. Это не запрос последнего оплаченного заказа.",
+        "DISTINCT убирает повторы целых выходных строк, DISTINCT ON выбирает строку на ключ. Для другой итоговой сортировки оберните выбор в ещё один запрос. NULL-ключи образуют одну группу, если их не исключить.",
+        "row_number с последующим фильтром выражает похожее правило в большем числе СУБД. Оба способа требуют определить, что означает «первый».",
+        "Проверьте одинаковые даты, разные статусы и неизвестного клиента. Выбранная строка должна соответствовать условию задачи.",
+        "Задайте ключ группы и правило победителя, сохранив нужное начало ORDER BY."
+      ],
+      "review": "Reviewed PostgreSQL-specific order prefix, NULL grouping, tie-breaks, and latest-any-status versus latest-paid.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    "l061": {
+      "en": [
+        "A view is a stored query definition that you can query by name. An ordinary view stores the definition, not a separate copy of its result rows.",
+        "A shared view keeps a reporting rule in one place instead of repeating it in every query.",
+        "CREATE VIEW name AS query defines the view. Selecting from it reads the underlying data according to that query. Some simple views are writable; grouped or joined views are generally not automatically writable.",
+        "paid_orders names a SELECT of four order columns filtered to status='paid'. Later queries can use FROM paid_orders.",
+        "The view exposes paid orders only. Creating it does not copy or remove rows in orders.",
+        "customer_spending starts from every customer. The paid-status condition stays in the LEFT JOIN, and COALESCE changes a missing sum to zero, preserving customers without paid orders.",
+        "The checker reads the created paid_orders view. It may show only the first part of the result; callers must specify ORDER BY when order matters.",
+        "A view does not inherently make its query faster or guarantee a caller's row order. Privileges and row-security behavior depend on how the view is defined; do not assume it is automatically a security boundary.",
+        "A CTE names a query within one statement. A materialized view stores results and needs refresh; an ordinary view reads current underlying data under the query's snapshot.",
+        "Check view columns and filters. For customer totals, confirm that customers with no paid orders remain and receive zero.",
+        "Use views to reuse a query definition, and specify ordering and permissions deliberately."
+      ],
+      "ru": [
+        "Представление хранит определение запроса, к которому можно обращаться по имени. Обычное представление не хранит отдельную копию строк результата.",
+        "Общее правило отчёта можно определить один раз, вместо повторения в каждом запросе.",
+        "CREATE VIEW name AS query создаёт представление. Чтение выполняет его запрос по исходным данным. Некоторые простые представления допускают запись; сгруппированные или соединённые обычно не изменяются автоматически.",
+        "paid_orders даёт имя SELECT четырёх столбцов заказов с фильтром status='paid'. Затем можно писать FROM paid_orders.",
+        "Представление показывает только оплаченные заказы. Его создание не копирует и не удаляет строки orders.",
+        "customer_spending начинает со всех клиентов. Условие оплаты остаётся в LEFT JOIN, а COALESCE заменяет отсутствующую сумму нулём. Клиенты без оплаченных заказов сохраняются.",
+        "Проверка читает созданное paid_orders. Предпросмотр может содержать не все строки. Когда порядок важен, вызывающий запрос должен задать ORDER BY.",
+        "Представление само по себе не ускоряет запрос и не гарантирует порядок вывода. Права и правила видимости строк зависят от определения: не считайте любое представление готовой границей безопасности.",
+        "CTE даёт имя запросу в одной команде. Материализованное представление хранит результат и требует обновления; обычное читает исходные данные в снимке текущего запроса.",
+        "Проверьте столбцы и фильтры. В отчёте расходов убедитесь, что клиенты без оплаченных заказов остаются с нулём.",
+        "Представления переиспользуют определение запроса. Порядок и права задавайте осознанно."
+      ],
+      "review": "Reviewed view storage versus query, writeability qualification, LEFT JOIN filter position and security caveats.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createview.html",
+        "https://www.postgresql.org/docs/18/rules-views.html"
+      ]
+    },
+    "l062": {
+      "en": [
+        "A materialized view saves the rows produced by a query. Its contents stay as saved until an explicit refresh recomputes them.",
+        "A stored summary can make repeated reads cheaper when slightly old results are acceptable.",
+        "CREATE MATERIALIZED VIEW normally runs the defining query and stores its result. REFRESH MATERIALIZED VIEW replaces those rows. CONCURRENTLY allows reads during refresh, with additional requirements.",
+        "The SELECT groups products by category and sums stock. CREATE MATERIALIZED VIEW stores those groups under category_snapshot.",
+        "The saved summary has one row per category. Later changes to products do not automatically change these saved totals.",
+        "customer_totals is initially populated, then receives a unique customer_id index. That full, column-only unique index makes the concurrent refresh eligible.",
+        "The checker reads category_snapshot: Home has 8 units, Office 180, and Tech 67 on Retail. Creation itself does not return that table.",
+        "A concurrent refresh requires an already populated view and a unique index on ordinary columns covering all rows. The index must use columns directly, without expressions or a WHERE clause. Only one refresh may run per materialized view at a time.",
+        "An ordinary view reads its sources on demand; a materialized view trades freshness and storage for reusable results. Indexes can also support reads of the stored summary.",
+        "Ask when the summary was last refreshed. Check the defining query, refresh requirements, and whether callers can tolerate old results.",
+        "A materialized view is a saved result, so plan both its reads and its refresh schedule."
+      ],
+      "ru": [
+        "Материализованное представление сохраняет строки запроса. Они остаются прежними, пока явное обновление не пересчитает результат.",
+        "Готовая сводка удешевляет повторное чтение, если небольшое отставание от исходных данных допустимо.",
+        "CREATE MATERIALIZED VIEW обычно выполняет запрос и сохраняет результат. REFRESH MATERIALIZED VIEW заменяет строки. CONCURRENTLY позволяет читать во время обновления, но требует дополнительных условий.",
+        "SELECT группирует товары по category и суммирует stock. CREATE MATERIALIZED VIEW сохраняет группы под именем category_snapshot.",
+        "В сводке одна строка на категорию. Последующие изменения products автоматически эти итоги не меняют.",
+        "customer_totals сначала заполняется, затем получает уникальный индекс customer_id. Полный уникальный индекс по обычному столбцу позволяет обновить его с CONCURRENTLY.",
+        "Проверка читает category_snapshot: в Retail у Home 8 единиц, Office 180, Tech 67. Команда создания сама эту таблицу не возвращает.",
+        "Для обновления без остановки чтения нужно уже заполненное представление и уникальный индекс на все строки. Индекс должен использовать обычные столбцы, без выражений и условия WHERE. В каждый момент для одного представления может выполняться только одно обновление.",
+        "Обычное представление читает источники по запросу. Материализованное обменивает актуальность и место на диске на готовый результат. Индексы могут ускорять чтение сохранённой сводки.",
+        "Проверьте, когда сводка обновлялась. Разберите исходный запрос, требования REFRESH и допустимое отставание данных.",
+        "Материализованное представление хранит результат. Планируйте и чтение, и его обновление."
+      ],
+      "review": "Reviewed stored staleness, populated-view and qualifying full unique-index requirements, and per-view refresh concurrency.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-creatematerializedview.html",
+        "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html",
+        "https://www.postgresql.org/docs/18/rules-materializedviews.html"
+      ]
+    },
+    "l063": {
+      "en": [
+        "A set-returning function produces rows rather than one scalar value. generate_series creates a sequence of numbers or times that can serve as a query's data source.",
+        "Generated calendars let reports include days with no recorded events and expand stays into individual nights.",
+        "generate_series(start,stop,step) includes the endpoint if the sequence reaches it. The step must not be zero. A positive step with start greater than stop returns no rows; NULL inputs also return no rows.",
+        "FROM generate_series(1,5) creates five rows. AS s(n) names the table expression and its output column; ORDER BY n specifies display order.",
+        "The numeric example returns 1 through 5, including both endpoints.",
+        "LATERAL creates a separate daily series for each booking. The last generated date is check_out-1, so checkout day is excluded before the values are cast to dates.",
+        "The small example has five rows under n. These rows are generated; no stored table had to contain those numbers.",
+        "Do not include checkout as an occupied night. A calendar LEFT JOIN creates a placeholder for an empty day: count a non-NULL event key rather than count(*). Time-zone-aware series need an explicit calendar/time-zone policy near clock changes.",
+        "LATERAL lets a row-producing expression use the preceding row. A LEFT JOIN to a generated calendar can fill missing reporting periods.",
+        "Check both endpoints, an empty interval, and a one-night booking. Make sure expansion creates the expected number of rows per booking.",
+        "Generate the required domain first, then join or expand the stored data with clear boundaries."
+      ],
+      "ru": [
+        "Функция, возвращающая набор, выдаёт строки вместо одного значения. generate_series создаёт последовательность чисел или времён как источник данных запроса.",
+        "Сгенерированный календарь включает дни без событий и позволяет развернуть проживание в отдельные ночи.",
+        "generate_series(start,stop,step) включает конечное значение, если шаг до него доходит. Нулевой шаг запрещён. При положительном шаге и start больше stop строк нет; входной NULL также даёт пустой результат.",
+        "FROM generate_series(1,5) создаёт пять строк. AS s(n) именует источник и его столбец, ORDER BY n задаёт порядок отображения.",
+        "Числовой пример возвращает значения от 1 до 5 включительно.",
+        "LATERAL строит отдельную дневную последовательность для каждого бронирования. Последняя дата — check_out-1, поэтому день выезда исключается; затем значения приводятся к date.",
+        "В небольшом примере пять строк n. Числа созданы функцией: хранить их в отдельной таблице не потребовалось.",
+        "Не включайте день выезда в занятые ночи. LEFT JOIN календаря создаёт строку-заполнитель для пустого дня: считайте непустой ключ события, а не count(*). Для последовательностей с часовым поясом нужны явные календарные правила около перевода часов.",
+        "LATERAL позволяет источнику строк использовать предыдущую строку. LEFT JOIN с календарём заполняет пропущенные периоды отчёта.",
+        "Проверьте обе границы, пустой период и бронирование на одну ночь. Сверьте число полученных строк для каждого проживания.",
+        "Сначала создайте нужный набор значений, затем соединяйте или разворачивайте данные с точными границами."
+      ],
+      "review": "Reviewed inclusive endpoints, zero/NULL/inverted-series behavior, lateral booking nights and calendar count placeholder.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-srf.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l064": {
+      "en": [
+        "A SQL function gives a reusable calculation or query a name, typed arguments, and a declared result type. It can then be called in SQL expressions.",
+        "A shared calculation, such as a tax rule, is easier to reuse when its inputs and result are explicit.",
+        "CREATE FUNCTION declares the interface and LANGUAGE sql supplies the body language. Volatility is a promise to the planner: IMMUTABLE depends only on arguments, STABLE stays consistent within a statement, and VOLATILE allows changes or side effects and is the default.",
+        "add_vat accepts numeric and returns numeric. $$ encloses the function body without ordinary quote escaping. round(amount*1.20,2) adds 20 percent and rounds to two decimal places.",
+        "Creating add_vat defines the calculation; it does not apply it to every product. A later call such as add_vat(price) computes a value.",
+        "product_label reads products by its pid argument. STABLE is appropriate for this table lookup; IMMUTABLE would falsely promise that a product name can never change for the same ID.",
+        "The checker calls add_vat on product prices after creating the function. For example, 12.50 becomes 15.00. These are check-query results, not direct CREATE FUNCTION output.",
+        "A wrong IMMUTABLE declaration can let the planner reuse a stale value. NULL behavior should be deliberate; RETURNS NULL ON NULL INPUT skips calls for NULL arguments. Elevated SECURITY DEFINER functions require careful privilege and search_path design.",
+        "Views package a relation; functions expose typed arguments and results. PL/pgSQL adds procedural steps when one SQL body is insufficient.",
+        "Check input and return types, rounding, and NULL behavior. Choose volatility from what the function actually reads or changes, not from the speed you want.",
+        "Give reusable logic a clear interface and an honest volatility declaration."
+      ],
+      "ru": [
+        "SQL-функция даёт имя повторяемому вычислению или запросу, задаёт типы аргументов и результата. Затем её можно вызывать в SQL-выражениях.",
+        "Общее правило, например расчёт налога, легче переиспользовать с явными входными данными и результатом.",
+        "CREATE FUNCTION объявляет интерфейс, LANGUAGE sql — язык тела. Категория изменчивости — обещание планировщику: IMMUTABLE зависит только от аргументов, STABLE сохраняет результат для одинаковых аргументов в одной команде, VOLATILE допускает изменения и побочные действия и используется по умолчанию.",
+        "add_vat принимает и возвращает numeric. $$ ограничивает тело без обычного экранирования кавычек. round(amount*1.20,2) добавляет 20 процентов и округляет до двух знаков.",
+        "Создание add_vat только определяет правило. Позже вызов add_vat(price) вычислит значение; цены всех товаров при создании не меняются.",
+        "product_label ищет товар по аргументу pid. Для чтения таблицы подходит STABLE. IMMUTABLE ошибочно обещал бы, что название товара с этим ID никогда не меняется.",
+        "После создания функции проверка вызывает add_vat для цен товаров. Например, 12.50 становится 15.00. Это результат проверочного запроса, не вывод CREATE FUNCTION.",
+        "Неверный IMMUTABLE позволяет планировщику повторно использовать устаревшее значение. Продумайте NULL: RETURNS NULL ON NULL INPUT пропускает вызов с NULL-аргументом. SECURITY DEFINER требует аккуратных прав и search_path.",
+        "Представление оформляет набор строк, функция — аргументы и результат заданных типов. PL/pgSQL добавляет последовательность действий, если одного SQL-тела недостаточно.",
+        "Проверьте типы, округление и NULL. Категорию изменчивости выбирайте по реальному чтению и изменению данных, а не по желаемой скорости.",
+        "Оформляйте повторяемую логику с понятным интерфейсом и корректным обещанием изменчивости."
+      ],
+      "review": "Reviewed SQL function creation versus invocation, typed result, volatility categories, NULL strictness and definer caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createfunction.html",
+        "https://www.postgresql.org/docs/18/xfunc-volatility.html",
+        "https://www.postgresql.org/docs/18/xfunc-sql.html"
+      ]
+    },
+    "l065": {
+      "en": [
+        "PL/pgSQL is PostgreSQL's procedural language. It adds variables, decisions, loops, and error handling around SQL statements.",
+        "Some rules need intermediate values or branches that are clearer as a short program than as one expression.",
+        "DECLARE introduces local variables. BEGIN ... END groups statements; it does not begin or commit a transaction. IF ... THEN, ELSIF, ELSE, and END IF select a branch. RETURN supplies a function's result; := assigns a variable.",
+        "stock_label checks qty in order: zero first, then below 10, otherwise ready. The $$ delimiters enclose the body; semicolons separate its statements.",
+        "With the fixture's nonnegative stock, 0 gives empty, 1 through 9 give low, and 10 or more give ready. These branches alone do not validate arbitrary input.",
+        "booking_charge declares charge, stores a query result with SELECT ... INTO charge, then returns it. Date subtraction gives nights before multiplication by the nightly rate.",
+        "The checker calls stock_label for each product. Retail shows low for stock 5 and 8, empty for 0, and ready for the other displayed stocks.",
+        "In this function NULL qty reaches ELSE because neither IF condition is true; a negative qty gives low. Handle such input explicitly when required. SELECT INTO without STRICT gives NULLs when no row is found and keeps only the first row when several match. Prefer a set-based query to an unnecessary loop.",
+        "A SQL function can be simpler for one calculation. PL/pgSQL BEGIN/END are block syntax, unlike SQL BEGIN/COMMIT transaction commands.",
+        "Trace each branch, including NULL and boundary 10. For a lookup, check the missing-row case and whether the query can return several rows.",
+        "Use procedural steps when they clarify the rule, and keep blocks distinct from transactions."
+      ],
+      "ru": [
+        "PL/pgSQL — процедурный язык PostgreSQL. Он добавляет к SQL переменные, ветвления, циклы и обработку ошибок.",
+        "Некоторым правилам нужны промежуточные значения или несколько решений, которые понятнее записать небольшой программой.",
+        "DECLARE объявляет локальные переменные. BEGIN ... END объединяет команды в блок, но не открывает и не фиксирует транзакцию. IF ... THEN, ELSIF, ELSE и END IF выбирают ветвь. RETURN возвращает результат, := присваивает значение.",
+        "stock_label проверяет qty по порядку: сначала ноль, затем меньше 10, иначе ready. $$ ограничивает тело, точки с запятой разделяют команды.",
+        "Для неотрицательных остатков набора 0 даёт empty, от 1 до 9 — low, от 10 — ready. Сами ветви ещё не проверяют любой возможный ввод.",
+        "booking_charge объявляет charge, записывает результат через SELECT ... INTO charge и возвращает его. Разность дат даёт число ночей, затем оно умножается на ставку.",
+        "Проверка вызывает stock_label для каждого товара. В Retail остатки 5 и 8 дают low, 0 — empty, остальные показанные значения — ready.",
+        "В этой функции NULL qty попадёт в ELSE: ни одно условие не истинно. Отрицательное qty даст low. При необходимости обрабатывайте это явно. SELECT INTO без STRICT записывает NULL при отсутствии строки и берёт первую при нескольких. Избегайте циклов, если достаточно одного запроса.",
+        "Для одного вычисления SQL-функция может быть проще. BEGIN/END в PL/pgSQL задают блок, а SQL BEGIN/COMMIT — транзакцию.",
+        "Проследите ветви для NULL и границы 10. У поиска проверьте отсутствие строки и возможность нескольких совпадений.",
+        "Процедурные шаги должны прояснять правило. Не путайте программный блок с транзакцией."
+      ],
+      "review": "Corrected BEGIN/END transaction conflation; reviewed actual NULL/negative stock_label behavior and SELECT INTO missing/multiple rows.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-structure.html",
+        "https://www.postgresql.org/docs/18/plpgsql-control-structures.html",
+        "https://www.postgresql.org/docs/18/plpgsql-statements.html"
+      ]
+    },
+    "l066": {
+      "en": [
+        "A procedure is a named server-side operation invoked with CALL. Unlike a function, it is not called as a value inside SELECT.",
+        "It can give a multi-step business operation one clear interface, such as restocking a product.",
+        "CREATE PROCEDURE declares parameters, a language, and a body; CALL runs it. A procedure may have output parameters, but it has no function-style RETURNS clause. In PL/pgSQL, BEGIN/END groups the body rather than starting a transaction.",
+        "restock takes a product ID and unit count. The UPDATE adds units to stock only where id=pid. CALL restock(1,7) supplies the arguments.",
+        "On Retail, product 1's stock changes from 40 to 47. Other products stay unchanged.",
+        "mark_inventory_checked accepts a date and updates every inventory row. The absence of WHERE is intentional because all records need the new checked date.",
+        "The checker reads products after CALL and shows stock 47 for ID 1. The procedure call does not itself return these product rows.",
+        "A missing pid makes this UPDATE affect no rows; negative units reduce stock. Add explicit validation when the business rule requires it. Transaction control inside procedures is limited to eligible top-level CALL/DO chains and is not allowed inside an explicit transaction block; these examples leave transaction boundaries to the caller.",
+        "Functions return values in queries. Procedures describe operations; both still obey constraints and permissions.",
+        "Check the intended row scope and argument meaning. Compare a targeted update with the deliberate all-row inventory update.",
+        "Define an operation with CREATE PROCEDURE and run it with CALL; do not assume it validates every input automatically."
+      ],
+      "ru": [
+        "Процедура — именованная операция на сервере, вызываемая через CALL. В отличие от функции, она не используется как значение внутри SELECT.",
+        "У многошагового действия, например пополнения товара, появляется один понятный интерфейс.",
+        "CREATE PROCEDURE задаёт параметры, язык и тело, CALL запускает его. У процедуры возможны выходные параметры, но нет RETURNS как у функции. В PL/pgSQL BEGIN/END объединяет тело в блок, а не открывает транзакцию.",
+        "restock принимает ID товара и количество. UPDATE прибавляет units к stock только при id=pid. CALL restock(1,7) передаёт аргументы.",
+        "В Retail остаток товара 1 меняется с 40 на 47. Остальные товары остаются прежними.",
+        "mark_inventory_checked принимает дату и меняет каждую строку inventory. Здесь отсутствие WHERE намеренно: новую дату проверки получают все записи.",
+        "Проверка читает products после CALL и показывает 47 для ID 1. Сам вызов процедуры эти строки товаров не возвращает.",
+        "Если pid не найден, этот UPDATE не изменит строк; отрицательные units уменьшат остаток. Нужные проверки добавляют явно. Управление транзакциями возможно лишь в подходящей цепочке верхнеуровневых CALL/DO и не внутри явного блока транзакции. Учебные процедуры оставляют границы вызывающему коду.",
+        "Функции возвращают значения в запросах, процедуры описывают операции. Обе подчиняются ограничениям и правам.",
+        "Проверьте область изменения и смысл аргументов. Сравните точечное пополнение с намеренным обновлением всех записей inventory.",
+        "CREATE PROCEDURE определяет действие, CALL запускает его. Проверка любого ввода автоматически не появляется."
+      ],
+      "review": "Reviewed CALL versus expression functions, output parameters, PL block versus transaction, transaction-control restrictions and input boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createprocedure.html",
+        "https://www.postgresql.org/docs/18/sql-call.html",
+        "https://www.postgresql.org/docs/18/plpgsql-transactions.html"
+      ]
+    },
+    "l067": {
+      "en": [
+        "A trigger runs a function automatically when a specified table event occurs. A row trigger runs once for each affected row.",
+        "A shared write rule can apply even when different applications insert or update the table.",
+        "CREATE TRIGGER declares timing, event, table, and row or statement scope. For INSERT, NEW contains the proposed row; UPDATE provides NEW and OLD; DELETE provides OLD. A BEFORE row trigger can change NEW before storage.",
+        "trim_customer_name returns trigger. It assigns trim(NEW.name), then RETURN NEW lets the insertion continue with the edited row. BEFORE INSERT and FOR EACH ROW attach it to every inserted customer.",
+        "The inserted name has surrounding spaces. The stored customer 60 is named Zara after the trigger removes them.",
+        "The product trigger rounds the proposed price to one decimal place before insertion. The stored numeric(10,2) value may still display two decimal digits.",
+        "The checker reads the customers table after insertion. Zara appears without surrounding spaces; the pre-existing customer rows are unchanged.",
+        "Returning NULL from a BEFORE row trigger skips that row's operation; RETURN NEW is important for INSERT/UPDATE. A row trigger and a statement trigger are different scopes. Avoid accidental recursion and use a constraint when it expresses a simple validity rule more directly.",
+        "A DEFAULT provides a value; a BEFORE trigger can transform a supplied value. An AFTER trigger is suited to follow-up recording after a successful row operation.",
+        "Check the stored value, not just the submitted INSERT text. Confirm the trigger's timing, event, scope, and return value.",
+        "Use BEFORE row triggers for deliberate row transformation, and return the row that should be stored."
+      ],
+      "ru": [
+        "Триггер автоматически запускает функцию при заданном событии таблицы. Строчный триггер выполняется отдельно для каждой затронутой строки.",
+        "Общее правило записи действует даже тогда, когда таблицу изменяют разные приложения.",
+        "CREATE TRIGGER задаёт момент, событие, таблицу и область: строка или команда. При INSERT запись NEW содержит новую строку; при UPDATE доступны NEW и OLD, при DELETE — OLD. Строчный BEFORE может изменить NEW до сохранения.",
+        "trim_customer_name возвращает тип trigger. Присваивание trim(NEW.name) убирает пробелы, RETURN NEW продолжает вставку изменённой строки. BEFORE INSERT и FOR EACH ROW подключают функцию к каждому новому клиенту.",
+        "Во вставке имя окружено пробелами. В таблице у клиента 60 сохранится Zara без них.",
+        "Триггер товара округляет новую цену до одного знака после запятой перед вставкой. Столбец numeric(10,2) при этом может показывать два знака.",
+        "Проверка читает customers после вставки. Zara записана без пробелов; существующие клиенты не меняются.",
+        "RETURN NULL в строчном BEFORE пропускает операцию для этой строки, поэтому для INSERT/UPDATE важен RETURN NEW. Строчный и командный триггеры имеют разную область действия. Избегайте случайной рекурсии; простую проверку допустимости часто лучше выразить ограничением.",
+        "DEFAULT подставляет значение, BEFORE может преобразовать явно переданное. AFTER удобен для последующей записи о выполненном действии.",
+        "Проверяйте сохранённые данные, а не только текст INSERT. Сверьте момент, событие, область действия и возвращаемое значение триггера.",
+        "BEFORE на строке позволяет осознанно преобразовать данные. Возвращайте строку, которую нужно сохранить."
+      ],
+      "review": "Reviewed NEW/OLD availability, BEFORE return-NULL suppression, row versus statement scope, and rounding/display distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-trigger.html",
+        "https://www.postgresql.org/docs/18/sql-createtrigger.html",
+        "https://www.postgresql.org/docs/18/trigger-definition.html"
+      ]
+    },
+    "l068": {
+      "en": [
+        "An audit trigger records what changed in a separate history table. For an update, it can keep the old and new values side by side.",
+        "A change history helps explain price adjustments or record newly added customers.",
+        "OLD contains the previous row and NEW the new row for UPDATE. An AFTER row trigger records the completed row change. Its return value is ignored, so RETURN NULL does not cancel the update.",
+        "price_audit holds product_id, old_price, and new_price. AFTER UPDATE OF price fires when price is targeted by SET. The function inserts OLD.price and NEW.price into the history table.",
+        "Adding 2 to product 1's price records an audit row from 12.50 to 14.50.",
+        "The customer example uses AFTER INSERT to copy the inserted ID and name. INSERT has NEW but no old customer row to record.",
+        "The checker reads price_audit and shows one change for product 1. The audit insert and original update belong to the same transaction.",
+        "UPDATE OF price can fire even for SET price=price. To record only actual changes in another design, compare OLD.price IS DISTINCT FROM NEW.price. Rollback also removes transactional audit rows, so this is not a permanent log of failed attempts. Production history needs access rules and retention.",
+        "BEFORE can alter the row being written; AFTER can record the result. IS DISTINCT FROM compares changes safely when values may be NULL.",
+        "Check the old/new pair and the audit row count. Distinguish a column mentioned in UPDATE from a value that really changed.",
+        "Audit deliberate events with OLD and NEW, and remember that this history shares the transaction's outcome."
+      ],
+      "ru": [
+        "Триггер аудита записывает сведения об изменении в отдельную таблицу истории. Для UPDATE можно сохранить прежнее и новое значения рядом.",
+        "История помогает объяснить изменение цены или зафиксировать добавление клиента.",
+        "При UPDATE OLD содержит прежнюю строку, NEW — новую. Строчный AFTER записывает результат выполненного изменения. Его возвращаемое значение игнорируется, поэтому RETURN NULL не отменяет UPDATE.",
+        "price_audit хранит product_id, old_price и new_price. AFTER UPDATE OF price срабатывает, когда price указан в SET. Функция записывает OLD.price и NEW.price в историю.",
+        "Прибавление 2 к цене товара 1 создаёт запись изменения с 12.50 на 14.50.",
+        "Пример клиента через AFTER INSERT копирует новый ID и имя. При INSERT доступна NEW, но прежней строки клиента нет.",
+        "Проверка читает price_audit и показывает одно изменение товара 1. Запись истории и исходный UPDATE входят в одну транзакцию.",
+        "UPDATE OF price может сработать даже для SET price=price. В другом варианте для записи только реальных изменений сравните OLD.price IS DISTINCT FROM NEW.price. Откат удалит и запись аудита: это не постоянный журнал неудачных попыток. Рабочей истории нужны права и срок хранения.",
+        "BEFORE может изменить сохраняемую строку, AFTER — записать результат. IS DISTINCT FROM безопасно сравнивает изменения при возможных NULL.",
+        "Проверьте пару прежнего и нового значений и число записей истории. Отличайте упоминание столбца в UPDATE от настоящего изменения значения.",
+        "Записывайте нужные события через OLD и NEW, учитывая общий исход транзакции."
+      ],
+      "review": "Reviewed AFTER return semantics, UPDATE OF mentioned-but-unchanged firing, NULL-safe comparisons, and audit rollback.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-trigger.html",
+        "https://www.postgresql.org/docs/18/sql-createtrigger.html"
+      ]
+    }
+  }
+}

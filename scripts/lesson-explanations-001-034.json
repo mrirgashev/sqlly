@@ -1,0 +1,1133 @@
+{
+  "lessons": {
+    "l001": {
+      "en": [
+        "A database stores organized data. In a relational database, data is arranged in tables: each row describes one item, such as a customer, and each column holds one kind of information, such as their name.",
+        "Applications need to store and find information reliably. A database management system, or DBMS, manages that work. PostgreSQL is the DBMS you will use in this course; SQL is the language used to give it instructions.",
+        "A table defines column names and data types, such as text or dates. A query asks for a result from those tables. Reading data with SELECT does not change the stored rows.",
+        "SELECT * asks for every column. FROM customers chooses the table. ORDER BY id sorts the result by customer ID, from smallest to largest. The semicolon ends the statement.",
+        "The query lists all customers. Read across a row to see one customer's details; read down a column to compare the same detail across customers.",
+        "The orders example selects only the information needed for an order list: its ID, customer, date, status, and total. Naming the columns makes that list explicit.",
+        "The Retail dataset contains six customers. NULL means a value is missing; t and f display the Boolean values true and false. The rows appear in ID order.",
+        "A table has no guaranteed row order. Use ORDER BY when order matters. A missing value, shown as NULL, is different from the number zero or an empty string.",
+        "Start by distinguishing stored data from a query result: a query can select, calculate, and arrange what you see without rearranging the underlying table.",
+        "For each query, first identify the table and required columns. Compare the result headings with your SELECT list, then check that ORDER BY gives the requested row order.",
+        "A table stores rows with named columns. PostgreSQL manages the database; SQL describes what to retrieve. SELECT chooses output, FROM chooses its source, and ORDER BY controls row order."
+      ],
+      "ru": [
+        "База данных хранит структурированные данные. В реляционной базе данные организованы в таблицы: одна строка описывает, например, одного покупателя, а каждый столбец содержит определённые сведения о нём — имя, город или дату регистрации.",
+        "Приложениям нужно надёжно сохранять и находить информацию. Этим занимается система управления базами данных — СУБД. В курсе используется СУБД PostgreSQL. SQL — язык, на котором мы передаём ей команды.",
+        "У столбцов таблицы есть названия и типы данных, например текст или дата. Запрос получает результат из таблиц. Чтение с помощью SELECT не изменяет сохранённые строки.",
+        "SELECT * выбирает все столбцы. FROM customers указывает таблицу. ORDER BY id располагает результат по возрастанию идентификатора покупателя. Точка с запятой завершает команду.",
+        "Запрос выводит всех покупателей. По горизонтали можно прочитать сведения об одном покупателе, а по вертикали — сравнить одно и то же свойство у разных покупателей.",
+        "В примере с orders выбраны только нужные для списка заказов сведения: номер заказа, покупатель, дата, статус и сумма. Явное перечисление столбцов делает состав списка понятным.",
+        "В наборе Retail шесть покупателей. NULL обозначает отсутствующее значение, а t и f — логические значения «истина» и «ложь». Строки расположены по идентификатору.",
+        "У таблицы нет гарантированного порядка строк. Если порядок важен, задайте ORDER BY. Отсутствующее значение NULL отличается и от нуля, и от пустой строки.",
+        "Различайте данные в таблице и результат запроса. Запрос может выбирать столбцы, вычислять значения и сортировать результат, не переставляя строки в самой таблице.",
+        "Для каждого запроса сначала определите таблицу и нужные столбцы. Сравните заголовки результата со списком SELECT, затем проверьте порядок строк, заданный ORDER BY.",
+        "Таблица хранит строки с именованными столбцами. PostgreSQL управляет базой, а SQL описывает нужный результат. SELECT выбирает данные, FROM — источник, ORDER BY — порядок строк."
+      ],
+      "review": "Replaced facts terminology; explained DBMS versus SQL, row/column, read-only SELECT, booleans and NULL.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-table.html",
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/queries-order.html"
+      ]
+    },
+    "l002": {
+      "en": [
+        "A key identifies a row so other data can refer to it reliably. A primary key is unique and never NULL. A foreign key requires a matching referenced key when its value is present.",
+        "Names can repeat or change. Storing a customer ID in an order keeps the relationship clear without copying the customer's details into every order.",
+        "Here, customers.id identifies a customer and orders.customer_id refers to it. One customer can have many orders. A guest order may have NULL customer_id. In order_items, the pair (order_id, product_id) identifies a row.",
+        "SELECT id, name shows the identifier beside the readable name. FROM customers reads customer rows; ORDER BY id makes the list easy to check. This query reads existing keys; it does not create them.",
+        "The result puts each customer's ID beside their name. Other tables use the ID to refer to that customer, even if two people have the same name.",
+        "The order_items query shows both parts of its primary key. A product can appear in different orders, but the same order/product pair cannot appear twice in this table.",
+        "Each customer has a different ID in this dataset. The name is descriptive; the primary key is what guarantees a unique reference.",
+        "A foreign key does not make its column unique: several orders may refer to the same customer. Nullable foreign keys permit missing references; NOT NULL is a separate rule.",
+        "A schema is a named container for database objects, such as tables. Keys describe row identity and relationships inside those tables; later JOIN lessons use those relationships to combine data.",
+        "Trace one customer ID into orders, then an order ID into order_items. Check which values may repeat and which whole key must remain unique.",
+        "Primary keys identify rows; foreign keys protect relationships. A relationship may be one-to-many, and a key can contain more than one column."
+      ],
+      "ru": [
+        "Ключ позволяет однозначно определить строку и ссылаться на неё из других данных. Первичный ключ уникален и не допускает NULL. Если внешний ключ заполнен, соответствующее значение должно существовать в указанном ключе другой таблицы.",
+        "Имена могут повторяться и меняться. Если хранить в заказе идентификатор покупателя, связь останется точной и не придётся копировать сведения о покупателе в каждый заказ.",
+        "Здесь customers.id определяет покупателя, а orders.customer_id ссылается на него. У покупателя может быть много заказов. У гостевого заказа customer_id может быть NULL. В order_items строку определяет пара (order_id, product_id).",
+        "SELECT id, name выводит идентификатор рядом с именем. FROM customers выбирает таблицу покупателей, а ORDER BY id упорядочивает список. Этот запрос читает существующие ключи, а не создаёт их.",
+        "В результате рядом с именем каждого покупателя стоит его ID. Другие таблицы ссылаются на покупателя по этому ID, даже если у нескольких людей одинаковые имена.",
+        "Запрос к order_items показывает обе части первичного ключа. Один товар может встречаться в разных заказах, но одна и та же пара «заказ — товар» в этой таблице повторяться не может.",
+        "В этом наборе у каждого покупателя свой ID. Имя помогает человеку прочитать список, а первичный ключ гарантирует однозначность ссылки.",
+        "Внешний ключ не делает столбец уникальным: несколько заказов могут ссылаться на одного покупателя. Допустимость NULL и обязательность значения задаются отдельно, в том числе ограничением NOT NULL.",
+        "Схема — именованный раздел базы, содержащий таблицы и другие объекты. Ключи определяют строки и связи между ними; позже эти связи пригодятся для объединения данных с помощью JOIN.",
+        "Найдите заказы одного покупателя по его ID, затем позиции одного заказа по номеру заказа. Проверьте, какие значения могут повторяться, а какой ключ целиком должен быть уникальным.",
+        "Первичный ключ определяет строку, внешний защищает связь между строками. Связь может быть «один ко многим», а ключ может состоять из нескольких столбцов."
+      ],
+      "review": "Primary/foreign/composite keys, optional references, identity vs names, one-to-many and separate NOT NULL.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/ddl-schemas.html"
+      ]
+    },
+    "l003": {
+      "en": [
+        "An expression produces a value, such as a number, a comparison result, or a calculation using columns. SQL describes the result you want; PostgreSQL chooses how to obtain it.",
+        "Calculating values in a query keeps the calculation close to the data. You can ask for each order line's revenue without storing another copy of a value that can be calculated.",
+        "For a typical SELECT, think: choose sources with FROM, filter with WHERE, group and filter groups, calculate output, remove duplicates, sort, then limit. This explains meaning; the database's execution plan may perform work differently.",
+        "SELECT 2 + 3 * 4 evaluates an expression without needing a table. Multiplication happens before addition. AS answer names the output column; parentheses can change arithmetic grouping.",
+        "The query returns one row with answer = 14. To get 20 instead, the arithmetic would need (2 + 3) * 4; parentheses express the intended calculation.",
+        "The order_items query calculates quantity * unit_price separately for each line and labels it revenue. The original quantity and price columns remain unchanged.",
+        "The one output value is 14. There is no FROM clause because this calculation uses only literal numbers, not stored rows.",
+        "An alias created in SELECT is unavailable in the same query's WHERE; repeat the expression or use a later query layer. Integer division drops the fractional part, so cast an operand before dividing when needed.",
+        "Expressions underpin filters, computed columns, and aggregates. Logical query order also explains why ORDER BY can use a SELECT alias while WHERE cannot.",
+        "Work out each expression by hand before running it. Check operator precedence, the result name, and whether integer or decimal arithmetic matches the question.",
+        "Expressions calculate values; aliases name their output. Understand the logical stages of a query, while letting PostgreSQL choose its physical execution plan."
+      ],
+      "ru": [
+        "Выражение вычисляет значение: число, результат сравнения или формулу со столбцами. В SQL вы описываете нужный результат, а PostgreSQL выбирает способ его получения.",
+        "Вычисления в запросе выполняются рядом с данными. Например, выручку по позиции заказа можно получить из количества и цены, не сохраняя ещё одну копию вычисляемого значения.",
+        "Для обычного SELECT удобно рассуждать так: FROM выбирает источники, WHERE отбирает строки, затем идут группировка и отбор групп, вычисление результата, удаление повторов, сортировка и ограничение числа строк. Это логический порядок; план выполнения может быть устроен иначе.",
+        "SELECT 2 + 3 * 4 вычисляет выражение без таблицы. Умножение выполняется раньше сложения. AS answer задаёт имя столбца результата; скобки позволяют изменить порядок арифметических действий.",
+        "Запрос возвращает одну строку со значением answer = 14. Чтобы получить 20, понадобилось бы выражение (2 + 3) * 4: скобки явно задают нужный расчёт.",
+        "Запрос к order_items вычисляет quantity * unit_price для каждой позиции отдельно и называет результат revenue. Исходные количество и цена в таблице не изменяются.",
+        "Единственное значение результата — 14. Здесь нет FROM: выражение использует заданные в запросе числа, а не строки таблицы.",
+        "Псевдоним из SELECT недоступен в WHERE того же запроса: повторите выражение или добавьте внешний запрос. При целочисленном делении дробная часть отбрасывается; при необходимости преобразуйте один операнд до деления.",
+        "Выражения используются в фильтрах, вычисляемых столбцах и агрегатах. Логический порядок объясняет, почему псевдоним SELECT можно использовать в ORDER BY, но нельзя в WHERE.",
+        "Перед запуском вычислите пример вручную. Проверьте приоритет действий, название результата и то, подходит ли для задачи целочисленная или десятичная арифметика.",
+        "Выражения вычисляют значения, псевдонимы дают им названия. Понимание логических этапов помогает писать запрос, а физический план выполнения выбирает PostgreSQL."
+      ],
+      "review": "Logical vs physical processing, expressions without FROM, aliases and pre-division casts.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-select.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-math.html"
+      ]
+    },
+    "l004": {
+      "en": [
+        "SELECT can return only the columns you need, in the order you choose. This is called projection. A column alias is a temporary name for a column in the query result.",
+        "A focused result is easier to read and gives an application predictable column names. It also avoids transferring columns that the application does not use.",
+        "List columns or expressions after SELECT, separated by commas. AS gives an output a readable name. An alias changes the result heading; it does not rename the stored column.",
+        "name AS product displays name under the heading product, and price AS unit_price does the same for price. FROM products chooses the table. ORDER BY id sorts by an input column that is not displayed.",
+        "The example returns two columns, product and unit_price, while keeping one row per product. The output column order follows the SELECT list.",
+        "An order report can call id order_number and shipped_on dispatch_date. Those labels describe the report without changing the orders table or its values.",
+        "The result has eight product rows. The headings come from the aliases; prices such as 12.50 are copied from the stored price column.",
+        "Single quotes mean a text value; double quotes identify a name. Unquoted names become lowercase. SELECT * can unexpectedly add output columns after a table changes.",
+        "Projection chooses columns; WHERE chooses rows. An output alias can be used in ORDER BY, but it is not available to WHERE in the same query.",
+        "Check both the number and order of output columns. Give calculated values clear aliases and verify that a renamed heading has not been confused with a text literal.",
+        "Use an explicit SELECT list to shape a stable result. AS improves output names while leaving the source table unchanged."
+      ],
+      "ru": [
+        "SELECT может возвращать только нужные столбцы и в выбранном порядке. Такой выбор называют проекцией. Псевдоним столбца — временное название столбца в результате запроса.",
+        "Небольшой результат легче читать, а приложению удобнее работать с предсказуемыми названиями столбцов. Кроме того, не приходится передавать данные, которые ему не нужны.",
+        "Перечислите столбцы или выражения после SELECT через запятую. AS задаёт понятное имя результата. Псевдоним меняет заголовок, но не переименовывает столбец в таблице.",
+        "name AS product выводит name под заголовком product, а price AS unit_price — price под заголовком unit_price. FROM products выбирает таблицу. ORDER BY id сортирует по столбцу источника, которого нет в выводе.",
+        "Пример возвращает два столбца — product и unit_price — и по одной строке на товар. Порядок столбцов соответствует списку SELECT.",
+        "В отчёте по заказам id можно назвать order_number, а shipped_on — dispatch_date. Эти названия описывают отчёт, не изменяя таблицу orders и её значения.",
+        "В результате восемь строк товаров. Заголовки заданы псевдонимами; цены, например 12.50, взяты из сохранённого столбца price.",
+        "Одинарные кавычки обозначают текстовое значение, двойные — имя. Имена без кавычек приводятся к нижнему регистру. После изменения таблицы SELECT * может неожиданно вернуть дополнительные столбцы.",
+        "Проекция выбирает столбцы, WHERE отбирает строки. Псевдоним результата доступен в ORDER BY, но недоступен в WHERE того же запроса.",
+        "Проверяйте количество и порядок столбцов результата. Давайте вычислениям понятные имена и не путайте псевдоним с текстом в одинарных кавычках.",
+        "Явный список SELECT задаёт устойчивую структуру результата. AS делает заголовки понятнее, не изменяя исходную таблицу."
+      ],
+      "review": "Projection and alias semantics, ORDER BY hidden source field, quoted names vs literal strings.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/sql-syntax-lexical.html",
+        "https://www.postgresql.org/docs/18/queries-order.html"
+      ]
+    },
+    "l005": {
+      "en": [
+        "DISTINCT keeps one copy of each complete output row. Without it, SELECT normally retains duplicate rows, even when the displayed values look identical.",
+        "A list of available categories needs each category once, rather than one repeated category name for every product.",
+        "PostgreSQL evaluates the selected values, then removes rows whose values match in every output column. For this comparison, two NULLs count as equal. DISTINCT does not establish an output order.",
+        "SELECT DISTINCT category returns unique category values. FROM products supplies the product rows. ORDER BY category sorts the remaining categories by the database's text ordering rules.",
+        "Several products share Office or Tech, but each category appears once in the result. Adding more products in an existing category will not add another category row.",
+        "The order example selects month number and status together. DISTINCT keeps each unique pair, so one month can appear several times if it contains different statuses.",
+        "Home, Office, and Tech are the three category values in Retail. Their displayed order comes from ORDER BY, not from DISTINCT.",
+        "Adding a unique product ID makes each selected row different, so DISTINCT no longer produces one row per category. Removing repeated rows can also hide an incorrect join rather than fix it.",
+        "DISTINCT removes identical output rows; GROUP BY gathers rows so aggregates can summarize them. A month number alone combines different years, so include a year or month-start date in multi-year reports.",
+        "Decide what makes an entire result row unique. Compare a query selecting only category with one selecting category and id, and explain why the row counts differ.",
+        "DISTINCT compares the whole selected row, including NULLs for duplicate removal. Choose the output columns carefully and use ORDER BY separately."
+      ],
+      "ru": [
+        "DISTINCT оставляет одну копию каждой одинаковой строки результата. Без него SELECT обычно сохраняет повторы, даже если отображаемые значения полностью совпадают.",
+        "В списке доступных категорий каждая категория нужна один раз, а не по одному повтору на каждый товар.",
+        "PostgreSQL сначала вычисляет выбранные значения, затем удаляет строки, совпадающие по всем столбцам результата. При таком сравнении два NULL считаются одинаковыми. Порядок строк DISTINCT не задаёт.",
+        "SELECT DISTINCT category получает уникальные значения category. FROM products задаёт исходные строки. ORDER BY category сортирует оставшиеся категории по правилам сравнения текста в базе.",
+        "Несколько товаров относятся к Office или Tech, но каждая категория появляется в результате один раз. Новый товар уже известной категории не добавит ещё одну строку категории.",
+        "В примере с заказами одновременно выбраны номер месяца и статус. DISTINCT оставляет уникальные пары, поэтому один месяц может появляться несколько раз с разными статусами.",
+        "В Retail есть три категории: Home, Office и Tech. Их порядок в результате задаёт ORDER BY, а не DISTINCT.",
+        "Если добавить уникальный ID товара, все выбранные строки станут различаться, и по одной строке на категорию уже не получится. Удаление повторов также может скрыть ошибку в JOIN, не исправив её.",
+        "DISTINCT удаляет одинаковые строки результата, а GROUP BY собирает строки для сводных вычислений. Один номер месяца объединяет разные годы; в многолетнем отчёте учитывайте год или дату начала месяца.",
+        "Определите, какие значения делают всю строку результата уникальной. Сравните выборку только category с выборкой category и id и объясните разницу в количестве строк.",
+        "DISTINCT сравнивает всю выбранную строку; при удалении повторов NULL считаются одинаковыми. Выбирайте столбцы осознанно, а порядок задавайте отдельно через ORDER BY."
+      ],
+      "review": "Whole-row duplicate semantics, NULL equality for DISTINCT, non-ordering and month/year caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l006": {
+      "en": [
+        "ORDER BY sorts result rows. LIMIT sets the maximum number returned; OFFSET skips a number of rows before returning the next ones.",
+        "Top-price lists and result pages need a clear order. Without one, PostgreSQL is free to return any matching rows, and a page may change unexpectedly between runs.",
+        "ASC means ascending and is the default; DESC means descending. Multiple sort keys apply left to right. Add a unique key to resolve ties. PostgreSQL defaults to NULLS LAST for ASC and NULLS FIRST for DESC.",
+        "ORDER BY price DESC, id sorts high prices first, then smaller IDs when prices tie. LIMIT 3 keeps the first three rows of that order. DESC applies only to price here.",
+        "The example returns the three most expensive products. The ID tie-breaker ensures that equal prices do not make the choice unpredictable.",
+        "The shipment report explicitly puts missing shipment dates first, then sorts known dates ascending. The final id key gives a stable order when several orders share a date.",
+        "The top prices in Retail are Monitor at 250.00, Keyboard at 75.00, and Lamp at 45.00. This is a sorted selection, not insertion order.",
+        "LIMIT alone does not mean earliest inserted rows. Large OFFSET values still require skipping earlier rows, and changing data can shift page boundaries even with a stable sort.",
+        "Sorting is separate from filtering. For large changing lists, pagination based on the last seen sort key can avoid some problems of OFFSET; that approach also needs a complete, stable ordering.",
+        "Check price ties, repeated dates, and missing dates. For page exercises, calculate which rows OFFSET skips before LIMIT selects the requested page.",
+        "Sort with ORDER BY, resolve ties explicitly, and choose NULL placement deliberately. LIMIT and OFFSET operate on that ordered result."
+      ],
+      "ru": [
+        "ORDER BY сортирует строки результата. LIMIT ограничивает число возвращаемых строк, а OFFSET пропускает заданное число строк перед выдачей следующих.",
+        "Списку самых дорогих товаров и страницам результатов нужен понятный порядок. Без него PostgreSQL может вернуть любые подходящие строки, и состав страницы между запусками может меняться.",
+        "ASC означает возрастание и используется по умолчанию, DESC — убывание. Ключи сортировки применяются слева направо. Для равных значений добавляйте уникальный ключ. По умолчанию NULL идут в конце при ASC и в начале при DESC.",
+        "ORDER BY price DESC, id сначала ставит большие цены, а при одинаковой цене — меньший ID. LIMIT 3 оставляет первые три строки этого порядка. Здесь DESC относится только к price.",
+        "Пример возвращает три самых дорогих товара. Дополнительная сортировка по ID делает выбор однозначным, если цены совпадают.",
+        "В отчёте об отправке отсутствующие даты явно стоят первыми, а известные даты — по возрастанию. Последний ключ id задаёт устойчивый порядок заказов с одинаковой датой.",
+        "В Retail самые высокие цены у Monitor — 250.00, Keyboard — 75.00 и Lamp — 45.00. Это результат сортировки, а не порядок добавления строк.",
+        "LIMIT без сортировки не выбирает первые добавленные строки. Большой OFFSET всё равно требует пропустить предыдущие строки, а изменения данных могут сдвигать страницы даже при однозначной сортировке.",
+        "Сортировка и фильтрация решают разные задачи. Для больших меняющихся списков иногда удобнее получать следующую страницу по последнему показанному ключу; и там нужен полный, устойчивый порядок.",
+        "Проверяйте одинаковые цены, повторяющиеся и отсутствующие даты. В заданиях со страницами сначала определите, какие строки пропускает OFFSET, затем какие выбирает LIMIT.",
+        "ORDER BY задаёт порядок; дополнительные ключи устраняют неоднозначность, а NULLS FIRST/LAST управляет положением NULL. LIMIT и OFFSET применяются к этому результату."
+      ],
+      "review": "Tie stability, per-key DESC, PostgreSQL null defaults, offset work and changing-page caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-order.html",
+        "https://www.postgresql.org/docs/18/queries-limit.html"
+      ]
+    },
+    "l007": {
+      "en": [
+        "WHERE decides which rows appear in a query result. Its condition must evaluate to true for a row to remain; false and unknown results are discarded.",
+        "Filtering at the database lets a report request only relevant products, orders, or customers, instead of retrieving everything and filtering elsewhere.",
+        "Use = for equality, <> or != for inequality, and <, <=, >, >= for ordered comparisons. Compare compatible types. A comparison with NULL normally produces unknown, which does not pass WHERE.",
+        "FROM products supplies rows. WHERE price < 20 keeps products below 20, excluding exactly 20. SELECT chooses their displayed columns, and ORDER BY id sorts the remaining rows.",
+        "The small example shows inexpensive products only. It changes which rows are returned, not their stored prices or any other data.",
+        "The stock report uses <= 8, so products with exactly eight units are included. Sorting by stock then id places the lowest stock first with a clear tie-breaker.",
+        "Five Retail products cost less than 20. The selected prices can be checked individually against the strict boundary; a price of 20 would not qualify.",
+        "SQL equality uses =, not ==. Do not write price = NULL to find missing prices; use IS NULL. A chain such as 1 < price < 20 must be written as two comparisons.",
+        "SELECT chooses columns while WHERE chooses rows. WHERE is applied before grouping; conditions on aggregate totals belong in HAVING, introduced later.",
+        "Check values below, equal to, and above each boundary. Explain why < differs from <=, and confirm whether missing values should be included.",
+        "WHERE keeps true conditions only. Choose comparison operators precisely and handle NULL explicitly when it matters to the question."
+      ],
+      "ru": [
+        "WHERE определяет, какие строки попадут в результат запроса. Строка остаётся только тогда, когда условие истинно; ложь и неизвестный результат её исключают.",
+        "Фильтрация в базе позволяет запросить только нужные товары, заказы или покупателей, не загружая все данные для последующего отбора.",
+        "Используйте = для равенства, <> или != для неравенства, а <, <=, >, >= — для сравнения порядка. Типы должны быть совместимы. Сравнение с NULL обычно даёт неизвестный результат и не проходит WHERE.",
+        "FROM products задаёт строки. WHERE price < 20 оставляет цены меньше 20, исключая ровно 20. SELECT выбирает отображаемые столбцы, ORDER BY id сортирует оставшиеся строки.",
+        "Небольшой пример показывает только недорогие товары. Он меняет состав результата, но не сохранённые цены и другие данные таблицы.",
+        "В отчёте по остаткам условие <= 8 включает и товары, у которых ровно восемь единиц. Сортировка по stock, затем id сначала показывает меньшие остатки и однозначно располагает равные.",
+        "Пять товаров Retail стоят меньше 20. Каждую цену можно проверить относительно строгой границы; цена ровно 20 не подошла бы.",
+        "Для равенства в SQL используется =, а не ==. Для отсутствующей цены нужно IS NULL, не price = NULL. Цепочку 1 < price < 20 следует записать двумя сравнениями.",
+        "SELECT выбирает столбцы, WHERE — строки. WHERE работает до группировки; для условий по итоговым агрегатам позже понадобится HAVING.",
+        "Проверяйте значения ниже границы, точно на ней и выше неё. Объясните разницу между < и <= и решите, нужно ли включать отсутствующие значения.",
+        "WHERE оставляет только строки с истинным условием. Точно выбирайте операторы сравнения и отдельно учитывайте NULL, когда это важно для задачи."
+      ],
+      "review": "Comparison boundaries, boolean unknown, no comparison chains and pre-group filtering.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l008": {
+      "en": [
+        "AND combines conditions that must both hold. OR accepts at least one true condition. NOT reverses true and false; it leaves an unknown result unknown.",
+        "Business filters often require combinations, such as an available product in a chosen category, or an order that is neither pending nor cancelled.",
+        "NOT has higher priority than AND, and AND has higher priority than OR. Parentheses show the intended groups. Do not rely on conditions running left to right: PostgreSQL may reorganize their evaluation.",
+        "category = 'Office' AND stock > 0 requires both a matching category and positive stock. Single quotes delimit the text value Office. ORDER BY id arranges the matching products.",
+        "The example includes only Office products that are in stock. A Tech product with plenty of stock still fails the category condition.",
+        "NOT (status = 'pending' OR status = 'cancelled') excludes either unwanted status. The parentheses make NOT apply to the whole alternative, rather than only the first comparison.",
+        "The three Retail matches are Notebook, Pen, and Folder. Every displayed row satisfies both parts of the AND condition.",
+        "A OR B AND C means A OR (B AND C), not (A OR B) AND C. NULL also matters: false AND unknown is false, while true OR unknown is true.",
+        "Combined conditions build on ordinary comparisons and NULL rules. CASE can choose an output value by conditions; WHERE uses conditions to decide whether a row remains.",
+        "Rewrite each verbal rule with parentheses first. Test a row satisfying only one condition, and check whether a NULL input changes the result.",
+        "Choose AND for joint requirements, OR for alternatives, and NOT for negation. Parentheses and NULL-aware reasoning make combined filters reliable."
+      ],
+      "ru": [
+        "AND соединяет условия, которые должны выполняться вместе. Для OR достаточно хотя бы одного истинного условия. NOT меняет истину на ложь и наоборот; неизвестный результат остаётся неизвестным.",
+        "В рабочих фильтрах часто сочетаются несколько правил: например, товар должен относиться к нужной категории и быть в наличии, а заказ — не быть ожидающим или отменённым.",
+        "NOT имеет приоритет над AND, а AND — над OR. Скобки явно задают группы. Не рассчитывайте на вычисление слева направо: PostgreSQL может перестраивать порядок проверки условий.",
+        "category = 'Office' AND stock > 0 требует и категории Office, и положительного остатка. Одинарные кавычки обозначают текстовое значение Office. ORDER BY id сортирует подходящие товары.",
+        "Пример включает только товары Office, которые есть в наличии. Товар Tech с большим остатком всё равно не проходит условие категории.",
+        "NOT (status = 'pending' OR status = 'cancelled') исключает оба нежелательных статуса. Благодаря скобкам NOT относится ко всему условию с альтернативами, а не только к первому сравнению.",
+        "В Retail подходят Notebook, Pen и Folder. Каждая из трёх строк удовлетворяет обеим частям условия AND.",
+        "A OR B AND C означает A OR (B AND C), а не (A OR B) AND C. Важен и NULL: ложь AND неизвестное даёт ложь, а истина OR неизвестное даёт истину.",
+        "Составные условия опираются на сравнения и правила NULL. CASE выбирает значение по условиям, а WHERE по условиям решает, оставлять ли строку.",
+        "Сначала перепишите словесное правило со скобками. Проверьте строку, которая выполняет только одно условие, и подумайте, что изменит NULL.",
+        "AND задаёт совместные требования, OR — альтернативы, NOT — отрицание. Скобки и учёт NULL делают сложный фильтр предсказуемым."
+      ],
+      "review": "Truth-table edge cases, precedence, no promised short-circuit evaluation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-logical.html",
+        "https://www.postgresql.org/docs/18/sql-syntax-lexical.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html"
+      ]
+    },
+    "l009": {
+      "en": [
+        "IN checks whether a value matches one of several alternatives. BETWEEN checks an inclusive interval: both endpoints belong to it. A half-open interval includes its start but excludes its end.",
+        "These forms keep category lists and date ranges readable. Half-open time periods fit together without overlap, such as June ending exactly where July starts.",
+        "category IN ('Home','Office') means either category is acceptable. x BETWEEN a AND b means x >= a AND x <= b. For a month, >= its first day AND < the next month's first day avoids end-of-day assumptions.",
+        "The example filters category using IN, then returns product IDs and names. The comma separates alternatives inside the parentheses; it does not combine two requirements with AND.",
+        "Products from either Home or Office qualify. A product does not need to belong to both categories, and Tech products are excluded.",
+        "The order example covers June 2024 from June 1 inclusive to July 1 exclusive. DATE marks a typed date value and avoids interpreting a date as ordinary text.",
+        "Five Retail products belong to Home or Office. Their ID order is independent of the order of categories written in the IN list.",
+        "BETWEEN includes its upper endpoint. For timestamps, an upper bound of June 30 at midnight misses most of that day. NOT IN can produce unknown if an unmatched list contains NULL.",
+        "A month number alone includes that month in every year. Explicit date boundaries express one particular period and also work when a date field later becomes a timestamp.",
+        "Test the day before the start, the start itself, the last included day, and the next period's first instant. For lists, check matching, nonmatching, and missing values.",
+        "Use IN for discrete alternatives and choose interval boundaries deliberately. BETWEEN is inclusive; >= start AND < end is convenient for adjacent time periods."
+      ],
+      "ru": [
+        "IN проверяет совпадение с одним из перечисленных значений. BETWEEN проверяет интервал с обеими границами включительно. Полуоткрытый интервал включает начало, но не включает конец.",
+        "Эти формы делают списки категорий и периоды понятнее. Полуоткрытые периоды стыкуются без пересечения: июнь заканчивается именно там, где начинается июль.",
+        "category IN ('Home','Office') допускает любую из двух категорий. x BETWEEN a AND b означает x >= a AND x <= b. Для месяца условие >= первого дня AND < первого дня следующего месяца не требует угадывать конец суток.",
+        "Пример фильтрует category через IN и выводит ID и названия товаров. Запятая внутри скобок разделяет варианты; она не требует одновременного совпадения двух значений.",
+        "Подходят товары Home и товары Office. Товару не нужно относиться сразу к двум категориям; Tech в результат не попадает.",
+        "Пример с заказами охватывает июнь 2024 года: с 1 июня включительно до 1 июля, не включая его. DATE задаёт именно дату, а не обычный текст.",
+        "Пять товаров Retail относятся к Home или Office. Порядок по ID не зависит от того, в каком порядке перечислены категории внутри IN.",
+        "BETWEEN включает правую границу. Для timestamp граница «30 июня, 00:00» исключит почти весь этот день. NOT IN может дать неизвестный результат, если совпадения нет, а в списке есть NULL.",
+        "Один номер месяца подходит к этому месяцу во всех годах. Явные границы задают конкретный период и подходят даже при замене типа date на timestamp.",
+        "Проверьте день перед началом, само начало, последний включённый день и первый момент следующего периода. Для списка проверьте совпадение, несовпадение и NULL.",
+        "IN удобен для отдельных вариантов. Границы интервала выбирайте осознанно: BETWEEN включает обе, а >= начало AND < конец удобно задаёт соседние периоды."
+      ],
+      "review": "Inclusive vs half-open boundaries, DATE vs timestamps, month/year and nullable NOT IN.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    "l010": {
+      "en": [
+        "NULL means that a value is missing or unknown. It is not zero, an empty string, or the text 'NULL'. For example, an absent shipment date does not tell us a date to compare.",
+        "Optional information needs a way to remain unknown. Treating an unknown city as a real city name would give misleading filters and reports.",
+        "Ordinary comparisons involving NULL produce unknown. WHERE keeps only true. Use IS NULL or IS NOT NULL to test presence. IS DISTINCT FROM provides inequality that always returns true or false, including for NULLs.",
+        "email IS NULL finds customers without a known email. It is a presence test, not an equality comparison. The rest of the query selects their IDs and names in ID order.",
+        "Cleo has no email in Retail, so that customer is returned. A real empty string would count as a present value and would need a separate test.",
+        "city IS DISTINCT FROM 'London' includes cities different from London and also NULL cities. In contrast, city <> 'London' excludes unknown cities because its result is unknown for them.",
+        "The single matching Retail customer is Cleo. This result says the email is absent; it does not prove why it is absent.",
+        "NULL = NULL is unknown, not true. NOT unknown stays unknown. An unmatched NOT IN test can also become unknown when its list contains NULL; use a correctly correlated NOT EXISTS when testing missing relationships.",
+        "For Boolean expressions, true OR unknown is true, while false AND unknown is false. For duplicate removal and GROUP BY, NULLs are grouped together under different rules from ordinary equality.",
+        "Consider missing values explicitly in every filter. Compare IS NULL, <> and IS DISTINCT FROM on the same data, and explain which unknown rows each includes.",
+        "NULL records missing information. Test it with IS NULL, and remember that WHERE discards unknown results as well as false ones."
+      ],
+      "ru": [
+        "NULL означает, что значение отсутствует или неизвестно. Это не ноль, не пустая строка и не текст 'NULL'. Например, если дата отправки отсутствует, сравнивать с другой датой пока нечего.",
+        "Необязательные сведения должны оставаться неизвестными, пока их нет. Если выдать неизвестный город за обычное название, фильтры и отчёты станут вводить в заблуждение.",
+        "Обычное сравнение с NULL даёт неизвестный результат, а WHERE оставляет только истину. Для проверки наличия есть IS NULL и IS NOT NULL. IS DISTINCT FROM всегда даёт истину или ложь, в том числе при NULL.",
+        "email IS NULL находит покупателей без известного адреса почты. Это проверка отсутствия, а не сравнение на равенство. Остальная часть запроса выбирает ID и имена по порядку ID.",
+        "В Retail у Cleo нет email, поэтому запрос возвращает этого покупателя. Пустая строка считалась бы имеющимся значением; для неё нужна отдельная проверка.",
+        "city IS DISTINCT FROM 'London' включает другие города и NULL. А city <> 'London' исключает неизвестные города, потому что для них результат сравнения неизвестен.",
+        "В Retail подходит только Cleo. Результат показывает, что адрес почты отсутствует, но не объясняет причину его отсутствия.",
+        "NULL = NULL даёт неизвестное, а не истину. NOT не превращает неизвестное в истину. Проверка NOT IN без совпадения тоже может стать неизвестной из-за NULL в списке; для отсутствующих связей часто подходит правильно связанный NOT EXISTS.",
+        "В логике истина OR неизвестное даёт истину, а ложь AND неизвестное — ложь. При удалении повторов и GROUP BY значения NULL объединяются по другим правилам, чем обычное равенство.",
+        "Явно учитывайте отсутствующие значения в каждом фильтре. Сравните IS NULL, <> и IS DISTINCT FROM на одних данных и объясните, какие строки с NULL они включают.",
+        "NULL обозначает отсутствие информации. Проверяйте его через IS NULL и помните: WHERE исключает и ложь, и неизвестный результат."
+      ],
+      "review": "Missing vs empty value, three-valued logic, null-safe inequality, nullable anti-joins and distinct grouping.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/functions-logical.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html"
+      ]
+    },
+    "l011": {
+      "en": [
+        "LIKE matches text against a simple pattern. % matches any sequence, including no characters; _ matches exactly one character. ILIKE performs case-insensitive matching using the applicable locale rules.",
+        "Patterns help find names beginning with a prefix or containing a fragment without needing a separate query for every possible name.",
+        "A LIKE pattern describes the whole string. 'Notebook%' matches a Notebook prefix; '%book%' matches that fragment anywhere. An escape character makes % or _ ordinary text rather than wildcards.",
+        "name LIKE 'Notebook%' tests the product name. The percent sign permits any ending, including no ending. ORDER BY id sorts matching products; it is unrelated to pattern matching.",
+        "The example matches Notebook and would also match Notebook Mini. It does not match a name containing Notebook only in the middle.",
+        "In LIKE '%!_%' ESCAPE '!', the first and last % allow surrounding text, while !_ means a literal underscore. This finds an underscore anywhere in a customer name.",
+        "Only Notebook matches the prefix in Retail. The additional dataset includes another matching name, so the rule must match prefixes rather than one hardcoded product.",
+        "LIKE wildcards differ from regular expressions: . and * are not its wildcard operators. A pattern starting with % often prevents an ordinary B-tree prefix lookup. Matching NULL produces unknown.",
+        "ILIKE is convenient when letter case should be ignored. PostgreSQL 18 LIKE also follows the chosen collation, which can affect comparisons; do not assume every database treats text identically.",
+        "Test an exact prefix, extra ending characters, the fragment in the middle, and literal wildcard characters. State whether case should matter before choosing LIKE or ILIKE.",
+        "Use % for any sequence, _ for one character, and ESCAPE for literal wildcards. Choose matching rules that fit the text and the user's intent."
+      ],
+      "ru": [
+        "LIKE сравнивает текст с простым шаблоном. % означает любую последовательность, в том числе пустую, а _ — ровно один символ. ILIKE ищет без учёта регистра по применимым правилам локали.",
+        "Шаблоны помогают находить названия с нужным началом или фрагментом без отдельного запроса для каждого возможного названия.",
+        "Шаблон LIKE описывает всю строку. 'Notebook%' задаёт начало Notebook, а '%book%' ищет фрагмент в любом месте. Символ экранирования позволяет воспринимать % и _ как обычный текст.",
+        "name LIKE 'Notebook%' проверяет название товара. % разрешает любое продолжение, в том числе его отсутствие. ORDER BY id сортирует найденные товары и не влияет на сопоставление с шаблоном.",
+        "Подойдут Notebook и Notebook Mini. Название, в котором Notebook встречается только в середине, этому шаблону не соответствует.",
+        "В LIKE '%!_%' ESCAPE '!' крайние % допускают окружающий текст, а !_ обозначает настоящий символ подчёркивания. Так можно найти подчёркивание в любом месте имени покупателя.",
+        "В Retail этому началу соответствует только Notebook. В дополнительном наборе есть ещё одно подходящее название: правило должно искать начало строки, а не заранее известный ID товара.",
+        "Шаблоны LIKE отличаются от регулярных выражений: . и * не являются его подстановками. Начальный % часто мешает обычному префиксному поиску по B-tree. Проверка NULL даёт неизвестный результат.",
+        "ILIKE удобен, когда регистр букв не должен учитываться. В PostgreSQL 18 LIKE также учитывает выбранные правила сравнения и сортировки текста (collation); в разных базах результат сравнения может различаться.",
+        "Проверьте точное начало, продолжение после него, фрагмент в середине и буквальные % или _. Сначала решите, важен ли регистр, затем выбирайте LIKE или ILIKE.",
+        "В LIKE % обозначает последовательность, _ — один символ, а ESCAPE позволяет искать сами символы шаблона. Выбирайте правила поиска под смысл задачи."
+      ],
+      "review": "Whole-string LIKE, zero-length %, literal escapes, locale/collation, PG18 LIKE change.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-matching.html",
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/collation.html"
+      ]
+    },
+    "l012": {
+      "en": [
+        "A regular expression is a text pattern with rules for positions, groups of characters, and repetition. PostgreSQL supports POSIX-style expressions, with additional features, for matching and extracting text.",
+        "Simple prefixes often need only LIKE. Regular expressions help when a condition needs a character range, a repeated sequence, or extraction of a specific part of a value.",
+        "~ tests for a case-sensitive match; ~* ignores case. ^ marks the start and $ the end. Without anchors, a pattern can match part of a string. [A-D] matches one character in that range.",
+        "name ~ '^[A-D]' requires the first character to match A through D under the database's matching rules. It does not require the rest of the name to consist of those letters.",
+        "The example returns customers whose names begin with A, B, C, or D in this dataset. Anchoring at the start prevents a later letter from being enough.",
+        "substring(email FROM '^[^@]+') extracts consecutive characters from the start up to the first @. Inside brackets, ^ negates the character set; + means one or more. It extracts text, rather than validating a full email address.",
+        "Ada, Ben, Cleo, and Davi match the small example in Retail. The result remains sorted by ID, independently of the pattern.",
+        "An unanchored pattern does not validate the entire string. A character range can depend on collation, and complicated expressions can consume substantial time. Use a simple, bounded pattern when possible.",
+        "LIKE has only a few wildcard rules; regular expressions offer richer matching. Extraction can return NULL when no match exists, which is separate from filtering out a row.",
+        "Read each pattern one symbol at a time. Check the difference between ^ outside and inside brackets, and test a value that matches only in the middle.",
+        "Use anchors for positions, brackets for character choices, and repetition symbols deliberately. Distinguish testing a match from extracting text and from validating an entire value."
+      ],
+      "ru": [
+        "Регулярное выражение — текстовый шаблон с правилами для позиций, групп символов и повторений. PostgreSQL поддерживает выражения в стиле POSIX с дополнительными возможностями для поиска и извлечения текста.",
+        "Для простого начала строки часто хватает LIKE. Регулярное выражение пригодится, если нужны диапазон символов, повторяющаяся последовательность или извлечение определённой части значения.",
+        "~ проверяет совпадение с учётом регистра, ~* — без него. ^ обозначает начало строки, $ — конец. Без этих ограничений может совпасть только часть строки. [A-D] означает один символ из заданного диапазона.",
+        "name ~ '^[A-D]' требует, чтобы первый символ подходил под диапазон от A до D по правилам базы. Остальные символы имени не обязаны состоять из этих букв.",
+        "Пример возвращает покупателей, чьи имена в этом наборе начинаются с A, B, C или D. Привязка к началу не позволяет засчитать подходящую букву только в середине имени.",
+        "substring(email FROM '^[^@]+') извлекает символы от начала до первого @. Внутри скобок ^ исключает указанный символ, а + означает один или более повторов. Это извлечение текста, а не полная проверка адреса почты.",
+        "В Retail подходят Ada, Ben, Cleo и Davi. Результат отсортирован по ID независимо от правил шаблона.",
+        "Шаблон без привязки к границам не проверяет всю строку. Диапазоны символов могут зависеть от правил сравнения и сортировки текста (collation), а сложные выражения требуют значительных ресурсов. По возможности выбирайте простой и ограниченный шаблон.",
+        "LIKE использует несколько простых подстановок, а регулярные выражения дают более гибкие правила. Если при извлечении нет совпадения, можно получить NULL; это не то же самое, что исключить строку фильтром.",
+        "Разберите каждый шаблон по символам. Проверьте разницу между ^ внутри и снаружи квадратных скобок и попробуйте значение, где совпадение находится только в середине.",
+        "Якоря задают позиции, квадратные скобки — выбор символов, знаки повторения — их количество. Различайте поиск совпадения, извлечение части текста и проверку всего значения."
+      ],
+      "review": "POSIX/ARE, anchor placement, negated class, extraction not full email validation and collation ranges.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-matching.html"
+      ]
+    },
+    "l013": {
+      "en": [
+        "CASE chooses an output value according to conditions. It does not remove rows or update a table; it is an expression that can be used wherever a value is needed.",
+        "Reports often need labels such as low stock or customer priority. CASE keeps those rules visible in the query instead of storing labels that may become outdated.",
+        "A searched CASE tests WHEN conditions in order and uses the first true condition's THEN value. ELSE supplies a fallback; without ELSE, the fallback is NULL. All possible result values need compatible types.",
+        "CASE starts the expression. WHEN stock = 0 THEN 'empty' handles zero first. WHEN stock < 10 THEN 'low' handles remaining low stock. ELSE 'ready' handles the rest; END closes CASE.",
+        "A stock value of zero also satisfies stock < 10. Putting the zero test first ensures it receives empty rather than low.",
+        "The customer example gives VIP customers priority 1 before considering London for priority 2. Thus a VIP customer in London still receives 1. The result is sorted by priority, then ID.",
+        "Retail's Monitor and Lamp are low, Mug is empty, and the other products are ready. Each product still contributes one row.",
+        "A broad condition placed first can hide a more specific one. NULL conditions do not count as true. CASE usually evaluates only the chosen branch, but it cannot guarantee protection from every planning-time error.",
+        "WHERE decides which rows remain; CASE chooses a value. Another form, CASE expression WHEN value THEN ... END, compares one expression with alternatives using equality. It does not match NULL with WHEN NULL; use a searched CASE with IS NULL.",
+        "Test boundary values such as 0, 9, and 10, then check a row matching two WHEN conditions. Explain why the first match is the right one.",
+        "CASE returns the first matching branch's value. Order conditions carefully, choose a meaningful fallback, and keep result types compatible."
+      ],
+      "ru": [
+        "CASE выбирает значение по условиям. Он не исключает строки и не изменяет таблицу: это выражение, которое можно использовать там, где требуется значение.",
+        "Отчётам нужны понятные категории: например, низкий остаток или приоритет покупателя. CASE хранит правило в запросе, а не в отдельной метке, которая может устареть.",
+        "CASE с условиями проверяет WHEN по порядку и берёт THEN у первого истинного условия. ELSE задаёт запасной вариант; без ELSE получается NULL. Типы всех возможных результатов должны быть совместимы.",
+        "CASE начинает выражение. WHEN stock = 0 THEN 'empty' первым обрабатывает ноль. WHEN stock < 10 THEN 'low' — оставшиеся небольшие остатки. ELSE 'ready' — остальные; END завершает CASE.",
+        "Нулевой остаток подходит и под stock < 10. Проверка нуля стоит первой, чтобы такой товар получил empty, а не low.",
+        "В примере покупателей VIP получают приоритет 1 до проверки London для приоритета 2. Поэтому VIP из London всё равно получает 1. Результат сортируется по приоритету, затем по ID.",
+        "В Retail Monitor и Lamp получают low, Mug — empty, остальные — ready. Каждому товару по-прежнему соответствует одна строка результата.",
+        "Общее условие в начале может скрыть более частное. Условие с неизвестным результатом не считается истинным. Обычно CASE вычисляет только выбранную ветвь, но он не защищает от всех ошибок на этапе планирования.",
+        "WHERE определяет, какие строки оставить, CASE выбирает значение. Другая форма, CASE выражение WHEN значение THEN ... END, сравнивает одно выражение с вариантами на равенство. WHEN NULL не находит NULL; используйте форму с условием IS NULL.",
+        "Проверьте границы 0, 9 и 10, затем строку, подходящую под два WHEN. Объясните, почему первый подходящий вариант должен иметь приоритет.",
+        "CASE возвращает значение первой истинной ветви. Продумывайте порядок условий, запасной вариант и совместимость типов результата."
+      ],
+      "review": "First true match, implicit NULL, compatible result types, planning caveat and overlap boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-conditional.html"
+      ]
+    },
+    "l014": {
+      "en": [
+        "COALESCE returns the first argument that is not NULL. NULLIF(a, b) returns NULL when a and b compare equal; otherwise it returns a.",
+        "These expressions make fallback text and safer calculations readable. They also let a report keep the distinction between a missing value and a real zero.",
+        "COALESCE(city, 'Unknown') uses city when present; COALESCE returns NULL if every argument is NULL. NULLIF(denominator, 0) turns zero into NULL, so division returns NULL rather than an error. Compatible argument types are required.",
+        "SELECT id identifies the customer. COALESCE(city, 'Unknown') calculates city_label for display. It does not write Unknown into the stored city column.",
+        "The example preserves known cities and displays Unknown only for missing ones. An empty city string remains empty because it is not NULL.",
+        "COALESCE(email, name) uses the email when present and the name otherwise. Argument order expresses preference; it is not a comparison of which string looks more complete.",
+        "Eli's city_label is Unknown in Retail, while the other city names are unchanged. The source city is still NULL for Eli.",
+        "Replacing an unknown number with zero can change totals and averages. NULLIF prevents zero division, but does not fix integer division: cast an operand if you need a fractional result.",
+        "COALESCE is a concise alternative to a CASE checking for NULL. NULLIF creates a missing value for a particular comparison; IS NULL tests whether a value is already missing.",
+        "Check known values, NULL, and empty strings separately. For a ratio, decide what a zero denominator means before choosing whether to leave NULL or show a fallback.",
+        "Use COALESCE to choose a meaningful fallback and NULLIF to suppress a particular value such as zero. Neither should hide missing information without a reason."
+      ],
+      "ru": [
+        "COALESCE возвращает первый аргумент, отличный от NULL. NULLIF(a, b) возвращает NULL, если a и b равны; иначе он возвращает a.",
+        "Эти выражения делают подстановку текста и безопасные вычисления понятнее. При этом важно сохранять разницу между отсутствующим значением и настоящим нулём.",
+        "COALESCE(city, 'Unknown') берёт city, если он указан; если все аргументы NULL, COALESCE тоже возвращает NULL. NULLIF(знаменатель, 0) превращает ноль в NULL: деление вернёт NULL вместо ошибки. Типы аргументов должны быть совместимы.",
+        "SELECT id определяет покупателя. COALESCE(city, 'Unknown') вычисляет city_label для отображения. Значение Unknown не записывается в исходный столбец city.",
+        "Пример сохраняет известные города и показывает Unknown только для отсутствующих. Пустая строка останется пустой, потому что она не равна NULL.",
+        "COALESCE(email, name) берёт почту, если она есть, иначе имя. Порядок аргументов задаёт предпочтение; функция не оценивает, какая строка выглядит более полной.",
+        "У Eli в Retail city_label равен Unknown; остальные города не меняются. В исходной таблице city у Eli по-прежнему NULL.",
+        "Подмена неизвестного числа нулём может изменить сумму и среднее. NULLIF защищает от деления на ноль, но не исправляет целочисленное деление: для дробного результата преобразуйте операнд.",
+        "COALESCE короче записывает CASE с проверкой NULL. NULLIF создаёт NULL при заданном равенстве, а IS NULL проверяет, отсутствует ли значение уже сейчас.",
+        "Отдельно проверяйте известное значение, NULL и пустую строку. Для отношения сначала решите, что означает нулевой знаменатель: нужно ли оставить NULL или показать осмысленную замену.",
+        "COALESCE выбирает подходящую замену, NULLIF убирает определённое значение, например ноль. Не скрывайте отсутствие информации без понятной причины."
+      ],
+      "review": "Missing vs empty string, fallback not mutation, nullif zero handling vs numeric casts.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-conditional.html",
+        "https://www.postgresql.org/docs/18/functions-math.html"
+      ]
+    },
+    "l015": {
+      "en": [
+        "A data type determines how a value is stored and what operations mean. A cast converts a value to another type when a supported conversion exists. NUMERIC represents decimal values without binary floating-point approximation.",
+        "A ratio needs fractions; money often needs controlled decimal precision. Choosing types deliberately prevents a calculation from losing information before it is displayed.",
+        "CAST(value AS type) and value::type request the same conversion. With integer operands, division truncates toward zero. Converting an operand to numeric before division gives decimal arithmetic.",
+        "5::numeric converts 5 first, then / 2 calculates the ratio. AS ratio names the result. Casting the result of 5 / 2 afterward would be too late to recover the lost fraction.",
+        "The example produces 2.5, displayed with extra decimal places by PostgreSQL's numeric formatting. Those trailing zeros do not change its mathematical value.",
+        "occurred_at::date keeps the calendar date and removes the time-of-day from each event timestamp. With timestamps that include time zones, the selected date can also depend on the session time zone.",
+        "The displayed ratio is 2.5000000000000000. A different number of trailing zeros does not mean the division has produced a different value.",
+        "A cast can fail on invalid text or an out-of-range value. For example, NUMERIC(10,2) rounds to two decimal places and allows eight digits before the decimal point; exceeding that capacity raises an error. Floating-point numbers are approximate.",
+        "Casting changes the value's type; round changes numerical precision for a calculation or display. Date conversion is another kind of information reduction, so consider what you are discarding.",
+        "Before calculating, identify each operand's type. Compare integer and decimal division, and test values that require rounding or do not fit a target type.",
+        "Choose the type before the operation that needs it. Casts can change precision or discard detail, and invalid conversions produce errors rather than guessed values."
+      ],
+      "ru": [
+        "Тип данных определяет, как хранится значение и что означают операции с ним. Приведение преобразует значение в другой тип, если такое преобразование поддерживается. NUMERIC хранит десятичные числа без двоичного приближения типов с плавающей точкой.",
+        "Для отношения нужны дроби, для денег часто нужна контролируемая десятичная точность. Осознанный выбор типа не позволяет потерять часть значения ещё до вывода.",
+        "CAST(значение AS тип) и значение::тип задают одно преобразование. При делении целых дробная часть отбрасывается к нулю. Если до деления преобразовать операнд в numeric, получится десятичное вычисление.",
+        "5::numeric сначала преобразует 5, затем / 2 вычисляет отношение. AS ratio задаёт имя результата. Преобразование уже готового 5 / 2 не восстановит потерянную дробную часть.",
+        "Пример даёт 2.5; PostgreSQL отображает numeric с дополнительными десятичными знаками. Нули в конце не меняют математическое значение.",
+        "occurred_at::date оставляет календарную дату и убирает время суток из каждой отметки события. У временных отметок с часовым поясом итоговая дата может зависеть также от часового пояса сеанса.",
+        "Отношение отображается как 2.5000000000000000. Другое число нулей после дробной части не означает другого результата деления.",
+        "Приведение может завершиться ошибкой из-за неверного текста или выхода за диапазон. Например, NUMERIC(10,2) округляет до двух знаков после точки и допускает восемь до неё; превышение вызывает ошибку. Числа с плавающей точкой приблизительны.",
+        "Приведение меняет тип, а round — численную точность для расчёта или вывода. Преобразование даты тоже убирает часть информации, поэтому заранее решите, чем можно пожертвовать.",
+        "Перед вычислением определите типы операндов. Сравните целочисленное и десятичное деление, проверьте округление и значения, которые не помещаются в целевой тип.",
+        "Выбирайте тип до операции, которой он нужен. Приведение может изменить точность или убрать детали; неверное преобразование выдаёт ошибку, а не угадывает значение."
+      ],
+      "review": "Pre-operation cast, truncation toward zero, numeric scale/precision, trailing zero equivalence and date zone caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-numeric.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    "l016": {
+      "en": [
+        "An aggregate summarizes several rows in one value. COUNT(*) counts rows; COUNT(expression) counts rows where that expression is not NULL. COUNT(DISTINCT expression) counts different non-NULL values.",
+        "Counting customers, known addresses, and represented cities answers three different questions. Choosing the right form makes the reported metric match its description.",
+        "Without GROUP BY, COUNT summarizes all rows left after WHERE and returns one row. For no input rows, COUNT returns 0; common aggregates such as SUM and AVG return NULL instead.",
+        "count(*) counts every customers row, regardless of missing columns. AS customer_count supplies the heading. There is no GROUP BY because the whole table is one summary.",
+        "The example asks how many customers exist, not how many have a known city or email. Each row contributes exactly once.",
+        "count(DISTINCT city) reports the number of different known cities. Repeated London entries count once, and missing cities do not count at all.",
+        "Retail has six customer rows, so customer_count is 6. A NULL in one of their columns does not stop COUNT(*) counting that row.",
+        "COUNT(city) is not a customer count when city can be NULL. COUNT(1) counts a non-NULL constant for every row, so it behaves like COUNT(*), not like counting a special column.",
+        "GROUP BY, introduced later, produces one count per group. With a LEFT JOIN, count of a non-NULL right-side key counts matches; COUNT(*) also counts the placeholder for an unmatched left row.",
+        "State what one counted unit means before choosing syntax. Compare row count, known-value count, and distinct-value count, including a query whose filter matches no rows.",
+        "COUNT(*) counts rows, COUNT(column) skips NULL values, and COUNT(DISTINCT column) also removes repeated known values. Pick the form matching the question."
+      ],
+      "ru": [
+        "Агрегат сводит несколько строк к одному значению. COUNT(*) считает строки, COUNT(выражение) — строки, где выражение не равно NULL. COUNT(DISTINCT выражение) считает различные значения без NULL.",
+        "Число покупателей, число известных адресов и число представленных городов отвечают на разные вопросы. Правильная форма COUNT помогает получить именно нужный показатель.",
+        "Без GROUP BY COUNT обобщает все строки после WHERE и возвращает одну строку. Если входных строк нет, COUNT даёт 0; обычные SUM и AVG в таком случае возвращают NULL.",
+        "count(*) учитывает каждую строку customers независимо от отсутствующих значений в её столбцах. AS customer_count задаёт заголовок. GROUP BY не нужен: вся таблица составляет одну сводку.",
+        "Пример спрашивает, сколько покупателей существует, а не сколько указали город или почту. Каждая строка учитывается ровно один раз.",
+        "count(DISTINCT city) показывает число различных известных городов. Повторяющийся London считается один раз, а отсутствующие города не считаются.",
+        "В Retail шесть строк покупателей, поэтому customer_count равен 6. NULL в одном из столбцов не мешает COUNT(*) учесть строку.",
+        "COUNT(city) не равен числу покупателей, если город может отсутствовать. COUNT(1) считает константу без NULL для каждой строки и работает как COUNT(*), а не как подсчёт особого столбца.",
+        "GROUP BY, который появится позже, позволяет считать отдельно по группам. После LEFT JOIN подсчёт правого ключа без NULL считает совпадения, а COUNT(*) учитывает и строку без правой пары.",
+        "Сначала определите единицу подсчёта. Сравните число строк, число заполненных значений и число различных значений, включая фильтр, который не находит ни одной строки.",
+        "COUNT(*) считает строки, COUNT(столбец) пропускает NULL, а COUNT(DISTINCT столбец) ещё и убирает повторы. Выбирайте форму по смыслу вопроса."
+      ],
+      "review": "Three count meanings, empty input, COUNT(1), later outer-join counting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l017": {
+      "en": [
+        "SUM adds values, AVG finds their arithmetic mean, and MIN and MAX return the smallest and largest values. These aggregates ignore NULL inputs.",
+        "A price or inventory summary turns many rows into a few useful measurements. Give each measurement a name and units so a reader knows what it represents.",
+        "WHERE first determines the input rows. Without GROUP BY, the aggregates then return one summary row. AVG divides by the number of non-NULL inputs, not by all rows. With no non-NULL inputs, these aggregates return NULL.",
+        "min(price) and max(price) find price extremes; avg(price) calculates the mean. round(..., 2) rounds that numeric average to two decimal places. AS assigns clear headings to all three results.",
+        "The small example describes the price distribution without returning a row for each product. Rounding changes the displayed average, not the stored prices.",
+        "sum(price * stock) adds the stock value calculated for each product. sum(stock) counts the available units. One is a monetary amount; the other is a quantity, so their units differ.",
+        "Retail's minimum price is 2.00, maximum is 250.00, and mean rounded to two decimals is 51.44. All three values share one output row.",
+        "SUM(x) / COUNT(*) differs from AVG(x) when x contains NULL, and integer division may truncate. An unweighted average of group averages is wrong when groups have different sizes.",
+        "COUNT measures how many inputs exist; SUM and AVG measure their values. Grouped reports use the same aggregates but calculate them separately for each group.",
+        "Check the units of every formula. Compare results with a missing value and with no matching rows; decide whether NULL or a deliberate fallback communicates the right meaning.",
+        "Aggregates summarize known values. Choose the correct input rows, keep units clear, and account for NULL and unequal group sizes when computing averages."
+      ],
+      "ru": [
+        "SUM складывает значения, AVG находит среднее арифметическое, MIN и MAX возвращают минимум и максимум. Эти агрегаты пропускают входные NULL.",
+        "Сводка цен или остатков превращает много строк в несколько полезных показателей. Давайте им понятные названия и учитывайте единицы измерения.",
+        "WHERE сначала отбирает исходные строки. Без GROUP BY агрегаты возвращают одну итоговую строку. AVG делит сумму на число значений без NULL, а не на число всех строк. Если известных значений нет, эти агрегаты дают NULL.",
+        "min(price) и max(price) находят крайние цены, avg(price) — среднюю. round(..., 2) округляет среднее numeric до двух десятичных знаков. AS даёт каждому показателю понятный заголовок.",
+        "Небольшой пример описывает цены в целом, не выводя отдельную строку на каждый товар. Округление меняет результат вычисления, а не сохранённые цены.",
+        "sum(price * stock) складывает стоимость остатка каждого товара, а sum(stock) считает доступные единицы. Первый показатель выражен в деньгах, второй — в количестве.",
+        "В Retail минимальная цена 2.00, максимальная 250.00, средняя после округления — 51.44. Все три значения находятся в одной строке результата.",
+        "SUM(x) / COUNT(*) отличается от AVG(x), если x содержит NULL; целочисленное деление может дополнительно отбросить дробь. Среднее от средних групп без весов неверно при разных размерах групп.",
+        "COUNT измеряет число входных значений, SUM и AVG — сами значения. В отчёте с группировкой те же агрегаты вычисляются отдельно для каждой группы.",
+        "Проверяйте единицы каждой формулы. Сравните результат при NULL и при отсутствии подходящих строк; решите, что точнее передаёт смысл — NULL или осознанная замена.",
+        "Агрегаты обобщают известные значения. Правильно выбирайте входные строки, учитывайте единицы, NULL и разный размер групп при расчёте среднего."
+      ],
+      "review": "Aggregate NULL handling, empty input, units, avg denominators and unequal group-size weighting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/datatype-numeric.html"
+      ]
+    },
+    "l018": {
+      "en": [
+        "FILTER restricts the rows used by one aggregate. Several aggregates in the same query can therefore summarize different subsets of a shared input.",
+        "A report can show paid and pending order counts side by side without separate queries or a complicated join between summaries.",
+        "Write aggregate(...) FILTER (WHERE condition). Only true conditions pass that aggregate's filter. An outer WHERE still removes rows for every aggregate, so use it only for restrictions shared by all metrics.",
+        "count(*) FILTER (WHERE status = 'paid') counts paid orders. The pending_count expression has its own condition. Both read orders, and neither filter removes rows from the other's calculation.",
+        "The result has one paid count and one pending count. Cancelled orders contribute to neither, but remain in the source table.",
+        "SUM(CASE WHEN vip THEN 1 ELSE 0 END) adds one for each VIP customer and zero for others. The second expression does the corresponding calculation for non-VIP customers.",
+        "Retail contains nine paid and two pending orders. The remaining cancelled order is not included in either count.",
+        "COUNT(CASE WHEN condition THEN 1 ELSE 0 END) counts both 1 and 0 because neither is NULL. SUM without an ELSE can return NULL when no rows match; COUNT with FILTER returns zero.",
+        "FILTER and CASE can express similar conditional summaries, but their NULL and empty-input behavior must match the intended metric. SUM with ELSE 0 still returns NULL when the entire input is empty.",
+        "For every metric, name exactly which rows contribute. Test no matching rows and an entirely empty input before deciding whether a missing total should display as zero.",
+        "Use FILTER for a condition local to one aggregate. Keep shared WHERE restrictions separate and check COUNT versus SUM behavior on empty inputs."
+      ],
+      "ru": [
+        "FILTER ограничивает строки для одного агрегата. Поэтому несколько агрегатов в одном запросе могут обобщать разные части общего набора данных.",
+        "Отчёт может показать число оплаченных и ожидающих заказов рядом, без отдельных запросов и сложного соединения нескольких сводок.",
+        "Запись имеет вид агрегат(...) FILTER (WHERE условие). В агрегат проходят только строки с истинным условием. Внешний WHERE исключает строки сразу для всех показателей: там должны быть общие ограничения.",
+        "count(*) FILTER (WHERE status = 'paid') считает оплаченные заказы. У pending_count своё условие. Оба читают orders, но фильтр одного не исключает строки из вычисления другого.",
+        "Результат содержит число оплаченных и число ожидающих заказов. Отменённые не учитываются ни в одном показателе, но остаются в исходной таблице.",
+        "SUM(CASE WHEN vip THEN 1 ELSE 0 END) прибавляет единицу для VIP и ноль для остальных. Второе выражение аналогично считает покупателей без VIP.",
+        "В Retail девять оплаченных и два ожидающих заказа. Оставшийся отменённый заказ не входит ни в один из двух счётчиков.",
+        "COUNT(CASE WHEN условие THEN 1 ELSE 0 END) считает и 1, и 0: оба значения не равны NULL. SUM без ELSE может дать NULL при отсутствии совпадений, а COUNT с FILTER вернёт ноль.",
+        "FILTER и CASE позволяют получить похожие условные сводки, но нужно согласовать поведение при NULL и пустом входе. Даже SUM с ELSE 0 возвращает NULL, если входных строк вообще нет.",
+        "Для каждого показателя определите, какие строки в него входят. Проверьте отсутствие совпадений и полностью пустой вход, прежде чем заменять отсутствующий итог нулём.",
+        "FILTER задаёт условие отдельного агрегата. Общие ограничения оставляйте в WHERE и проверяйте разницу COUNT и SUM при пустом входе."
+      ],
+      "review": "Per-aggregate filter, true-only conditions, shared WHERE, COUNT CASE trap, completely empty SUM even ELSE0.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    "l019": {
+      "en": [
+        "GROUP BY puts rows with the same grouping values together. An aggregate then summarizes each group, producing one output row per group rather than per source row.",
+        "A report may need one row per category or department. Grouping changes the level of detail from individual items to the groups that answer that question.",
+        "Choose grouping columns first, then calculate aggregates over each group's rows. NULL grouping values belong to one group. Selected columns generally must be grouped or aggregated; a grouped primary key can also determine its table's other columns.",
+        "GROUP BY category forms one group per category. count(*) counts its products. SELECT category identifies the group, while ORDER BY category controls the final order separately.",
+        "The example counts products in each category. Two products sharing a category increase its count rather than create separate output rows.",
+        "The employee example groups by department, counts people, and averages their salaries. Each output row describes a department, not one employee.",
+        "Retail has two Home, three Office, and three Tech products. These group counts add up to the eight product rows.",
+        "Adding id to GROUP BY changes the level to individual products. GROUP BY does not guarantee sorted output. Do not select an arbitrary ungrouped value from a group containing several possible values.",
+        "WHERE chooses input rows before grouping. HAVING, introduced next, chooses groups after aggregates have been calculated. DISTINCT removes repeats without calculating group summaries.",
+        "Say 'one output row per ...' before writing SQL. Check that grouping columns express that unit and that aggregate counts reconcile with the filtered input.",
+        "GROUP BY defines the level of the summary. Keep each selected value meaningful for that group, and use ORDER BY for display order."
+      ],
+      "ru": [
+        "GROUP BY собирает вместе строки с одинаковыми значениями выбранных столбцов. Агрегат обобщает каждую группу: в результате получается одна строка на группу, а не на исходную строку.",
+        "Отчёту может понадобиться одна строка на категорию или отдел. Группировка меняет уровень детализации: вместо отдельных объектов мы описываем нужные группы.",
+        "Сначала выберите столбцы группировки, затем агрегаты по строкам каждой группы. NULL в ключе группировки образуют одну группу. Выбранные столбцы обычно должны быть сгруппированы или агрегированы; первичный ключ группы также однозначно определяет остальные столбцы своей таблицы.",
+        "GROUP BY category создаёт группу для каждой категории. count(*) считает её товары. SELECT category обозначает группу, а ORDER BY category отдельно задаёт порядок вывода.",
+        "Пример считает товары по категориям. Два товара одной категории увеличивают её счётчик, а не создают две отдельные строки результата.",
+        "Пример сотрудников группирует их по отделу, считает людей и вычисляет среднюю зарплату. Каждая итоговая строка описывает отдел, а не отдельного сотрудника.",
+        "В Retail два товара Home, три Office и три Tech. В сумме это восемь строк исходной таблицы products.",
+        "Добавление id в GROUP BY опускает уровень до отдельного товара. GROUP BY не гарантирует сортировку. Нельзя выбрать произвольное несгруппированное значение, если внутри группы их несколько.",
+        "WHERE выбирает исходные строки до группировки. HAVING в следующем уроке отбирает группы после расчёта агрегатов. DISTINCT убирает повторы без сводных вычислений по группам.",
+        "Перед SQL произнесите: «одна строка результата на ...». Проверьте, что ключи задают именно этот уровень, а суммы счётчиков согласуются с отфильтрованным входом.",
+        "GROUP BY определяет уровень сводки. Каждое выбранное значение должно иметь смысл для группы, а порядок вывода задаётся ORDER BY."
+      ],
+      "review": "Result grain explained, NULL grouping, primary-key dependency caveat, grouping distinct from sorting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    "l020": {
+      "en": [
+        "HAVING filters groups after their aggregates are calculated. WHERE filters individual source rows before they are grouped, so the two clauses answer different questions.",
+        "A report may need categories with at least three products or customers whose total paid spending exceeds a threshold. Those decisions depend on a completed summary.",
+        "Use WHERE for eligible input rows, GROUP BY for the grouping keys, and HAVING for conditions on the resulting group. Only groups with a true HAVING condition remain.",
+        "GROUP BY category counts each category. HAVING count(*) >= 3 keeps groups with three or more products. ORDER BY category sorts those surviving groups.",
+        "Home has only two products and is excluded. Office and Tech each have three, so both satisfy the inclusive threshold.",
+        "The spending example first keeps paid orders with known customers. It then sums each customer's totals and uses HAVING sum(total) > 100 to select customers exceeding 100.",
+        "The small example returns Office and Tech, each with product_count = 3. It removes a category group, not selected products within that category.",
+        "WHERE total > 100 keeps individual large orders; HAVING sum(total) > 100 tests combined spending. A SELECT alias such as spend is not available in HAVING in the same query; repeat its aggregate.",
+        "A query with aggregates and HAVING can also operate without explicit GROUP BY, treating the whole input as one group. For ordinary group reports, choose clear grouping keys first.",
+        "Separate each task into a row eligibility rule and a group eligibility rule. Check whether a boundary is strict or inclusive and consider several small rows that meet a combined threshold.",
+        "WHERE selects rows; GROUP BY forms summaries; HAVING selects those summaries. Put each condition at the level where its meaning belongs."
+      ],
+      "ru": [
+        "HAVING отбирает группы после расчёта агрегатов. WHERE фильтрует отдельные исходные строки до группировки, поэтому эти части запроса отвечают на разные вопросы.",
+        "Отчёту могут понадобиться категории минимум с тремя товарами или покупатели с суммой оплаченных заказов выше порога. Такое решение принимается по готовой сводке.",
+        "WHERE определяет подходящие исходные строки, GROUP BY — ключи групп, HAVING — условия по полученным группам. Остаются только группы с истинным условием HAVING.",
+        "GROUP BY category считает товары каждой категории. HAVING count(*) >= 3 оставляет группы от трёх товаров включительно. ORDER BY category сортирует оставшиеся группы.",
+        "У Home только два товара, поэтому категория исключается. У Office и Tech по три, и обе проходят включительную границу.",
+        "В примере расходов сначала остаются оплаченные заказы с известным покупателем. Затем суммы складываются по покупателю, а HAVING sum(total) > 100 оставляет тех, у кого итог больше 100.",
+        "Небольшой пример возвращает Office и Tech, у обеих product_count = 3. Исключается группа категории, а не отдельные товары внутри неё.",
+        "WHERE total > 100 отбирает отдельные крупные заказы; HAVING sum(total) > 100 проверяет общие расходы. Псевдоним SELECT, например spend, недоступен в HAVING того же запроса — повторите агрегат.",
+        "Запрос с агрегатами и HAVING возможен и без явного GROUP BY: весь вход рассматривается как одна группа. В обычном групповом отчёте сначала определяйте понятные ключи группировки.",
+        "Разделите задачу на правило отбора строк и правило отбора групп. Проверьте строгость границы и ситуацию, когда несколько небольших строк вместе превышают порог.",
+        "WHERE выбирает строки, GROUP BY строит сводки, HAVING отбирает эти сводки. Размещайте каждое условие на подходящем уровне."
+      ],
+      "review": "Row versus group eligibility, alias scope, inclusive threshold and implicit single HAVING group.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    "l021": {
+      "en": [
+        "Grouping sets calculate several summaries from the same input. ROLLUP builds hierarchical subtotals; CUBE builds all combinations of grouping columns; GROUPING SETS lists exactly the combinations you want.",
+        "A report can show category totals and an overall total together. One query keeps their filters and measures consistent instead of repeating similar summary queries.",
+        "ROLLUP(a,b) requests (a,b), (a), and (). CUBE(a,b) adds (b) as well. The empty set () means one overall group. Omitted grouping columns display NULL, so GROUPING identifies whether a NULL marks a subtotal.",
+        "ROLLUP(category) requests each category and the overall total. sum(stock) calculates units. grouping(category) is 0 for category rows and 1 for the total; ORDER BY is_total, category puts totals last.",
+        "The small example adds a single overall row after the category rows. The same stock values contribute both to their category's total and to the overall total.",
+        "The employee CUBE reports department/manager pairs, departments alone, managers alone, and all employees. grouping(department, manager_id) records the omitted keys as a bit mask: 0 for both included, 1 for department only, 2 for manager only, 3 for neither.",
+        "Category units are 8, 180, and 67; the overall total is 255. Its category is NULL and is_total is 1, distinguishing it from an actual missing category.",
+        "Do not treat every NULL as an overall total: source data may contain real NULLs. CUBE doubles the number of grouping combinations for each additional column, so its result can grow rapidly.",
+        "ROLLUP suits a hierarchy such as year/month; CUBE suits independent dimensions. GROUPING SETS lets you avoid subtotals that a report does not need.",
+        "Label the summary level before reading the figures. Compare each GROUPING mask with the columns omitted at that level, including genuine NULL values in the input.",
+        "Choose the grouping combinations a report needs and use GROUPING to label their levels. A subtotal's placeholder NULL is different from missing source data."
+      ],
+      "ru": [
+        "Наборы группировки строят несколько сводок по одним исходным данным. ROLLUP даёт иерархические итоги, CUBE — все сочетания ключей, GROUPING SETS — только явно перечисленные сочетания.",
+        "В одном отчёте можно показать итоги категорий и общий итог. Единый запрос сохраняет одинаковые фильтры и показатели, не дублируя похожие расчёты.",
+        "ROLLUP(a,b) задаёт группы (a,b), (a) и (). CUBE(a,b) добавляет ещё (b). Пустой набор () означает общий итог. Пропущенные ключи показываются как NULL; GROUPING помогает отличить их от настоящих отсутствующих значений.",
+        "ROLLUP(category) запрашивает категории и общий итог. sum(stock) считает единицы. grouping(category) равен 0 для категорий и 1 для итога. ORDER BY is_total, category ставит итог последним.",
+        "Небольшой пример добавляет одну общую строку после категорий. Одни и те же остатки входят и в итог своей категории, и в общий итог.",
+        "CUBE сотрудников показывает пары «отдел — руководитель», отделы, руководителей и всех сотрудников. grouping(department, manager_id) кодирует пропущенные ключи битовой маской: 0 — оба включены, 1 — только отдел, 2 — только руководитель, 3 — ни один.",
+        "Остатки категорий равны 8, 180 и 67, общий итог — 255. У него category равен NULL, а is_total — 1: это отличает итог от отсутствующей категории в исходных данных.",
+        "Не каждый NULL означает общий итог: исходные строки тоже могут содержать NULL. С каждым дополнительным ключом число сочетаний CUBE удваивается, поэтому результат может быстро расти.",
+        "ROLLUP подходит для иерархии вроде «год — месяц», CUBE — для независимых измерений. GROUPING SETS позволяет не вычислять ненужные отчёту уровни.",
+        "Сначала определите уровень строки, затем читайте число. Сопоставьте каждую маску GROUPING с пропущенными ключами и отдельно проверьте настоящие NULL в данных.",
+        "Выбирайте нужные отчёту уровни группировки и обозначайте их с помощью GROUPING. NULL вместо пропущенного ключа итога отличается от отсутствующего исходного значения."
+      ],
+      "review": "Grouping sets expansions, empty grand group, rightmost low bit masks0–3, genuine NULL vs subtotal and exponential CUBE.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    "l022": {
+      "en": [
+        "INNER JOIN combines rows from two sources when its ON condition is true. Each matching pair becomes a result row; rows without a match are excluded.",
+        "Customer details and orders belong in separate tables, but reports need both. Joining their keys connects the information without storing copies of customer details in every order.",
+        "Use short aliases to identify each source. A join may produce zero, one, or several matches for an input row. A customer's several orders repeat that customer's details in the result.",
+        "orders o and customers c give the tables aliases. ON c.id = o.customer_id matches each order's customer reference to a customer key. o.id AS order_id clarifies which ID is displayed.",
+        "The small example attaches the customer's name to each order with a known customer. Guest orders with NULL customer_id do not match this equality and are absent.",
+        "The inventory query joins each product_id to products.id, then multiplies inventory quantity by product price. The join supplies columns needed for the value calculation.",
+        "The full Retail result has eleven rows, with up to eight shown. The guest order is excluded; customers with several orders appear on several rows.",
+        "Joining by a display name can create false matches if names repeat. An incomplete condition can multiply rows. Prefer explicit ON relationships and qualify columns shared by both sources.",
+        "INNER JOIN keeps matching pairs. A LEFT JOIN, introduced next, also preserves left-side rows with no match. A foreign key protects references but does not automatically write the join condition for you.",
+        "Trace a result row back to its two source rows. Count matches for one customer and check why a guest order does not appear.",
+        "Join on the relationship that the data model defines. INNER JOIN returns every matching pair, so always consider both missing and multiple matches."
+      ],
+      "ru": [
+        "INNER JOIN объединяет строки двух источников, когда условие ON истинно. Каждая подходящая пара становится строкой результата; строки без пары исключаются.",
+        "Сведения о покупателях и заказах хранятся отдельно, но нужны вместе в отчёте. Соединение по ключам связывает их без копирования сведений о покупателе в каждый заказ.",
+        "Короткие псевдонимы обозначают источники. Для одной строки может найтись ноль, одна или несколько пар. Несколько заказов покупателя повторят его данные в нескольких строках результата.",
+        "orders o и customers c задают псевдонимы таблиц. ON c.id = o.customer_id связывает ссылку в заказе с ключом покупателя. o.id AS order_id уточняет, какой ID выводится.",
+        "Небольшой пример добавляет имя покупателя к каждому заказу с известным покупателем. Гостевые заказы с NULL в customer_id не проходят это равенство и не попадают в результат.",
+        "Запрос остатков связывает product_id с products.id, затем умножает количество из inventory на цену из products. Соединение даёт столбцы, необходимые для расчёта стоимости.",
+        "Полный результат Retail содержит одиннадцать строк, из которых показано до восьми. Гостевой заказ исключён, а покупатели с несколькими заказами встречаются несколько раз.",
+        "Соединение по имени может дать ложные пары при повторяющихся именах. Неполное условие размножает строки. Явно задавайте связь в ON и уточняйте источник одинаковых названий столбцов.",
+        "INNER JOIN оставляет подходящие пары. Следующий LEFT JOIN сохраняет и левые строки без пары. Внешний ключ защищает ссылки, но не записывает условие соединения за вас.",
+        "Найдите две исходные строки для одной строки результата. Посчитайте заказы одного покупателя и объясните, почему гостевой заказ отсутствует.",
+        "Соединяйте по связи, заданной моделью данных. INNER JOIN возвращает каждую подходящую пару, поэтому учитывайте отсутствие и множественность совпадений."
+      ],
+      "review": "Matching-pair multiplication, NULL equality and guest exclusion, alias qualification and key relationships.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/tutorial-join.html"
+      ]
+    },
+    "l023": {
+      "en": [
+        "LEFT JOIN preserves every left-side row. It returns matching pairs when present; if no right-side row matches, it supplies one result row with NULLs for the right-side columns.",
+        "A customer list should often include people with no orders. An inner join would lose them, while a left join keeps the customer visible.",
+        "ON decides which right rows match. A later WHERE condition can remove result rows, including the NULL-filled rows. To count matches, use a right-side column that cannot be NULL in a real matching row.",
+        "customers c is the preserved side. LEFT JOIN orders o ON o.customer_id = c.id connects orders. ORDER BY c.id, o.id NULLS LAST groups each customer's output and specifies where missing order IDs appear.",
+        "A customer with several orders appears several times, once per order. A customer with none still appears once, with order_id shown as NULL.",
+        "The paid-count example puts status = 'paid' in ON, preserving customers with no paid orders. count(o.id) then gives zero for those customers, because the missing right-side key is NULL.",
+        "The full Retail result has twelve rows, with up to eight shown. Fara has no order and is retained with a NULL order_id; Ada contributes three actual order rows.",
+        "WHERE o.status = 'paid' after the join removes customers with no paid match. COUNT(*) counts the unmatched placeholder too, so it is unsuitable for counting actual orders in this pattern.",
+        "LEFT JOIN answers 'include all left rows, optionally adding matches'. EXISTS answers whether a match exists without repeating left rows; the appropriate choice depends on the required output.",
+        "Check a customer with no orders, one order, and several orders. Compare a right-side filter in ON with the same filter in WHERE before using an aggregate.",
+        "Choose the preserved side deliberately. Keep optional-match restrictions in ON and count a non-NULL right key when you need the number of real matches."
+      ],
+      "ru": [
+        "LEFT JOIN сохраняет каждую строку левого источника. Если пары есть, он возвращает их; если справа совпадения нет, создаёт одну строку с NULL в правых столбцах.",
+        "В списке покупателей часто нужны и те, у кого ещё нет заказов. Внутреннее соединение их потеряет, а левое сохранит.",
+        "ON определяет, какие правые строки подходят. Следующий WHERE может удалить строки результата, включая строки с добавленными NULL. Для подсчёта совпадений выбирайте правый столбец, который не бывает NULL у настоящей пары.",
+        "customers c — сохраняемая сторона. LEFT JOIN orders o ON o.customer_id = c.id присоединяет заказы. ORDER BY c.id, o.id NULLS LAST располагает строки по покупателю и явно задаёт место отсутствующих номеров заказа.",
+        "Покупатель с несколькими заказами появится несколько раз — по разу на заказ. Покупатель без заказов тоже появится, но с NULL в order_id.",
+        "В примере оплаченных заказов status = 'paid' находится в ON: покупатели без оплаченных заказов сохраняются. count(o.id) даёт для них ноль, поскольку правый ключ отсутствует.",
+        "Полный результат Retail содержит двенадцать строк, показано до восьми. У Fara нет заказа, но покупатель остаётся с NULL в order_id; у Ada три строки реальных заказов.",
+        "WHERE o.status = 'paid' после соединения удалит покупателей без оплаченной пары. COUNT(*) считает и добавленную строку без совпадения, поэтому здесь не подходит для числа настоящих заказов.",
+        "LEFT JOIN означает «сохранить все левые строки и при наличии добавить пары». EXISTS проверяет наличие пары без повторения левых строк; выбор зависит от требуемого результата.",
+        "Проверьте покупателя без заказов, с одним и с несколькими заказами. Сравните условие правой стороны в ON и в WHERE до добавления агрегата.",
+        "Осознанно выбирайте сохраняемую сторону. Ограничения необязательных совпадений задавайте в ON, а реальные пары считайте по правому ключу без NULL."
+      ],
+      "review": "At-least-one left output not one-only, ON-vs-WHERE and COUNT matching keys, Fara sample.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l024": {
+      "en": [
+        "RIGHT JOIN preserves every right-side row; FULL JOIN preserves unmatched rows on both sides. CROSS JOIN has a different job: it produces every possible pair of input rows.",
+        "Outer joins help compare two lists without losing unmatched entries. Cross joins help build combinations, such as every product category paired with every warehouse.",
+        "RIGHT JOIN is the mirror of LEFT JOIN. FULL JOIN adds NULLs for whichever side is absent. CROSS JOIN uses no ON condition: N left rows and M right rows produce N × M pairs, including zero if either source is empty.",
+        "orders RIGHT JOIN customers preserves customers on the right. ON connects customer IDs; SELECT still chooses the output column order, independently of which source is preserved.",
+        "The small example is equivalent to starting with customers and using LEFT JOIN orders. Customers without orders remain, with a NULL order ID.",
+        "The realistic example first gets distinct categories and distinct warehouses, then pairs them using CROSS JOIN. Deduplicating each input prevents repeated combinations caused by repeated source values.",
+        "The small Retail example has twelve rows, including the customer without orders. Up to eight are shown; their column order is set by SELECT, not by RIGHT JOIN.",
+        "A cross join can grow very quickly: 1,000 rows on each side mean 1,000,000 pairs. A WHERE condition rejecting NULLs from an outer join can discard rows you intended to preserve.",
+        "Swapping a RIGHT JOIN to LEFT JOIN can make a report easier to read. FULL JOIN is useful for reconciliation; CROSS JOIN is suitable only when every combination is actually wanted.",
+        "Draw which side must survive without a match. For a cross join, calculate the expected row count from the two input counts before running it.",
+        "Outer joins preserve unmatched data; cross joins enumerate combinations. Choose the join by the required rows and check how large its result can become."
+      ],
+      "ru": [
+        "RIGHT JOIN сохраняет все строки правой стороны, FULL JOIN — строки без пары с обеих сторон. У CROSS JOIN другая задача: он создаёт все возможные пары исходных строк.",
+        "Внешние соединения помогают сравнивать списки без потери несовпавших записей. Перекрёстное соединение строит сочетания, например каждую категорию товаров с каждым складом.",
+        "RIGHT JOIN зеркален LEFT JOIN. FULL JOIN добавляет NULL со стороны, где нет пары. У CROSS JOIN нет ON: N левых и M правых строк дают N × M пар; если любой источник пуст, пар нет.",
+        "orders RIGHT JOIN customers сохраняет покупателей справа. ON связывает идентификаторы, а SELECT отдельно задаёт порядок столбцов результата независимо от сохраняемой стороны.",
+        "Небольшой пример равнозначен customers LEFT JOIN orders. Покупатели без заказов остаются с NULL в номере заказа.",
+        "Практический пример сначала получает различные категории и склады, затем соединяет их через CROSS JOIN. Удаление повторов во входах предотвращает повторение одинаковых сочетаний из-за исходных дублей.",
+        "Небольшой пример Retail даёт двенадцать строк, включая покупателя без заказов. Показано до восьми; порядок столбцов задаётся SELECT, а не RIGHT JOIN.",
+        "Результат CROSS JOIN быстро растёт: по 1 000 строк с каждой стороны дают 1 000 000 пар. Условие WHERE, отвергающее NULL после внешнего соединения, может удалить строки, которые вы хотели сохранить.",
+        "Замена RIGHT JOIN на LEFT JOIN с перестановкой сторон иногда делает запрос понятнее. FULL JOIN полезен для сверки, а CROSS JOIN — только когда действительно нужны все сочетания.",
+        "Отметьте, какая сторона должна сохраниться без пары. Для CROSS JOIN заранее вычислите ожидаемое количество строк по размерам двух входов.",
+        "Внешние соединения сохраняют данные без пары, CROSS JOIN перечисляет сочетания. Выбирайте вид по нужным строкам и оценивайте размер результата."
+      ],
+      "review": "Preserved side separate from projection order, full unmatched semantics, cross zero/large cardinality and distinct inputs.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l025": {
+      "en": [
+        "A self join reads the same table under different aliases. Each alias plays a different role, allowing one row to be matched with another row from the same table.",
+        "Employees and managers have the same stored fields, so one employees table can describe both. A self join turns the stored manager reference into a readable manager name.",
+        "Treat employees e as the employee and employees m as the manager. Match e.manager_id to m.id. A LEFT JOIN preserves employees whose manager reference is NULL.",
+        "The FROM clause introduces e and the join introduces m. m.id = e.manager_id identifies the manager. e.name AS employee and m.name AS manager distinguish the two names in the output.",
+        "Morgan has no manager and remains with a NULL manager name. Noor links to Morgan; Owen and Rae link to Noor. The query follows one manager link, not the whole hierarchy.",
+        "For employee pairs in a department, e1.id < e2.id excludes a person paired with themself and avoids listing both (A,B) and (B,A). Equality on department limits pairs to colleagues.",
+        "All six Retail employees appear. Morgan's NULL manager reflects a missing relationship, not an employee named NULL.",
+        "The aliases refer to the same stored table, not separate copies. Unqualified id or name is ambiguous. A foreign key can require a manager to exist without preventing every possible cycle in the hierarchy.",
+        "A self join follows a fixed number of links. Recursive CTEs, taught later, can follow an unknown number of levels; pair joins need a deliberate rule for whether direction and duplicates matter.",
+        "Label each alias's role before joining. Check a top-level employee, a subordinate, and colleague pairs, and explain why a pair should appear once or twice.",
+        "Use distinct aliases for distinct roles in one table. Join the correct link, preserve missing relationships when required, and control self-pairs and mirrored pairs explicitly."
+      ],
+      "ru": [
+        "Самосоединение читает одну таблицу под разными псевдонимами. У каждого своя роль: это позволяет сопоставить одну строку с другой строкой той же таблицы.",
+        "У сотрудников и руководителей одинаковые поля, поэтому обе роли можно хранить в employees. Самосоединение превращает ссылку на руководителя в понятное имя.",
+        "Считайте employees e сотрудником, а employees m — руководителем. Связь задаётся от e.manager_id к m.id. LEFT JOIN сохраняет сотрудников, у которых ссылка на руководителя равна NULL.",
+        "FROM вводит e, а соединение — m. Условие m.id = e.manager_id находит руководителя. e.name AS employee и m.name AS manager различают два имени в результате.",
+        "У Morgan нет руководителя, поэтому имя руководителя остаётся NULL. Noor ссылается на Morgan, Owen и Rae — на Noor. Запрос проходит одну связь, а не всю иерархию.",
+        "Для пар коллег e1.id < e2.id исключает пару человека с самим собой и не даёт вывести одновременно (A,B) и (B,A). Равенство department оставляет только сотрудников одного отдела.",
+        "В результате все шесть сотрудников Retail. NULL у руководителя Morgan обозначает отсутствие связи, а не сотрудника с именем NULL.",
+        "Псевдонимы относятся к одной сохранённой таблице, а не к разным копиям. Без уточнения источника id и name неоднозначны. Внешний ключ может требовать существования руководителя, но не исключает все возможные циклы иерархии.",
+        "Самосоединение проходит фиксированное число связей. Рекурсивные CTE позже позволят проходить неизвестное число уровней. Для пар нужно отдельно решить, важны ли направление и повторения.",
+        "Перед соединением назовите роль каждого псевдонима. Проверьте руководителя верхнего уровня, подчинённого и пары коллег; объясните, должна ли пара появляться один или два раза.",
+        "Для разных ролей одной таблицы используйте разные псевдонимы. Соединяйте правильную связь, при необходимости сохраняйте отсутствие пары и явно контролируйте пары с собой и зеркальные повторы."
+      ],
+      "review": "Role-based aliases, direct vsrecursive hierarchy, unordered pair uniqueness, nullable roots and cycles.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/queries-with.html",
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    },
+    "l026": {
+      "en": [
+        "A join's cardinality is the number of matching result rows. Joining one order to several order lines repeats that order's columns once for each line. This repetition is expected, but it changes how totals must be calculated.",
+        "An order total and a line total describe different units. A report can look plausible while counting the same order amount several times after a one-to-many join.",
+        "First state what one result row represents: an order, an order line, or a customer. Connect each relationship by its keys. If a later join multiplies existing summaries, aggregate the many-side data before joining it.",
+        "Orders o joins customers c by customer ID, order_items i by order ID, and products p by product ID. quantity * unit_price calculates each line's value; ORDER BY o.id, p.id gives line-key order.",
+        "Each output row describes one product line with a known customer. Order 101 appears twice because it contains Notebook and Pen; those are two legitimate lines, not accidental duplicates.",
+        "The customer summary uses count(DISTINCT o.id) for orders and count(*) for lines. After joining order_items, an order with several lines must contribute once to order_count but several times to line_count.",
+        "The full Retail result contains twelve known-customer lines, with up to eight shown. The first two lines belong to order 101 and have values 25.00 and 4.00.",
+        "SUM(o.total) after joining order lines repeats an order total per line. SUM(DISTINCT o.total) is also unsafe: different orders can have identical totals. Fix the level of aggregation, not just visible duplicates.",
+        "JOIN combines related rows, GROUP BY changes the summary level, and EXISTS tests membership without multiplying outer rows. Choose the pattern that matches the intended unit of your report.",
+        "Write the unit of each metric beside its formula. Check an order with multiple lines and two orders with equal totals; both cases expose common overcounting mistakes.",
+        "Follow the keys and track what one row means after every join. Aggregate at the correct level so repeated detail rows do not inflate higher-level measures."
+      ],
+      "ru": [
+        "Кардинальность соединения — количество получающихся совпадений. При соединении заказа с несколькими позициями его столбцы повторяются для каждой позиции. Это ожидаемо, но требует правильно считать итоги.",
+        "Сумма заказа и сумма позиции относятся к разным единицам учёта. После связи «один ко многим» отчёт может выглядеть правдоподобно, хотя одна сумма заказа посчитана несколько раз.",
+        "Сначала определите, что означает строка результата: заказ, позицию или покупателя. Связывайте таблицы по ключам. Если следующее соединение размножает готовые итоги, предварительно обобщите данные стороны «многие».",
+        "orders o соединяется с customers c по покупателю, с order_items i по заказу и с products p по товару. quantity * unit_price даёт стоимость позиции; ORDER BY o.id, p.id задаёт порядок её ключей.",
+        "Каждая строка описывает одну позицию с известным покупателем. Заказ 101 появляется дважды, поскольку содержит Notebook и Pen: это две настоящие позиции, а не случайные дубли.",
+        "Сводка покупателей использует count(DISTINCT o.id) для заказов и count(*) для позиций. После JOIN с order_items заказ с несколькими позициями должен учитываться один раз в order_count, но несколько — в line_count.",
+        "Полный результат Retail содержит двенадцать позиций с известным покупателем; показано до восьми. Первые две относятся к заказу 101 и стоят 25.00 и 4.00.",
+        "SUM(o.total) после соединения с позициями повторяет сумму заказа. SUM(DISTINCT o.total) тоже ненадёжен: у разных заказов суммы могут совпадать. Исправляйте уровень вычисления, а не только видимые повторы.",
+        "JOIN объединяет связанные строки, GROUP BY меняет уровень сводки, EXISTS проверяет наличие без размножения внешних строк. Выбирайте приём под единицу учёта отчёта.",
+        "Подпишите единицу учёта у каждой формулы. Проверьте заказ с несколькими позициями и два заказа с одинаковыми суммами: эти случаи выявляют типичные завышения итогов.",
+        "Следуйте ключам и отслеживайте смысл строки после каждого JOIN. Считайте итог на правильном уровне, чтобы подробные строки не увеличивали показатели более высокого уровня."
+      ],
+      "review": "Order vsline grain, legitimate duplicate rows, SUM DISTINCT not generic fix, preaggregation and count distinct.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    "l027": {
+      "en": [
+        "EXISTS is true when its subquery returns at least one row. NOT EXISTS is true when it returns none. Both produce a definite true or false result, not an unknown result.",
+        "Questions such as 'has any order?' need one answer per customer, even when that customer has many orders. An existence test avoids multiplying output rows just to check a relationship.",
+        "A correlated subquery refers to an outer query alias. Its condition defines which rows count as matches. SELECT 1 conventionally signals that only row existence matters; NULL values in those rows do not make EXISTS unknown.",
+        "For each customers c row, the subquery looks for orders o with o.customer_id = c.id. WHERE EXISTS keeps the customer if a match exists. The outer ORDER BY controls the displayed order.",
+        "Ada qualifies once even though several orders match. Fara has no order and is excluded. The test does not return the matching order columns.",
+        "The product example uses NOT EXISTS with order_items joined to paid orders. A product qualifies only if no paid order contains it; appearing solely in cancelled orders does not disqualify it.",
+        "Five Retail customers have at least one order. Each is returned once because the query selects customer rows, not matching order pairs.",
+        "Forgetting the correlation can make EXISTS depend on any order anywhere rather than that customer's orders. Nullable NOT IN results differ from NOT EXISTS; the predicates are not interchangeable without checking NULL behavior.",
+        "EXISTS expresses a matching requirement, sometimes called a semi-join; NOT EXISTS expresses an absence requirement, or anti-join. These names describe row-selection behavior rather than extra SQL keywords you need to write here.",
+        "Test zero, one, and several matching rows. Add a nonqualifying related row, such as a cancelled order, and check that the business condition remains inside the subquery.",
+        "Use EXISTS for at least one qualifying match and NOT EXISTS for none. Make the correlation and the qualifying conditions explicit."
+      ],
+      "ru": [
+        "EXISTS истинен, если подзапрос возвращает хотя бы одну строку. NOT EXISTS истинен, если строк нет. Оба дают определённую истину или ложь, а не неизвестный результат.",
+        "На вопрос «есть ли заказы?» нужен один ответ на покупателя, даже если заказов много. Проверка существования не размножает строки только ради проверки связи.",
+        "Связанный подзапрос обращается к псевдониму внешнего запроса. Условие определяет подходящие пары. SELECT 1 обычно подчёркивает, что важно наличие строки; NULL внутри найденных строк не делает EXISTS неизвестным.",
+        "Для каждой строки customers c подзапрос ищет orders o с o.customer_id = c.id. WHERE EXISTS оставляет покупателя при наличии пары. Внешний ORDER BY задаёт порядок вывода.",
+        "Ada подходит один раз, хотя у покупателя несколько заказов. Fara без заказов исключается. Столбцы найденных заказов сама проверка не возвращает.",
+        "В примере товаров NOT EXISTS проверяет позиции оплаченных заказов. Товар подходит, только если его нет ни в одном оплаченном заказе; наличие лишь в отменённом заказе не мешает.",
+        "У пяти покупателей Retail есть хотя бы один заказ. Каждый выводится один раз, потому что запрос выбирает строки покупателей, а не пары с заказами.",
+        "Без условия связи EXISTS может проверять наличие любого заказа вообще вместо заказов конкретного покупателя. При NULL поведение NOT IN отличается от NOT EXISTS; нельзя заменять их, не проверив правила отсутствующих значений.",
+        "Проверку наличия пары иногда называют полусоединением, или semi-join, а отсутствия — антисоединением, или anti-join. Это названия поведения отбора, а не дополнительные ключевые слова, которые здесь нужно писать.",
+        "Проверьте ноль, одно и несколько совпадений. Добавьте связанную, но неподходящую строку, например отменённый заказ, и убедитесь, что деловое условие стоит внутри подзапроса.",
+        "EXISTS проверяет наличие хотя бы одной подходящей пары, NOT EXISTS — отсутствие всех подходящих пар. Явно задавайте связь и условия соответствия."
+      ],
+      "review": "Definite truth despite nullable selected values, correlated existence, multiplicity, qualifying paid-only condition.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l028": {
+      "en": [
+        "A scalar subquery supplies one value inside another expression. It must return one column and no more than one row. Zero rows give NULL; multiple rows cause an error.",
+        "A query often needs a calculated benchmark, such as the average price of all products. A subquery calculates that benchmark from current data rather than hardcoding a number.",
+        "Put the inner SELECT in parentheses where a value is expected. An aggregate without grouping usually supplies one summary row; its value may still be NULL if there are no qualifying inputs.",
+        "The inner SELECT avg(price) FROM products calculates one overall average. The outer WHERE compares each product's price with that value. ORDER BY id sorts the products that pass.",
+        "The example finds products priced above the overall average, rather than above a fixed threshold. Adding or changing a product can change that average and the qualifying rows.",
+        "The stock-share example divides each product's stock by a scalar sum of all stock. Casting stock to numeric preserves fractions; NULLIF(..., 0) leaves the share unknown when the total is zero.",
+        "Keyboard and Monitor are above the Retail average. The average itself is used for comparison and is not an extra displayed output column.",
+        "A filter returning one row today may return several tomorrow. Use a key or an appropriate aggregate when one row is required; adding LIMIT 1 without a meaningful rule can hide ambiguity.",
+        "A scalar subquery produces a value. A subquery in FROM produces a table, while EXISTS checks row presence. Choose the form matching what the surrounding query needs.",
+        "Identify the inner query's row and column counts before embedding it. Check no qualifying rows, a NULL aggregate result, and an unexpectedly duplicated lookup key.",
+        "A scalar subquery must provide at most one row and exactly one column. Account for NULL when no value is available, and make uniqueness intentional."
+      ],
+      "ru": [
+        "Скалярный подзапрос подставляет одно значение в другое выражение. Он должен вернуть один столбец и не более одной строки. Ноль строк даёт NULL, несколько строк вызывают ошибку.",
+        "Запросу часто нужен вычисляемый ориентир, например средняя цена всех товаров. Подзапрос получает его из текущих данных вместо заранее заданного числа.",
+        "Поместите внутренний SELECT в скобки там, где ожидается значение. Агрегат без группировки обычно даёт одну итоговую строку; само значение может быть NULL, если подходящих входных данных нет.",
+        "Внутренний SELECT avg(price) FROM products вычисляет общую среднюю цену. Внешний WHERE сравнивает с ней цену каждого товара. ORDER BY id сортирует товары, прошедшие проверку.",
+        "Пример находит цены выше общего среднего, а не фиксированного порога. Добавление или изменение товара может изменить среднее и состав результата.",
+        "В примере долей остаток каждого товара делится на скалярную сумму всех остатков. Приведение stock к numeric сохраняет дробь; NULLIF(..., 0) оставляет долю неизвестной при нулевой сумме.",
+        "Keyboard и Monitor стоят выше среднего по Retail. Само среднее используется в сравнении, но не добавляется как отдельный столбец вывода.",
+        "Фильтр, который сегодня нашёл одну строку, завтра может найти несколько. Для единственного значения используйте ключ или подходящий агрегат; LIMIT 1 без осмысленного правила лишь скрывает неоднозначность.",
+        "Скалярный подзапрос даёт значение. Подзапрос в FROM даёт таблицу, а EXISTS проверяет наличие строк. Выбирайте форму по тому, что нужно окружающему запросу.",
+        "Перед вложением определите число строк и столбцов внутреннего запроса. Проверьте отсутствие совпадений, NULL у агрегата и неожиданный повтор ключа поиска.",
+        "Скалярный подзапрос должен дать не более одной строки и ровно один столбец. Учитывайте NULL при отсутствии значения и намеренно обеспечивайте единственность."
+      ],
+      "review": "Onecolumn atmostonerow, no rows vsNULLaggregate, nonspecificLIMIT ambiguity, stock share zero and cast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    "l029": {
+      "en": [
+        "A correlated subquery uses a value from an outer query row. Its question therefore depends on that row, such as 'what is the average price in this product's category?'",
+        "Comparing every product with the overall average may hide category differences. A correlated calculation supplies a benchmark for the group to which each product belongs.",
+        "Give inner and outer sources different aliases. A reference to the outer alias links the inner condition to the current outer row. This describes the query's meaning; the execution plan determines whether work is repeated or transformed.",
+        "products p is the outer product. Inside, products p2 supplies the comparison group, limited by p2.category = p.category. avg(p2.price) is that category's average; the outer price must exceed it.",
+        "A product is compared with its own category, including itself in that average. Office and Tech products are not pooled into one benchmark in this query.",
+        "The customer example counts orders whose customer_id matches each outer customer ID. COUNT returns zero when no order matches, so customers without orders remain in the output.",
+        "Notebook, Monitor, and Lamp exceed their own category averages in Retail. This differs from comparing all products with one overall average.",
+        "Omitting p2.category = p.category turns the benchmark into an overall average. Reusing aliases or leaving ambiguous references unqualified can accidentally change which source a column belongs to.",
+        "Correlation concerns dependency, not a particular execution speed. Joins or grouped summaries can express related calculations; compare plans and results before assuming one form is faster.",
+        "Write the outer row's question in words. Then point to the exact inner condition using its value, and test rows from different groups and rows with no related records.",
+        "A correlated subquery answers a row-specific question through an explicit outer reference. Clear aliases and a complete correlation condition protect its meaning."
+      ],
+      "ru": [
+        "Коррелированный, или связанный, подзапрос использует значение строки внешнего запроса. Поэтому его вопрос зависит от этой строки: например, «какова средняя цена в категории данного товара?».",
+        "Сравнение всех товаров с общим средним может скрыть различия категорий. Связанный расчёт даёт каждому товару ориентир именно для его группы.",
+        "Дайте внутреннему и внешнему источникам разные псевдонимы. Ссылка на внешний псевдоним связывает внутреннее условие с текущей внешней строкой. Это смысл запроса; повторит ли вычисление план или преобразует его — решает PostgreSQL.",
+        "products p — внешний товар. Внутри products p2 задаёт сравниваемую группу с условием p2.category = p.category. avg(p2.price) — среднее категории; внешняя цена должна быть выше него.",
+        "Товар сравнивается со своей категорией, причём он сам тоже входит в её среднее. В этом запросе товары Office и Tech не объединены в общий ориентир.",
+        "В примере покупателей считаются заказы, где customer_id совпадает с ID текущего покупателя. Если заказов нет, COUNT даёт ноль, поэтому такие покупатели остаются в выводе.",
+        "В Retail Notebook, Monitor и Lamp стоят выше среднего своей категории. Это другой результат, чем сравнение с единой средней ценой всех товаров.",
+        "Если убрать p2.category = p.category, получится среднее всей таблицы. Повторяющиеся псевдонимы и неуточнённые ссылки могут незаметно изменить источник столбца.",
+        "Корреляция означает зависимость от внешней строки, а не определённую скорость. Похожие расчёты можно записать через JOIN или готовые групповые сводки; сначала сравнивайте смысл и планы, а не предполагайте, что одна форма быстрее.",
+        "Сформулируйте вопрос для одной внешней строки. Покажите конкретное внутреннее условие с её значением и проверьте разные группы и отсутствие связанных записей.",
+        "Связанный подзапрос отвечает на вопрос для конкретной строки через явную внешнюю ссылку. Понятные псевдонимы и полное условие связи сохраняют правильный смысл."
+      ],
+      "review": "Row-specific dependency distinct from guaranteed execution, own-category includes self, count zero and alias scopes.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l030": {
+      "en": [
+        "A derived table is a query used as a source in FROM. LATERAL allows such a query to refer to sources on its left, making a related table result for each outer row.",
+        "Separate query layers make a summary of summaries possible. LATERAL also expresses questions such as the two most expensive products in each category without mixing their limits together.",
+        "A FROM subquery can return many rows and columns; an alias names its output for the outer query. Unlike an ordinary independent subquery, a LATERAL subquery may use a preceding source's values.",
+        "The inner query counts orders per known customer. Its alias counts names that summary table. The outer avg(order_count) averages those counts, and round(..., 2) rounds the resulting average.",
+        "The example averages orders among customers who have orders with non-NULL customer_id. It does not include customers with no orders as zero-count groups, because they are absent from this inner result.",
+        "The LATERAL example starts from distinct categories. For each category it sorts matching products by price descending, then ID, and takes at most two. The final ORDER BY arranges the combined output.",
+        "The small Retail example returns average_orders = 2.20: eleven known-customer orders divided among five customers with orders. It is not an average across all six customers.",
+        "CROSS JOIN LATERAL drops an outer row if the inner query returns no rows. LEFT JOIN LATERAL ... ON true preserves it with NULLs. Sorting inside a subquery does not establish the final output order.",
+        "A scalar subquery returns a single value; a derived table supplies rows and columns. LATERAL makes a table-producing subquery dependent on an earlier source, like correlation with a table-shaped result.",
+        "Check who belongs to the inner summary before averaging it. For top-N queries, verify that LIMIT applies separately per category and that equal prices have a tie-breaker.",
+        "Use a derived table to separate calculation stages. Use LATERAL for a related row set per outer row, choosing CROSS or LEFT behavior when matches are absent."
+      ],
+      "ru": [
+        "Производная таблица — запрос, используемый как источник в FROM. LATERAL позволяет такому запросу обращаться к источникам слева от него и получать связанный табличный результат для каждой внешней строки.",
+        "Отдельные уровни запроса позволяют вычислить итог по уже готовым итогам. LATERAL также удобно задаёт, например, два самых дорогих товара в каждой категории без общего ограничения на все категории.",
+        "Подзапрос в FROM может вернуть много строк и столбцов; псевдоним называет его результат для внешнего запроса. С LATERAL подзапрос, в отличие от независимого, может использовать значения предшествующего источника.",
+        "Внутренний запрос считает заказы известных покупателей. Псевдоним counts называет эту сводку. Внешний avg(order_count) усредняет полученные количества, а round(..., 2) округляет среднее.",
+        "Пример считает среднее только среди покупателей, у которых есть заказы с заполненным customer_id. Покупатели без заказов не входят как нулевые группы, потому что внутренний результат их не содержит.",
+        "Пример LATERAL начинает с разных категорий. Для каждой он сортирует её товары по убыванию цены, затем по ID и берёт до двух. Внешний ORDER BY упорядочивает объединённый вывод.",
+        "В небольшом примере Retail average_orders = 2.20: одиннадцать заказов известных покупателей приходятся на пять покупателей с заказами. Это не среднее по всем шести покупателям.",
+        "CROSS JOIN LATERAL исключает внешнюю строку, если внутренний запрос пуст. LEFT JOIN LATERAL ... ON true сохраняет её с NULL. Внутренняя сортировка не гарантирует порядок окончательного вывода.",
+        "Скалярный подзапрос возвращает одно значение, производная таблица — строки и столбцы. LATERAL делает табличный подзапрос зависимым от предыдущего источника: это похоже на корреляцию с табличным результатом.",
+        "Перед усреднением проверьте состав внутренней сводки. В top-N запросах убедитесь, что LIMIT применяется отдельно для каждой категории, а равные цены разрешаются дополнительным ключом.",
+        "Производная таблица разделяет этапы вычисления. LATERAL получает связанные строки для каждой внешней строки; CROSS или LEFT определяет поведение при отсутствии совпадений."
+      ],
+      "review": "Average excludes zero-order customers; 11/5=2.20, per-category LIMIT, LATERAL left scope and crossvsleft empties.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    "l031": {
+      "en": [
+        "A common table expression, or CTE, gives a query result a name for use within one statement. WITH introduces these named stages before the main query.",
+        "Breaking a long calculation into named stages helps a reader follow where rows are filtered, grouped, and compared. The names describe the calculation rather than creating permanent tables.",
+        "Write WITH name AS (query), then use name as a source. Multiple CTEs are comma-separated and may read earlier CTEs. Their names last only for the current statement.",
+        "WITH paid AS (...) defines a stage keeping paid order IDs and totals. The final SELECT reads paid, filters totals above 50, and sorts by ID. The inner and outer filters serve separate readable stages.",
+        "The example separates the definition of a paid order from the later amount threshold. Its result is still the result of one SQL statement, not a stored table named paid.",
+        "category_sales groups revenue from paid order lines by category. The final query compares each category's revenue with the mean of those category totals, reusing the named calculation.",
+        "Four Retail paid orders have totals above 50: IDs 102, 103, 105, and 111. The CTE name does not add another output column or result table.",
+        "A CTE is not always an optimization barrier. PostgreSQL can fold a nonrecursive, side-effect-free SELECT CTE into its parent, commonly for a single use. MATERIALIZED can keep a separate calculation; NOT MATERIALIZED can allow folding when eligible.",
+        "A derived table gives a query layer an inline position; a CTE gives it a name before the main query. Neither automatically persists data. Recursive and data-changing CTEs have additional rules taught separately.",
+        "Name each stage by what it represents. Trace its columns and row filters, then verify that a later comparison uses totals at the intended level rather than raw rows.",
+        "Use WITH to make query stages clear and reusable within one statement. Treat materialization as a planning choice, not an automatic property of every CTE."
+      ],
+      "ru": [
+        "Общее табличное выражение, или CTE, даёт результату запроса имя для использования в одной команде. WITH вводит такие именованные этапы перед главным запросом.",
+        "Разбиение длинного расчёта на этапы помогает понять, где отбираются, группируются и сравниваются строки. Имена описывают вычисление, а не создают постоянные таблицы.",
+        "Запишите WITH имя AS (запрос), затем используйте имя как источник. Несколько CTE разделяются запятыми и могут читать ранее объявленные CTE. Имена действуют только в текущей команде.",
+        "WITH paid AS (...) задаёт этап с ID и суммами оплаченных заказов. Главный SELECT читает paid, отбирает суммы выше 50 и сортирует по ID. Два фильтра разделяют понятные этапы.",
+        "Пример отделяет определение оплаченного заказа от проверки суммы. Результат всё ещё получается одной командой SQL, а таблица paid постоянно не сохраняется.",
+        "category_sales группирует выручку по позициям оплаченных заказов в разрезе категорий. Главный запрос сравнивает выручку каждой категории со средним этих итогов, повторно используя именованный расчёт.",
+        "Четыре оплаченных заказа Retail имеют сумму выше 50: ID 102, 103, 105 и 111. Имя CTE не создаёт дополнительный столбец или отдельную таблицу вывода.",
+        "CTE не всегда мешает оптимизации между этапами. PostgreSQL может встроить нерекурсивный SELECT без побочных эффектов в основной запрос, обычно при однократном использовании. MATERIALIZED может сохранить отдельный расчёт, NOT MATERIALIZED — разрешить встраивание, когда оно допустимо.",
+        "Производная таблица располагает этап прямо в FROM, а CTE объявляет его имя до главного запроса. Ни одна форма сама по себе не сохраняет данные. У рекурсивных и изменяющих данные CTE есть отдельные правила.",
+        "Называйте этап по его смыслу. Проследите столбцы и отбор строк, затем проверьте, что следующее сравнение использует итоги нужного уровня, а не исходные строки.",
+        "WITH делает этапы понятными и доступными внутри одной команды. Материализация — вопрос планирования, а не обязательное свойство каждого CTE."
+      ],
+      "review": "Statement scope, readability, side-effect-free nonrecursive fold eligibility, materialization nuanced rather than universal barrier.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    "l032": {
+      "en": [
+        "UNION stacks compatible query results and removes duplicate whole rows. UNION ALL also stacks results, but keeps every input row, including duplicates.",
+        "Data from separate sources can share one report format. Choosing ALL preserves repeated transactions that happen to have the same displayed values.",
+        "Both branches need the same number of columns with compatible types in corresponding positions. Columns match by position, not by name; output headings normally come from the first branch. Only a final ORDER BY guarantees combined ordering.",
+        "The first branch returns known customer cities as place; the second returns warehouses in the same column position. UNION removes repeated place values, and ORDER BY place sorts the combined list.",
+        "London appears for several customers but appears once in the result. A warehouse name is included under the same place heading even though its source column has another name.",
+        "The business example combines paid order totals and booking charges under source and amount. UNION ALL keeps separate transactions even if their source labels and amounts happen to match.",
+        "The Retail place list contains Berlin, London, North, Paris, and South. Its order comes from the final ORDER BY, not the order of query branches.",
+        "UNION is not a join: it adds rows rather than attaching columns. Dropping ALL can silently discard valid repeated transactions. NULLs count as equal for duplicate removal; UNION ALL preserves them as separate rows.",
+        "Use JOIN for related columns on the same row and UNION for similarly shaped rows from different queries. Branch-specific ORDER BY or LIMIT needs parentheses when combined with a set operation.",
+        "Compare column positions and types before combining queries. Check two identical transactions and decide whether the business question wants both retained or just one distinct row.",
+        "UNION combines rows and removes duplicates; UNION ALL preserves multiplicity. Define a shared column contract and sort the final result explicitly."
+      ],
+      "ru": [
+        "UNION ставит совместимые результаты запросов друг под другом и удаляет одинаковые строки целиком. UNION ALL также объединяет результаты, но сохраняет все строки, включая повторы.",
+        "Данные из разных источников могут войти в единый формат отчёта. ALL сохраняет отдельные операции, у которых случайно совпали показанные значения.",
+        "Ветви должны иметь одинаковое число столбцов и совместимые типы в соответствующих позициях. Столбцы сопоставляются по позиции, а не имени; заголовки обычно берутся из первой ветви. Порядок общего результата задаёт только итоговый ORDER BY.",
+        "Первая ветвь возвращает известные города покупателей как place, вторая — склады в той же позиции столбца. UNION убирает повторы мест, ORDER BY place сортирует общий список.",
+        "London указан у нескольких покупателей, но в результате появляется один раз. Название склада выводится под тем же заголовком place, хотя исходный столбец называется иначе.",
+        "Практический пример собирает суммы оплаченных заказов и стоимость проживаний в столбцы source и amount. UNION ALL сохраняет отдельные операции, даже если их метки источника и суммы совпали.",
+        "Список Retail содержит Berlin, London, North, Paris и South. Порядок задаётся итоговым ORDER BY, а не расположением ветвей запроса.",
+        "UNION — не JOIN: он добавляет строки, а не присоединяет столбцы. Без ALL можно незаметно потерять настоящие повторяющиеся операции. При удалении повторов NULL считаются одинаковыми; UNION ALL сохраняет их отдельными строками.",
+        "JOIN нужен для связанных столбцов одной строки, UNION — для одинаково устроенных строк разных запросов. Чтобы ORDER BY или LIMIT относился только к одной ветви операции множеств, нужны скобки.",
+        "Перед объединением сравните позиции и типы столбцов. Проверьте две одинаковые операции и решите, нужны ли обе или только одна различная строка.",
+        "UNION объединяет строки с удалением повторов, UNION ALL сохраняет их количество. Задавайте общий состав столбцов и явно сортируйте итоговый результат."
+      ],
+      "review": "Stack vsjoin, positional type compatibility, ALL business semantics, NULL duplicate comparison and branch ordering parentheses.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-union.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    "l033": {
+      "en": [
+        "INTERSECT returns rows found in both query results. EXCEPT returns rows found in the first result but absent from the second. By default, both remove duplicate whole rows.",
+        "These operations express overlap and difference directly: customers with two kinds of orders, or products that appear in lines but never in paid orders.",
+        "Branches must have matching column counts and compatible corresponding types. INTERSECT ALL keeps the smaller duplicate count from the two sides; EXCEPT ALL subtracts the second count from the first, never below zero.",
+        "The two branches select non-NULL customer IDs from paid and pending orders. INTERSECT keeps IDs present in both. ORDER BY customer_id sorts the final overlap.",
+        "A customer qualifies by having at least one order of each status. The query does not require one order to have both statuses at once.",
+        "The product example subtracts IDs appearing in paid order lines from all IDs appearing in order_items. A product with even one paid occurrence is absent from the difference.",
+        "Customer IDs 2 and 4 appear in both Retail status groups. Repeated orders do not repeat those IDs in the default INTERSECT result.",
+        "EXCEPT is directional: reversing its branches changes the question. NULLs count as equal for set comparisons. INTERSECT binds more tightly than UNION or EXCEPT; parentheses make a mixed expression's meaning explicit.",
+        "NOT EXISTS can express related absence questions while retaining other outer columns. A nullable NOT IN has different NULL behavior, so it is not a direct substitute for set difference.",
+        "Describe each branch's set before combining it. Check repeated rows, NULL, and one ID appearing on only one side, then verify whether ALL is appropriate.",
+        "INTERSECT finds common rows; EXCEPT finds a directional difference. Choose duplicate handling and parentheses deliberately, and sort the final result when order matters."
+      ],
+      "ru": [
+        "INTERSECT возвращает строки, встречающиеся в обоих результатах. EXCEPT — строки первого результата, которых нет во втором. По умолчанию обе операции удаляют повторы целых строк.",
+        "Так удобно выразить пересечение и разность: покупателей с двумя видами заказов или товары, которые есть в позициях, но ни разу не встречались в оплаченном заказе.",
+        "У ветвей должны совпадать количество столбцов и совместимые типы соответствующих позиций. INTERSECT ALL оставляет меньшее число повторов с двух сторон; EXCEPT ALL вычитает число вторых повторов из первых, но не ниже нуля.",
+        "Две ветви выбирают ID покупателей, отличные от NULL из оплаченных и ожидающих заказов. INTERSECT оставляет ID из обоих списков. ORDER BY customer_id сортирует общее пересечение.",
+        "Покупатель подходит, если у него есть хотя бы один заказ каждого статуса. Один заказ не обязан иметь два статуса одновременно.",
+        "Пример товаров вычитает из всех ID в order_items те ID, которые встречались в оплаченных заказах. Даже одного оплаченного появления достаточно, чтобы товар не попал в разность.",
+        "ID покупателей 2 и 4 встречаются в обеих группах статусов Retail. Несколько заказов не создают повторов этих ID при обычном INTERSECT.",
+        "У EXCEPT важно направление: перестановка ветвей меняет вопрос. Для сравнения множеств NULL считаются одинаковыми. INTERSECT имеет приоритет над UNION и EXCEPT; скобки делают смешанное выражение однозначным.",
+        "NOT EXISTS может решать похожую задачу отсутствия, сохраняя другие внешние столбцы. NOT IN с возможными NULL ведёт себя иначе, поэтому не заменяет разность множеств автоматически.",
+        "Сначала опишите набор каждой ветви. Проверьте повторы, NULL и ID только на одной стороне, затем решите, нужен ли ALL.",
+        "INTERSECT находит общие строки, EXCEPT — направленную разность. Осознанно выбирайте обработку повторов и скобки, а нужный порядок задавайте в конце."
+      ],
+      "review": "Set multiplicities ALL minimum/subtraction, directional EXCEPT, NULL equality and INTERSECT precedence.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-union.html",
+        "https://www.postgresql.org/docs/18/sql-select.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html"
+      ]
+    },
+    "l034": {
+      "en": [
+        "INSERT adds new rows to a table. RETURNING produces a result from the rows actually inserted, making their stored values available immediately to the caller.",
+        "An application needs to know what was saved, including generated identifiers and defaults. RETURNING avoids guessing those values or issuing an unrelated lookup afterward.",
+        "Name the target columns, then supply corresponding VALUES in the same order. Omitted columns use their defaults, or NULL when no default exists; all constraints must still pass. INSERT ... SELECT inserts rows produced by a query.",
+        "INSERT INTO products(...) identifies the table and five target columns. VALUES(...) supplies one product in that order. RETURNING id, name, price, stock chooses which inserted values to display.",
+        "The example inserts Ruler with ID 50, category Office, price 3.50, and stock 15. Other omitted columns use their defaults. RETURNING shows just that new row's requested fields.",
+        "The archive example creates paid_archive with an order primary key, then copies paid order IDs and totals using INSERT ... SELECT. It copies values, not a live link to the orders table.",
+        "The table below is the dedicated checker's post-insert view of products, not RETURNING's one-row output. Retail has nine products after insertion; only the first eight are shown, so the new ID 50 is outside this preview.",
+        "Mismatched column/value positions can put data in the wrong place or raise a type error. Duplicate keys and other constraint violations fail unless specifically handled. A successful preview does not make exercise changes permanent outside its isolated run.",
+        "INSERT changes rows; SELECT normally reads them. RETURNING turns changed rows into output. Upserts later add conflict-handling rules, while transactions determine whether a group of changes is committed together.",
+        "Check both the returned row and the resulting table state. Confirm omitted-column defaults and constraint behavior, and remember that each practice execution starts from its controlled dataset.",
+        "List INSERT columns explicitly, match values by position, and use RETURNING for saved values. Verify actual table changes separately from command output."
+      ],
+      "ru": [
+        "INSERT добавляет новые строки в таблицу. RETURNING формирует результат из действительно добавленных строк и сразу возвращает вызывающему коду сохранённые значения.",
+        "Приложению нужно знать, что сохранено, включая созданные идентификаторы и значения по умолчанию. RETURNING позволяет получить их без угадывания и отдельного поиска.",
+        "Перечислите целевые столбцы, затем VALUES в том же порядке. Для пропущенных столбцов применяется значение по умолчанию или NULL, если значения по умолчанию нет; все ограничения должны выполняться. INSERT ... SELECT вставляет строки из запроса.",
+        "INSERT INTO products(...) указывает таблицу и пять целевых столбцов. VALUES(...) задаёт один товар в соответствующем порядке. RETURNING id, name, price, stock выбирает сохранённые значения для вывода.",
+        "Пример добавляет Ruler с ID 50, категорией Office, ценой 3.50 и остатком 15. Остальные столбцы получают значения по умолчанию. RETURNING показывает только запрошенные поля новой строки.",
+        "В примере архива создаётся paid_archive с первичным ключом заказа, затем INSERT ... SELECT копирует ID и суммы оплаченных заказов. Копируются значения, а не живая связь с orders.",
+        "Ниже показана таблица products после вставки по отдельному проверочному запросу, а не однострочный вывод RETURNING. В Retail теперь девять товаров; показаны первые восемь, поэтому новый ID 50 в этот фрагмент не попал.",
+        "Неверный порядок столбцов и значений может записать данные не туда или вызвать ошибку типа. Повтор ключа и другие нарушения ограничений вызывают ошибку, если специально не обработаны. Пробный запуск не делает изменения постоянными за пределами изолированного упражнения.",
+        "INSERT изменяет строки, SELECT обычно их читает. RETURNING превращает изменённые строки в вывод. Позже upsert добавит обработку конфликтов, а транзакции — совместное подтверждение группы изменений.",
+        "Проверяйте и возвращённую строку, и состояние таблицы. Убедитесь в применении значений по умолчанию и ограничений; каждый учебный запуск начинается с контролируемого набора данных.",
+        "Явно перечисляйте столбцы INSERT, сопоставляйте значения по позиции и получайте сохранённые значения через RETURNING. Реальные изменения таблицы проверяйте отдельно от вывода команды."
+      ],
+      "review": "INSERT positional mapping, defaults do not bypass NOTNULL, checker9rows truncated8 not RETURNING, archival copy vslink, isolation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-insert.html",
+        "https://www.postgresql.org/docs/18/dml-returning.html",
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    }
+  }
+}

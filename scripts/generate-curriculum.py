@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the original, offline QueryCraft course pack. Python is for contributors only."""
 import json, pathlib, re
+from lesson_explanations import apply_explanations
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASE = r"""
 CREATE TABLE customers(id integer PRIMARY KEY, name text NOT NULL, city text, email text UNIQUE, joined_on date NOT NULL, vip boolean NOT NULL DEFAULT false);
@@ -684,7 +685,9 @@ for mi,m in enumerate(modules):
 for l in lesson_index:
     for e in l['exercises']:
         if e['title']=='Remove public table access': e['fixtureIDs']=['retail-public-grant','retail-edge-public-grant']
-course=dict(title='SQL & PostgreSQL Mastery',version='1.1.0',postgresVersion='18.6',fixtures={'retail':BASE,'retail-edge':EDGE,'retail-public-grant':BASE+'\nGRANT SELECT ON products TO PUBLIC;','retail-edge-public-grant':EDGE+'\nGRANT SELECT ON products TO PUBLIC;'},modules=modules)
+course=dict(title='SQL & PostgreSQL Mastery',version='1.1.1',postgresVersion='18.6',fixtures={'retail':BASE,'retail-edge':EDGE,'retail-public-grant':BASE+'\nGRANT SELECT ON products TO PUBLIC;','retail-edge-public-grant':EDGE+'\nGRANT SELECT ON products TO PUBLIC;'},modules=modules)
+course['modules'][7]['topics'][0]['title']='Combining related data'
+apply_explanations(course, 'en')
 OUT=ROOT/'Sources'/'SQLCore'/'Resources'/'curriculum.json'
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_text(json.dumps(course,ensure_ascii=False,indent=2)+'\n')

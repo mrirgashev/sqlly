@@ -1,0 +1,1064 @@
+{
+  "courseVersion": "1.1.1",
+  "modules": 34,
+  "lessons": 102,
+  "exercises": 516,
+  "sectionsPerLanguage": 1122,
+  "allLessonReviewsPresent": true,
+  "authoredResourcesMatch": true,
+  "measuredResultTablesPreserved": true,
+  "baselineTaskAndStructureComparisonPassed": true,
+  "sectionsIndividuallyRevised": {
+    "en": 1122,
+    "ru": 1122
+  },
+  "nonProseContractSHA256": {
+    "en": "a8088a0d865a2f1918c9e7099cfd898b37ff0c3f00e05634ade7e936cc6dfed5",
+    "ru": "d8814edf841f326abd2f74d562a9eee817e73e92df0e365c294b0224f61c74f0"
+  },
+  "authoringFiles": {
+    "lesson-explanations-001-034.json": "77163f7f80f8ee5832fbbb67473ab6f53c73a99899860ff11765cdfc70258d16",
+    "lesson-explanations-035-068.json": "fd609c432de0ce69e0ee510106f3867d8b241a7857331be816d306a8ac664a8d",
+    "lesson-explanations-069-102.json": "1b4aefb8f51d6c57bb7aa38af3a59c94702bc9b565d5b6b12e203a072188f1d1"
+  },
+  "reviews": [
+    {
+      "lessonID": "l001",
+      "englishTitle": "Tables, rows, and columns",
+      "russianTitle": "Таблицы, строки и столбцы",
+      "review": "Replaced facts terminology; explained DBMS versus SQL, row/column, read-only SELECT, booleans and NULL.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-table.html",
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/queries-order.html"
+      ]
+    },
+    {
+      "lessonID": "l002",
+      "englishTitle": "Keys and relationships",
+      "russianTitle": "Ключи и связи",
+      "review": "Primary/foreign/composite keys, optional references, identity vs names, one-to-many and separate NOT NULL.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/ddl-schemas.html"
+      ]
+    },
+    {
+      "lessonID": "l003",
+      "englishTitle": "Expressions and query order",
+      "russianTitle": "Выражения и порядок запроса",
+      "review": "Logical vs physical processing, expressions without FROM, aliases and pre-division casts.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-select.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-math.html"
+      ]
+    },
+    {
+      "lessonID": "l004",
+      "englishTitle": "Projection and aliases",
+      "russianTitle": "Выбор столбцов и псевдонимы",
+      "review": "Projection and alias semantics, ORDER BY hidden source field, quoted names vs literal strings.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/sql-syntax-lexical.html",
+        "https://www.postgresql.org/docs/18/queries-order.html"
+      ]
+    },
+    {
+      "lessonID": "l005",
+      "englishTitle": "DISTINCT and duplicate values",
+      "russianTitle": "DISTINCT и повторяющиеся значения",
+      "review": "Whole-row duplicate semantics, NULL equality for DISTINCT, non-ordering and month/year caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-select-lists.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l006",
+      "englishTitle": "ORDER BY, LIMIT, and OFFSET",
+      "russianTitle": "ORDER BY, LIMIT и OFFSET",
+      "review": "Tie stability, per-key DESC, PostgreSQL null defaults, offset work and changing-page caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-order.html",
+        "https://www.postgresql.org/docs/18/queries-limit.html"
+      ]
+    },
+    {
+      "lessonID": "l007",
+      "englishTitle": "WHERE and comparisons",
+      "russianTitle": "WHERE и сравнения",
+      "review": "Comparison boundaries, boolean unknown, no comparison chains and pre-group filtering.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l008",
+      "englishTitle": "AND, OR, NOT, and precedence",
+      "russianTitle": "AND, OR, NOT и приоритет",
+      "review": "Truth-table edge cases, precedence, no promised short-circuit evaluation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-logical.html",
+        "https://www.postgresql.org/docs/18/sql-syntax-lexical.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l009",
+      "englishTitle": "IN, BETWEEN, and ranges",
+      "russianTitle": "IN, BETWEEN и диапазоны",
+      "review": "Inclusive vs half-open boundaries, DATE vs timestamps, month/year and nullable NOT IN.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l010",
+      "englishTitle": "NULL and three-valued logic",
+      "russianTitle": "NULL и трёхзначная логика",
+      "review": "Missing vs empty value, three-valued logic, null-safe inequality, nullable anti-joins and distinct grouping.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-comparison.html",
+        "https://www.postgresql.org/docs/18/functions-logical.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html"
+      ]
+    },
+    {
+      "lessonID": "l011",
+      "englishTitle": "LIKE, ILIKE, and escaping",
+      "russianTitle": "LIKE, ILIKE и экранирование",
+      "review": "Whole-string LIKE, zero-length %, literal escapes, locale/collation, PG18 LIKE change.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-matching.html",
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/collation.html"
+      ]
+    },
+    {
+      "lessonID": "l012",
+      "englishTitle": "Regular expressions",
+      "russianTitle": "Регулярные выражения",
+      "review": "POSIX/ARE, anchor placement, negated class, extraction not full email validation and collation ranges.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-matching.html"
+      ]
+    },
+    {
+      "lessonID": "l013",
+      "englishTitle": "CASE and conditional values",
+      "russianTitle": "CASE и условные значения",
+      "review": "First true match, implicit NULL, compatible result types, planning caveat and overlap boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-conditional.html"
+      ]
+    },
+    {
+      "lessonID": "l014",
+      "englishTitle": "COALESCE, NULLIF, and safe arithmetic",
+      "russianTitle": "COALESCE, NULLIF и безопасные вычисления",
+      "review": "Missing vs empty string, fallback not mutation, nullif zero handling vs numeric casts.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-conditional.html",
+        "https://www.postgresql.org/docs/18/functions-math.html"
+      ]
+    },
+    {
+      "lessonID": "l015",
+      "englishTitle": "Casts and numeric precision",
+      "russianTitle": "Преобразование типов и точность",
+      "review": "Pre-operation cast, truncation toward zero, numeric scale/precision, trailing zero equivalence and date zone caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-numeric.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l016",
+      "englishTitle": "COUNT and missing values",
+      "russianTitle": "COUNT и отсутствующие значения",
+      "review": "Three count meanings, empty input, COUNT(1), later outer-join counting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l017",
+      "englishTitle": "SUM, AVG, MIN, and MAX",
+      "russianTitle": "SUM, AVG, MIN и MAX",
+      "review": "Aggregate NULL handling, empty input, units, avg denominators and unequal group-size weighting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/datatype-numeric.html"
+      ]
+    },
+    {
+      "lessonID": "l018",
+      "englishTitle": "FILTER and conditional aggregation",
+      "russianTitle": "FILTER и условная агрегация",
+      "review": "Per-aggregate filter, true-only conditions, shared WHERE, COUNT CASE trap, completely empty SUM even ELSE0.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    {
+      "lessonID": "l019",
+      "englishTitle": "Group rows into summaries",
+      "russianTitle": "Группировка строк",
+      "review": "Result grain explained, NULL grouping, primary-key dependency caveat, grouping distinct from sorting.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    {
+      "lessonID": "l020",
+      "englishTitle": "HAVING filters groups",
+      "russianTitle": "Отбор групп с HAVING",
+      "review": "Row versus group eligibility, alias scope, inclusive threshold and implicit single HAVING group.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    {
+      "lessonID": "l021",
+      "englishTitle": "ROLLUP, CUBE, and GROUPING SETS",
+      "russianTitle": "ROLLUP, CUBE и GROUPING SETS",
+      "review": "Grouping sets expansions, empty grand group, rightmost low bit masks0–3, genuine NULL vs subtotal and exponential CUBE.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    {
+      "lessonID": "l022",
+      "englishTitle": "INNER JOIN and matching keys",
+      "russianTitle": "INNER JOIN и совпадающие ключи",
+      "review": "Matching-pair multiplication, NULL equality and guest exclusion, alias qualification and key relationships.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/tutorial-join.html"
+      ]
+    },
+    {
+      "lessonID": "l023",
+      "englishTitle": "LEFT JOIN and preserved rows",
+      "russianTitle": "LEFT JOIN и сохранение строк",
+      "review": "At-least-one left output not one-only, ON-vs-WHERE and COUNT matching keys, Fara sample.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l024",
+      "englishTitle": "RIGHT, FULL, and CROSS JOIN",
+      "russianTitle": "RIGHT, FULL и CROSS JOIN",
+      "review": "Preserved side separate from projection order, full unmatched semantics, cross zero/large cardinality and distinct inputs.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l025",
+      "englishTitle": "Self joins and hierarchical links",
+      "russianTitle": "Самосоединения и иерархические связи",
+      "review": "Role-based aliases, direct vsrecursive hierarchy, unordered pair uniqueness, nullable roots and cycles.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/queries-with.html",
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    },
+    {
+      "lessonID": "l026",
+      "englishTitle": "Multi-table joins and fan-out",
+      "russianTitle": "Несколько соединений и размножение строк",
+      "review": "Order vsline grain, legitimate duplicate rows, SUM DISTINCT not generic fix, preaggregation and count distinct.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    {
+      "lessonID": "l027",
+      "englishTitle": "EXISTS, NOT EXISTS, and anti-joins",
+      "russianTitle": "EXISTS, NOT EXISTS и отсутствие связей",
+      "review": "Definite truth despite nullable selected values, correlated existence, multiplicity, qualifying paid-only condition.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l028",
+      "englishTitle": "Scalar subqueries",
+      "russianTitle": "Скалярные подзапросы",
+      "review": "Onecolumn atmostonerow, no rows vsNULLaggregate, nonspecificLIMIT ambiguity, stock share zero and cast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    {
+      "lessonID": "l029",
+      "englishTitle": "Correlated subqueries",
+      "russianTitle": "Коррелированные подзапросы",
+      "review": "Row-specific dependency distinct from guaranteed execution, own-category includes self, count zero and alias scopes.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l030",
+      "englishTitle": "Derived tables and LATERAL",
+      "russianTitle": "Производные таблицы и LATERAL",
+      "review": "Average excludes zero-order customers; 11/5=2.20, per-category LIMIT, LATERAL left scope and crossvsleft empties.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l031",
+      "englishTitle": "Common table expressions",
+      "russianTitle": "Общие табличные выражения",
+      "review": "Statement scope, readability, side-effect-free nonrecursive fold eligibility, materialization nuanced rather than universal barrier.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    {
+      "lessonID": "l032",
+      "englishTitle": "UNION and UNION ALL",
+      "russianTitle": "UNION и UNION ALL",
+      "review": "Stack vsjoin, positional type compatibility, ALL business semantics, NULL duplicate comparison and branch ordering parentheses.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-union.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    {
+      "lessonID": "l033",
+      "englishTitle": "INTERSECT and EXCEPT",
+      "russianTitle": "INTERSECT и EXCEPT",
+      "review": "Set multiplicities ALL minimum/subtraction, directional EXCEPT, NULL equality and INTERSECT precedence.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-union.html",
+        "https://www.postgresql.org/docs/18/sql-select.html",
+        "https://www.postgresql.org/docs/18/functions-subquery.html"
+      ]
+    },
+    {
+      "lessonID": "l034",
+      "englishTitle": "INSERT and RETURNING",
+      "russianTitle": "INSERT и RETURNING",
+      "review": "INSERT positional mapping, defaults do not bypass NOTNULL, checker9rows truncated8 not RETURNING, archival copy vslink, isolation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-insert.html",
+        "https://www.postgresql.org/docs/18/dml-returning.html",
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    },
+    {
+      "lessonID": "l035",
+      "englishTitle": "UPDATE with a precise scope",
+      "russianTitle": "UPDATE с точным отбором",
+      "review": "Reviewed UPDATE scope, old-value expressions, deterministic FROM matching, and state-check/output distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-update.html"
+      ]
+    },
+    {
+      "lessonID": "l036",
+      "englishTitle": "DELETE and referential actions",
+      "russianTitle": "DELETE и ссылочные действия",
+      "review": "Reviewed anti-join deletion, TRUNCATE transactional/locking/trigger differences, and dependent rows.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-delete.html",
+        "https://www.postgresql.org/docs/18/sql-truncate.html"
+      ]
+    },
+    {
+      "lessonID": "l037",
+      "englishTitle": "ON CONFLICT and upserts",
+      "russianTitle": "ON CONFLICT и обновление при вставке",
+      "review": "Corrected DO UPDATE exclusion-constraint caveat and false implication that every upsert is idempotent.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-insert.html"
+      ]
+    },
+    {
+      "lessonID": "l038",
+      "englishTitle": "Transactions and savepoints",
+      "russianTitle": "Транзакции и точки сохранения",
+      "review": "Reviewed abort recovery, partial rollback, transfer invariant, and atomicity versus isolation.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html",
+        "https://www.postgresql.org/docs/18/sql-savepoint.html",
+        "https://www.postgresql.org/docs/18/sql-rollback-to.html"
+      ]
+    },
+    {
+      "lessonID": "l039",
+      "englishTitle": "Data-changing CTEs",
+      "russianTitle": "CTE с изменением данных",
+      "review": "Reviewed shared snapshot, complete execution, RETURNING communication, and direct-output versus state-check tables.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    {
+      "lessonID": "l040",
+      "englishTitle": "Integers, decimals, text, and booleans",
+      "russianTitle": "Целые числа, десятичные значения, текст и логика",
+      "review": "Reviewed literal types, exact versus approximate numeric storage, typemod rounding, and character limits.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-numeric.html",
+        "https://www.postgresql.org/docs/18/datatype-character.html",
+        "https://www.postgresql.org/docs/18/datatype-boolean.html",
+        "https://www.postgresql.org/docs/18/functions-info.html"
+      ]
+    },
+    {
+      "lessonID": "l041",
+      "englishTitle": "UUIDs and enums",
+      "russianTitle": "UUID и перечисления",
+      "review": "Verified PostgreSQL18 uuidv4/uuidv7, enum ordering/case sensitivity, and key versus type distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-uuid.html",
+        "https://www.postgresql.org/docs/18/functions-uuid.html",
+        "https://www.postgresql.org/docs/18/datatype-enum.html"
+      ]
+    },
+    {
+      "lessonID": "l042",
+      "englishTitle": "String functions and normalization",
+      "russianTitle": "Строковые функции и нормализация",
+      "review": "Reviewed SELECT versus UPDATE, character/byte counts, locale caveats, and overloaded normalisation terminology.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-string.html"
+      ]
+    },
+    {
+      "lessonID": "l043",
+      "englishTitle": "Dates and calendar arithmetic",
+      "russianTitle": "Даты и календарная арифметика",
+      "review": "Reviewed DATE subtraction versus intervals/age, day offsets, and exclusive checkout.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l044",
+      "englishTitle": "Timestamps and time zones",
+      "russianTitle": "Метки времени и часовые пояса",
+      "review": "Reviewed both AT TIME ZONE overloads, zone-less event data, session display, and DST ambiguity.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l045",
+      "englishTitle": "Intervals, date_trunc, and time buckets",
+      "russianTitle": "Интервалы, date_trunc и временные группы",
+      "review": "Reviewed all-status monthly totals, interval calendar semantics, transaction clock functions, and explicit report zones.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/datatype-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l046",
+      "englishTitle": "Arrays and element operations",
+      "russianTitle": "Массивы и операции над элементами",
+      "review": "Reviewed non-one array bounds, ANY NULL semantics, unnest duplication, and product_count assumption.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/arrays.html",
+        "https://www.postgresql.org/docs/18/functions-array.html",
+        "https://www.postgresql.org/docs/18/functions-comparisons.html"
+      ]
+    },
+    {
+      "lessonID": "l047",
+      "englishTitle": "JSON and JSONB extraction",
+      "russianTitle": "Извлечение JSON и JSONB",
+      "review": "Reviewed extraction result types, missing/JSON-null differences, duplicate keys, and numeric conversion.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/datatype-json.html",
+        "https://www.postgresql.org/docs/18/functions-json.html"
+      ]
+    },
+    {
+      "lessonID": "l048",
+      "englishTitle": "JSONB containment and updates",
+      "russianTitle": "Включение и изменение JSONB",
+      "review": "Reviewed containment types, ? top-level semantics, jsonb_set parent path behavior and non-mutating return.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-json.html",
+        "https://www.postgresql.org/docs/18/datatype-json.html"
+      ]
+    },
+    {
+      "lessonID": "l049",
+      "englishTitle": "Primary, foreign, and unique keys",
+      "russianTitle": "Первичные, внешние и уникальные ключи",
+      "review": "Reviewed key versus index, nullable/composite FK behavior and NULLS NOT DISTINCT.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html"
+      ]
+    },
+    {
+      "lessonID": "l050",
+      "englishTitle": "CHECK, defaults, and referential actions",
+      "russianTitle": "CHECK, значения по умолчанию и ссылочные действия",
+      "review": "Corrected default semantics for existing-column SET DEFAULT versus ADD COLUMN DEFAULT; reviewed CHECK UNKNOWN and referential actions.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/ddl-default.html",
+        "https://www.postgresql.org/docs/18/ddl-alter.html"
+      ]
+    },
+    {
+      "lessonID": "l051",
+      "englishTitle": "Identity columns and sequences",
+      "russianTitle": "Столбцы identity и последовательности",
+      "review": "Reviewed identity NOT NULL versus uniqueness, explicit IDs not advancing sequence, and rollback gaps.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-identity-columns.html",
+        "https://www.postgresql.org/docs/18/functions-sequence.html"
+      ]
+    },
+    {
+      "lessonID": "l052",
+      "englishTitle": "Normalization and relationship tables",
+      "russianTitle": "Нормализация и таблицы связей",
+      "review": "Reviewed junction composite key, entity meaning, and categories example not completing a foreign-key migration.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/tutorial-fk.html"
+      ]
+    },
+    {
+      "lessonID": "l053",
+      "englishTitle": "Schema namespaces and catalogs",
+      "russianTitle": "Пространства имён и системные каталоги",
+      "review": "Reviewed current_schema/search_path meaning, metadata versus data, privilege visibility, and namespace security.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-schemas.html",
+        "https://www.postgresql.org/docs/18/information-schema.html",
+        "https://www.postgresql.org/docs/18/catalogs.html"
+      ]
+    },
+    {
+      "lessonID": "l054",
+      "englishTitle": "Safe schema migrations",
+      "russianTitle": "Безопасные миграции схемы",
+      "review": "Reviewed add/backfill/constrain sequence, absent future default, transactional DDL caveats and locks.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-alter.html",
+        "https://www.postgresql.org/docs/18/sql-altertable.html"
+      ]
+    },
+    {
+      "lessonID": "l055",
+      "englishTitle": "OVER and PARTITION BY",
+      "russianTitle": "OVER и PARTITION BY",
+      "review": "Reviewed aggregate versus window row granularity, whole-partition frame, NULL partition and filtering order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/tutorial-window.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l056",
+      "englishTitle": "ROW_NUMBER, RANK, and DENSE_RANK",
+      "russianTitle": "ROW_NUMBER, RANK и DENSE_RANK",
+      "review": "Reviewed peer definitions, rank gaps, deterministic row_number and top-N ties.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/tutorial-window.html"
+      ]
+    },
+    {
+      "lessonID": "l057",
+      "englishTitle": "LAG, LEAD, and neighboring rows",
+      "russianTitle": "LAG, LEAD и соседние строки",
+      "review": "Reviewed default argument versus existing NULL, RESPECT NULLS, sequence order, and salary comparison meaning.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html"
+      ]
+    },
+    {
+      "lessonID": "l058",
+      "englishTitle": "Running totals and explicit frames",
+      "russianTitle": "Накопительные итоги и явные рамки",
+      "review": "Reviewed ROWS/RANGE/GROUPS distinction, default peers, pre-window filtering, and truncated running-total preview.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-expressions.html",
+        "https://www.postgresql.org/docs/18/tutorial-window.html"
+      ]
+    },
+    {
+      "lessonID": "l059",
+      "englishTitle": "FIRST_VALUE, LAST_VALUE, and NTILE",
+      "russianTitle": "FIRST_VALUE, LAST_VALUE и NTILE",
+      "review": "Reviewed frame endpoints, bucket sizes for actual six-row example, ties and non-skipped NULLs.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/sql-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l060",
+      "englishTitle": "DISTINCT ON and ordered selection",
+      "russianTitle": "DISTINCT ON и выбор представителя",
+      "review": "Reviewed PostgreSQL-specific order prefix, NULL grouping, tie-breaks, and latest-any-status versus latest-paid.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    {
+      "lessonID": "l061",
+      "englishTitle": "Views as named queries",
+      "russianTitle": "Представления как именованные запросы",
+      "review": "Reviewed view storage versus query, writeability qualification, LEFT JOIN filter position and security caveats.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createview.html",
+        "https://www.postgresql.org/docs/18/rules-views.html"
+      ]
+    },
+    {
+      "lessonID": "l062",
+      "englishTitle": "Materialized results and refresh",
+      "russianTitle": "Материализованные результаты и обновление",
+      "review": "Reviewed stored staleness, populated-view and qualifying full unique-index requirements, and per-view refresh concurrency.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-creatematerializedview.html",
+        "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html",
+        "https://www.postgresql.org/docs/18/rules-materializedviews.html"
+      ]
+    },
+    {
+      "lessonID": "l063",
+      "englishTitle": "Set-returning functions and generated series",
+      "russianTitle": "Табличные функции и generate_series",
+      "review": "Reviewed inclusive endpoints, zero/NULL/inverted-series behavior, lateral booking nights and calendar count placeholder.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-srf.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l064",
+      "englishTitle": "SQL functions and volatility",
+      "russianTitle": "SQL-функции и изменчивость",
+      "review": "Reviewed SQL function creation versus invocation, typed result, volatility categories, NULL strictness and definer caveat.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createfunction.html",
+        "https://www.postgresql.org/docs/18/xfunc-volatility.html",
+        "https://www.postgresql.org/docs/18/xfunc-sql.html"
+      ]
+    },
+    {
+      "lessonID": "l065",
+      "englishTitle": "PLpgSQL variables and control flow",
+      "russianTitle": "Переменные и управление PL/pgSQL",
+      "review": "Corrected BEGIN/END transaction conflation; reviewed actual NULL/negative stock_label behavior and SELECT INTO missing/multiple rows.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-structure.html",
+        "https://www.postgresql.org/docs/18/plpgsql-control-structures.html",
+        "https://www.postgresql.org/docs/18/plpgsql-statements.html"
+      ]
+    },
+    {
+      "lessonID": "l066",
+      "englishTitle": "Procedures and CALL",
+      "russianTitle": "Процедуры и CALL",
+      "review": "Reviewed CALL versus expression functions, output parameters, PL block versus transaction, transaction-control restrictions and input boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-createprocedure.html",
+        "https://www.postgresql.org/docs/18/sql-call.html",
+        "https://www.postgresql.org/docs/18/plpgsql-transactions.html"
+      ]
+    },
+    {
+      "lessonID": "l067",
+      "englishTitle": "Row triggers and NEW",
+      "russianTitle": "Строчные триггеры и NEW",
+      "review": "Reviewed NEW/OLD availability, BEFORE return-NULL suppression, row versus statement scope, and rounding/display distinction.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-trigger.html",
+        "https://www.postgresql.org/docs/18/sql-createtrigger.html",
+        "https://www.postgresql.org/docs/18/trigger-definition.html"
+      ]
+    },
+    {
+      "lessonID": "l068",
+      "englishTitle": "Audit triggers and OLD values",
+      "russianTitle": "Аудит через триггеры и OLD",
+      "review": "Reviewed AFTER return semantics, UPDATE OF mentioned-but-unchanged firing, NULL-safe comparisons, and audit rollback.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/plpgsql-trigger.html",
+        "https://www.postgresql.org/docs/18/sql-createtrigger.html"
+      ]
+    },
+    {
+      "lessonID": "l069",
+      "englishTitle": "Full-text documents and search queries",
+      "russianTitle": "Полнотекстовые документы и запросы",
+      "review": "Verified language normalization, phrase semantics and searched column; title not searched by body-only example.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/textsearch-intro.html",
+        "https://www.postgresql.org/docs/18/textsearch-controls.html"
+      ]
+    },
+    {
+      "lessonID": "l070",
+      "englishTitle": "B-tree, Hash, and selectivity",
+      "russianTitle": "B-tree, Hash и избирательность",
+      "review": "Verified equality/range distinction, maintenance costs, multicolumn leading-key guidance without obsolete absolute rule.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/indexes-multicolumn.html"
+      ]
+    },
+    {
+      "lessonID": "l071",
+      "englishTitle": "GIN, GiST, and BRIN",
+      "russianTitle": "GIN, GiST и BRIN",
+      "review": "Verified operator classes, BRIN correlation and lossy summaries, no universal performance promise.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-types.html",
+        "https://www.postgresql.org/docs/18/gin-intro.html",
+        "https://www.postgresql.org/docs/18/brin-intro.html"
+      ]
+    },
+    {
+      "lessonID": "l072",
+      "englishTitle": "Partial, expression, and covering indexes",
+      "russianTitle": "Частичные индексы, индексы выражений и покрытие",
+      "review": "Verified predicate implication, immutable expressions, INCLUDE payload and visibility-dependent index-only scans.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/indexes-partial.html",
+        "https://www.postgresql.org/docs/18/indexes-expressional.html",
+        "https://www.postgresql.org/docs/18/indexes-index-only-scans.html"
+      ]
+    },
+    {
+      "lessonID": "l073",
+      "englishTitle": "Reading EXPLAIN plans",
+      "russianTitle": "Чтение планов EXPLAIN",
+      "review": "Verified plain EXPLAIN versus execution, costs not time, variable plans and tiny-table sequential scans.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/using-explain.html",
+        "https://www.postgresql.org/docs/18/sql-explain.html"
+      ]
+    },
+    {
+      "lessonID": "l074",
+      "englishTitle": "EXPLAIN ANALYZE and actual work",
+      "russianTitle": "EXPLAIN ANALYZE и фактическая работа",
+      "review": "Verified PostgreSQL18 ANALYZE default BUFFERS, per-loop averages, options and actual side effects.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-explain.html",
+        "https://www.postgresql.org/docs/18/using-explain.html"
+      ]
+    },
+    {
+      "lessonID": "l075",
+      "englishTitle": "Rewrite queries without changing meaning",
+      "russianTitle": "Оптимизация без изменения смысла",
+      "review": "Verified LEFT JOIN filter placement, matched-id count, range semantics and no unmeasured performance promises.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/indexes-expressional.html"
+      ]
+    },
+    {
+      "lessonID": "l076",
+      "englishTitle": "ANALYZE and planner statistics",
+      "russianTitle": "ANALYZE и статистика планировщика",
+      "review": "Verified sampled estimates versus exact example output, extended-statistics definition versus collection.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/planner-stats.html",
+        "https://www.postgresql.org/docs/18/sql-analyze.html"
+      ]
+    },
+    {
+      "lessonID": "l077",
+      "englishTitle": "VACUUM, MVCC cleanup, and visibility",
+      "russianTitle": "VACUUM, очистка MVCC и видимость",
+      "review": "Verified ordinary versus FULL locks/space, wraparound, visibility, standalone restriction and checker provenance.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/routine-vacuuming.html",
+        "https://www.postgresql.org/docs/18/sql-vacuum.html"
+      ]
+    },
+    {
+      "lessonID": "l078",
+      "englishTitle": "Performance troubleshooting and evidence",
+      "russianTitle": "Поиск причин медленной работы",
+      "review": "Verified diagnostic query scope, skew, caching, representative parameters and repeatable comparison limitations.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/using-explain.html",
+        "https://www.postgresql.org/docs/18/performance-tips.html"
+      ]
+    },
+    {
+      "lessonID": "l079",
+      "englishTitle": "ACID and snapshot visibility",
+      "russianTitle": "ACID и видимость снимков",
+      "review": "Verified ACID terminology, snapshot acquisition, PG READ UNCOMMITTED mapping, serialization retries and single-session limit.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/transaction-iso.html",
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html"
+      ]
+    },
+    {
+      "lessonID": "l080",
+      "englishTitle": "Row locks, NOWAIT, and SKIP LOCKED",
+      "russianTitle": "Блокировки строк, NOWAIT и SKIP LOCKED",
+      "review": "Verified ordinary-reader behavior, NOWAIT/SKIP LOCKED scope, transaction lifetime, no claimed concurrency simulation. NOWAIT/SKIP LOCKED affect row locks only; table lock acquisition may still wait.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/explicit-locking.html",
+        "https://www.postgresql.org/docs/18/sql-select.html"
+      ]
+    },
+    {
+      "lessonID": "l081",
+      "englishTitle": "Deadlocks, retries, and connection pooling",
+      "russianTitle": "Взаимоблокировки, повторы и пул соединений",
+      "review": "Verified deadlock victim retry scope, consistent lock order, idempotency, transaction-local versus session state; no pool provisioning claim.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/explicit-locking.html",
+        "https://www.postgresql.org/docs/18/transaction-iso.html",
+        "https://www.postgresql.org/docs/18/sql-set.html"
+      ]
+    },
+    {
+      "lessonID": "l082",
+      "englishTitle": "Roles, ownership, and least privilege",
+      "russianTitle": "Роли, владение и минимальные права",
+      "review": "Verified role/login distinction, PUBLIC scope, ownership/inheritance and schema/table privilege boundaries.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-priv.html",
+        "https://www.postgresql.org/docs/18/user-manag.html"
+      ]
+    },
+    {
+      "lessonID": "l083",
+      "englishTitle": "SQL injection and parameterized queries",
+      "russianTitle": "SQL-инъекции и параметры",
+      "review": "Verified server PREPARE versus driver binding, hostile text as value, identifier limitation, no unsafe escaping advice.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/sql-prepare.html",
+        "https://www.postgresql.org/docs/18/libpq-exec.html"
+      ]
+    },
+    {
+      "lessonID": "l084",
+      "englishTitle": "Row-level security policies",
+      "russianTitle": "Политики защиты строк",
+      "review": "Verified default deny, USING/WITH CHECK, FORCE owner scope, bypass exceptions, policy combinations and TRUNCATE exception.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-rowsecurity.html",
+        "https://www.postgresql.org/docs/18/sql-createpolicy.html"
+      ]
+    },
+    {
+      "lessonID": "l085",
+      "englishTitle": "Logical backups and restore checks",
+      "russianTitle": "Логические копии и проверка восстановления",
+      "review": "Verified CTAS is rows-only demonstration, pg_dump/restore formats, cluster globals and PITR dependencies.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/app-pgdump.html",
+        "https://www.postgresql.org/docs/18/backup.html",
+        "https://www.postgresql.org/docs/18/sql-createtableas.html"
+      ]
+    },
+    {
+      "lessonID": "l086",
+      "englishTitle": "WAL and replication concepts",
+      "russianTitle": "WAL и основы репликации",
+      "review": "Verified recovery-state limits, physical/logical distinction, lag/acknowledgement tradeoffs, replica identity, no provisioned replica claim.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/wal-intro.html",
+        "https://www.postgresql.org/docs/18/logical-replication.html",
+        "https://www.postgresql.org/docs/18/warm-standby.html"
+      ]
+    },
+    {
+      "lessonID": "l087",
+      "englishTitle": "Operational troubleshooting",
+      "russianTitle": "Диагностика эксплуатации",
+      "review": "Verified SQLSTATE and privilege-limited metadata, bounded diagnostic conclusions and restricted administrative scope.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+        "https://www.postgresql.org/docs/18/monitoring-stats.html"
+      ]
+    },
+    {
+      "lessonID": "l088",
+      "englishTitle": "Recursive CTE anchors and steps",
+      "russianTitle": "Начало и шаг рекурсивного CTE",
+      "review": "Verified iterative working-table semantics, UNION ALL duplicates/cycles and explicit final order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    {
+      "lessonID": "l089",
+      "englishTitle": "Paths and cycle detection",
+      "russianTitle": "Пути и обнаружение циклов",
+      "review": "Verified path-local detection versus global deduplication, UNION whole-row caveat and SEARCH ordering semantics.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html"
+      ]
+    },
+    {
+      "lessonID": "l090",
+      "englishTitle": "Recursive rollups",
+      "russianTitle": "Рекурсивные итоги",
+      "review": "Verified tree assumptions, self-pair count subtraction, DAG fan-out and leaf definition.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-with.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l091",
+      "englishTitle": "Ranges and overlap operators",
+      "russianTitle": "Диапазоны и пересечения",
+      "review": "Verified half-open occupancy, unique pair condition, empty/unbounded/NULL distinctions and canonical discrete ranges.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/rangetypes.html"
+      ]
+    },
+    {
+      "lessonID": "l092",
+      "englishTitle": "Declarative partitioning",
+      "russianTitle": "Декларативное секционирование",
+      "review": "Verified exclusive upper bounds, default fallback, partition-key uniqueness limits and pruning versus indexing.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-partitioning.html"
+      ]
+    },
+    {
+      "lessonID": "l093",
+      "englishTitle": "Ordered aggregates and generated columns",
+      "russianTitle": "Упорядоченные агрегаты и вычисляемые столбцы",
+      "review": "Verified inner/outer order, array NULL behavior, PostgreSQL18 VIRTUAL default, explicit STORED and generation restrictions.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/ddl-generated-columns.html"
+      ]
+    },
+    {
+      "lessonID": "l094",
+      "englishTitle": "Gaps, islands, and consecutive dates",
+      "russianTitle": "Пропуски, острова и последовательные даты",
+      "review": "Verified global check-in-date grain, duplicate removal, calendar adjacency and numbering cast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-window.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html"
+      ]
+    },
+    {
+      "lessonID": "l095",
+      "englishTitle": "Relational division and every-match rules",
+      "russianTitle": "Реляционное деление и условие каждого",
+      "review": "Verified double NOT EXISTS, duplicate insensitivity, array containment multiplicity and vacuous truth on empty requirements.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-subquery.html",
+        "https://www.postgresql.org/docs/18/functions-array.html"
+      ]
+    },
+    {
+      "lessonID": "l096",
+      "englishTitle": "Percentiles and ordered-set aggregates",
+      "russianTitle": "Процентили и упорядоченные агрегаты",
+      "review": "Verified interpolation, discrete actual-value selection, input population, NULLs and precision limits.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html"
+      ]
+    },
+    {
+      "lessonID": "l097",
+      "englishTitle": "Project: an e-commerce customer report",
+      "russianTitle": "Проект: отчёт о клиентах магазина",
+      "review": "Verified customer preservation, header-versus-line grain/revenue, NULL denominator and deterministic tie order.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-window.html"
+      ]
+    },
+    {
+      "lessonID": "l098",
+      "englishTitle": "Project: inventory replenishment",
+      "russianTitle": "Проект: пополнение запасов",
+      "review": "Verified fixed-target arithmetic, distinct stock sources/units and paid demand not equivalent to actual fulfillment/forecast.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-conditional.html"
+      ]
+    },
+    {
+      "lessonID": "l099",
+      "englishTitle": "Project: hotel revenue and occupancy",
+      "russianTitle": "Проект: выручка и занятость гостиницы",
+      "review": "Verified exclusive checkout, room-night grain, empty days, boundary clipping and DISTINCT occupancy not revenue deduplication.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/rangetypes.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html",
+        "https://www.postgresql.org/docs/18/functions-srf.html"
+      ]
+    },
+    {
+      "lessonID": "l100",
+      "englishTitle": "Project: a constrained banking ledger",
+      "russianTitle": "Проект: банковский журнал с ограничениями",
+      "review": "Verified record insertion does not transfer balances, row-local CHECK limits, exact amounts, transactional scope and educational project limitations.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/ddl-constraints.html",
+        "https://www.postgresql.org/docs/18/tutorial-transactions.html",
+        "https://www.postgresql.org/docs/18/datatype-numeric.html"
+      ]
+    },
+    {
+      "lessonID": "l101",
+      "englishTitle": "Project: customer and event analytics",
+      "russianTitle": "Проект: аналитика клиентов и событий",
+      "review": "Verified event-versus-person units, overlapping distinct counts, cohort meaning, unknown IDs and no causal inference.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-json.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    },
+    {
+      "lessonID": "l102",
+      "englishTitle": "Capstone: reliable monthly business reporting",
+      "russianTitle": "Итоговый проект: надёжный месячный отчёт",
+      "review": "Verified unknown-customer revenue versus distinct counts, header/line reconciliation provenance, missing-month policy and legitimate mismatch causes.",
+      "sources": [
+        "https://www.postgresql.org/docs/18/queries-table-expressions.html",
+        "https://www.postgresql.org/docs/18/functions-aggregate.html",
+        "https://www.postgresql.org/docs/18/functions-datetime.html"
+      ]
+    }
+  ]
+}

@@ -35,6 +35,10 @@ SQLLY's introduction combines the former reading groups. An atomic migration map
 
 Language, appearance, editor size, and live-execution preferences are application settings. Switching language does not create a separate progress database or change executable SQL.
 
+## Explanation-only update in 0.3.5
+
+Content version 1.1.1 revises all lesson explanations in both languages. All module, topic, lesson, exercise and reading-step IDs, prerequisite relationships, example SQL, task definitions and grading policies remain compatible with 0.3.4. There is no new storage migration, data reset or import step. Replace the application bundle using the DMG; keep the existing Application Support/QueryCraft directory and `org.querycraft.QueryCraft` preferences. Completion, attempts, worked-solution eligibility, drafts, position and settings continue to use those existing records.
+
 
 ## Learning Center activity
 

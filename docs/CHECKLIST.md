@@ -95,3 +95,13 @@ Checked items combine archived application evidence and the actual version-speci
 - [x] Execute all 93 tests and both SwiftPM build-system checks.
 - [x] Complete the mounted 0.3.4 distribution audit.
 - [x] Move older app copies/installers and the temporary build app to recoverable Trash, preserving source and learning data.
+
+## SQLLY 0.3.5 bilingual lesson review
+
+- [x] Review all 102 lessons individually, with eleven clear teaching sections in English and Russian.
+- [x] Record topic-specific accuracy checks and official PostgreSQL 18 references for every lesson.
+- [x] Verify all 516 complete task objects, fixtures, example SQL, IDs, hierarchy and prerequisites against the pre-edit course packs.
+- [x] Preserve measured result tables and reproducible generation in both languages.
+- [x] Keep the installed application, existing progress database and settings intact during verification.
+- [x] Run the automated suite and inspect bilingual prose using the native renderer and an isolated review profile.
+- [x] Build, verify and package 0.3.5/build 8 and validate the final source archive.

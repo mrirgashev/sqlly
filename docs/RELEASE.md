@@ -8,9 +8,10 @@
 
 Environment overrides:
 
-- `APP_VERSION` (default `0.3.4`) and `BUILD_NUMBER` (default `7`).
+- `APP_VERSION` (default `0.3.5`) and `BUILD_NUMBER` (default `8`).
 - `CONFIGURATION` (default `release`).
-- `SWIFT_BUILD_SYSTEM`: an optional Swift build-system override, such as `native`. It applies consistently to both output-path discovery and app compilation; omitting it preserves the toolchain default. It does not change the separate DMG helper's build system.
+- `SWIFT_BUILD_SYSTEM` selects the Swift build system for app compilation and output-path discovery. Omit it to use the toolchain default.
+- `DMG_LAYOUT_TOOL` lets packaging reuse an executable previously built from the pinned `scripts/DMGLayout` package on the same architecture. Omit it to build the helper during packaging.
 - `SWIFT_SCRATCH_PATH`: an optional separate Swift build directory, useful when a release build and debug tests run independently.
 - `CODE_SIGN_IDENTITY`: a certificate already in the contributor's keychain; never stored in the repository.
 - `NOTARY_PROFILE`: an existing `notarytool` keychain profile. When set, the DMG script signs the image, submits, waits, staples, and validates. This is an opt-in release action and requires Developer ID signing.
