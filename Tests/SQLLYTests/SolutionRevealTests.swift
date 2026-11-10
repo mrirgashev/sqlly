@@ -32,12 +32,14 @@ struct SolutionRevealTests {
             model.sql = "SELECT 101 AS not_the_required_columns;"
             await model.run()
             #expect(model.solutionAccess.distinctFailedCodeAttempts == 0)
+            #expect(model.taskFocusRequest == 0)
             for index in 0..<9 {
                 model.sql = "SELECT \(101 + index) AS not_the_required_columns;"
                 await model.run(submit: true)
                 #expect(model.feedbackPassed == false)
                 #expect(model.solutionAccess.distinctFailedCodeAttempts == index + 1)
                 #expect(!model.canRevealSolution)
+                #expect(model.taskFocusRequest == 0)
                 model.setSolutionRevealed(true)
                 #expect(!model.showSolution)
                 if index == 0 {
@@ -51,6 +53,7 @@ struct SolutionRevealTests {
             model.sql = exercise.solutionSQL
             await model.run(submit: true)
             #expect(model.feedbackPassed == true)
+            #expect(model.taskFocusRequest == 1)
             #expect(!model.canRevealSolution)
             model.setSolutionRevealed(true)
             #expect(!model.showSolution)
@@ -59,6 +62,7 @@ struct SolutionRevealTests {
             model.sql = "SELEC 110 AS not_the_required_columns;"
             await model.run(submit: true)
             #expect(model.queryError != nil)
+            #expect(model.taskFocusRequest == 1)
             #expect(model.attempts.first?.submissionKind == .gradedCode)
             #expect(model.solutionAccess.distinctFailedCodeAttempts == 10)
             #expect(model.canRevealSolution)

@@ -82,6 +82,7 @@ enum SQLColors {
 struct SQLEditor: NSViewRepresentable {
     @Binding var text: String
     var fontSize: CGFloat
+    var onSubmit: (() -> Void)? = nil
     func makeCoordinator() -> Coordinator { Coordinator(self) }
     func makeNSView(context: Context) -> NSScrollView {
         let scroll = NSScrollView()
@@ -92,6 +93,7 @@ struct SQLEditor: NSViewRepresentable {
         scroll.wantsLayer = true; scroll.layer?.masksToBounds = true
         scroll.drawsBackground = true; scroll.backgroundColor = .sqllyCanvas
         let view = SQLTextView(frame: .zero)
+        view.onSubmit = onSubmit
         view.isRichText = false; view.allowsUndo = true; view.isAutomaticQuoteSubstitutionEnabled = false
         view.isAutomaticDashSubstitutionEnabled = false; view.isAutomaticTextReplacementEnabled = false
         view.isAutomaticSpellingCorrectionEnabled = false
@@ -116,11 +118,12 @@ struct SQLEditor: NSViewRepresentable {
     func updateNSView(_ scroll: NSScrollView, context: Context) {
         context.coordinator.parent = self
         guard let view = context.coordinator.textView else { return }
+        view.onSubmit = onSubmit
         if view.string != text || context.coordinator.fontSize != fontSize { context.coordinator.apply(text, fontSize: fontSize) }
     }
     @MainActor final class Coordinator: NSObject, NSTextViewDelegate {
         var parent: SQLEditor
-        weak var textView: NSTextView?
+        weak var textView: SQLTextView?
         weak var ruler: LineNumberRuler?
         var applying = false
         var fontSize: CGFloat = 14
@@ -146,8 +149,15 @@ struct SQLEditor: NSViewRepresentable {
 }
 
 @MainActor final class SQLTextView: NSTextView {
+    var onSubmit: (() -> Void)?
+
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         let modifiers = event.modifierFlags.intersection([.command, .option, .control, .shift])
+        if window?.firstResponder === self, modifiers == .command,
+           event.keyCode == 36 || event.keyCode == 76, let onSubmit {
+            onSubmit()
+            return true
+        }
         if window?.firstResponder === self, modifiers == .command,
            event.charactersIgnoringModifiers == "/" || event.keyCode == 44 {
             toggleSQLLineComments(nil)

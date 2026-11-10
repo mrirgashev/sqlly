@@ -8,7 +8,7 @@
 
 Environment overrides:
 
-- `APP_VERSION` (default `0.3.5`) and `BUILD_NUMBER` (default `8`).
+- `APP_VERSION` (default `0.3.6`) and `BUILD_NUMBER` (default `9`).
 - `CONFIGURATION` (default `release`).
 - `SWIFT_BUILD_SYSTEM` selects the Swift build system for app compilation and output-path discovery. Omit it to use the toolchain default.
 - `DMG_LAYOUT_TOOL` lets packaging reuse an executable previously built from the pinned `scripts/DMGLayout` package on the same architecture. Omit it to build the helper during packaging.

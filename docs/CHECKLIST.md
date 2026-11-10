@@ -105,3 +105,14 @@ Checked items combine archived application evidence and the actual version-speci
 - [x] Keep the installed application, existing progress database and settings intact during verification.
 - [x] Run the automated suite and inspect bilingual prose using the native renderer and an isolated review profile.
 - [x] Build, verify and package 0.3.5/build 8 and validate the final source archive.
+
+## SQLLY 0.3.6 task workflow
+
+- [x] Implement Cmd-Return submission and accepted-answer focus transfer.
+- [x] Retain original step icons and show success-only green outlines.
+- [x] Save reading completion on visit and preserve existing drafts.
+- [x] Replace Schema/Preview panels with Result/Data and automatic starting-table data.
+- [x] Declare and validate starting-table context for all 516 exercises.
+- [x] Complete automated regression checks and native UI verification.
+- [x] Package and verify 0.3.6/build 9.
+- [x] Back up progress, install the update and remove obsolete app registrations.

@@ -49,8 +49,12 @@ final class WorkspaceModel {
         }
     }
     var result: QueryResult?
-    var schema: QueryResult?
     var preview: QueryResult?
+    var selectedDataTable = ""
+    var isLoadingData = false
+    var dataError: String?
+    @ObservationIgnored private var dataRevision: UInt64 = 0
+    var taskFocusRequest = 0
     var feedback: String?
     var feedbackPassed: Bool?
     var queryError: String?
@@ -84,8 +88,10 @@ final class WorkspaceModel {
         } catch { storageNotice = error.localizedDescription }
         if loaded?.steps.contains(where: { $0.id == selection }) != true { selection = loaded?.steps.first?.id ?? "" }
         expandToSelection()
-        sql = drafts[selection] ?? currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? "SELECT 'Hello, PostgreSQL!' AS message;"
+        selectedDataTable = practiceTables.first ?? ""
+        sql = restoredEditorSQL
         response = drafts[selection + ".response"] ?? ""
+        recordCurrentVisit()
     }
 
     var steps: [LearningStep] { course?.steps ?? [] }
@@ -95,6 +101,22 @@ final class WorkspaceModel {
     var requiresCodeEditor: Bool {
         guard let exercise = currentExercise else { return false }
         return !["choose", "explain", "predict"].contains(exercise.kind)
+    }
+    var practiceTableContext: PracticeTableContext? {
+        currentExercise.map { PracticeTableContext.forExercise($0) }
+    }
+    var practiceTables: [String] { practiceTableContext?.tables ?? [] }
+    var defaultEditorSQL: String {
+        if requiresCodeEditor, let query = practiceTableContext?.defaultSQL { return query }
+        let starter = currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? "SELECT 1;"
+        let hasSQL = starter.split(separator: "\n").contains {
+            let line = $0.trimmingCharacters(in: .whitespaces)
+            return !line.isEmpty && !line.hasPrefix("--")
+        }
+        return hasSQL ? starter : "SELECT 1;"
+    }
+    private var restoredEditorSQL: String {
+        drafts[selection] ?? defaultEditorSQL
     }
     var solutionAccess: SolutionAccessPolicy { SolutionAccessPolicy(exerciseID: selection, attempts: attempts) }
     var canRevealSolution: Bool { currentExercise != nil && (!requiresCodeEditor || solutionAccess.isUnlocked) }
@@ -128,30 +150,37 @@ final class WorkspaceModel {
         do {
             try await engine.start()
             engineReady = true; engineStatus = "PostgreSQL \(PostgresEngine.version) · Local"
-            await refreshSchema()
+            await refreshPracticeData()
             scheduleLiveExecution()
         } catch { engineStatus = "Database unavailable"; queryError = error.localizedDescription }
         booting = false
     }
 
-    private var explorationSQL: String {
-        "-- " + L.text("Explore this lesson's dataset.", language: language) + "\nSELECT * FROM information_schema.tables\nWHERE table_schema = 'public';"
-    }
-
     func select(_ id: String) {
         guard id != selection, steps.contains(where: { $0.id == id }) else { return }
         selection = id
-        result = nil; feedback = nil; feedbackPassed = nil; queryError = nil; preview = nil
+        result = nil; feedback = nil; feedbackPassed = nil; queryError = nil; preview = nil; dataError = nil
+        dataRevision &+= 1
+        isLoadingData = false
+        selectedDataTable = practiceTables.first ?? ""
         revealedHints = 0; showSolution = false; selectedResultTab = "Results"
         invalidateLiveExecution()
-        sql = drafts[id] ?? currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? explorationSQL
+        sql = restoredEditorSQL
         response = drafts[id + ".response"] ?? ""
-        var state = progress[id] ?? StepProgress(); state.visits += 1; state.updatedAt = Date()
-        save(state, id: id)
+        recordCurrentVisit()
         do { try store?.setPosition(id) } catch { storageNotice = error.localizedDescription }
         expandToSelection()
-        if engineReady { Task { await refreshSchema() } }
+        if engineReady { Task { await refreshPracticeData() } }
         scheduleLiveExecution()
+    }
+
+    private func recordCurrentVisit() {
+        guard let step = currentStep else { return }
+        var state = progress[step.id] ?? StepProgress()
+        state.visits += 1
+        if step.exercise == nil { state.completed = true; state.review = false }
+        state.updatedAt = Date()
+        save(state, id: step.id)
     }
 
     func expandToSelection() {
@@ -177,7 +206,7 @@ final class WorkspaceModel {
     }
 
     func completeReading() {
-        var state = progress[selection] ?? StepProgress(); state.completed = true; state.updatedAt = Date(); save(state)
+        guard currentStep?.exercise == nil else { return }
         navigate(1)
     }
 
@@ -195,10 +224,11 @@ final class WorkspaceModel {
     }
 
     func reset() {
-        sql = currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? "SELECT 1;"
+        sql = defaultEditorSQL
         response = ""
+        selectedResultTab = "Results"
         result = nil; queryError = nil; feedback = "Dataset reset. Every run starts from a fresh, isolated copy."; feedbackPassed = nil
-        Task { await refreshSchema() }
+        Task { await refreshPracticeData() }
         scheduleLiveExecution()
     }
 
@@ -231,7 +261,10 @@ final class WorkspaceModel {
                 let answer = exercise.kind == "predict" ? String(decoding: try JSONEncoder().encode(capturedPredictionRows), as: UTF8.self) : capturedResponse
                 let grade = try await GradingService(engine: engine).gradeResponse(answer, exercise: exercise, curriculum: course)
                 recordAssessment(id: capturedID, answer: answer, passed: grade.passed, message: grade.message)
-                if selection == capturedID, response == capturedResponse { feedback = grade.message; feedbackPassed = grade.passed; if grade.passed { result = grade.result } }
+                if selection == capturedID, response == capturedResponse {
+                    feedback = grade.message; feedbackPassed = grade.passed
+                    if grade.passed { result = grade.result; taskFocusRequest &+= 1 }
+                }
                 return
             }
             if submit, let exercise, let course {
@@ -245,6 +278,7 @@ final class WorkspaceModel {
                 save(state, id: capturedID)
                 guard selection == capturedID, sql == capturedSQL else { return }
                 result = grade.result; feedback = grade.message; feedbackPassed = grade.passed
+                if grade.passed { taskFocusRequest &+= 1 }
             } else {
                 let queryResult = try await engine.execute(sql: capturedSQL, fixture: fixture)
                 guard selection == capturedID, sql == capturedSQL else { return }
@@ -298,40 +332,29 @@ final class WorkspaceModel {
         guard currentExercise?.kind == "explain", !response.isEmpty, showSolution else { return }
         recordAssessment(id: selection, answer: response, passed: true, message: "Self-assessed with the explanation rubric. This response was not automatically graded.")
         feedback = "Explanation reviewed and saved."; feedbackPassed = true
+        taskFocusRequest &+= 1
     }
 
-    func refreshSchema() async {
-        let id = selection, fixture = activeFixture
-        guard engineReady else { return }
+    func refreshPracticeData() async {
+        dataRevision &+= 1
+        let revision = dataRevision, id = selection, fixture = activeFixture, table = selectedDataTable
+        guard !shuttingDown, engineReady, practiceTables.contains(table) else { return }
+        isLoadingData = true
+        dataError = nil
+        defer { if revision == dataRevision { isLoadingData = false } }
         do {
-            let data = try await engine.execute(sql: """
-            SELECT t.relname AS \"Table\", a.attname AS \"Column\", format_type(a.atttypid,a.atttypmod) AS \"Type\",
-                   CASE WHEN a.attnotnull THEN 'NO' ELSE 'YES' END AS \"Nullable\",
-                   COALESCE(pg_get_expr(d.adbin,d.adrelid),'') AS \"Default\",
-                   COALESCE((SELECT string_agg(pg_get_constraintdef(c.oid), '; ' ORDER BY c.contype,pg_get_constraintdef(c.oid))
-                     FROM pg_constraint c WHERE c.conrelid=t.oid AND a.attnum=ANY(c.conkey)), '') AS \"Constraints\"
-            FROM pg_class t JOIN pg_namespace n ON n.oid=t.relnamespace
-            JOIN pg_attribute a ON a.attrelid=t.oid AND a.attnum>0 AND NOT a.attisdropped
-            LEFT JOIN pg_attrdef d ON d.adrelid=t.oid AND d.adnum=a.attnum
-            WHERE n.nspname='public' AND t.relkind IN ('r','p','v','m')
-            ORDER BY t.relname,a.attnum;
-            """, fixture: fixture)
-            if selection == id { schema = data }
-        } catch { if selection == id { schema = nil } }
+            let data = try await engine.execute(sql: PracticeTableContext.selectSQL(for: table), fixture: fixture)
+            if id == selection, table == selectedDataTable, revision == dataRevision { preview = data }
+        } catch {
+            if id == selection, table == selectedDataTable, revision == dataRevision { dataError = error.localizedDescription }
+        }
     }
 
     func previewTable(_ table: String) async {
-        guard !shuttingDown, engineReady, !isRunning else { return }
-        isRunning = true
-        let id = selection, fixture = activeFixture
-        invalidateLiveExecution()
-        await liveController.cancel(revision: liveRevision)
-        defer { isRunning = false; scheduleLiveExecution() }
-        do {
-            let quoted = table.replacingOccurrences(of: "\"", with: "\"\"")
-            let data = try await engine.execute(sql: "SELECT * FROM public.\"\(quoted)\" LIMIT 50", fixture: fixture)
-            if id == selection { preview = data; selectedResultTab = "Preview" }
-        } catch { if id == selection { queryError = error.localizedDescription } }
+        guard practiceTables.contains(table) else { return }
+        selectedDataTable = table
+        preview = nil
+        await refreshPracticeData()
     }
 
     func exportProgress() {
@@ -367,12 +390,12 @@ final class WorkspaceModel {
     func setLanguage(_ value: String) {
         guard let newLanguage = CourseLanguage(rawValue: value) else { return }
         do {
-            let previousStarter = currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? explorationSQL
+            let previousStarter = defaultEditorSQL
             let translated = try Curriculum.load(language: newLanguage)
             course = translated; language = value
             UserDefaults.standard.set(value, forKey: "language")
             if sql == previousStarter {
-                sql = currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? explorationSQL
+                sql = defaultEditorSQL
             }
             feedback = nil; feedbackPassed = nil; queryError = nil; fatalError = nil
         } catch { fatalError = error.localizedDescription }
@@ -408,6 +431,7 @@ final class WorkspaceModel {
     }
     func shutdown() async {
         shuttingDown = true; engineReady = false
+        dataRevision &+= 1; isLoadingData = false
         invalidateLiveExecution()
         await liveController.shutdown()
         await engine.shutdown()

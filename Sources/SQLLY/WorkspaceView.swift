@@ -44,7 +44,6 @@ struct WorkspaceView: View {
         }
         .id(model.language)
         .tint(.craft)
-        .background(WorkspaceKeyboardNavigation(model: model).frame(width: 0, height: 0))
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.18), value: model.feedbackPassed)
         .sheet(isPresented: $model.showHistory) { HistoryView(model: model).id(model.language) }
         .sheet(isPresented: $model.showStatistics) { LearningCenterView(model: model).id(model.language) }
@@ -252,6 +251,7 @@ struct LessonView: View {
                 }.controlSize(.large).padding(16)
             } else { ContentUnavailableView(L.text("Course unavailable"), systemImage: "book.closed", description: Text(L.text("Check the bundled curriculum resource."))) }
         }.background(Color.canvas)
+            .background(WorkspaceKeyboardNavigation(model: model, focusRequest: model.taskFocusRequest).frame(width: 0, height: 0))
     }
 }
 
@@ -292,17 +292,19 @@ struct LessonStepButton: View {
     let action: () -> Void
     @State private var hovered = false
     private var visited: Bool { (progress?.visits ?? 0) > 0 }
+    var completedSuccessfully: Bool { progress?.completed == true && progress?.review != true }
+    var symbol: String { step.exercise == nil ? "book" : "chevron.left.forwardslash.chevron.right" }
     private var status: String { progress?.review == true ? "Review required" : progress?.completed == true ? "Completed" : visited ? "In progress" : "Untouched" }
     var body: some View {
         Button(action: action) {
             VStack(spacing: 3) {
                 Text("\(index + 1)").font(.system(size: 12, weight: .semibold)).monospacedDigit()
-                Image(systemName: progress?.completed == true ? "checkmark" : step.exercise == nil ? "book" : "chevron.left.forwardslash.chevron.right").font(.system(size: 9, weight: .medium))
+                Image(systemName: symbol).font(.system(size: 9, weight: .medium))
             }
             .frame(width: 38, height: 40)
-            .foregroundStyle(selected ? Color.canvas : progress?.completed == true || visited ? .craft : .secondary)
-            .background(selected ? Color.craft : Color.craft.opacity(hovered ? 0.16 : progress?.completed == true ? 0.12 : visited ? 0.07 : 0.025), in: RoundedRectangle(cornerRadius: 5))
-            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder((progress?.review == true ? Color.orange : Color.craft).opacity(selected || progress?.completed == true ? 0.7 : hovered ? 0.45 : visited ? 0.35 : 0.12)))
+            .foregroundStyle(Color.primary)
+            .background(Color.primary.opacity(selected ? 0.12 : hovered ? 0.07 : 0.025), in: RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(completedSuccessfully ? Color.craft : Color.primary.opacity(selected ? 0.55 : hovered ? 0.35 : 0.13), lineWidth: completedSuccessfully ? 1.8 : 1))
         }.buttonStyle(.plain).onHover { hovered = $0 }
             .help(step.title).accessibilityLabel(L.format("Step %ld: %@", index + 1, step.title) + ". " + L.text(step.exercise == nil ? "READ & EXPLORE" : "PRACTICE") + ". " + L.text(status))
     }
@@ -320,6 +322,12 @@ struct ExerciseContent: View {
             }.foregroundStyle(Color.craft)
             Text(exercise.title).font(.title2.weight(.semibold))
             MarkdownContent(text: exercise.prompt)
+            if hasStartingSQL {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(L.text("Starting SQL")).font(.callout.weight(.semibold))
+                    CodeBlock(code: exercise.starterSQL)
+                }
+            }
             if ["predict", "choose", "explain"].contains(exercise.kind) {
                 ConceptualAnswerView(model: model, exercise: exercise)
             }
@@ -376,6 +384,12 @@ struct ExerciseContent: View {
                 }
             }
             Text(L.format("Exercise %@", exercise.id)).font(.system(size: 10, design: .monospaced)).foregroundStyle(.tertiary).textSelection(.enabled)
+        }
+    }
+    private var hasStartingSQL: Bool {
+        model.requiresCodeEditor && exercise.starterSQL.components(separatedBy: .newlines).contains {
+            let line = $0.trimmingCharacters(in: .whitespaces)
+            return !line.isEmpty && !line.hasPrefix("--")
         }
     }
     private var policySummary: String {

@@ -6,23 +6,55 @@ import AppKit
 /// native behavior. Course-wide ordering is owned by WorkspaceModel.navigate.
 struct WorkspaceKeyboardNavigation: NSViewRepresentable {
     var model: WorkspaceModel
+    var focusRequest: Int
 
     func makeCoordinator() -> Coordinator { Coordinator(model: model) }
     func makeNSView(context: Context) -> NSView {
-        let view = NSView(frame: .zero)
-        view.setAccessibilityElement(false)
+        let view = TaskNavigationTarget(frame: .zero)
+        view.setAccessibilityElement(true)
+        view.setAccessibilityRole(.group)
+        view.setAccessibilityLabel(L.text("Task navigation"))
         context.coordinator.view = view
         context.coordinator.install()
         return view
     }
-    func updateNSView(_ view: NSView, context: Context) { context.coordinator.model = model }
+    func updateNSView(_ view: NSView, context: Context) {
+        context.coordinator.model = model
+        context.coordinator.receiveFocusRequest(focusRequest)
+    }
     static func dismantleNSView(_ view: NSView, coordinator: Coordinator) { coordinator.remove() }
+
+    @MainActor final class TaskNavigationTarget: NSView {
+        override var acceptsFirstResponder: Bool { true }
+    }
 
     @MainActor final class Coordinator {
         var model: WorkspaceModel
         weak var view: NSView?
         private var monitor: Any?
-        init(model: WorkspaceModel) { self.model = model }
+        private var lastFocusRequest: Int
+        init(model: WorkspaceModel) {
+            self.model = model
+            lastFocusRequest = model.taskFocusRequest
+        }
+
+        func receiveFocusRequest(_ request: Int) {
+            receiveFocusRequest(request, keyWindow: NSApp.keyWindow)
+        }
+
+        func receiveFocusRequest(_ request: Int, keyWindow: NSWindow?) {
+            guard request != lastFocusRequest else { return }
+            lastFocusRequest = request
+            guard let window = view?.window, window === keyWindow,
+                  window.attachedSheet == nil,
+                  !model.showStatistics, !model.showHistory, !model.showHelp else { return }
+            moveFocusToTaskSection()
+        }
+
+        @discardableResult func moveFocusToTaskSection() -> Bool {
+            guard let view, let window = view.window else { return false }
+            return window.makeFirstResponder(view)
+        }
 
         func install() {
             guard monitor == nil else { return }
@@ -43,10 +75,14 @@ struct WorkspaceKeyboardNavigation: NSViewRepresentable {
             if let monitor { NSEvent.removeMonitor(monitor) }
             monitor = nil
         }
-        private func navigate(keyCode: UInt16, modifiers: UInt, windowNumber: Int) -> Bool {
+        func navigate(keyCode: UInt16, modifiers: UInt, windowNumber: Int) -> Bool {
+            navigate(keyCode: keyCode, modifiers: modifiers, windowNumber: windowNumber, keyWindow: NSApp.keyWindow)
+        }
+
+        func navigate(keyCode: UInt16, modifiers: UInt, windowNumber: Int, keyWindow: NSWindow?) -> Bool {
             guard keyCode == 123 || keyCode == 124,
                   NSEvent.ModifierFlags(rawValue: modifiers).intersection([.command, .option, .control, .shift]).isEmpty,
-                  let window = view?.window, window === NSApp.keyWindow,
+                  let window = view?.window, window === keyWindow,
                   window.windowNumber == windowNumber, window.attachedSheet == nil,
                   !model.showStatistics, !model.showHistory, !model.showHelp else { return false }
             if let responder = window.firstResponder {

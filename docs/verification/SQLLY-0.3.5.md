@@ -1,0 +1,11 @@
+# SQLLY 0.3.5 verification
+
+Version 0.3.5, build 8, ships content version 1.1.1. The review covers every section of all 102 lessons in English and Russian, across 34 topics. It uses original explanations and links each lesson's review to official PostgreSQL 18 documentation. The review ledger records each lesson and the hashes of the source files. [Individual lesson reviews](verification/sqlly-0.3.5-explanation-review.json)
+
+Both packs passed comparison against their pre-edit originals. All 516 complete exercise definitions, four fixtures, section titles, SQL examples, measured result tables, prerequisites, hierarchy and identifiers are identical. The permitted edits are section bodies, the content version, and the visible English and Russian wording of the joins topic. The app uses the same progress database, bundle ID, defaults domain and learning-step IDs. The installed copy and its existing progress file were kept in place throughout verification. [Progress and upgrades](PROGRESS.md)
+
+The full native SwiftPM run passed **93 tests in 17 suites** in 350.638 seconds. It executed the 102 lesson previews and checked 516 reference answers, including 1,020 SQL fixture comparisons. After the last wording corrections, 10 focused curriculum, localization and persistence tests passed. The final source packs passed the baseline comparison again.
+
+Offscreen previews of the app's native reading view showed the English tables lesson and the Russian keys lesson with readable text and headings. Live window inspection timed out. Scrollable SQL examples and result tables were confirmed in the resources and by the SQL tests. The preview tool rendered the prose but did not capture the interactive controls or scroll views.
+
+The Apple Silicon DMG passed image and SHA-256 verification. On a read-only mount, the Finder layout, Applications shortcut, app metadata, strict code signature and final English/Russian resources passed verification. The mounted executable loaded both language packs and ran a PostgreSQL learner query with NULLs and duplicate rows. Packaging reused the helper from the same pinned layout package after the local Swift driver stalled during a fresh helper build. The packaged app is ad-hoc signed. Prior release evidence is archived separately. [0.3.4 verification](verification/SQLLY-0.3.4.md)
