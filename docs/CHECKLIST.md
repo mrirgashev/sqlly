@@ -116,3 +116,16 @@ Checked items combine archived application evidence and the actual version-speci
 - [x] Complete automated regression checks and native UI verification.
 - [x] Package and verify 0.3.6/build 9.
 - [x] Back up progress, install the update and remove obsolete app registrations.
+
+## SQLLY 0.3.7 teaching consistency and solution access
+
+- [x] Enable manual worked-solution reveal after four distinct qualifying failures; retain saved history rules.
+- [x] Use thinner task-tab outlines and subtle green completed backgrounds with original icons.
+- [x] Individually review all 34 topics, 102 lessons and 516 tasks in both languages.
+- [x] Add visible prerequisite explanations and task-by-task chronological teaching records.
+- [x] Add 102 practical reading examples and verify their exact outputs with real PostgreSQL.
+- [x] Confirm every non-body curriculum field except version matches the prior release.
+- [x] Run all 105 automated tests; rerun final practical-example checks after editorial corrections.
+- [x] Inspect native solution locking/unlocking, manual reveal, completion styling and restart persistence in an isolated profile.
+- [x] Package, mount and verify the final 0.3.7/build 10 DMG and its bundled resources.
+- [x] Update the installed app while preserving all learning records and preferences.

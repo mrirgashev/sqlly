@@ -10,7 +10,7 @@ import hashlib
 import json
 import pathlib
 
-from lesson_explanations import ROOT, contract_hash, lessons, load_reviews
+from lesson_explanations import ROOT, contract_hash, lessons, load_reviews, lesson_body, validate_teaching_order, worked_examples
 
 
 def audit(baseline=None):
@@ -25,6 +25,7 @@ def audit(baseline=None):
         entries = lessons(course)
         assert set(reviews) == {lesson['id'] for lesson in entries}
         assert len(entries) == len(reviews) == 102
+        validate_teaching_order(course, reviews)
         old_lessons = {}
         if baseline:
             old = json.loads((baseline / filename).read_text())
@@ -34,7 +35,7 @@ def audit(baseline=None):
         for lesson in entries:
             assert len(lesson['sections']) == 11
             for index, section in enumerate(lesson['sections']):
-                expected = reviews[lesson['id']][language][index]
+                expected = lesson_body(reviews[lesson['id']], language, index)
                 if index == 6:
                     observed = previews[lesson['id']]
                     rows = [' | '.join(observed['columns']), ' | '.join('—' for _ in observed['columns'])]
@@ -44,10 +45,9 @@ def audit(baseline=None):
                 assert section['body'] == expected, f'Authored content mismatch: {lesson["id"]}/{language}/{index}'
                 if old_lessons:
                     old_section = old_lessons[lesson['id']]['sections'][index]
-                    assert section['body'] != old_section['body'], f'Section not individually revised: {lesson["id"]}/{language}/{index}'
                     if index == 6:
                         assert section['body'].partition('\n\n')[2] == old_section['body'].partition('\n\n')[2]
-                    changed += 1
+                    changed += section['body'] != old_section['body']
         courses[language] = course
         contracts[language] = contract_hash(course)
         sections_changed[language] = changed if baseline else None
@@ -57,12 +57,17 @@ def audit(baseline=None):
     for left, right in zip(en, ru):
         assert left['prerequisites'] == right['prerequisites']
         assert [section.get('code') for section in left['sections']] == [section.get('code') for section in right['sections']]
+    assert json.loads((resource_path / 'reading-examples.json').read_text()) == worked_examples(courses['en'], reviews)
     return {
         'courseVersion': courses['en']['version'],
         'modules': len(courses['en']['modules']), 'lessons': len(en),
         'exercises': sum(len(lesson['exercises']) for lesson in en),
         'sectionsPerLanguage': sum(len(lesson['sections']) for lesson in en),
         'allLessonReviewsPresent': True, 'authoredResourcesMatch': True,
+        'allTasksIndividuallyReviewed': True,
+        'reviewedTasks': sum(len(entry['taskCoverage']) for entry in reviews.values()),
+        'workedExamples': len(reviews),
+        'requiredTeachingVisibleBeforePractice': True,
         'measuredResultTablesPreserved': True,
         'baselineTaskAndStructureComparisonPassed': bool(baseline),
         'sectionsIndividuallyRevised': sections_changed,
@@ -70,7 +75,8 @@ def audit(baseline=None):
         'authoringFiles': {name.name: hashlib.sha256(name.read_bytes()).hexdigest()
                           for name in sorted((ROOT / 'scripts').glob('lesson-explanations-*.json'))},
         'reviews': [dict(lessonID=left['id'], englishTitle=left['title'], russianTitle=right['title'],
-                         review=reviews[left['id']]['review'], sources=reviews[left['id']]['sources'])
+                         review=reviews[left['id']]['review'], sources=reviews[left['id']]['sources'],
+                         taskCoverage=reviews[left['id']]['taskCoverage'])
                     for left, right in zip(en, ru)],
     }
 

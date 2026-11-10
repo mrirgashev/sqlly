@@ -10,17 +10,17 @@ struct SolutionAccessPolicyTests {
 
     private func fingerprint(_ sql: String) -> String? { SolutionAccessPolicy.codeFingerprint(sql) }
 
-    @Test func requiresTenDistinctFailedCodeAnswersEvenAfterSuccess() {
+    @Test func requiresFourDistinctFailedCodeAnswersEvenAfterSuccess() {
         let empty = SolutionAccessPolicy(exerciseID: "target", attempts: [])
-        #expect(empty.distinctFailedCodeAttempts == 0 && empty.remainingAttempts == 10 && !empty.isUnlocked)
-        var history = (1...9).map { attempt("SELECT \($0)") }
+        #expect(empty.distinctFailedCodeAttempts == 0 && empty.remainingAttempts == 4 && !empty.isUnlocked)
+        var history = (1...3).map { attempt("SELECT \($0)") }
         history.append(attempt("SELECT 100", passed: true))
-        let nine = SolutionAccessPolicy(exerciseID: "target", attempts: history)
-        #expect(nine.distinctFailedCodeAttempts == 9 && nine.remainingAttempts == 1 && !nine.isUnlocked)
-        history.append(attempt("SELECT 10"))
-        let ten = SolutionAccessPolicy(exerciseID: "target", attempts: history)
-        #expect(ten.distinctFailedCodeAttempts == 10 && ten.remainingAttempts == 0 && ten.isUnlocked)
-        history.append(attempt("SELECT 11"))
+        let three = SolutionAccessPolicy(exerciseID: "target", attempts: history)
+        #expect(three.distinctFailedCodeAttempts == 3 && three.remainingAttempts == 1 && !three.isUnlocked)
+        history.append(attempt("SELECT 4"))
+        let four = SolutionAccessPolicy(exerciseID: "target", attempts: history)
+        #expect(four.distinctFailedCodeAttempts == 4 && four.remainingAttempts == 0 && four.isUnlocked)
+        history.append(attempt("SELECT 5"))
         #expect(SolutionAccessPolicy(exerciseID: "target", attempts: history).remainingAttempts == 0)
     }
 
@@ -163,21 +163,21 @@ struct SolutionAccessPolicyTests {
         let url = root.appendingPathComponent("progress.sqlite")
         do {
             let store = try ProgressStore(url: url)
-            for index in 1...9 { try store.record(attempt("SELECT \(index)")) }
+            for index in 1...3 { try store.record(attempt("SELECT \(index)")) }
             try store.record(attempt("SELECT 90", kind: .infrastructureFailure))
             try store.record(attempt("SELECT 91", passed: true))
         }
         do {
             let reopened = try ProgressStore(url: url)
-            let nine = SolutionAccessPolicy(exerciseID: "target", attempts: try reopened.attempts())
-            #expect(nine.distinctFailedCodeAttempts == 9 && !nine.isUnlocked)
-            try reopened.record(attempt("SELECT 10"))
+            let three = SolutionAccessPolicy(exerciseID: "target", attempts: try reopened.attempts())
+            #expect(three.distinctFailedCodeAttempts == 3 && !three.isUnlocked)
+            try reopened.record(attempt("SELECT 4"))
         }
         let reopened = try ProgressStore(url: url)
         let history = try reopened.attempts()
         #expect(history.filter { $0.submissionKind == .infrastructureFailure }.count == 1)
         #expect(SolutionAccessPolicy(exerciseID: "target", attempts: history).isUnlocked)
-        #expect(SolutionAccessPolicy(exerciseID: "target", attempts: history).distinctFailedCodeAttempts == 10)
+        #expect(SolutionAccessPolicy(exerciseID: "target", attempts: history).distinctFailedCodeAttempts == 4)
     }
 
     @Test func backupMergePreservesUnlockWithoutCountingOverlapOrNewFormatting() throws {

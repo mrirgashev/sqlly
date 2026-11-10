@@ -5,7 +5,7 @@ import SQLCore
 
 @MainActor @Suite(.serialized)
 struct SolutionRevealTests {
-    @Test func acceptUnlocksOnlyAfterTenDistinctFailuresAndNeverOpensAutomatically() async throws {
+    @Test func acceptUnlocksOnlyAfterFourDistinctFailuresAndNeverOpensAutomatically() async throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("SQLLY-Accept-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: root) }
         let previousLive = UserDefaults.standard.object(forKey: "liveExecution")
@@ -21,7 +21,7 @@ struct SolutionRevealTests {
         model.liveEnabled = false
         model.engineReady = true
         do {
-            #expect(SolutionAccessPolicy.requiredDistinctFailures == 10)
+            #expect(SolutionAccessPolicy.requiredDistinctFailures == 4)
             #expect(!model.canRevealSolution)
             model.setSolutionRevealed(true)
             #expect(!model.showSolution)
@@ -33,7 +33,7 @@ struct SolutionRevealTests {
             await model.run()
             #expect(model.solutionAccess.distinctFailedCodeAttempts == 0)
             #expect(model.taskFocusRequest == 0)
-            for index in 0..<9 {
+            for index in 0..<3 {
                 model.sql = "SELECT \(101 + index) AS not_the_required_columns;"
                 await model.run(submit: true)
                 #expect(model.feedbackPassed == false)
@@ -64,7 +64,7 @@ struct SolutionRevealTests {
             #expect(model.queryError != nil)
             #expect(model.taskFocusRequest == 1)
             #expect(model.attempts.first?.submissionKind == .gradedCode)
-            #expect(model.solutionAccess.distinctFailedCodeAttempts == 10)
+            #expect(model.solutionAccess.distinctFailedCodeAttempts == 4)
             #expect(model.canRevealSolution)
             #expect(!model.showSolution)
             model.setSolutionRevealed(true)
@@ -82,7 +82,7 @@ struct SolutionRevealTests {
             let reopenedStore = try ProgressStore(url: root.appendingPathComponent("progress.sqlite"))
             let reopened = WorkspaceModel(progressStore: reopenedStore, practiceEngine: PostgresEngine(baseURL: root.appendingPathComponent("unused-engine")))
             #expect(reopened.selection == exercise.id)
-            #expect(reopened.solutionAccess.distinctFailedCodeAttempts == 10)
+            #expect(reopened.solutionAccess.distinctFailedCodeAttempts == 4)
             #expect(reopened.canRevealSolution && !reopened.showSolution)
             await reopened.shutdown()
         } catch {

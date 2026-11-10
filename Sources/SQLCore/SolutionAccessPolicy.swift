@@ -3,12 +3,12 @@ import CryptoKit
 
 /// Derives access to a coding exercise's worked solution from persisted history.
 ///
-/// Ten different unsuccessful graded code submissions are required. Successes,
+/// Four different unsuccessful graded code submissions are required. Successes,
 /// conceptual assessments, service failures and unclassified legacy attempts do
-/// not contribute. Passing an exercise never bypasses the ten-failure rule.
+/// not contribute. Passing an exercise never bypasses the four-failure rule.
 /// This policy does not execute SQL or decide whether an answer is correct.
 public struct SolutionAccessPolicy: Equatable, Sendable {
-    public static let requiredDistinctFailures = 10
+    public static let requiredDistinctFailures = 4
     /// Matches the practice engine's editor limit and bounds fingerprint work.
     public static let maximumCodeBytes = 131_072
 

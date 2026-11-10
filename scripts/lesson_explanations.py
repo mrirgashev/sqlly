@@ -1,7 +1,7 @@
-"""Authored bilingual teaching prose, applied after exercise generation.
+"""Authored bilingual teaching prose and practical reading examples.
 
-This layer changes section bodies only. Exercise definitions and executable
-examples remain owned by the established curriculum generator.
+This layer changes section bodies only. Exercise definitions and the original
+syntax examples remain owned by the established curriculum generator.
 """
 import hashlib
 import json
@@ -44,6 +44,69 @@ def load_reviews():
     return reviews
 
 
+def result_table(columns, rows):
+    lines = [' | '.join(columns), ' | '.join('—' for _ in columns)]
+    lines.extend(' | '.join('NULL' if cell is None else cell for cell in row) for row in rows)
+    return '\n'.join(lines)
+
+
+def lesson_body(entry, language, index):
+    body = entry[language][index]
+    if index != 4:
+        return body
+    example = entry['workedExample']
+    script = '\n'.join(part.strip() for part in [example.get('setupSQL', ''), example['sql']] if part.strip())
+    result_label = '**Result**' if language == 'en' else '**Результат**'
+    return '\n\n'.join([body, example[language + 'Before'], '```sql\n' + script + '\n```',
+                         result_label, result_table(example['columns'], example['rows']), example[language + 'After']])
+
+
+def validate_teaching_order(course, reviews):
+    entries = lessons(course)
+    positions = {lesson['id']: index for index, lesson in enumerate(entries)}
+    visible_sections = {0, 1, 2, 3, 4, 6}
+    for lesson in entries:
+        entry = reviews[lesson['id']]
+        coverage = entry['taskCoverage']
+        if [item['exerciseID'] for item in coverage] != [exercise['id'] for exercise in lesson['exercises']]:
+            raise ValueError(f'Task review coverage/order mismatch: {lesson["id"]}')
+        for item in coverage:
+            if not item['requires'] or not item['taughtIn'] or not item['resolution'].strip():
+                raise ValueError(f'Incomplete task review: {item["exerciseID"]}')
+            for reference in item['taughtIn']:
+                source_id, section = reference.split(':')
+                if source_id not in positions or positions[source_id] > positions[lesson['id']]:
+                    raise ValueError(f'Task depends on future teaching: {item["exerciseID"]}/{reference}')
+                if int(section) not in visible_sections:
+                    raise ValueError(f'Required teaching must be visible before practice: {item["exerciseID"]}/{reference}')
+        example = entry['workedExample']
+        if not example['sql'].strip() or not example['columns'] or not isinstance(example['rows'], list):
+            raise ValueError(f'Incomplete worked example: {lesson["id"]}')
+        for key in ['enBefore', 'ruBefore', 'enAfter', 'ruAfter']:
+            if not example[key].strip():
+                raise ValueError(f'Missing worked-example prose: {lesson["id"]}/{key}')
+        for row in example['rows']:
+            if len(row) != len(example['columns']) or any(cell is not None and not isinstance(cell, str) for cell in row):
+                raise ValueError(f'Invalid worked-example row: {lesson["id"]}')
+            if any(cell is not None and any(character in cell for character in '|\r\n') for cell in row):
+                raise ValueError(f'Worked-example cells must fit the native table renderer: {lesson["id"]}')
+
+
+def worked_examples(course, reviews=None):
+    reviews = reviews or load_reviews()
+    return dict(version=course['version'], examples=[
+        dict(lessonID=lesson['id'], fixtureID='retail',
+             **{key: value for key, value in reviews[lesson['id']]['workedExample'].items()
+                if key in ['sql', 'setupSQL', 'columns', 'rows']})
+        for lesson in lessons(course)
+    ])
+
+
+def write_worked_examples(course):
+    destination = ROOT / 'Sources/SQLCore/Resources/reading-examples.json'
+    destination.write_text(json.dumps(worked_examples(course), ensure_ascii=False, indent=2) + '\n')
+
+
 def non_prose_payload(course):
     """Protect every field except course version, two wording edits and bodies."""
     payload = json.loads(json.dumps(course))
@@ -67,13 +130,15 @@ def apply_explanations(course, language):
     entries = lessons(course)
     if set(reviews) != {lesson['id'] for lesson in entries}:
         raise ValueError('Explanation review must cover every installed lesson exactly once')
+    validate_teaching_order(course, reviews)
     before = contract_hash(course)
     for lesson in entries:
         if len(lesson['sections']) != 11:
             raise ValueError(f'Unexpected learning structure: {lesson["id"]}')
         # Preserve the measured result table, including values, NULLs and order.
         table = lesson['sections'][6]['body'].partition('\n\n')[2]
-        for index, body in enumerate(reviews[lesson['id']][language]):
+        for index in range(11):
+            body = lesson_body(reviews[lesson['id']], language, index)
             lesson['sections'][index]['body'] = body + ('\n\n' + table if index == 6 and table else '')
     if before != contract_hash(course):
         raise ValueError('Teaching-prose overlay changed the curriculum contract')

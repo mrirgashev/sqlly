@@ -1,0 +1,2360 @@
+{
+  "version": "1.1.2",
+  "examples": [
+    {
+      "lessonID": "l001",
+      "fixtureID": "retail",
+      "sql": "SELECT id, owner FROM accounts ORDER BY id;",
+      "columns": [
+        "id",
+        "owner"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada"
+        ],
+        [
+          "2",
+          "Ben"
+        ],
+        [
+          "3",
+          "Cleo"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l002",
+      "fixtureID": "retail",
+      "sql": "SELECT id, title FROM documents ORDER BY id;",
+      "columns": [
+        "id",
+        "title"
+      ],
+      "rows": [
+        [
+          "1",
+          "SQL guide"
+        ],
+        [
+          "2",
+          "PostgreSQL tuning"
+        ],
+        [
+          "3",
+          "Garden notes"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l003",
+      "fixtureID": "retail",
+      "sql": "SELECT id, balance, balance + 25 AS projected_balance FROM accounts ORDER BY id;",
+      "columns": [
+        "id",
+        "balance",
+        "projected_balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "1000.00",
+          "1025.00"
+        ],
+        [
+          "2",
+          "500.00",
+          "525.00"
+        ],
+        [
+          "3",
+          "750.00",
+          "775.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l004",
+      "fixtureID": "retail",
+      "sql": "SELECT owner AS customer_name, balance AS available_balance FROM accounts ORDER BY id;",
+      "columns": [
+        "customer_name",
+        "available_balance"
+      ],
+      "rows": [
+        [
+          "Ada",
+          "1000.00"
+        ],
+        [
+          "Ben",
+          "500.00"
+        ],
+        [
+          "Cleo",
+          "750.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l005",
+      "fixtureID": "retail",
+      "sql": "SELECT DISTINCT category FROM products ORDER BY category;",
+      "columns": [
+        "category"
+      ],
+      "rows": [
+        [
+          "Home"
+        ],
+        [
+          "Office"
+        ],
+        [
+          "Tech"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l006",
+      "fixtureID": "retail",
+      "sql": "SELECT name, price FROM products ORDER BY price DESC, id LIMIT 3;",
+      "columns": [
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "Monitor",
+          "250.00"
+        ],
+        [
+          "Keyboard",
+          "75.00"
+        ],
+        [
+          "Lamp",
+          "45.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l007",
+      "fixtureID": "retail",
+      "sql": "SELECT id, name, price FROM products WHERE price < 10 ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "2",
+          "Pen",
+          "2.00"
+        ],
+        [
+          "7",
+          "Cable",
+          "8.00"
+        ],
+        [
+          "8",
+          "Folder",
+          "4.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l008",
+      "fixtureID": "retail",
+      "sql": "SELECT name, stock FROM products WHERE category = 'Office' AND stock > 0 ORDER BY id;",
+      "columns": [
+        "name",
+        "stock"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "40"
+        ],
+        [
+          "Pen",
+          "120"
+        ],
+        [
+          "Folder",
+          "20"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l009",
+      "fixtureID": "retail",
+      "sql": "SELECT name, price FROM products WHERE price BETWEEN 10 AND 45 ORDER BY id;",
+      "columns": [
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "12.50"
+        ],
+        [
+          "Mug",
+          "15.00"
+        ],
+        [
+          "Lamp",
+          "45.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l010",
+      "fixtureID": "retail",
+      "sql": "SELECT id, city FROM customers WHERE city IS DISTINCT FROM 'London' ORDER BY id;",
+      "columns": [
+        "id",
+        "city"
+      ],
+      "rows": [
+        [
+          "2",
+          "Paris"
+        ],
+        [
+          "4",
+          "Berlin"
+        ],
+        [
+          "5",
+          null
+        ],
+        [
+          "6",
+          "Paris"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l011",
+      "fixtureID": "retail",
+      "sql": "SELECT name FROM customers WHERE name ILIKE '%A%' ORDER BY id;",
+      "columns": [
+        "name"
+      ],
+      "rows": [
+        [
+          "Ada"
+        ],
+        [
+          "Davi"
+        ],
+        [
+          "Fara"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l012",
+      "fixtureID": "retail",
+      "sql": "SELECT id, substring(email FROM '^[^@]+') AS username FROM customers WHERE email IS NOT NULL ORDER BY id;",
+      "columns": [
+        "id",
+        "username"
+      ],
+      "rows": [
+        [
+          "1",
+          "ada"
+        ],
+        [
+          "2",
+          "ben"
+        ],
+        [
+          "4",
+          "davi"
+        ],
+        [
+          "5",
+          "eli"
+        ],
+        [
+          "6",
+          "fara"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l013",
+      "fixtureID": "retail",
+      "sql": "SELECT name, stock, CASE WHEN stock = 0 THEN 'empty' WHEN stock < 10 THEN 'low' ELSE 'ready' END AS stock_status FROM products WHERE id IN (1,4,5) ORDER BY id;",
+      "columns": [
+        "name",
+        "stock",
+        "stock_status"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "40",
+          "ready"
+        ],
+        [
+          "Monitor",
+          "5",
+          "low"
+        ],
+        [
+          "Mug",
+          "0",
+          "empty"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l014",
+      "fixtureID": "retail",
+      "sql": "SELECT name, round(price / NULLIF(stock,0),2) AS ratio FROM products WHERE id IN (1,3,5) ORDER BY id;",
+      "columns": [
+        "name",
+        "ratio"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "0.31"
+        ],
+        [
+          "Keyboard",
+          "6.25"
+        ],
+        [
+          "Mug",
+          null
+        ]
+      ]
+    },
+    {
+      "lessonID": "l015",
+      "fixtureID": "retail",
+      "sql": "SELECT id, price, (price * 0.875)::numeric(10,2) AS discounted_price FROM products WHERE id IN (1,2,3) ORDER BY id;",
+      "columns": [
+        "id",
+        "price",
+        "discounted_price"
+      ],
+      "rows": [
+        [
+          "1",
+          "12.50",
+          "10.94"
+        ],
+        [
+          "2",
+          "2.00",
+          "1.75"
+        ],
+        [
+          "3",
+          "75.00",
+          "65.63"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l016",
+      "fixtureID": "retail",
+      "sql": "SELECT count(*) AS customers, count(email) AS known_emails, count(DISTINCT city) AS known_cities FROM customers;",
+      "columns": [
+        "customers",
+        "known_emails",
+        "known_cities"
+      ],
+      "rows": [
+        [
+          "6",
+          "5",
+          "3"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l017",
+      "fixtureID": "retail",
+      "sql": "SELECT sum((check_out - check_in) * nightly_rate) AS total_charge FROM bookings;",
+      "columns": [
+        "total_charge"
+      ],
+      "rows": [
+        [
+          "1370.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l018",
+      "fixtureID": "retail",
+      "sql": "SELECT count(*) AS total_orders, count(*) FILTER (WHERE status = 'paid') AS paid_count, count(*) FILTER (WHERE status = 'pending') AS pending_count FROM orders;",
+      "columns": [
+        "total_orders",
+        "paid_count",
+        "pending_count"
+      ],
+      "rows": [
+        [
+          "12",
+          "9",
+          "2"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l019",
+      "fixtureID": "retail",
+      "sql": "SELECT category, count(*) AS product_count, sum(stock) AS units FROM products WHERE id <= 4 GROUP BY category ORDER BY category;",
+      "columns": [
+        "category",
+        "product_count",
+        "units"
+      ],
+      "rows": [
+        [
+          "Office",
+          "2",
+          "160"
+        ],
+        [
+          "Tech",
+          "2",
+          "17"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l020",
+      "fixtureID": "retail",
+      "sql": "SELECT category, sum(stock) AS units FROM products WHERE id <= 4 GROUP BY category HAVING sum(stock) > 150 ORDER BY category;",
+      "columns": [
+        "category",
+        "units"
+      ],
+      "rows": [
+        [
+          "Office",
+          "160"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l021",
+      "fixtureID": "retail",
+      "sql": "SELECT category, sum(stock) AS units, grouping(category) AS is_total FROM products WHERE id <= 4 GROUP BY ROLLUP(category) ORDER BY is_total, category;",
+      "columns": [
+        "category",
+        "units",
+        "is_total"
+      ],
+      "rows": [
+        [
+          "Office",
+          "160",
+          "0"
+        ],
+        [
+          "Tech",
+          "17",
+          "0"
+        ],
+        [
+          null,
+          "177",
+          "1"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l022",
+      "fixtureID": "retail",
+      "sql": "SELECT o.id AS order_id, c.name AS customer, o.total FROM orders o JOIN customers c ON c.id = o.customer_id WHERE o.id <= 103 ORDER BY o.id;",
+      "columns": [
+        "order_id",
+        "customer",
+        "total"
+      ],
+      "rows": [
+        [
+          "101",
+          "Ada",
+          "29.00"
+        ],
+        [
+          "102",
+          "Ben",
+          "75.00"
+        ],
+        [
+          "103",
+          "Ada",
+          "250.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l023",
+      "fixtureID": "retail",
+      "sql": "SELECT c.name AS customer, o.id AS order_id FROM customers c LEFT JOIN orders o ON o.customer_id = c.id WHERE c.id IN (1, 6) ORDER BY c.id, o.id;",
+      "columns": [
+        "customer",
+        "order_id"
+      ],
+      "rows": [
+        [
+          "Ada",
+          "101"
+        ],
+        [
+          "Ada",
+          "103"
+        ],
+        [
+          "Ada",
+          "108"
+        ],
+        [
+          "Fara",
+          null
+        ]
+      ]
+    },
+    {
+      "lessonID": "l024",
+      "fixtureID": "retail",
+      "sql": "SELECT p.name AS product, a.owner FROM products p CROSS JOIN accounts a WHERE p.id <= 2 AND a.id <= 2 ORDER BY p.id, a.id;",
+      "columns": [
+        "product",
+        "owner"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "Ada"
+        ],
+        [
+          "Notebook",
+          "Ben"
+        ],
+        [
+          "Pen",
+          "Ada"
+        ],
+        [
+          "Pen",
+          "Ben"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l025",
+      "fixtureID": "retail",
+      "sql": "SELECT e.name AS employee, m.name AS manager FROM employees e LEFT JOIN employees m ON m.id = e.manager_id WHERE e.id IN (2, 3, 4) ORDER BY e.id;",
+      "columns": [
+        "employee",
+        "manager"
+      ],
+      "rows": [
+        [
+          "Noor",
+          "Morgan"
+        ],
+        [
+          "Owen",
+          "Noor"
+        ],
+        [
+          "Pia",
+          "Morgan"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l026",
+      "fixtureID": "retail",
+      "sql": "SELECT c.name AS customer, p.name AS product, i.quantity, i.quantity * i.unit_price AS line_total FROM orders o JOIN customers c ON c.id = o.customer_id JOIN order_items i ON i.order_id = o.id JOIN products p ON p.id = i.product_id WHERE o.id = 101 ORDER BY p.id;",
+      "columns": [
+        "customer",
+        "product",
+        "quantity",
+        "line_total"
+      ],
+      "rows": [
+        [
+          "Ada",
+          "Notebook",
+          "2",
+          "25.00"
+        ],
+        [
+          "Ada",
+          "Pen",
+          "2",
+          "4.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l027",
+      "fixtureID": "retail",
+      "sql": "SELECT c.name FROM customers c WHERE c.id IN (1, 6) AND NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id) ORDER BY c.id;",
+      "columns": [
+        "name"
+      ],
+      "rows": [
+        [
+          "Fara"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l028",
+      "fixtureID": "retail",
+      "sql": "SELECT id, name, price FROM products WHERE price > (SELECT avg(price) FROM products) ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "3",
+          "Keyboard",
+          "75.00"
+        ],
+        [
+          "4",
+          "Monitor",
+          "250.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l029",
+      "fixtureID": "retail",
+      "sql": "SELECT p.name, p.category, p.price FROM products p WHERE p.price > (SELECT avg(p2.price) FROM products p2 WHERE p2.category = p.category) ORDER BY p.id;",
+      "columns": [
+        "name",
+        "category",
+        "price"
+      ],
+      "rows": [
+        [
+          "Notebook",
+          "Office",
+          "12.50"
+        ],
+        [
+          "Monitor",
+          "Tech",
+          "250.00"
+        ],
+        [
+          "Lamp",
+          "Home",
+          "45.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l030",
+      "fixtureID": "retail",
+      "sql": "SELECT c.name AS customer, latest.id AS order_id, latest.ordered_on FROM customers c LEFT JOIN LATERAL (SELECT o.id, o.ordered_on FROM orders o WHERE o.customer_id = c.id ORDER BY o.ordered_on DESC, o.id DESC LIMIT 1) latest ON true WHERE c.id IN (1, 6) ORDER BY c.id;",
+      "columns": [
+        "customer",
+        "order_id",
+        "ordered_on"
+      ],
+      "rows": [
+        [
+          "Ada",
+          "108",
+          "2024-06-10"
+        ],
+        [
+          "Fara",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "lessonID": "l031",
+      "fixtureID": "retail",
+      "sql": "WITH paid AS (SELECT id, total FROM orders WHERE status = 'paid') SELECT id, total FROM paid WHERE total > 100 ORDER BY id;",
+      "columns": [
+        "id",
+        "total"
+      ],
+      "rows": [
+        [
+          "103",
+          "250.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l032",
+      "fixtureID": "retail",
+      "sql": "SELECT city AS place FROM customers WHERE city IS NOT NULL UNION SELECT warehouse FROM inventory ORDER BY place;",
+      "columns": [
+        "place"
+      ],
+      "rows": [
+        [
+          "Berlin"
+        ],
+        [
+          "London"
+        ],
+        [
+          "North"
+        ],
+        [
+          "Paris"
+        ],
+        [
+          "South"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l033",
+      "fixtureID": "retail",
+      "sql": "SELECT customer_id FROM orders WHERE status = 'paid' AND customer_id IS NOT NULL INTERSECT SELECT customer_id FROM orders WHERE status = 'pending' AND customer_id IS NOT NULL ORDER BY customer_id;",
+      "columns": [
+        "customer_id"
+      ],
+      "rows": [
+        [
+          "2"
+        ],
+        [
+          "4"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l034",
+      "fixtureID": "retail",
+      "sql": "INSERT INTO products (id, name, category, price, stock) VALUES (60, 'Stapler', 'Office', 8.50, 10) RETURNING id, name, price, stock;",
+      "columns": [
+        "id",
+        "name",
+        "price",
+        "stock"
+      ],
+      "rows": [
+        [
+          "60",
+          "Stapler",
+          "8.50",
+          "10"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l035",
+      "fixtureID": "retail",
+      "setupSQL": "UPDATE products SET stock=10 WHERE stock=0;",
+      "sql": "SELECT id,name,stock FROM products WHERE id IN (1,5) ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "stock"
+      ],
+      "rows": [
+        [
+          "1",
+          "Notebook",
+          "40"
+        ],
+        [
+          "5",
+          "Mug",
+          "10"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l036",
+      "fixtureID": "retail",
+      "setupSQL": "DELETE FROM events WHERE kind='visit' AND occurred_at<TIMESTAMP '2024-07-02';",
+      "sql": "SELECT id,kind FROM events WHERE id<=4 ORDER BY id;",
+      "columns": [
+        "id",
+        "kind"
+      ],
+      "rows": [
+        [
+          "2",
+          "purchase"
+        ],
+        [
+          "4",
+          "visit"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l037",
+      "fixtureID": "retail",
+      "setupSQL": "INSERT INTO inventory VALUES(1,'Central',5,DATE '2024-08-01') ON CONFLICT(product_id) DO UPDATE SET quantity=inventory.quantity+EXCLUDED.quantity;",
+      "sql": "SELECT product_id,warehouse,quantity FROM inventory WHERE product_id IN (1,2) ORDER BY product_id;",
+      "columns": [
+        "product_id",
+        "warehouse",
+        "quantity"
+      ],
+      "rows": [
+        [
+          "1",
+          "North",
+          "45"
+        ],
+        [
+          "2",
+          "North",
+          "120"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l038",
+      "fixtureID": "retail",
+      "setupSQL": "BEGIN; UPDATE accounts SET balance=balance-20 WHERE id=1; UPDATE accounts SET balance=balance+20 WHERE id=2; COMMIT;",
+      "sql": "SELECT id,balance FROM accounts WHERE id IN (1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "980.00"
+        ],
+        [
+          "2",
+          "520.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l039",
+      "fixtureID": "retail",
+      "sql": "WITH changed AS (UPDATE products SET stock=stock+1 WHERE id IN (1,5) RETURNING id,stock) SELECT id,stock FROM changed ORDER BY id;",
+      "columns": [
+        "id",
+        "stock"
+      ],
+      "rows": [
+        [
+          "1",
+          "41"
+        ],
+        [
+          "5",
+          "1"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l040",
+      "fixtureID": "retail",
+      "sql": "SELECT id,'customer-'||id::text AS label,COALESCE(vip OR city='London',false) AS priority FROM customers WHERE id IN (1,3,5) ORDER BY id;",
+      "columns": [
+        "id",
+        "label",
+        "priority"
+      ],
+      "rows": [
+        [
+          "1",
+          "customer-1",
+          "t"
+        ],
+        [
+          "3",
+          "customer-3",
+          "t"
+        ],
+        [
+          "5",
+          "customer-5",
+          "f"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l041",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE TYPE lesson_priority AS ENUM('low','normal','high'); CREATE TABLE lesson_tickets(id integer PRIMARY KEY,priority lesson_priority); INSERT INTO lesson_tickets VALUES(1,'high'),(2,'low'),(3,'normal');",
+      "sql": "SELECT id,priority::text AS priority FROM lesson_tickets ORDER BY lesson_tickets.priority,id;",
+      "columns": [
+        "id",
+        "priority"
+      ],
+      "rows": [
+        [
+          "2",
+          "low"
+        ],
+        [
+          "3",
+          "normal"
+        ],
+        [
+          "1",
+          "high"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l042",
+      "fixtureID": "retail",
+      "sql": "SELECT id,concat_ws(', ',name,city) AS label,left(name,2) AS prefix FROM customers WHERE id IN (1,5) ORDER BY id;",
+      "columns": [
+        "id",
+        "label",
+        "prefix"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada, London",
+          "Ad"
+        ],
+        [
+          "5",
+          "Eli",
+          "El"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l043",
+      "fixtureID": "retail",
+      "sql": "SELECT id,guest,check_out-check_in AS nights,check_out+1 AS follow_up_on FROM bookings WHERE id IN (1,4) ORDER BY id;",
+      "columns": [
+        "id",
+        "guest",
+        "nights",
+        "follow_up_on"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada",
+          "3",
+          "2024-07-05"
+        ],
+        [
+          "4",
+          "Davi",
+          "1",
+          "2024-07-03"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l044",
+      "fixtureID": "retail",
+      "sql": "SELECT id,occurred_at,(occurred_at AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Tokyo' AS tokyo_time FROM events WHERE id IN (1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "occurred_at",
+        "tokyo_time"
+      ],
+      "rows": [
+        [
+          "1",
+          "2024-07-01 09:00:00",
+          "2024-07-01 18:00:00"
+        ],
+        [
+          "2",
+          "2024-07-01 09:10:00",
+          "2024-07-01 18:10:00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l045",
+      "fixtureID": "retail",
+      "sql": "SELECT id,date_trunc('day',occurred_at)::date AS event_day,date_trunc('week',occurred_at)::date AS week_start FROM events WHERE id IN (1,4,6) ORDER BY id;",
+      "columns": [
+        "id",
+        "event_day",
+        "week_start"
+      ],
+      "rows": [
+        [
+          "1",
+          "2024-07-01",
+          "2024-07-01"
+        ],
+        [
+          "4",
+          "2024-07-02",
+          "2024-07-01"
+        ],
+        [
+          "6",
+          "2024-07-03",
+          "2024-07-01"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l046",
+      "fixtureID": "retail",
+      "sql": "SELECT id,tags,tags && ARRAY['work','light'] AS matches,array_position(tags,'usb') AS usb_position FROM products WHERE id IN (1,3,6) ORDER BY id;",
+      "columns": [
+        "id",
+        "tags",
+        "matches",
+        "usb_position"
+      ],
+      "rows": [
+        [
+          "1",
+          "{paper,study}",
+          "f",
+          null
+        ],
+        [
+          "3",
+          "{usb,work}",
+          "t",
+          "1"
+        ],
+        [
+          "6",
+          "{light,work}",
+          "t",
+          null
+        ]
+      ]
+    },
+    {
+      "lessonID": "l047",
+      "fixtureID": "retail",
+      "sql": "SELECT id,attributes->>'color' AS color,(attributes->>'rating')::numeric AS rating FROM products WHERE id IN (1,7,8) ORDER BY id;",
+      "columns": [
+        "id",
+        "color",
+        "rating"
+      ],
+      "rows": [
+        [
+          "1",
+          "blue",
+          "4.7"
+        ],
+        [
+          "7",
+          null,
+          null
+        ],
+        [
+          "8",
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "lessonID": "l048",
+      "fixtureID": "retail",
+      "setupSQL": "UPDATE products SET attributes=(attributes-'color')||'{\"featured\":true}'::jsonb WHERE id=1;",
+      "sql": "SELECT id,attributes->>'color' AS color,attributes->>'featured' AS featured,attributes->>'rating' AS rating FROM products WHERE id IN (1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "color",
+        "featured",
+        "rating"
+      ],
+      "rows": [
+        [
+          "1",
+          null,
+          "true",
+          "4.7"
+        ],
+        [
+          "2",
+          "black",
+          null,
+          "4.2"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l049",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE TABLE lesson_aliases(id integer PRIMARY KEY,customer_id integer REFERENCES customers(id),alias text UNIQUE NULLS NOT DISTINCT); INSERT INTO lesson_aliases VALUES(1,1,NULL),(2,2,'billing');",
+      "sql": "SELECT id,customer_id,alias FROM lesson_aliases ORDER BY id;",
+      "columns": [
+        "id",
+        "customer_id",
+        "alias"
+      ],
+      "rows": [
+        [
+          "1",
+          "1",
+          null
+        ],
+        [
+          "2",
+          "2",
+          "billing"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l050",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE TABLE lesson_drafts(id integer PRIMARY KEY); CREATE TABLE lesson_draft_lines(id integer PRIMARY KEY,draft_id integer REFERENCES lesson_drafts(id) ON DELETE CASCADE); INSERT INTO lesson_drafts VALUES(1); INSERT INTO lesson_draft_lines VALUES(1,1); DELETE FROM lesson_drafts WHERE id=1;",
+      "sql": "SELECT (SELECT count(*) FROM lesson_drafts) AS draft_count,(SELECT count(*) FROM lesson_draft_lines) AS line_count;",
+      "columns": [
+        "draft_count",
+        "line_count"
+      ],
+      "rows": [
+        [
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l051",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE SEQUENCE lesson_ticket_number START WITH 100 INCREMENT BY 5;",
+      "sql": "SELECT nextval('lesson_ticket_number') AS first_ticket,nextval('lesson_ticket_number') AS second_ticket;",
+      "columns": [
+        "first_ticket",
+        "second_ticket"
+      ],
+      "rows": [
+        [
+          "100",
+          "105"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l052",
+      "fixtureID": "retail",
+      "sql": "SELECT row_number() OVER(ORDER BY category)::integer AS category_id,category FROM (SELECT DISTINCT category FROM products) c ORDER BY category_id;",
+      "columns": [
+        "category_id",
+        "category"
+      ],
+      "rows": [
+        [
+          "1",
+          "Home"
+        ],
+        [
+          "2",
+          "Office"
+        ],
+        [
+          "3",
+          "Tech"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l053",
+      "fixtureID": "retail",
+      "sql": "SELECT column_name,data_type,ordinal_position FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='customers' AND ordinal_position<=3 ORDER BY ordinal_position;",
+      "columns": [
+        "column_name",
+        "data_type",
+        "ordinal_position"
+      ],
+      "rows": [
+        [
+          "id",
+          "integer",
+          "1"
+        ],
+        [
+          "name",
+          "text",
+          "2"
+        ],
+        [
+          "city",
+          "text",
+          "3"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l054",
+      "fixtureID": "retail",
+      "setupSQL": "ALTER TABLE products ADD COLUMN reorder_point integer; UPDATE products SET reorder_point=CASE WHEN category='Tech' THEN 10 ELSE 20 END; ALTER TABLE products ALTER COLUMN reorder_point SET NOT NULL; ALTER TABLE products ADD CHECK(reorder_point>0);",
+      "sql": "SELECT id,category,reorder_point FROM products WHERE id IN (1,3,5) ORDER BY id;",
+      "columns": [
+        "id",
+        "category",
+        "reorder_point"
+      ],
+      "rows": [
+        [
+          "1",
+          "Office",
+          "20"
+        ],
+        [
+          "3",
+          "Tech",
+          "10"
+        ],
+        [
+          "5",
+          "Home",
+          "20"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l055",
+      "fixtureID": "retail",
+      "sql": "SELECT id,salary,sum(salary) OVER (PARTITION BY department) AS department_total FROM employees WHERE department='Engineering' ORDER BY id;",
+      "columns": [
+        "id",
+        "salary",
+        "department_total"
+      ],
+      "rows": [
+        [
+          "2",
+          "90000.00",
+          "250000.00"
+        ],
+        [
+          "3",
+          "80000.00",
+          "250000.00"
+        ],
+        [
+          "6",
+          "80000.00",
+          "250000.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l056",
+      "fixtureID": "retail",
+      "sql": "SELECT id,salary,rank() OVER (ORDER BY salary DESC) AS salary_rank,dense_rank() OVER (ORDER BY salary DESC) AS dense_salary_rank FROM employees ORDER BY salary DESC,id;",
+      "columns": [
+        "id",
+        "salary",
+        "salary_rank",
+        "dense_salary_rank"
+      ],
+      "rows": [
+        [
+          "1",
+          "120000.00",
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "90000.00",
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "80000.00",
+          "3",
+          "3"
+        ],
+        [
+          "6",
+          "80000.00",
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "70000.00",
+          "5",
+          "4"
+        ],
+        [
+          "5",
+          "70000.00",
+          "5",
+          "4"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l057",
+      "fixtureID": "retail",
+      "sql": "SELECT id,total,lag(total) OVER (PARTITION BY customer_id ORDER BY ordered_on,id) AS previous_total FROM orders WHERE customer_id=1 ORDER BY ordered_on,id;",
+      "columns": [
+        "id",
+        "total",
+        "previous_total"
+      ],
+      "rows": [
+        [
+          "101",
+          "29.00",
+          null
+        ],
+        [
+          "103",
+          "250.00",
+          "29.00"
+        ],
+        [
+          "108",
+          "16.00",
+          "250.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l058",
+      "fixtureID": "retail",
+      "sql": "SELECT id,total,round(avg(total) OVER (ORDER BY ordered_on,id ROWS BETWEEN 2 PRECEDING AND 1 PRECEDING),2) AS prior_two_mean FROM orders ORDER BY ordered_on,id LIMIT 4;",
+      "columns": [
+        "id",
+        "total",
+        "prior_two_mean"
+      ],
+      "rows": [
+        [
+          "101",
+          "29.00",
+          null
+        ],
+        [
+          "102",
+          "75.00",
+          "29.00"
+        ],
+        [
+          "103",
+          "250.00",
+          "52.00"
+        ],
+        [
+          "104",
+          "15.00",
+          "162.50"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l059",
+      "fixtureID": "retail",
+      "sql": "SELECT id,price,first_value(price) OVER w AS minimum_price,last_value(price) OVER w AS maximum_price FROM products WHERE category='Office' WINDOW w AS (ORDER BY price,id ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) ORDER BY id;",
+      "columns": [
+        "id",
+        "price",
+        "minimum_price",
+        "maximum_price"
+      ],
+      "rows": [
+        [
+          "1",
+          "12.50",
+          "2.00",
+          "12.50"
+        ],
+        [
+          "2",
+          "2.00",
+          "2.00",
+          "12.50"
+        ],
+        [
+          "8",
+          "4.00",
+          "2.00",
+          "12.50"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l060",
+      "fixtureID": "retail",
+      "sql": "SELECT DISTINCT ON (category) category,id,name,price FROM products ORDER BY category,price,id;",
+      "columns": [
+        "category",
+        "id",
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "Home",
+          "5",
+          "Mug",
+          "15.00"
+        ],
+        [
+          "Office",
+          "2",
+          "Pen",
+          "2.00"
+        ],
+        [
+          "Tech",
+          "7",
+          "Cable",
+          "8.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l061",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE VIEW lesson_pending AS SELECT id,status,total FROM orders WHERE status='pending' WITH LOCAL CHECK OPTION; UPDATE lesson_pending SET total=22.00 WHERE id=106;",
+      "sql": "SELECT id,status,total FROM lesson_pending ORDER BY id;",
+      "columns": [
+        "id",
+        "status",
+        "total"
+      ],
+      "rows": [
+        [
+          "106",
+          "pending",
+          "22.00"
+        ],
+        [
+          "109",
+          "pending",
+          "250.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l062",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE MATERIALIZED VIEW lesson_stock AS SELECT id,stock FROM products; UPDATE products SET stock=stock+5 WHERE id=1;",
+      "sql": "SELECT p.id,p.stock AS current_stock,s.stock AS snapshot_stock FROM products p JOIN lesson_stock s ON s.id=p.id WHERE p.id IN (1,2) ORDER BY p.id;",
+      "columns": [
+        "id",
+        "current_stock",
+        "snapshot_stock"
+      ],
+      "rows": [
+        [
+          "1",
+          "45",
+          "40"
+        ],
+        [
+          "2",
+          "120",
+          "120"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l063",
+      "fixtureID": "retail",
+      "sql": "SELECT s.target AS target_stock,count(p.id) AS product_count FROM generate_series(0,40,20) AS s(target) LEFT JOIN products p ON p.stock>=s.target GROUP BY s.target ORDER BY s.target;",
+      "columns": [
+        "target_stock",
+        "product_count"
+      ],
+      "rows": [
+        [
+          "0",
+          "8"
+        ],
+        [
+          "20",
+          "4"
+        ],
+        [
+          "40",
+          "3"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l064",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE FUNCTION lesson_discount(amount numeric,percent numeric) RETURNS numeric LANGUAGE sql IMMUTABLE STRICT AS $$ SELECT round(amount*(1-percent/100),2) $$;",
+      "sql": "SELECT id,price,lesson_discount(price,10) AS discounted FROM products WHERE id IN (1,2,3) ORDER BY id;",
+      "columns": [
+        "id",
+        "price",
+        "discounted"
+      ],
+      "rows": [
+        [
+          "1",
+          "12.50",
+          "11.25"
+        ],
+        [
+          "2",
+          "2.00",
+          "1.80"
+        ],
+        [
+          "3",
+          "75.00",
+          "67.50"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l065",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE FUNCTION lesson_stock_label(qty integer) RETURNS text LANGUAGE plpgsql IMMUTABLE AS $$ BEGIN IF qty=0 THEN RETURN 'empty'; ELSIF qty<10 THEN RETURN 'low'; ELSE RETURN 'ready'; END IF; END $$;",
+      "sql": "SELECT id,stock,lesson_stock_label(stock) AS label FROM products WHERE id IN (1,5,6) ORDER BY id;",
+      "columns": [
+        "id",
+        "stock",
+        "label"
+      ],
+      "rows": [
+        [
+          "1",
+          "40",
+          "ready"
+        ],
+        [
+          "5",
+          "0",
+          "empty"
+        ],
+        [
+          "6",
+          "8",
+          "low"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l066",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE PROCEDURE lesson_restock(pid integer,units integer) LANGUAGE plpgsql AS $$ BEGIN UPDATE products SET stock=stock+units WHERE id=pid; END $$; CALL lesson_restock(1,7);",
+      "sql": "SELECT id,name,stock FROM products WHERE id IN (1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "stock"
+      ],
+      "rows": [
+        [
+          "1",
+          "Notebook",
+          "47"
+        ],
+        [
+          "2",
+          "Pen",
+          "120"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l067",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE FUNCTION lesson_trim_name() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN NEW.name:=trim(NEW.name); RETURN NEW; END $$; CREATE TRIGGER lesson_normalize BEFORE INSERT ON customers FOR EACH ROW EXECUTE FUNCTION lesson_trim_name(); INSERT INTO customers(id,name,joined_on) VALUES(50,'  Mira  ',DATE '2024-08-01');",
+      "sql": "SELECT id,name FROM customers WHERE id=50;",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "50",
+          "Mira"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l068",
+      "fixtureID": "retail",
+      "setupSQL": "CREATE TABLE lesson_price_audit(product_id integer,old_price numeric(10,2),new_price numeric(10,2)); CREATE FUNCTION lesson_audit_price() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN INSERT INTO lesson_price_audit VALUES(NEW.id,OLD.price,NEW.price); RETURN NULL; END $$; CREATE TRIGGER lesson_price_history AFTER UPDATE OF price ON products FOR EACH ROW EXECUTE FUNCTION lesson_audit_price(); UPDATE products SET price=price+2 WHERE id=1;",
+      "sql": "SELECT product_id,old_price,new_price FROM lesson_price_audit ORDER BY product_id;",
+      "columns": [
+        "product_id",
+        "old_price",
+        "new_price"
+      ],
+      "rows": [
+        [
+          "1",
+          "12.50",
+          "14.50"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l069",
+      "fixtureID": "retail",
+      "sql": "SELECT id,title,to_tsvector('english',body) @@ plainto_tsquery('english','SQL') AS matches FROM documents ORDER BY id;",
+      "columns": [
+        "id",
+        "title",
+        "matches"
+      ],
+      "rows": [
+        [
+          "1",
+          "SQL guide",
+          "t"
+        ],
+        [
+          "2",
+          "PostgreSQL tuning",
+          "f"
+        ],
+        [
+          "3",
+          "Garden notes",
+          "f"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l070",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name,price FROM products WHERE price<20 ORDER BY id LIMIT 3;",
+      "columns": [
+        "id",
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "1",
+          "Notebook",
+          "12.50"
+        ],
+        [
+          "2",
+          "Pen",
+          "2.00"
+        ],
+        [
+          "5",
+          "Mug",
+          "15.00"
+        ]
+      ],
+      "setupSQL": "CREATE INDEX lesson_price_lookup ON products USING btree(price);"
+    },
+    {
+      "lessonID": "l071",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name FROM products WHERE tags @> ARRAY['usb'] ORDER BY id;",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "3",
+          "Keyboard"
+        ],
+        [
+          "7",
+          "Cable"
+        ]
+      ],
+      "setupSQL": "CREATE INDEX lesson_tags_gin ON products USING gin(tags);"
+    },
+    {
+      "lessonID": "l072",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name,price FROM products WHERE stock>0 AND price<20 ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "price"
+      ],
+      "rows": [
+        [
+          "1",
+          "Notebook",
+          "12.50"
+        ],
+        [
+          "2",
+          "Pen",
+          "2.00"
+        ],
+        [
+          "7",
+          "Cable",
+          "8.00"
+        ],
+        [
+          "8",
+          "Folder",
+          "4.00"
+        ]
+      ],
+      "setupSQL": "CREATE INDEX lesson_available_price ON products(price) WHERE stock>0;"
+    },
+    {
+      "lessonID": "l073",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name FROM products WHERE price>50 ORDER BY id;",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "3",
+          "Keyboard"
+        ],
+        [
+          "4",
+          "Monitor"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l074",
+      "fixtureID": "retail",
+      "sql": "SELECT id FROM products WHERE stock=0 ORDER BY id;",
+      "columns": [
+        "id"
+      ],
+      "rows": [
+        [
+          "5"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l075",
+      "fixtureID": "retail",
+      "sql": "SELECT c.id,count(o.id) AS paid_orders FROM customers c LEFT JOIN orders o ON o.customer_id=c.id AND o.status='paid' WHERE c.id IN(1,6) GROUP BY c.id ORDER BY c.id;",
+      "columns": [
+        "id",
+        "paid_orders"
+      ],
+      "rows": [
+        [
+          "1",
+          "3"
+        ],
+        [
+          "6",
+          "0"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l076",
+      "fixtureID": "retail",
+      "sql": "SELECT category,count(*) AS product_count FROM products GROUP BY category ORDER BY category;",
+      "columns": [
+        "category",
+        "product_count"
+      ],
+      "rows": [
+        [
+          "Home",
+          "2"
+        ],
+        [
+          "Office",
+          "3"
+        ],
+        [
+          "Tech",
+          "3"
+        ]
+      ],
+      "setupSQL": "ANALYZE products;"
+    },
+    {
+      "lessonID": "l077",
+      "fixtureID": "retail",
+      "sql": "SELECT count(*) AS product_count FROM products;",
+      "columns": [
+        "product_count"
+      ],
+      "rows": [
+        [
+          "8"
+        ]
+      ],
+      "setupSQL": "VACUUM products;"
+    },
+    {
+      "lessonID": "l078",
+      "fixtureID": "retail",
+      "sql": "SELECT c.n AS customer_rows,p.n AS product_rows,c.n*p.n AS possible_pairs FROM (SELECT count(*) AS n FROM customers) c CROSS JOIN (SELECT count(*) AS n FROM products) p;",
+      "columns": [
+        "customer_rows",
+        "product_rows",
+        "possible_pairs"
+      ],
+      "rows": [
+        [
+          "6",
+          "8",
+          "48"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l079",
+      "fixtureID": "retail",
+      "sql": "SELECT id,balance FROM accounts WHERE id IN(1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "1000.00"
+        ],
+        [
+          "2",
+          "500.00"
+        ]
+      ],
+      "setupSQL": "BEGIN; UPDATE accounts SET balance=balance-10 WHERE id=1; UPDATE accounts SET balance=balance+10 WHERE id=2; ROLLBACK;"
+    },
+    {
+      "lessonID": "l080",
+      "fixtureID": "retail",
+      "sql": "SELECT id,balance FROM accounts WHERE id IN(1,2) ORDER BY id FOR UPDATE;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "1000.00"
+        ],
+        [
+          "2",
+          "500.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l081",
+      "fixtureID": "retail",
+      "sql": "SELECT id,balance FROM accounts WHERE id=1;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "970.00"
+        ]
+      ],
+      "setupSQL": "CREATE TABLE lesson_requests(id integer PRIMARY KEY,account_id integer NOT NULL REFERENCES accounts(id),amount numeric NOT NULL CHECK(amount>0)); BEGIN; WITH accepted AS (INSERT INTO lesson_requests VALUES(1,1,30) ON CONFLICT(id) DO NOTHING RETURNING account_id,amount) UPDATE accounts a SET balance=a.balance-x.amount FROM accepted x WHERE a.id=x.account_id; WITH accepted AS (INSERT INTO lesson_requests VALUES(1,1,30) ON CONFLICT(id) DO NOTHING RETURNING account_id,amount) UPDATE accounts a SET balance=a.balance-x.amount FROM accepted x WHERE a.id=x.account_id; COMMIT;"
+    },
+    {
+      "lessonID": "l082",
+      "fixtureID": "retail",
+      "sql": "SELECT has_table_privilege(current_user,'products','SELECT') AS can_select;",
+      "columns": [
+        "can_select"
+      ],
+      "rows": [
+        [
+          "t"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l083",
+      "fixtureID": "retail",
+      "sql": "PREPARE lesson_lookup(text) AS SELECT id,name FROM customers WHERE name=$1 ORDER BY id; EXECUTE lesson_lookup('Ada');",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l084",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name FROM customers WHERE id<=4 ORDER BY id;",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada"
+        ],
+        [
+          "4",
+          "Davi"
+        ]
+      ],
+      "setupSQL": "ALTER TABLE customers ENABLE ROW LEVEL SECURITY; ALTER TABLE customers FORCE ROW LEVEL SECURITY; CREATE POLICY lesson_vip ON customers FOR SELECT USING(vip);"
+    },
+    {
+      "lessonID": "l085",
+      "fixtureID": "retail",
+      "sql": "SELECT id,balance FROM lesson_account_copy ORDER BY id;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "1000.00"
+        ],
+        [
+          "2",
+          "500.00"
+        ],
+        [
+          "3",
+          "750.00"
+        ]
+      ],
+      "setupSQL": "CREATE TABLE lesson_account_copy AS SELECT id,owner,balance FROM accounts;"
+    },
+    {
+      "lessonID": "l086",
+      "fixtureID": "retail",
+      "sql": "SELECT pg_is_in_recovery() AS in_recovery;",
+      "columns": [
+        "in_recovery"
+      ],
+      "rows": [
+        [
+          "f"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l087",
+      "fixtureID": "retail",
+      "sql": "SELECT product_id,updated_on,DATE '2024-07-10'-updated_on AS age_days FROM inventory WHERE product_id<=3 ORDER BY product_id;",
+      "columns": [
+        "product_id",
+        "updated_on",
+        "age_days"
+      ],
+      "rows": [
+        [
+          "1",
+          "2024-07-01",
+          "9"
+        ],
+        [
+          "2",
+          "2024-07-01",
+          "9"
+        ],
+        [
+          "3",
+          "2024-07-02",
+          "8"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l088",
+      "fixtureID": "retail",
+      "sql": "WITH RECURSIVE team AS (SELECT id,name,0 AS depth FROM employees WHERE id=1 UNION ALL SELECT e.id,e.name,t.depth+1 FROM employees e JOIN team t ON e.manager_id=t.id WHERE t.depth<1) SELECT id,name,depth FROM team ORDER BY depth,id;",
+      "columns": [
+        "id",
+        "name",
+        "depth"
+      ],
+      "rows": [
+        [
+          "1",
+          "Morgan",
+          "0"
+        ],
+        [
+          "2",
+          "Noor",
+          "1"
+        ],
+        [
+          "4",
+          "Pia",
+          "1"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l089",
+      "fixtureID": "retail",
+      "sql": "WITH RECURSIVE edges(a,b) AS (VALUES(1,2),(2,3),(3,1),(3,4)),walk(node) AS (SELECT 1 UNION ALL SELECT e.b FROM walk w JOIN edges e ON e.a=w.node) CYCLE node SET is_cycle USING path SELECT node,is_cycle FROM walk ORDER BY node,is_cycle;",
+      "columns": [
+        "node",
+        "is_cycle"
+      ],
+      "rows": [
+        [
+          "1",
+          "f"
+        ],
+        [
+          "1",
+          "t"
+        ],
+        [
+          "2",
+          "f"
+        ],
+        [
+          "3",
+          "f"
+        ],
+        [
+          "4",
+          "f"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l090",
+      "fixtureID": "retail",
+      "sql": "WITH RECURSIVE team AS (SELECT id,salary FROM employees WHERE id=2 UNION ALL SELECT e.id,e.salary FROM employees e JOIN team t ON e.manager_id=t.id) SELECT count(*) AS people,sum(salary) AS total_salary FROM team;",
+      "columns": [
+        "people",
+        "total_salary"
+      ],
+      "rows": [
+        [
+          "3",
+          "250000.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l091",
+      "fixtureID": "retail",
+      "sql": "WITH clipped AS (SELECT id,daterange(check_in,check_out,'[)') * daterange(DATE '2024-07-02',DATE '2024-07-05','[)') AS stay FROM bookings WHERE id<=3 AND daterange(check_in,check_out,'[)') && daterange(DATE '2024-07-02',DATE '2024-07-05','[)')) SELECT id,lower(stay) AS stay_start,upper(stay) AS stay_end,upper(stay)-lower(stay) AS nights FROM clipped ORDER BY id;",
+      "columns": [
+        "id",
+        "stay_start",
+        "stay_end",
+        "nights"
+      ],
+      "rows": [
+        [
+          "1",
+          "2024-07-02",
+          "2024-07-04",
+          "2"
+        ],
+        [
+          "2",
+          "2024-07-02",
+          "2024-07-05",
+          "3"
+        ],
+        [
+          "3",
+          "2024-07-04",
+          "2024-07-05",
+          "1"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l092",
+      "fixtureID": "retail",
+      "sql": "SELECT 'july' AS section,id,day FROM lesson_july UNION ALL SELECT 'other',id,day FROM lesson_other ORDER BY id;",
+      "columns": [
+        "section",
+        "id",
+        "day"
+      ],
+      "rows": [
+        [
+          "july",
+          "1",
+          "2024-07-31"
+        ],
+        [
+          "other",
+          "2",
+          "2024-08-01"
+        ]
+      ],
+      "setupSQL": "CREATE TABLE lesson_dates(id integer,day date NOT NULL) PARTITION BY RANGE(day); CREATE TABLE lesson_july PARTITION OF lesson_dates FOR VALUES FROM('2024-07-01') TO('2024-08-01'); CREATE TABLE lesson_other PARTITION OF lesson_dates DEFAULT; INSERT INTO lesson_dates VALUES(1,DATE '2024-07-31'),(2,DATE '2024-08-01');"
+    },
+    {
+      "lessonID": "l093",
+      "fixtureID": "retail",
+      "sql": "SELECT quantity,unit_price,amount FROM lesson_lines ORDER BY id;",
+      "columns": [
+        "quantity",
+        "unit_price",
+        "amount"
+      ],
+      "rows": [
+        [
+          "3",
+          "4.50",
+          "13.50"
+        ]
+      ],
+      "setupSQL": "CREATE TABLE lesson_lines(id integer PRIMARY KEY,quantity integer NOT NULL,unit_price numeric(10,2) NOT NULL,amount numeric GENERATED ALWAYS AS(quantity*unit_price) STORED); INSERT INTO lesson_lines(id,quantity,unit_price) VALUES(1,2,4.50); UPDATE lesson_lines SET quantity=3 WHERE id=1;"
+    },
+    {
+      "lessonID": "l094",
+      "fixtureID": "retail",
+      "sql": "SELECT day,row_number() OVER(ORDER BY day) AS position,day-(row_number() OVER(ORDER BY day))::integer AS grouping_date FROM (SELECT DISTINCT check_in AS day FROM bookings) days ORDER BY day;",
+      "columns": [
+        "day",
+        "position",
+        "grouping_date"
+      ],
+      "rows": [
+        [
+          "2024-07-01",
+          "1",
+          "2024-06-30"
+        ],
+        [
+          "2024-07-02",
+          "2",
+          "2024-06-30"
+        ],
+        [
+          "2024-07-04",
+          "3",
+          "2024-07-01"
+        ],
+        [
+          "2024-07-07",
+          "4",
+          "2024-07-03"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l095",
+      "fixtureID": "retail",
+      "sql": "SELECT c.id,c.name FROM customers c WHERE NOT EXISTS(SELECT 1 FROM (VALUES('Office'),('Tech')) required(category) WHERE NOT EXISTS(SELECT 1 FROM orders o JOIN order_items i ON i.order_id=o.id JOIN products p ON p.id=i.product_id WHERE o.customer_id=c.id AND o.status='paid' AND p.category=required.category)) ORDER BY c.id;",
+      "columns": [
+        "id",
+        "name"
+      ],
+      "rows": [
+        [
+          "1",
+          "Ada"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l096",
+      "fixtureID": "retail",
+      "sql": "SELECT round((percentile_cont(0.25) WITHIN GROUP(ORDER BY price))::numeric,2) AS q1_price,round((percentile_cont(0.5) WITHIN GROUP(ORDER BY price))::numeric,2) AS median_price,round((percentile_cont(0.75) WITHIN GROUP(ORDER BY price))::numeric,2) AS q3_price FROM products;",
+      "columns": [
+        "q1_price",
+        "median_price",
+        "q3_price"
+      ],
+      "rows": [
+        [
+          "7.00",
+          "13.75",
+          "52.50"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l097",
+      "fixtureID": "retail",
+      "sql": "SELECT c.id AS customer_id,count(o.id) AS paid_orders,round(COALESCE(sum(o.total),0),2) AS revenue FROM customers c LEFT JOIN orders o ON o.customer_id=c.id AND o.status='paid' WHERE c.id IN(1,6) GROUP BY c.id ORDER BY c.id;",
+      "columns": [
+        "customer_id",
+        "paid_orders",
+        "revenue"
+      ],
+      "rows": [
+        [
+          "1",
+          "3",
+          "295.00"
+        ],
+        [
+          "6",
+          "0",
+          "0.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l098",
+      "fixtureID": "retail",
+      "sql": "SELECT id,name,stock,greatest(20-stock,0) AS units_to_buy FROM products WHERE id IN(4,5,6) ORDER BY id;",
+      "columns": [
+        "id",
+        "name",
+        "stock",
+        "units_to_buy"
+      ],
+      "rows": [
+        [
+          "4",
+          "Monitor",
+          "5",
+          "15"
+        ],
+        [
+          "5",
+          "Mug",
+          "0",
+          "20"
+        ],
+        [
+          "6",
+          "Lamp",
+          "8",
+          "12"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l099",
+      "fixtureID": "retail",
+      "sql": "SELECT id,greatest(least(check_out,DATE '2024-07-05')-greatest(check_in,DATE '2024-07-02'),0) AS nights,greatest(least(check_out,DATE '2024-07-05')-greatest(check_in,DATE '2024-07-02'),0)*nightly_rate AS revenue FROM bookings WHERE id<=3 ORDER BY id;",
+      "columns": [
+        "id",
+        "nights",
+        "revenue"
+      ],
+      "rows": [
+        [
+          "1",
+          "2",
+          "200.00"
+        ],
+        [
+          "2",
+          "3",
+          "360.00"
+        ],
+        [
+          "3",
+          "1",
+          "100.00"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l100",
+      "fixtureID": "retail",
+      "sql": "SELECT id,balance FROM accounts WHERE id IN(1,2) ORDER BY id;",
+      "columns": [
+        "id",
+        "balance"
+      ],
+      "rows": [
+        [
+          "1",
+          "975.00"
+        ],
+        [
+          "2",
+          "525.00"
+        ]
+      ],
+      "setupSQL": "CREATE TABLE lesson_transfers(id integer PRIMARY KEY,source_id integer NOT NULL REFERENCES accounts(id),destination_id integer NOT NULL REFERENCES accounts(id),amount numeric(12,2) NOT NULL CHECK(amount>0),CHECK(source_id<>destination_id)); BEGIN; UPDATE accounts SET balance=balance-25 WHERE id=1; UPDATE accounts SET balance=balance+25 WHERE id=2; INSERT INTO lesson_transfers VALUES(1,1,2,25); COMMIT;"
+    },
+    {
+      "lessonID": "l101",
+      "fixtureID": "retail",
+      "sql": "SELECT payload->>'device' AS device,count(*) AS event_count,count(DISTINCT customer_id) AS customer_count FROM events GROUP BY device ORDER BY device;",
+      "columns": [
+        "device",
+        "event_count",
+        "customer_count"
+      ],
+      "rows": [
+        [
+          "desktop",
+          "3",
+          "2"
+        ],
+        [
+          "mobile",
+          "3",
+          "2"
+        ]
+      ]
+    },
+    {
+      "lessonID": "l102",
+      "fixtureID": "retail",
+      "sql": "WITH monthly AS (SELECT date_trunc('month',ordered_on)::date AS month_start,sum(total) AS revenue FROM orders WHERE status='paid' GROUP BY month_start), compared AS (SELECT *,lag(revenue) OVER(ORDER BY month_start) AS previous_revenue FROM monthly) SELECT month_start,revenue,previous_revenue,round((revenue-previous_revenue)/NULLIF(previous_revenue,0),4) AS growth_rate FROM compared ORDER BY month_start;",
+      "columns": [
+        "month_start",
+        "revenue",
+        "previous_revenue",
+        "growth_rate"
+      ],
+      "rows": [
+        [
+          "2024-05-01",
+          "354.00",
+          null,
+          null
+        ],
+        [
+          "2024-06-01",
+          "131.00",
+          "354.00",
+          "-0.6299"
+        ],
+        [
+          "2024-07-01",
+          "124.00",
+          "131.00",
+          "-0.0534"
+        ]
+      ]
+    }
+  ]
+}

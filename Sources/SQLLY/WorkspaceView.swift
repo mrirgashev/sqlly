@@ -303,8 +303,8 @@ struct LessonStepButton: View {
             }
             .frame(width: 38, height: 40)
             .foregroundStyle(Color.primary)
-            .background(Color.primary.opacity(selected ? 0.12 : hovered ? 0.07 : 0.025), in: RoundedRectangle(cornerRadius: 5))
-            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(completedSuccessfully ? Color.craft : Color.primary.opacity(selected ? 0.55 : hovered ? 0.35 : 0.13), lineWidth: completedSuccessfully ? 1.8 : 1))
+            .background(completedSuccessfully ? Color.craft.opacity(selected ? 0.11 : hovered ? 0.10 : 0.07) : Color.primary.opacity(selected ? 0.12 : hovered ? 0.07 : 0.025), in: RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).strokeBorder(completedSuccessfully ? Color.craft : Color.primary.opacity(selected ? 0.55 : hovered ? 0.35 : 0.13), lineWidth: completedSuccessfully ? 1.2 : 0.75))
         }.buttonStyle(.plain).onHover { hovered = $0 }
             .help(step.title).accessibilityLabel(L.format("Step %ld: %@", index + 1, step.title) + ". " + L.text(step.exercise == nil ? "READ & EXPLORE" : "PRACTICE") + ". " + L.text(status))
     }
