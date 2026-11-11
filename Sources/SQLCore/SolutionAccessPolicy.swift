@@ -1,6 +1,15 @@
 import Foundation
 import CryptoKit
 
+public enum SQLSource {
+    /// Recognizes SQL beyond whitespace, comments, and empty statements.
+    /// PostgreSQL still validates any statement the learner writes.
+    public static func containsStatement(_ sql: String) -> Bool {
+        var lexer = SQLCodeLexer(bytes: Array(sql.utf8))
+        return lexer.containsStatement()
+    }
+}
+
 /// Derives access to a coding exercise's worked solution from persisted history.
 ///
 /// Four different unsuccessful graded code submissions are required. Successes,
@@ -51,14 +60,13 @@ public struct SolutionAccessPolicy: Equatable, Sendable {
     /// Returns nil for blank/comment-only/empty-statement input or oversized code.
     public static func codeFingerprint(_ sql: String) -> String? {
         guard sql.utf8.count <= maximumCodeBytes else { return nil }
-        var lexer = AttemptCodeLexer(bytes: Array(sql.utf8))
+        var lexer = SQLCodeLexer(bytes: Array(sql.utf8))
         guard let payload = lexer.canonicalPayload() else { return nil }
         return SHA256.hash(data: Data(payload)).map { String(format: "%02x", $0) }.joined()
     }
 }
 
-/// A bounded lexical scan for source uniqueness, independent of SQL grading.
-private struct AttemptCodeLexer {
+private struct SQLCodeLexer {
     let bytes: [UInt8]
     private var index = 0
     private var tokens: [Token] = []
@@ -69,12 +77,21 @@ private struct AttemptCodeLexer {
 
     init(bytes: [UInt8]) { self.bytes = bytes }
 
+    mutating func containsStatement() -> Bool {
+        while index < bytes.count {
+            skipTrivia()
+            guard index < bytes.count else { return false }
+            if bytes[index] != 59 { return true }
+            index += 1
+        }
+        return false
+    }
+
     mutating func canonicalPayload() -> [UInt8]? {
         while index < bytes.count {
+            skipTrivia()
+            guard index < bytes.count else { break }
             let byte = bytes[index]
-            if Self.isWhitespace(byte) { index += 1; continue }
-            if matches(45, 45) { skipLineComment(); continue }
-            if matches(47, 42) { skipBlockComment(); continue }
 
             if byte == 59 {
                 // Empty commands and an optional final terminator are formatting.
@@ -151,6 +168,15 @@ private struct AttemptCodeLexer {
 
     private func matches(_ first: UInt8, _ second: UInt8) -> Bool {
         index + 1 < bytes.count && bytes[index] == first && bytes[index + 1] == second
+    }
+
+    private mutating func skipTrivia() {
+        while index < bytes.count {
+            if Self.isWhitespace(bytes[index]) { index += 1 }
+            else if matches(45, 45) { skipLineComment() }
+            else if matches(47, 42) { skipBlockComment() }
+            else { return }
+        }
     }
 
     private mutating func skipLineComment() {

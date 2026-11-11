@@ -64,3 +64,7 @@ Existing drafts, including empty drafts and drafts identical to custom starter S
 ## Teaching update in 0.3.7
 
 Content version 1.1.2 adds prerequisite explanations and practical examples while retaining all course and task IDs, exercise fields, SQL, fixture definitions and grading policies. There is no storage migration. The worked-solution threshold is four qualifying distinct failed code submissions; existing classified attempt history is counted immediately under this policy. Eligibility only enables the collapsed section: the learner still chooses when to reveal the answer. Progress, settings, saved drafts, completion and attempt records are preserved when replacing the application bundle.
+
+## Editor placeholders in 0.3.8
+
+On the first launch after updating, drafts that exactly match the old generated table query receive the instructional comment if the exercise has no submission history. This update runs once in a SQLite transaction. Edited drafts, submissions, course position and completion records are preserved.

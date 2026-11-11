@@ -67,26 +67,43 @@ struct WorkspaceKeyboardTests {
 
         // Headless test runners do not provide NSApp.keyWindow. Supply this
         // test window to the same decision used by the native event monitor.
-        #expect(!coordinator.navigate(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(!coordinator.handleKey(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
         #expect(model.selection == exerciseStep.id)
         coordinator.receiveFocusRequest(model.taskFocusRequest, keyWindow: window)
         #expect(window.firstResponder === editor)
         model.taskFocusRequest &+= 1
         coordinator.receiveFocusRequest(model.taskFocusRequest, keyWindow: window)
         #expect(window.firstResponder === taskTarget)
-        #expect(!coordinator.navigate(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: nil))
+        editor.string = "SELECT '🐘';"
+        editor.setSelectedRange(NSRange(location: 1, length: 0))
+        let command = NSEvent.ModifierFlags.command.rawValue
+        #expect(coordinator.handleKey(keyCode: 14, character: "e", modifiers: command, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(window.firstResponder === editor)
+        #expect(editor.selectedRange() == NSRange(location: 0, length: (editor.string as NSString).length))
+
+        let caret = NSRange(location: 3, length: 0)
+        editor.setSelectedRange(caret)
+        #expect(coordinator.handleKey(keyCode: 14, character: "e", modifiers: command, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(editor.selectedRange() == caret)
+        #expect(window.makeFirstResponder(taskTarget))
+        model.inspectorVisible = false
+        #expect(!coordinator.handleKey(keyCode: 14, character: "e", modifiers: command, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(window.firstResponder === taskTarget)
+        model.inspectorVisible = true
+
+        #expect(!coordinator.handleKey(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: nil))
         #expect(model.selection == exerciseStep.id)
-        #expect(coordinator.navigate(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(coordinator.handleKey(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
         #expect(model.selection == course.steps[exerciseIndex + 1].id)
-        #expect(coordinator.navigate(keyCode: 123, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(coordinator.handleKey(keyCode: 123, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
         #expect(model.selection == exerciseStep.id)
-        #expect(!coordinator.navigate(keyCode: 124, modifiers: NSEvent.ModifierFlags.command.rawValue, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(!coordinator.handleKey(keyCode: 124, modifiers: NSEvent.ModifierFlags.command.rawValue, windowNumber: window.windowNumber, keyWindow: window))
         #expect(model.selection == exerciseStep.id)
 
         let firstTopicLastStep = try #require(course.modules.first?.lessons.flatMap(\.steps).last)
         let nextTopicFirstStep = try #require(course.modules.dropFirst().first?.lessons.first?.steps.first)
         model.select(firstTopicLastStep.id)
-        #expect(coordinator.navigate(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
+        #expect(coordinator.handleKey(keyCode: 124, modifiers: 0, windowNumber: window.windowNumber, keyWindow: window))
         #expect(model.selection == nextTopicFirstStep.id)
 
         // A request received while help is open must not steal focus later

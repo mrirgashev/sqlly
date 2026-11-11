@@ -3,8 +3,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 CONFIGURATION="${CONFIGURATION:-release}"
-APP_VERSION="${APP_VERSION:-0.3.7}"
-BUILD_NUMBER="${BUILD_NUMBER:-10}"
+APP_VERSION="${APP_VERSION:-0.3.8}"
+BUILD_NUMBER="${BUILD_NUMBER:-11}"
 SWIFT_BUILD=(swift build)
 if [[ -n "${SWIFT_BUILD_SYSTEM:-}" ]]; then
   SWIFT_BUILD+=(--build-system "$SWIFT_BUILD_SYSTEM")

@@ -200,6 +200,29 @@ public final class ProgressStore: @unchecked Sendable {
         try upsert("settings", id: "position", value: id)
     }
 
+    /// Updates exact generated starters on exercises with no submission history.
+    public func migrateEditorPlaceholders(to comment: String) throws {
+        lock.lock(); defer { lock.unlock() }
+        let key = "editorPlaceholderVersion"
+        guard try pairs("settings")[key] == nil else { return }
+        try execute("BEGIN IMMEDIATE")
+        do {
+            if try pairs("settings")[key] == nil {
+                let generated = try pairs("drafts").filter { id, sql in
+                    PracticeTableContext.forExerciseID(id).defaultSQL == sql
+                }
+                if !generated.isEmpty {
+                    let submittedExercises = Set(try attempts().map(\.exerciseID))
+                    for (id, _) in generated where !submittedExercises.contains(id) {
+                        try upsert("drafts", id: id, value: comment)
+                    }
+                }
+                try upsert("settings", id: key, value: "1")
+            }
+            try execute("COMMIT")
+        } catch { try? execute("ROLLBACK"); throw error }
+    }
+
     /// Maps the original multi-reading sequence onto introduction/practice/recap.
     /// Old rows remain in the database and exports; exercises are never changed.
     public func migrateReadingSteps(lessonIDs: [String]) throws {

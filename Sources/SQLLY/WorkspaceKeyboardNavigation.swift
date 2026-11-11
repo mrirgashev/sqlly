@@ -1,9 +1,7 @@
 import SwiftUI
 import AppKit
 
-/// Plain arrows navigate the curriculum only in the workspace window. Text
-/// editors, field editors, open sheets, and modified arrow keys retain their
-/// native behavior. Course-wide ordering is owned by WorkspaceModel.navigate.
+/// Handles curriculum navigation and editor focus in the workspace window.
 struct WorkspaceKeyboardNavigation: NSViewRepresentable {
     var model: WorkspaceModel
     var focusRequest: Int
@@ -65,8 +63,9 @@ struct WorkspaceKeyboardNavigation: NSViewRepresentable {
                 let code = event.keyCode
                 let modifiers = event.modifierFlags.rawValue
                 let number = event.windowNumber
+                let character = event.characters?.lowercased() == "e" ? "e" : event.charactersIgnoringModifiers
                 let handled = MainActor.assumeIsolated {
-                    self?.navigate(keyCode: code, modifiers: modifiers, windowNumber: number) ?? false
+                    self?.handleKey(keyCode: code, character: character, modifiers: modifiers, windowNumber: number, keyWindow: NSApp.keyWindow) ?? false
                 }
                 return handled ? nil : event
             }
@@ -75,16 +74,22 @@ struct WorkspaceKeyboardNavigation: NSViewRepresentable {
             if let monitor { NSEvent.removeMonitor(monitor) }
             monitor = nil
         }
-        func navigate(keyCode: UInt16, modifiers: UInt, windowNumber: Int) -> Bool {
-            navigate(keyCode: keyCode, modifiers: modifiers, windowNumber: windowNumber, keyWindow: NSApp.keyWindow)
-        }
-
-        func navigate(keyCode: UInt16, modifiers: UInt, windowNumber: Int, keyWindow: NSWindow?) -> Bool {
-            guard keyCode == 123 || keyCode == 124,
-                  NSEvent.ModifierFlags(rawValue: modifiers).intersection([.command, .option, .control, .shift]).isEmpty,
+        func handleKey(keyCode: UInt16, character: String? = nil, modifiers: UInt, windowNumber: Int, keyWindow: NSWindow?) -> Bool {
+            let flags = NSEvent.ModifierFlags(rawValue: modifiers).intersection([.command, .option, .control, .shift])
+            let focusEditor = flags == .command && character?.lowercased() == "e"
+            let navigate = flags.isEmpty && (keyCode == 123 || keyCode == 124)
+            guard focusEditor || navigate,
                   let window = view?.window, window === keyWindow,
                   window.windowNumber == windowNumber, window.attachedSheet == nil,
                   !model.showStatistics, !model.showHistory, !model.showHelp else { return false }
+            if focusEditor {
+                guard model.requiresCodeEditor, model.inspectorVisible,
+                      let content = window.contentView, let editor = editor(in: content) else { return false }
+                if window.firstResponder === editor { return true }
+                guard window.makeFirstResponder(editor), window.firstResponder === editor else { return false }
+                editor.selectAll(nil)
+                return true
+            }
             if let responder = window.firstResponder {
                 if let text = responder as? NSTextView,
                    text.isEditable || text.hasMarkedText() || text.selectedRange().length > 0 { return false }
@@ -92,6 +97,15 @@ struct WorkspaceKeyboardNavigation: NSViewRepresentable {
             }
             model.navigate(keyCode == 123 ? -1 : 1)
             return true
+        }
+
+        private func editor(in view: NSView) -> SQLTextView? {
+            guard !view.isHidden else { return nil }
+            if let editor = view as? SQLTextView { return editor }
+            for subview in view.subviews {
+                if let editor = editor(in: subview) { return editor }
+            }
+            return nil
         }
     }
 }

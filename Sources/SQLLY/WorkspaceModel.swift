@@ -36,6 +36,7 @@ final class WorkspaceModel {
             do { try store?.saveDraft(sql, for: selection) }
             catch { storageNotice = error.localizedDescription }
             feedback = nil; feedbackPassed = nil; queryError = nil
+            if showsStartingData { result = nil }
             scheduleLiveExecution()
         }
     }
@@ -49,10 +50,12 @@ final class WorkspaceModel {
         }
     }
     var result: QueryResult?
-    var preview: QueryResult?
-    var selectedDataTable = ""
+    private var practiceData: [String: QueryResult] = [:]
+    private var practiceDataErrors: [String: String] = [:]
+    private(set) var selectedDataTable = ""
     var isLoadingData = false
-    var dataError: String?
+    var preview: QueryResult? { practiceData[selectedDataTable] }
+    var dataError: String? { practiceDataErrors[selectedDataTable] }
     @ObservationIgnored private var dataRevision: UInt64 = 0
     var taskFocusRequest = 0
     var feedback: String?
@@ -78,6 +81,8 @@ final class WorkspaceModel {
         course = loaded; store = storage
         let engine = practiceEngine ?? PostgresEngine()
         self.engine = engine; liveController = LiveQueryController(engine: engine)
+        do { try storage?.migrateEditorPlaceholders(to: defaultEditorSQL) }
+        catch { storageNotice = error.localizedDescription }
         do {
             try storage?.migrateReadingSteps(lessonIDs: loaded?.lessons.map(\.id) ?? [])
             progress = try storage?.allProgress() ?? [:]
@@ -107,17 +112,17 @@ final class WorkspaceModel {
     }
     var practiceTables: [String] { practiceTableContext?.tables ?? [] }
     var defaultEditorSQL: String {
-        if requiresCodeEditor, let query = practiceTableContext?.defaultSQL { return query }
-        let starter = currentExercise?.starterSQL ?? currentStep?.sections.compactMap(\.code).first ?? "SELECT 1;"
-        let hasSQL = starter.split(separator: "\n").contains {
-            let line = $0.trimmingCharacters(in: .whitespaces)
-            return !line.isEmpty && !line.hasPrefix("--")
-        }
-        return hasSQL ? starter : "SELECT 1;"
+        L.text("-- Write your SQL query here", language: language)
     }
     private var restoredEditorSQL: String {
-        drafts[selection] ?? defaultEditorSQL
+        drafts[selection] ?? (requiresCodeEditor ? defaultEditorSQL : "")
     }
+    var showsStartingData: Bool { !SQLSource.containsStatement(sql) }
+    var displayedResult: QueryResult? {
+        if showsStartingData { return practiceTableContext?.primaryTable.flatMap { practiceData[$0] } }
+        return result
+    }
+    var startingDataError: String? { practiceTableContext?.primaryTable.flatMap { practiceDataErrors[$0] } }
     var solutionAccess: SolutionAccessPolicy { SolutionAccessPolicy(exerciseID: selection, attempts: attempts) }
     var canRevealSolution: Bool { currentExercise != nil && (!requiresCodeEditor || solutionAccess.isUnlocked) }
 
@@ -159,7 +164,8 @@ final class WorkspaceModel {
     func select(_ id: String) {
         guard id != selection, steps.contains(where: { $0.id == id }) else { return }
         selection = id
-        result = nil; feedback = nil; feedbackPassed = nil; queryError = nil; preview = nil; dataError = nil
+        result = nil; feedback = nil; feedbackPassed = nil; queryError = nil
+        practiceData.removeAll(); practiceDataErrors.removeAll()
         dataRevision &+= 1
         isLoadingData = false
         selectedDataTable = practiceTables.first ?? ""
@@ -237,7 +243,13 @@ final class WorkspaceModel {
         let needsSQL = !submit || !["predict", "choose", "explain"].contains(kind)
         let needsEngine = needsSQL || kind == "predict"
         guard !shuttingDown, !isRunning, !needsEngine || engineReady else { return }
-        if needsSQL, sql.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { feedback = "Write a SQL statement before running or submitting."; return }
+        if needsSQL, showsStartingData {
+            selectedResultTab = "Results"
+            feedback = submit ? "Write a SQL statement before submitting." : nil
+            feedbackPassed = nil
+            if !submit, displayedResult == nil, !isLoadingData { await refreshPracticeData() }
+            return
+        }
         isRunning = true; queryError = nil; feedback = nil; feedbackPassed = nil; selectedResultTab = "Results"
         let capturedID = selection, capturedSQL = sql, capturedResponse = response, fixture = activeFixture
         let capturedPredictionRows = predictedRows
@@ -336,24 +348,31 @@ final class WorkspaceModel {
     }
 
     func refreshPracticeData() async {
+        let table = selectedDataTable
+        guard !shuttingDown, engineReady, let primary = practiceTableContext?.primaryTable,
+              practiceTables.contains(table) else { return }
         dataRevision &+= 1
-        let revision = dataRevision, id = selection, fixture = activeFixture, table = selectedDataTable
-        guard !shuttingDown, engineReady, practiceTables.contains(table) else { return }
+        let revision = dataRevision, fixture = activeFixture
+        let tables = table != primary && practiceData[primary] == nil ? [primary, table] : [table]
         isLoadingData = true
-        dataError = nil
         defer { if revision == dataRevision { isLoadingData = false } }
-        do {
-            let data = try await engine.execute(sql: PracticeTableContext.selectSQL(for: table), fixture: fixture)
-            if id == selection, table == selectedDataTable, revision == dataRevision { preview = data }
-        } catch {
-            if id == selection, table == selectedDataTable, revision == dataRevision { dataError = error.localizedDescription }
+        for name in tables {
+            practiceDataErrors[name] = nil
+            do {
+                let data = try await engine.execute(sql: PracticeTableContext.selectSQL(for: name), fixture: fixture)
+                guard revision == dataRevision else { return }
+                practiceData[name] = data
+            } catch {
+                guard revision == dataRevision else { return }
+                practiceData[name] = nil
+                practiceDataErrors[name] = error.localizedDescription
+            }
         }
     }
 
     func previewTable(_ table: String) async {
         guard practiceTables.contains(table) else { return }
         selectedDataTable = table
-        preview = nil
         await refreshPracticeData()
     }
 
@@ -409,7 +428,7 @@ final class WorkspaceModel {
         invalidateLiveExecution()
         let context = liveContext, revision = liveRevision
         let text = sql, fixture = activeFixture, stepID = selection
-        guard !shuttingDown, requiresCodeEditor, liveEnabled, engineReady, !isRunning, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        guard !shuttingDown, requiresCodeEditor, liveEnabled, engineReady, !isRunning, !showsStartingData else {
             Task { await liveController.cancel(revision: revision) }
             return
         }

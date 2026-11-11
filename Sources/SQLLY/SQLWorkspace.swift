@@ -53,7 +53,7 @@ struct SQLWorkspace: View {
                             .foregroundStyle(.secondary).textSelection(.enabled)
                             .help(L.text("Task table"))
                     }
-                    if let result = model.result, model.selectedResultTab == "Results" {
+                    if model.selectedResultTab == "Results", let result = model.displayedResult {
                         Text(L.format("%ld rows · %ld ms", result.rows.count, Int(result.duration * 1000))).font(.system(size: 10, design: .monospaced)).foregroundStyle(.secondary)
                     }
                 }.padding(.horizontal, 15).background(.bar)
@@ -84,12 +84,10 @@ struct SQLWorkspace: View {
                         }.padding(.horizontal, 15).padding(.vertical, 10)
                         Divider()
                     }
-                    if model.isLoadingData { ProgressView(L.text("Loading table data…")).frame(maxWidth: .infinity, maxHeight: .infinity) }
-                    else if let error = model.dataError { NoticeBanner(text: SQLExplanation.explain(error), kind: .error); Spacer() }
-                    else if let preview = model.preview { ResultsTable(result: preview) }
-                    else if model.practiceTables.isEmpty { EmptyPanel(symbol: "tablecells", title: "No starting table", detail: "This task uses expressions, database metadata, or a table you will create.") }
-                    else { EmptyPanel(symbol: "tablecells", title: "Preparing table data", detail: "Data appears when the local practice database is ready.") }
-                } else if let result = model.result {
+                    tableData(model.preview, error: model.dataError)
+                } else if model.showsStartingData, model.practiceTableContext?.primaryTable != nil {
+                    tableData(model.displayedResult, error: model.startingDataError)
+                } else if let result = model.displayedResult {
                     if result.columns.isEmpty { EmptyPanel(symbol: "checkmark.circle", title: result.command.isEmpty ? L.text("Statement completed") : result.command, detail: L.text("The command did not return a table. Use RETURNING to inspect a data change.")) }
                     else { ResultsTable(result: result) }
                 } else if model.queryError == nil {
@@ -97,6 +95,15 @@ struct SQLWorkspace: View {
                 } else { Spacer(minLength: 0) }
             }.frame(minHeight: 200, idealHeight: 420)
         }.background(Color.canvas)
+    }
+
+    @ViewBuilder
+    private func tableData(_ data: QueryResult?, error: String?) -> some View {
+        if let data { ResultsTable(result: data) }
+        else if let error { NoticeBanner(text: SQLExplanation.explain(error), kind: .error); Spacer() }
+        else if model.isLoadingData { ProgressView(L.text("Loading table data…")).frame(maxWidth: .infinity, maxHeight: .infinity) }
+        else if model.practiceTables.isEmpty { EmptyPanel(symbol: "tablecells", title: "No starting table", detail: "This task uses expressions, database metadata, or a table you will create.") }
+        else { EmptyPanel(symbol: "tablecells", title: "Preparing table data", detail: "Data appears when the local practice database is ready.") }
     }
 }
 
